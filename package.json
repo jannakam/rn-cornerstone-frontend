@@ -1,0 +1,26 @@
+{
+  "name": "rn-cornerstone-frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@tamagui/babel-plugin": "^1.120.1",
+    "@tamagui/config": "^1.120.1",
+    "@tamagui/metro-plugin": "^1.120.1",
+    "expo": "~52.0.18",
+    "expo-font": "~13.0.1",
+    "expo-status-bar": "~2.0.0",
+    "react": "18.3.1",
+    "react-native": "0.76.5",
+    "tamagui": "^1.120.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  },
+  "private": true
+}
