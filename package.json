@@ -1,7 +1,7 @@
 {
   "name": "rn-cornerstone-frontend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -14,13 +14,16 @@
     "@tamagui/metro-plugin": "^1.120.1",
     "expo": "~52.0.18",
     "expo-font": "~13.0.1",
+    "expo-location": "^18.0.4",
     "expo-status-bar": "~2.0.0",
     "react": "18.3.1",
     "react-native": "0.76.5",
+    "react-native-maps": "1.18.0",
     "tamagui": "^1.120.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@types/react": "^18.3.16"
   },
   "private": true
 }
