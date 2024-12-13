@@ -16,7 +16,7 @@ const Events = ({navigation}) => {
             <Menu size={20} color="$color" />
           </TouchableOpacity>
         </XStack>
-        <Text>Events</Text>
+        <Text color="$color" bg="$background" p="$4">Events</Text>
 
         <Map />
     </SafeAreaView>
