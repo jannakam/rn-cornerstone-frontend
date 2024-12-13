@@ -76,12 +76,12 @@ var require_cjs = __commonJS({
       useForceUpdate: /* @__PURE__ */ __name(() => useForceUpdate2, "useForceUpdate")
     });
     module2.exports = __toCommonJS2(src_exports);
-    var import_react55 = __toESM2(require("react"));
+    var import_react56 = __toESM2(require("react"));
     var isServerSide2 = typeof window > "u";
     var idFn3 = /* @__PURE__ */ __name(() => {
     }, "idFn");
     function useForceUpdate2() {
-      return isServerSide2 ? idFn3 : import_react55.default.useReducer((x) => Math.random(), 0)[1];
+      return isServerSide2 ? idFn3 : import_react56.default.useReducer((x) => Math.random(), 0)[1];
     }
     __name(useForceUpdate2, "useForceUpdate");
   }
@@ -128,8 +128,8 @@ var require_LayoutGroupContext = __commonJS({
       LayoutGroupContext: /* @__PURE__ */ __name(() => LayoutGroupContext2, "LayoutGroupContext")
     });
     module2.exports = __toCommonJS2(LayoutGroupContext_exports);
-    var import_react55 = __toESM2(require("react"));
-    var LayoutGroupContext2 = import_react55.default.createContext({});
+    var import_react56 = __toESM2(require("react"));
+    var LayoutGroupContext2 = import_react56.default.createContext({});
   }
 });
 
@@ -174,10 +174,10 @@ var require_cjs2 = __commonJS({
       useConstant: /* @__PURE__ */ __name(() => useConstant2, "useConstant")
     });
     module2.exports = __toCommonJS2(src_exports);
-    var React81 = __toESM2(require("react"));
+    var React82 = __toESM2(require("react"));
     function useConstant2(fn) {
-      if (typeof document > "u") return React81.useMemo(() => fn(), []);
-      const ref = React81.useRef();
+      if (typeof document > "u") return React82.useMemo(() => fn(), []);
+      const ref = React82.useRef();
       return ref.current || (ref.current = {
         v: fn()
       }), ref.current.v;
@@ -228,9 +228,9 @@ var require_PresenceContext = __commonJS({
       ResetPresence: /* @__PURE__ */ __name(() => ResetPresence2, "ResetPresence")
     });
     module2.exports = __toCommonJS2(PresenceContext_exports);
-    var React81 = __toESM2(require("react"));
+    var React82 = __toESM2(require("react"));
     var import_jsx_runtime63 = require("react/jsx-runtime");
-    var PresenceContext2 = React81.createContext(null);
+    var PresenceContext2 = React82.createContext(null);
     var ResetPresence2 = /* @__PURE__ */ __name((props) => /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(PresenceContext2.Provider, {
       value: null,
       children: props.children
@@ -281,10 +281,10 @@ var require_usePresence = __commonJS({
       usePresence: /* @__PURE__ */ __name(() => usePresence2, "usePresence")
     });
     module2.exports = __toCommonJS2(usePresence_exports);
-    var React81 = __toESM2(require("react"));
+    var React82 = __toESM2(require("react"));
     var import_PresenceContext3 = require_PresenceContext();
     function usePresence2() {
-      const context = React81.useContext(import_PresenceContext3.PresenceContext);
+      const context = React82.useContext(import_PresenceContext3.PresenceContext);
       if (!context) return [true, null, context];
       const {
         id,
@@ -292,11 +292,11 @@ var require_usePresence = __commonJS({
         onExitComplete,
         register
       } = context;
-      return React81.useEffect(() => register(id), []), !isPresent22 && onExitComplete ? [false, () => onExitComplete == null ? void 0 : onExitComplete(id), context] : [true, void 0, context];
+      return React82.useEffect(() => register(id), []), !isPresent22 && onExitComplete ? [false, () => onExitComplete == null ? void 0 : onExitComplete(id), context] : [true, void 0, context];
     }
     __name(usePresence2, "usePresence");
     function useIsPresent2() {
-      return isPresent2(React81.useContext(import_PresenceContext3.PresenceContext));
+      return isPresent2(React82.useContext(import_PresenceContext3.PresenceContext));
     }
     __name(useIsPresent2, "useIsPresent");
     function isPresent2(context) {
@@ -385,11 +385,11 @@ var require_PresenceChild = __commonJS({
     });
     module2.exports = __toCommonJS2(PresenceChild_exports);
     var import_use_constant3 = require_cjs2();
-    var import_use_presence2 = require_cjs3();
-    var React81 = __toESM2(require("react"));
-    var import_react55 = require("react");
+    var import_use_presence3 = require_cjs3();
+    var React82 = __toESM2(require("react"));
+    var import_react56 = require("react");
     var import_jsx_runtime63 = require("react/jsx-runtime");
-    var PresenceChild2 = React81.memo(({
+    var PresenceChild2 = React82.memo(({
       children,
       initial,
       isPresent: isPresent2,
@@ -400,7 +400,7 @@ var require_PresenceChild = __commonJS({
       presenceAffectsLayout,
       custom
     }) => {
-      const presenceChildren = (0, import_use_constant3.useConstant)(newChildrenMap2), id = (0, import_react55.useId)() || "", context = React81.useMemo(
+      const presenceChildren = (0, import_use_constant3.useConstant)(newChildrenMap2), id = (0, import_react56.useId)() || "", context = React82.useMemo(
         () => ({
           id,
           initial,
@@ -424,11 +424,11 @@ var require_PresenceChild = __commonJS({
         // @ts-expect-error its ok
         presenceAffectsLayout ? void 0 : [isPresent2, exitVariant, enterVariant]
       );
-      return React81.useMemo(() => {
+      return React82.useMemo(() => {
         presenceChildren.forEach((_, key) => presenceChildren.set(key, false));
-      }, [isPresent2]), React81.useEffect(() => {
+      }, [isPresent2]), React82.useEffect(() => {
         !isPresent2 && !presenceChildren.size && (onExitComplete == null ? void 0 : onExitComplete());
-      }, [isPresent2]), /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_use_presence2.PresenceContext.Provider, {
+      }, [isPresent2]), /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_use_presence3.PresenceContext.Provider, {
         value: context,
         children
       });
@@ -469,7 +469,7 @@ var require_AnimatePresence = __commonJS({
     });
     module2.exports = __toCommonJS2(AnimatePresence_exports);
     var import_use_force_update2 = require_cjs();
-    var import_react55 = require("react");
+    var import_react56 = require("react");
     var import_LayoutGroupContext2 = require_LayoutGroupContext();
     var import_PresenceChild2 = require_PresenceChild();
     var import_jsx_runtime63 = require("react/jsx-runtime");
@@ -483,8 +483,8 @@ var require_AnimatePresence = __commonJS({
     __name(updateChildLookup2, "updateChildLookup");
     function onlyElements2(children) {
       const filtered = [];
-      return import_react55.Children.forEach(children, (child) => {
-        (0, import_react55.isValidElement)(child) && filtered.push(child);
+      return import_react56.Children.forEach(children, (child) => {
+        (0, import_react56.isValidElement)(child) && filtered.push(child);
       }), filtered;
     }
     __name(onlyElements2, "onlyElements");
@@ -499,10 +499,10 @@ var require_AnimatePresence = __commonJS({
       presenceAffectsLayout = true,
       custom
     }) => {
-      let forceRender = (0, import_react55.useContext)(import_LayoutGroupContext2.LayoutGroupContext).forceRender ?? (0, import_use_force_update2.useForceUpdate)();
-      const filteredChildren = onlyElements2(children), presentChildren = (0, import_react55.useRef)(filteredChildren), allChildren = (0, import_react55.useRef)(/* @__PURE__ */ new Map()).current, exiting = (0, import_react55.useRef)(/* @__PURE__ */ new Set()).current;
+      let forceRender = (0, import_react56.useContext)(import_LayoutGroupContext2.LayoutGroupContext).forceRender ?? (0, import_use_force_update2.useForceUpdate)();
+      const filteredChildren = onlyElements2(children), presentChildren = (0, import_react56.useRef)(filteredChildren), allChildren = (0, import_react56.useRef)(/* @__PURE__ */ new Map()).current, exiting = (0, import_react56.useRef)(/* @__PURE__ */ new Set()).current;
       updateChildLookup2(filteredChildren, allChildren);
-      const isInitialRender = (0, import_react55.useRef)(true);
+      const isInitialRender = (0, import_react56.useRef)(true);
       if (isInitialRender.current) return isInitialRender.current = false, /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_jsx_runtime63.Fragment, {
         children: filteredChildren.map((child) => /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_PresenceChild2.PresenceChild, {
           isPresent: true,
@@ -554,7 +554,7 @@ var require_AnimatePresence = __commonJS({
       }), presentChildren.current = childrenToRender, /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_jsx_runtime63.Fragment, {
         children: exiting.size ? childrenToRender : (
           // biome-ignore lint/correctness/useJsxKeyInIterable: <explanation>
-          childrenToRender.map((child) => (0, import_react55.cloneElement)(child))
+          childrenToRender.map((child) => (0, import_react56.cloneElement)(child))
         )
       });
     }, "AnimatePresence");
@@ -918,21 +918,21 @@ var require_constants = __commonJS({
       isIos: /* @__PURE__ */ __name(() => isIos2, "isIos"),
       isServer: /* @__PURE__ */ __name(() => isServer3, "isServer"),
       isTouchable: /* @__PURE__ */ __name(() => isTouchable3, "isTouchable"),
-      isWeb: /* @__PURE__ */ __name(() => isWeb8, "isWeb"),
+      isWeb: /* @__PURE__ */ __name(() => isWeb7, "isWeb"),
       isWebTouchable: /* @__PURE__ */ __name(() => isWebTouchable3, "isWebTouchable"),
       isWindowDefined: /* @__PURE__ */ __name(() => isWindowDefined2, "isWindowDefined"),
       useIsomorphicLayoutEffect: /* @__PURE__ */ __name(() => useIsomorphicLayoutEffect3, "useIsomorphicLayoutEffect")
     });
     module2.exports = __toCommonJS2(constants_exports);
-    var import_react55 = __toESM2(require("react"));
-    var isWeb8 = true;
+    var import_react56 = __toESM2(require("react"));
+    var isWeb7 = true;
     var isWindowDefined2 = typeof window < "u";
-    var isServer3 = isWeb8 && !isWindowDefined2;
-    var isClient4 = isWeb8 && isWindowDefined2;
-    var useIsomorphicLayoutEffect3 = isServer3 ? import_react55.default.useEffect : import_react55.default.useLayoutEffect;
+    var isServer3 = isWeb7 && !isWindowDefined2;
+    var isClient4 = isWeb7 && isWindowDefined2;
+    var useIsomorphicLayoutEffect3 = isServer3 ? import_react56.default.useEffect : import_react56.default.useLayoutEffect;
     var isChrome3 = typeof navigator < "u" && /Chrome/.test(navigator.userAgent || "");
     var isWebTouchable3 = isClient4 && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-    var isTouchable3 = !isWeb8 || isWebTouchable3;
+    var isTouchable3 = !isWeb7 || isWebTouchable3;
     var isAndroid6 = false;
     var isIos2 = process.env.TEST_NATIVE_PLATFORM === "ios";
     var currentPlatform2 = "web";
@@ -991,12 +991,12 @@ var require_shouldRenderNativePlatform = __commonJS({
       shouldRenderNativePlatform: /* @__PURE__ */ __name(() => shouldRenderNativePlatform4, "shouldRenderNativePlatform")
     });
     module2.exports = __toCommonJS2(shouldRenderNativePlatform_exports);
-    var import_constants46 = require_cjs6();
+    var import_constants47 = require_cjs6();
     var ALL_PLATFORMS2 = ["web", "android", "ios"];
     function shouldRenderNativePlatform4(nativeProp) {
       if (!nativeProp) return null;
       const userRequestedPlatforms = resolvePlatformNames2(nativeProp);
-      for (const platform2 of ALL_PLATFORMS2) if (platform2 === import_constants46.currentPlatform && userRequestedPlatforms.has(platform2)) return platform2;
+      for (const platform2 of ALL_PLATFORMS2) if (platform2 === import_constants47.currentPlatform && userRequestedPlatforms.has(platform2)) return platform2;
       return null;
     }
     __name(shouldRenderNativePlatform4, "shouldRenderNativePlatform");
@@ -1045,7 +1045,7 @@ var require_validStyleProps = __commonJS({
       validStyles: /* @__PURE__ */ __name(() => validStyles2, "validStyles")
     });
     module2.exports = __toCommonJS2(validStyleProps_exports);
-    var import_constants46 = require_cjs6();
+    var import_constants47 = require_cjs6();
     var textColors2 = {
       color: true,
       textDecorationColor: true,
@@ -1310,7 +1310,7 @@ var require_validStyleProps = __commonJS({
       touchAction: true,
       transformStyle: true,
       userSelect: true,
-      ...import_constants46.isAndroid ? {
+      ...import_constants47.isAndroid ? {
         elevationAndroid: true
       } : {}
     };
@@ -1404,12 +1404,12 @@ var require_withStaticProperties = __commonJS({
       withStaticProperties: /* @__PURE__ */ __name(() => withStaticProperties7, "withStaticProperties")
     });
     module2.exports = __toCommonJS2(withStaticProperties_exports);
-    var import_react55 = __toESM2(require("react"));
+    var import_react56 = __toESM2(require("react"));
     var Decorated2 = Symbol();
     var withStaticProperties7 = /* @__PURE__ */ __name((component, staticProps) => {
       const next = (() => {
         if (component[Decorated2]) {
-          const _ = import_react55.default.forwardRef((props, ref) => import_react55.default.createElement(component, {
+          const _ = import_react56.default.forwardRef((props, ref) => import_react56.default.createElement(component, {
             ...props,
             ref
           }));
@@ -1499,13 +1499,13 @@ var require_useGet = __commonJS({
       useGet: /* @__PURE__ */ __name(() => useGet5, "useGet")
     });
     module2.exports = __toCommonJS2(useGet_exports);
-    var import_constants46 = require_cjs6();
-    var React81 = __toESM2(require("react"));
+    var import_constants47 = require_cjs6();
+    var React82 = __toESM2(require("react"));
     function useGet5(currentValue, initialValue2, forwardToFunction) {
-      const curRef = React81.useRef(initialValue2 ?? currentValue);
-      return (0, import_constants46.useIsomorphicLayoutEffect)(() => {
+      const curRef = React82.useRef(initialValue2 ?? currentValue);
+      return (0, import_constants47.useIsomorphicLayoutEffect)(() => {
         curRef.current = currentValue;
-      }), React81.useCallback(forwardToFunction ? (...args) => {
+      }), React82.useCallback(forwardToFunction ? (...args) => {
         var _a;
         return (_a = curRef.current) == null ? void 0 : _a.apply(null, args);
       } : () => curRef.current, []);
@@ -1539,14 +1539,14 @@ var require_useEvent = __commonJS({
     }), mod), "__toCommonJS");
     var useEvent_exports = {};
     __export2(useEvent_exports, {
-      useEvent: /* @__PURE__ */ __name(() => useEvent12, "useEvent")
+      useEvent: /* @__PURE__ */ __name(() => useEvent13, "useEvent")
     });
     module2.exports = __toCommonJS2(useEvent_exports);
     var import_useGet2 = require_useGet();
-    function useEvent12(callback) {
+    function useEvent13(callback) {
       return (0, import_useGet2.useGet)(callback, defaultValue2, true);
     }
-    __name(useEvent12, "useEvent");
+    __name(useEvent13, "useEvent");
     var defaultValue2 = /* @__PURE__ */ __name(() => {
       throw new Error("Cannot call an event handler while rendering.");
     }, "defaultValue");
@@ -1606,9 +1606,9 @@ var require_cjs9 = __commonJS({
       startTransition: /* @__PURE__ */ __name(() => startTransition2, "startTransition")
     });
     module2.exports = __toCommonJS2(src_exports);
-    var import_react55 = require("react");
+    var import_react56 = require("react");
     var startTransition2 = /* @__PURE__ */ __name((callback) => {
-      (0, import_react55.startTransition)(callback);
+      (0, import_react56.startTransition)(callback);
     }, "startTransition");
   }
 });
@@ -1655,7 +1655,7 @@ var require_useControllableState = __commonJS({
     });
     module2.exports = __toCommonJS2(useControllableState_exports);
     var import_use_event4 = require_cjs8();
-    var React81 = __toESM2(require("react"));
+    var React82 = __toESM2(require("react"));
     var import_start_transition6 = require_cjs9();
     var emptyCallbackFn2 = /* @__PURE__ */ __name((_) => _(), "emptyCallbackFn");
     function useControllableState2({
@@ -1666,12 +1666,12 @@ var require_useControllableState = __commonJS({
       preventUpdate,
       transition
     }) {
-      const [state, setState] = React81.useState(prop ?? defaultProp), previous = React81.useRef(state), propWins = strategy === "prop-wins" && prop !== void 0, value = propWins ? prop : state, onChangeCb = (0, import_use_event4.useEvent)(onChange || idFn3), transitionFn = transition ? import_start_transition6.startTransition : emptyCallbackFn2;
-      React81.useEffect(() => {
+      const [state, setState] = React82.useState(prop ?? defaultProp), previous = React82.useRef(state), propWins = strategy === "prop-wins" && prop !== void 0, value = propWins ? prop : state, onChangeCb = (0, import_use_event4.useEvent)(onChange || idFn3), transitionFn = transition ? import_start_transition6.startTransition : emptyCallbackFn2;
+      React82.useEffect(() => {
         prop !== void 0 && (previous.current = prop, transitionFn(() => {
           setState(prop);
         }));
-      }, [prop]), React81.useEffect(() => {
+      }, [prop]), React82.useEffect(() => {
         propWins || state !== previous.current && (previous.current = state, onChangeCb(state));
       }, [onChangeCb, state, propWins]);
       const setter = (0, import_use_event4.useEvent)((next) => {
@@ -1763,14 +1763,14 @@ var require_Collapsible = __commonJS({
     var import_helpers27 = require_cjs7();
     var import_use_controllable_state16 = require_cjs10();
     var import_web21 = require("@tamagui/core");
-    var React81 = __toESM2(require("react"));
+    var React82 = __toESM2(require("react"));
     var import_jsx_runtime63 = require("react/jsx-runtime");
     var COLLAPSIBLE_NAME = "Collapsible";
     var {
       Provider: CollapsibleProvider,
       useStyledContext: useCollapsibleContext
     } = (0, import_web21.createStyledContext)();
-    var _Collapsible = React81.forwardRef((props, forwardedRef) => {
+    var _Collapsible = React82.forwardRef((props, forwardedRef) => {
       const {
         __scopeCollapsible,
         open: openProp,
@@ -1786,9 +1786,9 @@ var require_Collapsible = __commonJS({
       return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(CollapsibleProvider, {
         scope: __scopeCollapsible,
         disabled,
-        contentId: React81.useId(),
+        contentId: React82.useId(),
         open,
-        onOpenToggle: React81.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
+        onOpenToggle: React82.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen]),
         children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_web21.Stack, {
           "data-state": getState6(open),
           "data-disabled": disabled ? "" : void 0,
@@ -1926,7 +1926,7 @@ var require_compose_refs = __commonJS({
       useComposedRefs: /* @__PURE__ */ __name(() => useComposedRefs4, "useComposedRefs")
     });
     module2.exports = __toCommonJS2(compose_refs_exports);
-    var React81 = __toESM2(require("react"));
+    var React82 = __toESM2(require("react"));
     function setRef2(ref, value) {
       typeof ref == "function" ? ref(value) : ref && (ref.current = value);
     }
@@ -1936,7 +1936,7 @@ var require_compose_refs = __commonJS({
     }
     __name(composeRefs2, "composeRefs");
     function useComposedRefs4(...refs) {
-      return React81.useCallback(composeRefs2(...refs), refs);
+      return React82.useCallback(composeRefs2(...refs), refs);
     }
     __name(useComposedRefs4, "useComposedRefs");
   }
@@ -2008,15 +2008,15 @@ var require_Collection = __commonJS({
     });
     module2.exports = __toCommonJS2(Collection_exports);
     var import_compose_refs25 = require_cjs12();
-    var import_constants46 = require_cjs6();
-    var import_core57 = require("@tamagui/core");
-    var import_react55 = __toESM2(require("react"));
+    var import_constants47 = require_cjs6();
+    var import_core56 = require("@tamagui/core");
+    var import_react56 = __toESM2(require("react"));
     var import_jsx_runtime63 = require("react/jsx-runtime");
     function createCollection2(name) {
       const {
         Provider: CollectionProviderImpl,
         useStyledContext: useCollectionContext
-      } = (0, import_core57.createStyledContext)({
+      } = (0, import_core56.createStyledContext)({
         collectionRef: {
           current: null
         },
@@ -2025,7 +2025,7 @@ var require_Collection = __commonJS({
         const {
           __scopeCollection,
           children
-        } = props, ref = import_react55.default.useRef(null), itemMap = import_react55.default.useRef(/* @__PURE__ */ new Map()).current;
+        } = props, ref = import_react56.default.useRef(null), itemMap = import_react56.default.useRef(/* @__PURE__ */ new Map()).current;
         return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(CollectionProviderImpl, {
           scope: __scopeCollection,
           itemMap,
@@ -2034,27 +2034,27 @@ var require_Collection = __commonJS({
         });
       }, "CollectionProvider");
       CollectionProvider.displayName = "CollectionProvider";
-      const COLLECTION_SLOT_NAME = name + "CollectionSlot", CollectionSlot = import_react55.default.forwardRef((props, forwardedRef) => {
+      const COLLECTION_SLOT_NAME = name + "CollectionSlot", CollectionSlot = import_react56.default.forwardRef((props, forwardedRef) => {
         const {
           __scopeCollection,
           children
         } = props, context = useCollectionContext(__scopeCollection), composedRefs = (0, import_compose_refs25.useComposedRefs)(forwardedRef, context.collectionRef);
-        return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_core57.Slot, {
+        return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_core56.Slot, {
           ref: composedRefs,
           children
         });
       });
       CollectionSlot.displayName = COLLECTION_SLOT_NAME;
-      const ITEM_SLOT_NAME = name + "CollectionItemSlot", ITEM_DATA_ATTR = "data-collection-item", CollectionItemSlot = import_react55.default.forwardRef((props, forwardedRef) => {
+      const ITEM_SLOT_NAME = name + "CollectionItemSlot", ITEM_DATA_ATTR = "data-collection-item", CollectionItemSlot = import_react56.default.forwardRef((props, forwardedRef) => {
         const {
           __scopeCollection,
           children,
           ...itemData
-        } = props, ref = import_react55.default.useRef(null), composedRefs = (0, import_compose_refs25.useComposedRefs)(forwardedRef, ref), context = useCollectionContext(__scopeCollection);
-        return import_react55.default.useEffect(() => (context.itemMap.set(ref, {
+        } = props, ref = import_react56.default.useRef(null), composedRefs = (0, import_compose_refs25.useComposedRefs)(forwardedRef, ref), context = useCollectionContext(__scopeCollection);
+        return import_react56.default.useEffect(() => (context.itemMap.set(ref, {
           ref,
           ...itemData
-        }), () => void context.itemMap.delete(ref))), /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_core57.Slot, {
+        }), () => void context.itemMap.delete(ref))), /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_core56.Slot, {
           [ITEM_DATA_ATTR]: "",
           ref: composedRefs,
           children
@@ -2063,8 +2063,8 @@ var require_Collection = __commonJS({
       CollectionItemSlot.displayName = ITEM_SLOT_NAME;
       function useCollection2(__scopeCollection) {
         const context = useCollectionContext(__scopeCollection);
-        return import_react55.default.useCallback(() => {
-          if (!import_constants46.isWeb) return [];
+        return import_react56.default.useCallback(() => {
+          if (!import_constants47.isWeb) return [];
           const collectionNode = context.collectionRef.current;
           if (!collectionNode) return [];
           const orderedNodes = Array.from(collectionNode.querySelectorAll(`[${ITEM_DATA_ATTR}]`));
@@ -2135,21 +2135,21 @@ var require_getElevation = __commonJS({
       getSizedElevation: /* @__PURE__ */ __name(() => getSizedElevation2, "getSizedElevation")
     });
     module2.exports = __toCommonJS2(getElevation_exports);
-    var import_core57 = require("@tamagui/core");
-    var getElevation2 = /* @__PURE__ */ __name((size6, extras) => {
-      if (!size6) return;
+    var import_core56 = require("@tamagui/core");
+    var getElevation2 = /* @__PURE__ */ __name((size5, extras) => {
+      if (!size5) return;
       const {
-        tokens: tokens2
-      } = extras, token = tokens2.size[size6], sizeNum = (0, import_core57.isVariable)(token) ? +token.val : size6;
+        tokens
+      } = extras, token = tokens.size[size5], sizeNum = (0, import_core56.isVariable)(token) ? +token.val : size5;
       return getSizedElevation2(sizeNum, extras);
     }, "getElevation");
     var getSizedElevation2 = /* @__PURE__ */ __name((val, {
       theme,
-      tokens: tokens2
+      tokens
     }) => {
       let num = 0;
       if (val === true) {
-        const val2 = (0, import_core57.getVariableValue)(tokens2.size.true);
+        const val2 = (0, import_core56.getVariableValue)(tokens.size.true);
         typeof val2 == "number" ? num = val2 : num = 10;
       } else num = +val;
       if (num === 0) return;
@@ -2161,7 +2161,7 @@ var require_getElevation = __commonJS({
           height,
           width: 0
         },
-        ...import_core57.isAndroid ? {
+        ...import_core56.isAndroid ? {
           elevationAndroid: 2 * height
         } : {}
       };
@@ -2200,7 +2200,7 @@ var require_Stacks = __commonJS({
       fullscreenStyle: /* @__PURE__ */ __name(() => fullscreenStyle2, "fullscreenStyle")
     });
     module2.exports = __toCommonJS2(Stacks_exports);
-    var import_core57 = require("@tamagui/core");
+    var import_core56 = require("@tamagui/core");
     var import_getElevation3 = require_getElevation();
     var fullscreenStyle2 = {
       position: "absolute",
@@ -2225,17 +2225,17 @@ var require_Stacks = __commonJS({
       },
       inset: getInset2
     };
-    var YStack2 = (0, import_core57.styled)(import_core57.View, {
+    var YStack2 = (0, import_core56.styled)(import_core56.View, {
       flexDirection: "column",
       variants: variants2
     });
     YStack2.displayName = "YStack";
-    var XStack2 = (0, import_core57.styled)(import_core57.View, {
+    var XStack2 = (0, import_core56.styled)(import_core56.View, {
       flexDirection: "row",
       variants: variants2
     });
     XStack2.displayName = "XStack";
-    var ZStack2 = (0, import_core57.styled)(YStack2, {
+    var ZStack2 = (0, import_core56.styled)(YStack2, {
       position: "relative"
     }, {
       neverFlatten: true,
@@ -2282,21 +2282,21 @@ var require_cjs14 = __commonJS({
       shift: 0,
       bounds: [0]
     };
-    var getSize2 = /* @__PURE__ */ __name((size6, options) => getTokenRelative2("size", size6, options), "getSize");
-    var getSpace2 = /* @__PURE__ */ __name((space2, options) => getTokenRelative2("space", space2, options), "getSpace");
-    var getRadius = /* @__PURE__ */ __name((radius2, options) => getTokenRelative2("radius", radius2, options), "getRadius");
+    var getSize2 = /* @__PURE__ */ __name((size5, options) => getTokenRelative2("size", size5, options), "getSize");
+    var getSpace2 = /* @__PURE__ */ __name((space, options) => getTokenRelative2("space", space, options), "getSpace");
+    var getRadius = /* @__PURE__ */ __name((radius, options) => getTokenRelative2("radius", radius, options), "getRadius");
     var cacheVariables2 = {};
     var cacheWholeVariables2 = {};
     var cacheKeys2 = {};
     var cacheWholeKeys2 = {};
     var stepTokenUpOrDown2 = /* @__PURE__ */ __name((type, current, options = defaultOptions2) => {
       var _a, _b;
-      const tokens2 = (0, import_web21.getTokens)({
+      const tokens = (0, import_web21.getTokens)({
         prefixed: true
       })[type];
       if (!(type in cacheVariables2)) {
         cacheKeys2[type] = [], cacheVariables2[type] = [], cacheWholeKeys2[type] = [], cacheWholeVariables2[type] = [];
-        const sorted = Object.keys(tokens2).map((k) => tokens2[k]).sort((a, b) => a.val - b.val);
+        const sorted = Object.keys(tokens).map((k) => tokens[k]).sort((a, b) => a.val - b.val);
         for (const token of sorted) cacheKeys2[type].push(token.key), cacheVariables2[type].push(token);
         const sortedExcludingHalfSteps = sorted.filter((x) => !x.key.endsWith(".5"));
         for (const token of sortedExcludingHalfSteps) cacheWholeKeys2[type].push(token.key), cacheWholeVariables2[type].push(token);
@@ -2305,7 +2305,7 @@ var require_cjs14 = __commonJS({
       let shift5 = options.shift || 0;
       shift5 && (current === "$true" || (0, import_web21.isVariable)(current) && current.name === "true") && (shift5 += shift5 > 0 ? 1 : -1);
       const index8 = Math.min(max2, Math.max(min2, currentIndex + shift5)), found = tokensOrdered[index8];
-      return (typeof found == "string" ? tokens2[found] : found) || tokens2.$true;
+      return (typeof found == "string" ? tokens[found] : found) || tokens.$true;
     }, "stepTokenUpOrDown");
     var getTokenRelative2 = stepTokenUpOrDown2;
   }
@@ -2341,7 +2341,7 @@ var require_cjs15 = __commonJS({
     module2.exports = __toCommonJS2(src_exports);
     var import_get_token16 = require_cjs14();
     var getButtonSized2 = /* @__PURE__ */ __name((val, {
-      tokens: tokens2,
+      tokens,
       props
     }) => {
       if (!val || props.circular) return;
@@ -2350,7 +2350,7 @@ var require_cjs15 = __commonJS({
         height: val,
         borderRadius: props.circular ? 1e5 : val * 0.2
       };
-      const xSize = (0, import_get_token16.getSpace)(val), radiusToken = tokens2.radius[val] ?? tokens2.radius.$true;
+      const xSize = (0, import_get_token16.getSpace)(val), radiusToken = tokens.radius[val] ?? tokens.radius.$true;
       return {
         paddingHorizontal: xSize,
         height: val,
@@ -2424,22 +2424,22 @@ var require_variants = __commonJS({
     var padded2 = {
       true: /* @__PURE__ */ __name((_, extras) => {
         const {
-          tokens: tokens2,
+          tokens,
           props
         } = extras;
         return {
-          padding: tokens2.space[props.size] || tokens2.space.$true
+          padding: tokens.space[props.size] || tokens.space.$true
         };
       }, "true")
     };
     var radiused2 = {
       true: /* @__PURE__ */ __name((_, extras) => {
         const {
-          tokens: tokens2,
+          tokens,
           props
         } = extras;
         return {
-          borderRadius: tokens2.radius[props.size] || tokens2.radius.$true
+          borderRadius: tokens.radius[props.size] || tokens.radius.$true
         };
       }, "true")
     };
@@ -2450,18 +2450,18 @@ var require_variants = __commonJS({
     var circular2 = {
       true: /* @__PURE__ */ __name((_, {
         props,
-        tokens: tokens2
+        tokens
       }) => {
         if (!("size" in props)) return circularStyle2;
-        const size6 = typeof props.size == "number" ? props.size : tokens2.size[props.size];
+        const size5 = typeof props.size == "number" ? props.size : tokens.size[props.size];
         return {
           ...circularStyle2,
-          width: size6,
-          height: size6,
-          maxWidth: size6,
-          maxHeight: size6,
-          minWidth: size6,
-          minHeight: size6
+          width: size5,
+          height: size5,
+          maxWidth: size5,
+          maxHeight: size5,
+          minWidth: size5,
+          minHeight: size5
         };
       }, "true")
     };
@@ -2524,11 +2524,11 @@ var require_SizableStack = __commonJS({
       SizableStack: /* @__PURE__ */ __name(() => SizableStack2, "SizableStack")
     });
     module2.exports = __toCommonJS2(SizableStack_exports);
-    var import_core57 = require("@tamagui/core");
+    var import_core56 = require("@tamagui/core");
     var import_get_button_sized6 = require_cjs15();
     var import_Stacks3 = require_Stacks();
     var import_variants3 = require_variants();
-    var SizableStack2 = (0, import_core57.styled)(import_Stacks3.XStack, {
+    var SizableStack2 = (0, import_core56.styled)(import_Stacks3.XStack, {
       name: "SizableStack",
       variants: {
         unstyled: {
@@ -2583,7 +2583,7 @@ var require_ThemeableStack = __commonJS({
       themeableVariants: /* @__PURE__ */ __name(() => themeableVariants2, "themeableVariants")
     });
     module2.exports = __toCommonJS2(ThemeableStack_exports);
-    var import_core57 = require("@tamagui/core");
+    var import_core56 = require("@tamagui/core");
     var import_Stacks3 = require_Stacks();
     var import_variants3 = require_variants();
     var chromelessStyle2 = {
@@ -2623,7 +2623,7 @@ var require_ThemeableStack = __commonJS({
         }
       }
     };
-    var ThemeableStack2 = (0, import_core57.styled)(import_Stacks3.YStack, {
+    var ThemeableStack2 = (0, import_core56.styled)(import_Stacks3.YStack, {
       variants: themeableVariants2
     });
   }
@@ -2670,8 +2670,8 @@ var require_NestingContext = __commonJS({
       ButtonNestingContext: /* @__PURE__ */ __name(() => ButtonNestingContext2, "ButtonNestingContext")
     });
     module2.exports = __toCommonJS2(NestingContext_exports);
-    var import_react55 = __toESM2(require("react"));
-    var ButtonNestingContext2 = import_react55.default.createContext(false);
+    var import_react56 = __toESM2(require("react"));
+    var ButtonNestingContext2 = import_react56.default.createContext(false);
   }
 });
 
@@ -2730,8 +2730,8 @@ var require_cjs17 = __commonJS({
       getFontSized: /* @__PURE__ */ __name(() => getFontSized2, "getFontSized")
     });
     module2.exports = __toCommonJS2(src_exports);
-    var import_constants46 = require_cjs6();
-    var import_core57 = require("@tamagui/core");
+    var import_constants47 = require_cjs6();
+    var import_core56 = require("@tamagui/core");
     var getFontSized2 = /* @__PURE__ */ __name((sizeTokenIn = "$true", {
       font,
       fontFamily,
@@ -2741,8 +2741,8 @@ var require_cjs17 = __commonJS({
       if (!font) return {
         fontSize: sizeTokenIn
       };
-      const sizeToken = sizeTokenIn === "$true" ? getDefaultSizeToken2(font) : sizeTokenIn, style = {}, fontSize = font.size[sizeToken], lineHeight = (_a = font.lineHeight) == null ? void 0 : _a[sizeToken], fontWeight = (_b = font.weight) == null ? void 0 : _b[sizeToken], letterSpacing = (_c = font.letterSpacing) == null ? void 0 : _c[sizeToken], textTransform = (_d = font.transform) == null ? void 0 : _d[sizeToken], fontStyle = props.fontStyle ?? ((_e = font.style) == null ? void 0 : _e[sizeToken]), color2 = props.color ?? ((_f = font.color) == null ? void 0 : _f[sizeToken]);
-      return fontStyle && (style.fontStyle = fontStyle), textTransform && (style.textTransform = textTransform), fontFamily && (style.fontFamily = fontFamily), fontWeight && (style.fontWeight = fontWeight), letterSpacing && (style.letterSpacing = letterSpacing), fontSize && (style.fontSize = fontSize), lineHeight && (style.lineHeight = lineHeight), color2 && (style.color = color2), process.env.NODE_ENV === "development" && props.debug && props.debug === "verbose" && (console.groupCollapsed("  \u{1F539} getFontSized", sizeTokenIn, sizeToken), import_constants46.isClient && console.info({
+      const sizeToken = sizeTokenIn === "$true" ? getDefaultSizeToken2(font) : sizeTokenIn, style = {}, fontSize = font.size[sizeToken], lineHeight = (_a = font.lineHeight) == null ? void 0 : _a[sizeToken], fontWeight = (_b = font.weight) == null ? void 0 : _b[sizeToken], letterSpacing = (_c = font.letterSpacing) == null ? void 0 : _c[sizeToken], textTransform = (_d = font.transform) == null ? void 0 : _d[sizeToken], fontStyle = props.fontStyle ?? ((_e = font.style) == null ? void 0 : _e[sizeToken]), color = props.color ?? ((_f = font.color) == null ? void 0 : _f[sizeToken]);
+      return fontStyle && (style.fontStyle = fontStyle), textTransform && (style.textTransform = textTransform), fontFamily && (style.fontFamily = fontFamily), fontWeight && (style.fontWeight = fontWeight), letterSpacing && (style.letterSpacing = letterSpacing), fontSize && (style.fontSize = fontSize), lineHeight && (style.lineHeight = lineHeight), color && (style.color = color), process.env.NODE_ENV === "development" && props.debug && props.debug === "verbose" && (console.groupCollapsed("  \u{1F539} getFontSized", sizeTokenIn, sizeToken), import_constants47.isClient && console.info({
         style,
         props,
         font
@@ -2751,7 +2751,7 @@ var require_cjs17 = __commonJS({
     var cache3 = /* @__PURE__ */ new WeakMap();
     function getDefaultSizeToken2(font) {
       if (typeof font == "object" && cache3.has(font)) return cache3.get(font);
-      const sizeTokens = "$true" in font.size ? font.size : (0, import_core57.getTokens)().size, sizeDefault = sizeTokens.$true, sizeDefaultSpecific = sizeDefault ? Object.keys(sizeTokens).find((x) => x !== "$true" && sizeTokens[x].val === sizeDefault.val) : null;
+      const sizeTokens = "$true" in font.size ? font.size : (0, import_core56.getTokens)().size, sizeDefault = sizeTokens.$true, sizeDefaultSpecific = sizeDefault ? Object.keys(sizeTokens).find((x) => x !== "$true" && sizeTokens[x].val === sizeDefault.val) : null;
       return !sizeDefault || !sizeDefaultSpecific ? (process.env.NODE_ENV === "development" && console.warn(`No default size is set in your tokens for the "true" key, fonts will be inconsistent.
 
       Fix this by having consistent tokens across fonts and sizes and setting a true key for your size tokens, or
@@ -2809,8 +2809,8 @@ var require_SizableText = __commonJS({
     });
     SizableText2.staticConfig.variants.fontFamily = {
       "...": /* @__PURE__ */ __name((_val, extras) => {
-        const sizeProp = extras.props.size, fontSizeProp = extras.props.fontSize, size6 = sizeProp === "$true" && fontSizeProp ? fontSizeProp : extras.props.size || "$true";
-        return (0, import_get_font_sized5.getFontSized)(size6, extras);
+        const sizeProp = extras.props.size, fontSizeProp = extras.props.fontSize, size5 = sizeProp === "$true" && fontSizeProp ? fontSizeProp : extras.props.size || "$true";
+        return (0, import_get_font_sized5.getFontSized)(size5, extras);
       }, "...")
     };
   }
@@ -2975,7 +2975,7 @@ var require_wrapChildrenInText = __commonJS({
       wrapChildrenInText: /* @__PURE__ */ __name(() => wrapChildrenInText2, "wrapChildrenInText")
     });
     module2.exports = __toCommonJS2(wrapChildrenInText_exports);
-    var import_react55 = __toESM2(require("react"));
+    var import_react56 = __toESM2(require("react"));
     var import_jsx_runtime63 = (
       // so "data-disable-theme" is a hack to fix themeInverse, don't ask me why
       require("react/jsx-runtime")
@@ -2984,9 +2984,9 @@ var require_wrapChildrenInText = __commonJS({
       const {
         children,
         textProps,
-        size: size6,
+        size: size5,
         noTextWrap,
-        color: color2,
+        color,
         fontFamily,
         fontSize,
         fontWeight,
@@ -2999,7 +2999,7 @@ var require_wrapChildrenInText = __commonJS({
       const props = {
         ...extraProps
       };
-      return color2 && (props.color = color2), fontFamily && (props.fontFamily = fontFamily), fontSize && (props.fontSize = fontSize), fontWeight && (props.fontWeight = fontWeight), letterSpacing && (props.letterSpacing = letterSpacing), textAlign && (props.textAlign = textAlign), size6 && (props.size = size6), fontStyle && (props.fontStyle = fontStyle), maxFontSizeMultiplier && (props.maxFontSizeMultiplier = maxFontSizeMultiplier), import_react55.default.Children.toArray(children).map((child, index8) => typeof child == "string" ? /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(TextComponent, {
+      return color && (props.color = color), fontFamily && (props.fontFamily = fontFamily), fontSize && (props.fontSize = fontSize), fontWeight && (props.fontWeight = fontWeight), letterSpacing && (props.letterSpacing = letterSpacing), textAlign && (props.textAlign = textAlign), size5 && (props.size = size5), fontStyle && (props.fontStyle = fontStyle), maxFontSizeMultiplier && (props.maxFontSizeMultiplier = maxFontSizeMultiplier), import_react56.default.Children.toArray(children).map((child, index8) => typeof child == "string" ? /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(TextComponent, {
         ...props,
         ...textProps,
         children: child
@@ -3102,9 +3102,9 @@ var require_useDirection = __commonJS({
       useDirection: /* @__PURE__ */ __name(() => useDirection2, "useDirection")
     });
     module2.exports = __toCommonJS2(useDirection_exports);
-    var React81 = __toESM2(require("react"));
+    var React82 = __toESM2(require("react"));
     var import_jsx_runtime63 = require("react/jsx-runtime");
-    var DirectionContext2 = React81.createContext(void 0);
+    var DirectionContext2 = React82.createContext(void 0);
     var DirectionProvider = /* @__PURE__ */ __name((props) => {
       const {
         dir,
@@ -3116,7 +3116,7 @@ var require_useDirection = __commonJS({
       });
     }, "DirectionProvider");
     function useDirection2(localDir) {
-      const globalDir = React81.useContext(DirectionContext2);
+      const globalDir = React82.useContext(DirectionContext2);
       return localDir || globalDir || "ltr";
     }
     __name(useDirection2, "useDirection");
@@ -3184,7 +3184,7 @@ var require_Accordion = __commonJS({
     var import_collapsible = require_cjs11();
     var import_collection2 = require_cjs13();
     var import_compose_refs25 = require_cjs12();
-    var import_constants46 = require_cjs6();
+    var import_constants47 = require_cjs6();
     var import_helpers27 = require_cjs7();
     var import_stacks27 = require_cjs16();
     var import_text9 = require_cjs18();
@@ -3192,13 +3192,13 @@ var require_Accordion = __commonJS({
     var import_use_direction5 = require_cjs19();
     var import_web21 = require("@tamagui/core");
     var import_web22 = require("@tamagui/core");
-    var React81 = __toESM2(require("react"));
+    var React82 = __toESM2(require("react"));
     var import_jsx_runtime63 = require("react/jsx-runtime");
     var ACCORDION_NAME = "Accordion";
     var ACCORDION_KEYS = ["Home", "End", "ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"];
     var [Collection2, useCollection2] = (0, import_collection2.createCollection)(ACCORDION_NAME);
     var ACCORDION_CONTEXT = "Accordion";
-    var AccordionComponent = React81.forwardRef((props, forwardedRef) => {
+    var AccordionComponent = React82.forwardRef((props, forwardedRef) => {
       const { type, ...accordionProps } = props, singleProps = accordionProps, multipleProps = accordionProps;
       return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Collection2.Provider, { __scopeCollection: props.__scopeAccordion || ACCORDION_CONTEXT, children: type === "multiple" ? /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AccordionImplMultiple, { ...multipleProps, ref: forwardedRef }) : /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AccordionImplSingle, { ...singleProps, ref: forwardedRef }) });
     });
@@ -3220,7 +3220,7 @@ var require_Accordion = __commonJS({
       Provider: AccordionCollapsibleProvider,
       useStyledContext: useAccordionCollapsibleContext
     } = (0, import_web22.createStyledContext)();
-    var AccordionImplSingle = React81.forwardRef((props, forwardedRef) => {
+    var AccordionImplSingle = React82.forwardRef((props, forwardedRef) => {
       const {
         value: valueProp,
         defaultValue: defaultValue2,
@@ -3240,7 +3240,7 @@ var require_Accordion = __commonJS({
           scope: props.__scopeAccordion,
           value: value ? [value] : [],
           onItemOpen: setValue,
-          onItemClose: React81.useCallback(
+          onItemClose: React82.useCallback(
             () => collapsible && setValue(""),
             [setValue, collapsible]
           ),
@@ -3255,7 +3255,7 @@ var require_Accordion = __commonJS({
         }
       );
     });
-    var AccordionImplMultiple = React81.forwardRef((props, forwardedRef) => {
+    var AccordionImplMultiple = React82.forwardRef((props, forwardedRef) => {
       const {
         value: valueProp,
         defaultValue: defaultValue2,
@@ -3266,10 +3266,10 @@ var require_Accordion = __commonJS({
         prop: valueProp,
         defaultProp: defaultValue2 || [],
         onChange: onValueChange
-      }), handleItemOpen = React81.useCallback(
+      }), handleItemOpen = React82.useCallback(
         (itemValue) => setValue((prevValue = []) => [...prevValue, itemValue]),
         [setValue]
-      ), handleItemClose = React81.useCallback(
+      ), handleItemClose = React82.useCallback(
         (itemValue) => setValue((prevValue = []) => prevValue.filter((value2) => value2 !== itemValue)),
         [setValue]
       );
@@ -3285,7 +3285,7 @@ var require_Accordion = __commonJS({
       );
     });
     var { Provider: AccordionImplProvider, useStyledContext: useAccordionContext } = (0, import_web22.createStyledContext)();
-    var AccordionImpl = React81.forwardRef(
+    var AccordionImpl = React82.forwardRef(
       (props, forwardedRef) => {
         const {
           __scopeAccordion,
@@ -3293,7 +3293,7 @@ var require_Accordion = __commonJS({
           dir,
           orientation = "vertical",
           ...accordionProps
-        } = props, accordionRef = React81.useRef(null), composedRef = (0, import_compose_refs25.useComposedRefs)(accordionRef, forwardedRef), getItems = useCollection2(__scopeAccordion || ACCORDION_CONTEXT), isDirectionLTR = (0, import_use_direction5.useDirection)(dir) === "ltr", handleKeyDown = (0, import_helpers27.composeEventHandlers)(
+        } = props, accordionRef = React82.useRef(null), composedRef = (0, import_compose_refs25.useComposedRefs)(accordionRef, forwardedRef), getItems = useCollection2(__scopeAccordion || ACCORDION_CONTEXT), isDirectionLTR = (0, import_use_direction5.useDirection)(dir) === "ltr", handleKeyDown = (0, import_helpers27.composeEventHandlers)(
           props.onKeyDown,
           (event) => {
             var _a;
@@ -3349,7 +3349,7 @@ var require_Accordion = __commonJS({
                 "data-orientation": orientation,
                 ref: composedRef,
                 ...accordionProps,
-                ...import_constants46.isWeb && {
+                ...import_constants47.isWeb && {
                   onKeyDown: handleKeyDown
                 }
               }
@@ -3360,9 +3360,9 @@ var require_Accordion = __commonJS({
     );
     var ITEM_NAME3 = "AccordionItem";
     var { Provider: AccordionItemProvider, useStyledContext: useAccordionItemContext } = (0, import_web22.createStyledContext)();
-    var AccordionItem = React81.forwardRef(
+    var AccordionItem = React82.forwardRef(
       (props, forwardedRef) => {
-        const { __scopeAccordion, value, ...accordionItemProps } = props, accordionContext = useAccordionContext(__scopeAccordion), valueContext = useAccordionValueContext(__scopeAccordion), triggerId = React81.useId(), open = value && valueContext.value.includes(value) || false, disabled = accordionContext.disabled || props.disabled;
+        const { __scopeAccordion, value, ...accordionItemProps } = props, accordionContext = useAccordionContext(__scopeAccordion), valueContext = useAccordionValueContext(__scopeAccordion), triggerId = React82.useId(), open = value && valueContext.value.includes(value) || false, disabled = accordionContext.disabled || props.disabled;
         return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
           AccordionItemProvider,
           {
@@ -3391,7 +3391,7 @@ var require_Accordion = __commonJS({
     );
     AccordionItem.displayName = ITEM_NAME3;
     var HEADER_NAME = "AccordionHeader";
-    var AccordionHeader = React81.forwardRef(
+    var AccordionHeader = React82.forwardRef(
       (props, forwardedRef) => {
         const { __scopeAccordion, ...headerProps } = props, accordionContext = useAccordionContext(__scopeAccordion), itemContext = useAccordionItemContext(__scopeAccordion);
         return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
@@ -3474,7 +3474,7 @@ var require_Accordion = __commonJS({
       );
     });
     var HeightAnimator = import_web21.View.styleable((props, ref) => {
-      const itemContext = useAccordionItemContext(), { children, ...rest } = props, [height, setHeight] = React81.useState(0), onLayout = (0, import_web21.useEvent)(({ nativeEvent }) => {
+      const itemContext = useAccordionItemContext(), { children, ...rest } = props, [height, setHeight] = React82.useState(0), onLayout = (0, import_web21.useEvent)(({ nativeEvent }) => {
         nativeEvent.layout.height && setHeight(nativeEvent.layout.height);
       });
       return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(import_web21.View, { ref, height: itemContext.open ? height : 0, ...rest, children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
@@ -3723,15 +3723,15 @@ function __extends(d, b) {
   d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 function __rest(s, e) {
-  var t2 = {};
+  var t = {};
   for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t2[p] = s[p];
+    t[p] = s[p];
   if (s != null && typeof Object.getOwnPropertySymbols === "function")
     for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
       if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t2[p[i]] = s[p[i]];
+        t[p[i]] = s[p[i]];
     }
-  return t2;
+  return t;
 }
 function __decorate(decorators, target, key, desc) {
   var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -3827,9 +3827,9 @@ function __awaiter(thisArg, _arguments, P, generator) {
 }
 function __generator(thisArg, body) {
   var _ = { label: 0, sent: /* @__PURE__ */ __name(function() {
-    if (t2[0] & 1) throw t2[1];
-    return t2[1];
-  }, "sent"), trys: [], ops: [] }, f, y, t2, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    if (t[0] & 1) throw t[1];
+    return t[1];
+  }, "sent"), trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
   return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() {
     return this;
   }), g;
@@ -3842,12 +3842,12 @@ function __generator(thisArg, body) {
   function step(op) {
     if (f) throw new TypeError("Generator is already executing.");
     while (g && (g = 0, op[0] && (_ = 0)), _) try {
-      if (f = 1, y && (t2 = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t2 = y["return"]) && t2.call(y), 0) : y.next) && !(t2 = t2.call(y, op[1])).done) return t2;
-      if (y = 0, t2) op = [op[0] & 2, t2.value];
+      if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+      if (y = 0, t) op = [op[0] & 2, t.value];
       switch (op[0]) {
         case 0:
         case 1:
-          t2 = op;
+          t = op;
           break;
         case 4:
           _.label++;
@@ -3862,25 +3862,25 @@ function __generator(thisArg, body) {
           _.trys.pop();
           continue;
         default:
-          if (!(t2 = _.trys, t2 = t2.length > 0 && t2[t2.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+          if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
             _ = 0;
             continue;
           }
-          if (op[0] === 3 && (!t2 || op[1] > t2[0] && op[1] < t2[3])) {
+          if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
             _.label = op[1];
             break;
           }
-          if (op[0] === 6 && _.label < t2[1]) {
-            _.label = t2[1];
-            t2 = op;
+          if (op[0] === 6 && _.label < t[1]) {
+            _.label = t[1];
+            t = op;
             break;
           }
-          if (t2 && _.label < t2[2]) {
-            _.label = t2[2];
+          if (t && _.label < t[2]) {
+            _.label = t[2];
             _.ops.push(op);
             break;
           }
-          if (t2[2]) _.ops.pop();
+          if (t[2]) _.ops.pop();
           _.trys.pop();
           continue;
       }
@@ -3889,7 +3889,7 @@ function __generator(thisArg, body) {
       op = [6, e];
       y = 0;
     } finally {
-      f = t2 = 0;
+      f = t = 0;
     }
     if (op[0] & 5) throw op[1];
     return { value: op[0] ? op[1] : void 0, done: true };
@@ -4145,12 +4145,12 @@ var init_tslib_es6 = __esm({
     }, "extendStatics");
     __name(__extends, "__extends");
     __assign = /* @__PURE__ */ __name(function() {
-      __assign = Object.assign || /* @__PURE__ */ __name(function __assign2(t2) {
+      __assign = Object.assign || /* @__PURE__ */ __name(function __assign2(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
           s = arguments[i];
-          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t2[p] = s[p];
+          for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
         }
-        return t2;
+        return t;
       }, "__assign");
       return __assign.apply(this, arguments);
     }, "__assign");
@@ -4372,10 +4372,10 @@ var require_useMergeRef = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.useMergeRefs = void 0;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var React81 = tslib_1.__importStar(require("react"));
+    var React82 = tslib_1.__importStar(require("react"));
     var assignRef_1 = require_assignRef();
     var useRef_1 = require_useRef();
-    var useIsomorphicLayoutEffect3 = typeof window !== "undefined" ? React81.useLayoutEffect : React81.useEffect;
+    var useIsomorphicLayoutEffect3 = typeof window !== "undefined" ? React82.useLayoutEffect : React82.useEffect;
     var currentValues = /* @__PURE__ */ new WeakMap();
     function useMergeRefs(refs, defaultValue2) {
       var callbackRef = (0, useRef_1.useCallbackRef)(defaultValue2 || null, function(newValue) {
@@ -4617,7 +4617,7 @@ var require_hoc = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.sidecar = void 0;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var React81 = tslib_1.__importStar(require("react"));
+    var React82 = tslib_1.__importStar(require("react"));
     var hook_1 = require_hook();
     function sidecar(importer, errorComponent) {
       var ErrorCase = /* @__PURE__ */ __name(function() {
@@ -4628,7 +4628,7 @@ var require_hoc = __commonJS({
         if (error4 && errorComponent) {
           return ErrorCase;
         }
-        return Car ? React81.createElement(Car, tslib_1.__assign({}, props)) : null;
+        return Car ? React82.createElement(Car, tslib_1.__assign({}, props)) : null;
       }, "Sidecar");
     }
     __name(sidecar, "sidecar");
@@ -4767,7 +4767,7 @@ var require_renderProp = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.renderCar = void 0;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var React81 = tslib_1.__importStar(require("react"));
+    var React82 = tslib_1.__importStar(require("react"));
     var react_1 = require("react");
     function renderCar(WrappedComponent, defaults) {
       function State(_a) {
@@ -4782,10 +4782,10 @@ var require_renderProp = __commonJS({
           });
           return null;
         }, "SideTarget"), []);
-        return React81.createElement(WrappedComponent, tslib_1.__assign({}, props, { children: renderTarget }));
+        return React82.createElement(WrappedComponent, tslib_1.__assign({}, props, { children: renderTarget }));
       }
       __name(State, "State");
-      var Children7 = React81.memo(function(_a) {
+      var Children7 = React82.memo(function(_a) {
         var stateRef = _a.stateRef, defaultState = _a.defaultState, children = _a.children;
         var _b = (0, react_1.useState)(defaultState.current), state = _b[0], setState = _b[1];
         (0, react_1.useEffect)(function() {
@@ -4796,15 +4796,15 @@ var require_renderProp = __commonJS({
         return true;
       });
       return /* @__PURE__ */ __name(function Combiner(props) {
-        var defaultState = React81.useRef(defaults(props));
-        var ref = React81.useRef(function(state) {
+        var defaultState = React82.useRef(defaults(props));
+        var ref = React82.useRef(function(state) {
           return defaultState.current = state;
         });
-        return React81.createElement(
-          React81.Fragment,
+        return React82.createElement(
+          React82.Fragment,
           null,
-          React81.createElement(State, { stateRef: ref, props }),
-          React81.createElement(Children7, { stateRef: ref, defaultState, children: props.children })
+          React82.createElement(State, { stateRef: ref, props }),
+          React82.createElement(Children7, { stateRef: ref, defaultState, children: props.children })
         );
       }, "Combiner");
     }
@@ -4820,7 +4820,7 @@ var require_exports = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.exportSidecar = void 0;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var React81 = tslib_1.__importStar(require("react"));
+    var React82 = tslib_1.__importStar(require("react"));
     var SideCar = /* @__PURE__ */ __name(function(_a) {
       var sideCar = _a.sideCar, rest = tslib_1.__rest(_a, ["sideCar"]);
       if (!sideCar) {
@@ -4830,7 +4830,7 @@ var require_exports = __commonJS({
       if (!Target) {
         throw new Error("Sidecar medium not found");
       }
-      return React81.createElement(Target, tslib_1.__assign({}, rest));
+      return React82.createElement(Target, tslib_1.__assign({}, rest));
     }, "SideCar");
     SideCar.isSideCarExport = true;
     function exportSidecar(medium, exported) {
@@ -4896,16 +4896,16 @@ var require_UI = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.RemoveScroll = void 0;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var React81 = tslib_1.__importStar(require("react"));
+    var React82 = tslib_1.__importStar(require("react"));
     var constants_1 = require_constants2();
     var use_callback_ref_1 = require_es52();
     var medium_1 = require_medium2();
     var nothing = /* @__PURE__ */ __name(function() {
       return;
     }, "nothing");
-    var RemoveScroll2 = React81.forwardRef(function(props, parentRef) {
-      var ref = React81.useRef(null);
-      var _a = React81.useState({
+    var RemoveScroll2 = React82.forwardRef(function(props, parentRef) {
+      var ref = React82.useRef(null);
+      var _a = React82.useState({
         onScrollCapture: nothing,
         onWheelCapture: nothing,
         onTouchMoveCapture: nothing
@@ -4914,11 +4914,11 @@ var require_UI = __commonJS({
       var SideCar = sideCar;
       var containerRef = (0, use_callback_ref_1.useMergeRefs)([ref, parentRef]);
       var containerProps = tslib_1.__assign(tslib_1.__assign({}, rest), callbacks);
-      return React81.createElement(
-        React81.Fragment,
+      return React82.createElement(
+        React82.Fragment,
         null,
-        enabled && React81.createElement(SideCar, { sideCar: medium_1.effectCar, removeScrollBar, shards, noIsolation, inert, setCallbacks, allowPinchZoom: !!allowPinchZoom, lockRef: ref, gapMode }),
-        forwardProps ? React81.cloneElement(React81.Children.only(children), tslib_1.__assign(tslib_1.__assign({}, containerProps), { ref: containerRef })) : React81.createElement(Container, tslib_1.__assign({}, containerProps, { className, ref: containerRef }), children)
+        enabled && React82.createElement(SideCar, { sideCar: medium_1.effectCar, removeScrollBar, shards, noIsolation, inert, setCallbacks, allowPinchZoom: !!allowPinchZoom, lockRef: ref, gapMode }),
+        forwardProps ? React82.cloneElement(React82.Children.only(children), tslib_1.__assign(tslib_1.__assign({}, containerProps), { ref: containerRef })) : React82.createElement(Container, tslib_1.__assign({}, containerProps, { className, ref: containerRef }), children)
       );
     });
     exports2.RemoveScroll = RemoveScroll2;
@@ -5020,12 +5020,12 @@ var require_hook2 = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.styleHookSingleton = void 0;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var React81 = tslib_1.__importStar(require("react"));
+    var React82 = tslib_1.__importStar(require("react"));
     var singleton_1 = require_singleton();
     var styleHookSingleton = /* @__PURE__ */ __name(function() {
       var sheet = (0, singleton_1.stylesheetSingleton)();
       return function(styles, isDynamic) {
-        React81.useEffect(function() {
+        React82.useEffect(function() {
           sheet.add(styles);
           return function() {
             sheet.remove();
@@ -5128,7 +5128,7 @@ var require_component2 = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.RemoveScrollBar = exports2.useLockAttribute = exports2.lockAttribute = void 0;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var React81 = tslib_1.__importStar(require("react"));
+    var React82 = tslib_1.__importStar(require("react"));
     var react_style_singleton_1 = require_es55();
     var constants_1 = require_constants2();
     var utils_1 = require_utils();
@@ -5150,7 +5150,7 @@ var require_component2 = __commonJS({
       return isFinite(counter) ? counter : 0;
     }, "getCurrentUseCounter");
     var useLockAttribute = /* @__PURE__ */ __name(function() {
-      React81.useEffect(function() {
+      React82.useEffect(function() {
         document.body.setAttribute(exports2.lockAttribute, (getCurrentUseCounter() + 1).toString());
         return function() {
           var newCounter = getCurrentUseCounter() - 1;
@@ -5166,10 +5166,10 @@ var require_component2 = __commonJS({
     var RemoveScrollBar = /* @__PURE__ */ __name(function(_a) {
       var noRelative = _a.noRelative, noImportant = _a.noImportant, _b = _a.gapMode, gapMode = _b === void 0 ? "margin" : _b;
       (0, exports2.useLockAttribute)();
-      var gap = React81.useMemo(function() {
+      var gap = React82.useMemo(function() {
         return (0, utils_1.getGapWidth)(gapMode);
       }, [gapMode]);
-      return React81.createElement(Style, { styles: getStyles(gap, !noRelative, gapMode, !noImportant ? "!important" : "") });
+      return React82.createElement(Style, { styles: getStyles(gap, !noRelative, gapMode, !noImportant ? "!important" : "") });
     }, "RemoveScrollBar");
     exports2.RemoveScrollBar = RemoveScrollBar;
   }
@@ -5347,7 +5347,7 @@ var require_SideEffect = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.RemoveScrollSideCar = exports2.getDeltaXY = exports2.getTouchXY = void 0;
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var React81 = tslib_1.__importStar(require("react"));
+    var React82 = tslib_1.__importStar(require("react"));
     var react_remove_scroll_bar_1 = require_es56();
     var react_style_singleton_1 = require_es55();
     var aggresiveCapture_1 = require_aggresiveCapture();
@@ -5372,16 +5372,16 @@ var require_SideEffect = __commonJS({
     var idCounter = 0;
     var lockStack = [];
     function RemoveScrollSideCar(props) {
-      var shouldPreventQueue = React81.useRef([]);
-      var touchStartRef = React81.useRef([0, 0]);
-      var activeAxis = React81.useRef();
-      var id = React81.useState(idCounter++)[0];
-      var Style = React81.useState(react_style_singleton_1.styleSingleton)[0];
-      var lastProps = React81.useRef(props);
-      React81.useEffect(function() {
+      var shouldPreventQueue = React82.useRef([]);
+      var touchStartRef = React82.useRef([0, 0]);
+      var activeAxis = React82.useRef();
+      var id = React82.useState(idCounter++)[0];
+      var Style = React82.useState(react_style_singleton_1.styleSingleton)[0];
+      var lastProps = React82.useRef(props);
+      React82.useEffect(function() {
         lastProps.current = props;
       }, [props]);
-      React81.useEffect(function() {
+      React82.useEffect(function() {
         if (props.inert) {
           document.body.classList.add("block-interactivity-".concat(id));
           var allow_1 = tslib_1.__spreadArray([props.lockRef.current], (props.shards || []).map(extractRef), true).filter(Boolean);
@@ -5397,7 +5397,7 @@ var require_SideEffect = __commonJS({
         }
         return;
       }, [props.inert, props.lockRef.current, props.shards]);
-      var shouldCancelEvent = React81.useCallback(function(event, parent) {
+      var shouldCancelEvent = React82.useCallback(function(event, parent) {
         if ("touches" in event && event.touches.length === 2 || event.type === "wheel" && event.ctrlKey) {
           return !lastProps.current.allowPinchZoom;
         }
@@ -5433,7 +5433,7 @@ var require_SideEffect = __commonJS({
         var cancelingAxis = activeAxis.current || currentAxis;
         return (0, handleScroll_1.handleScroll)(cancelingAxis, parent, event, cancelingAxis === "h" ? deltaX : deltaY, true);
       }, []);
-      var shouldPrevent = React81.useCallback(function(_event) {
+      var shouldPrevent = React82.useCallback(function(_event) {
         var event = _event;
         if (!lockStack.length || lockStack[lockStack.length - 1] !== Style) {
           return;
@@ -5460,7 +5460,7 @@ var require_SideEffect = __commonJS({
           }
         }
       }, []);
-      var shouldCancel = React81.useCallback(function(name, delta, target, should) {
+      var shouldCancel = React82.useCallback(function(name, delta, target, should) {
         var event = { name, delta, target, should, shadowParent: getOutermostShadowParent(target) };
         shouldPreventQueue.current.push(event);
         setTimeout(function() {
@@ -5469,17 +5469,17 @@ var require_SideEffect = __commonJS({
           });
         }, 1);
       }, []);
-      var scrollTouchStart = React81.useCallback(function(event) {
+      var scrollTouchStart = React82.useCallback(function(event) {
         touchStartRef.current = (0, exports2.getTouchXY)(event);
         activeAxis.current = void 0;
       }, []);
-      var scrollWheel = React81.useCallback(function(event) {
+      var scrollWheel = React82.useCallback(function(event) {
         shouldCancel(event.type, (0, exports2.getDeltaXY)(event), event.target, shouldCancelEvent(event, props.lockRef.current));
       }, []);
-      var scrollTouchMove = React81.useCallback(function(event) {
+      var scrollTouchMove = React82.useCallback(function(event) {
         shouldCancel(event.type, (0, exports2.getTouchXY)(event), event.target, shouldCancelEvent(event, props.lockRef.current));
       }, []);
-      React81.useEffect(function() {
+      React82.useEffect(function() {
         lockStack.push(Style);
         props.setCallbacks({
           onScrollCapture: scrollWheel,
@@ -5499,11 +5499,11 @@ var require_SideEffect = __commonJS({
         };
       }, []);
       var removeScrollBar = props.removeScrollBar, inert = props.inert;
-      return React81.createElement(
-        React81.Fragment,
+      return React82.createElement(
+        React82.Fragment,
         null,
-        inert ? React81.createElement(Style, { styles: generateStyle(id) }) : null,
-        removeScrollBar ? React81.createElement(react_remove_scroll_bar_1.RemoveScrollBar, { gapMode: props.gapMode }) : null
+        inert ? React82.createElement(Style, { styles: generateStyle(id) }) : null,
+        removeScrollBar ? React82.createElement(react_remove_scroll_bar_1.RemoveScrollBar, { gapMode: props.gapMode }) : null
       );
     }
     __name(RemoveScrollSideCar, "RemoveScrollSideCar");
@@ -5541,11 +5541,11 @@ var require_Combination = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     var tslib_1 = (init_tslib_es6(), __toCommonJS(tslib_es6_exports));
-    var React81 = tslib_1.__importStar(require("react"));
+    var React82 = tslib_1.__importStar(require("react"));
     var UI_1 = require_UI();
     var sidecar_1 = tslib_1.__importDefault(require_sidecar());
-    var ReactRemoveScroll = React81.forwardRef(function(props, ref) {
-      return React81.createElement(UI_1.RemoveScroll, tslib_1.__assign({}, props, { ref, sideCar: sidecar_1.default }));
+    var ReactRemoveScroll = React82.forwardRef(function(props, ref) {
+      return React82.createElement(UI_1.RemoveScroll, tslib_1.__assign({}, props, { ref, sideCar: sidecar_1.default }));
     });
     ReactRemoveScroll.classNames = UI_1.RemoveScroll.classNames;
     exports2.default = ReactRemoveScroll;
@@ -5719,15 +5719,15 @@ var require_typeof = __commonJS({
 var require_toPrimitive = __commonJS({
   "node_modules/@babel/runtime/helpers/toPrimitive.js"(exports2, module2) {
     var _typeof = require_typeof()["default"];
-    function toPrimitive(t2, r) {
-      if ("object" != _typeof(t2) || !t2) return t2;
-      var e = t2[Symbol.toPrimitive];
+    function toPrimitive(t, r) {
+      if ("object" != _typeof(t) || !t) return t;
+      var e = t[Symbol.toPrimitive];
       if (void 0 !== e) {
-        var i = e.call(t2, r || "default");
+        var i = e.call(t, r || "default");
         if ("object" != _typeof(i)) return i;
         throw new TypeError("@@toPrimitive must return a primitive value.");
       }
-      return ("string" === r ? String : Number)(t2);
+      return ("string" === r ? String : Number)(t);
     }
     __name(toPrimitive, "toPrimitive");
     module2.exports = toPrimitive, module2.exports.__esModule = true, module2.exports["default"] = module2.exports;
@@ -5739,8 +5739,8 @@ var require_toPropertyKey = __commonJS({
   "node_modules/@babel/runtime/helpers/toPropertyKey.js"(exports2, module2) {
     var _typeof = require_typeof()["default"];
     var toPrimitive = require_toPrimitive();
-    function toPropertyKey(t2) {
-      var i = toPrimitive(t2, "string");
+    function toPropertyKey(t) {
+      var i = toPrimitive(t, "string");
       return "symbol" == _typeof(i) ? i : i + "";
     }
     __name(toPropertyKey, "toPropertyKey");
@@ -5752,13 +5752,13 @@ var require_toPropertyKey = __commonJS({
 var require_defineProperty = __commonJS({
   "node_modules/@babel/runtime/helpers/defineProperty.js"(exports2, module2) {
     var toPropertyKey = require_toPropertyKey();
-    function _defineProperty(e, r, t2) {
+    function _defineProperty(e, r, t) {
       return (r = toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
-        value: t2,
+        value: t,
         enumerable: true,
         configurable: true,
         writable: true
-      }) : e[r] = t2, e;
+      }) : e[r] = t, e;
     }
     __name(_defineProperty, "_defineProperty");
     module2.exports = _defineProperty, module2.exports.__esModule = true, module2.exports["default"] = module2.exports;
@@ -5770,23 +5770,23 @@ var require_objectSpread2 = __commonJS({
   "node_modules/@babel/runtime/helpers/objectSpread2.js"(exports2, module2) {
     var defineProperty = require_defineProperty();
     function ownKeys2(e, r) {
-      var t2 = Object.keys(e);
+      var t = Object.keys(e);
       if (Object.getOwnPropertySymbols) {
         var o = Object.getOwnPropertySymbols(e);
         r && (o = o.filter(function(r2) {
           return Object.getOwnPropertyDescriptor(e, r2).enumerable;
-        })), t2.push.apply(t2, o);
+        })), t.push.apply(t, o);
       }
-      return t2;
+      return t;
     }
     __name(ownKeys2, "ownKeys");
     function _objectSpread2(e) {
       for (var r = 1; r < arguments.length; r++) {
-        var t2 = null != arguments[r] ? arguments[r] : {};
-        r % 2 ? ownKeys2(Object(t2), true).forEach(function(r2) {
-          defineProperty(e, r2, t2[r2]);
-        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t2)) : ownKeys2(Object(t2)).forEach(function(r2) {
-          Object.defineProperty(e, r2, Object.getOwnPropertyDescriptor(t2, r2));
+        var t = null != arguments[r] ? arguments[r] : {};
+        r % 2 ? ownKeys2(Object(t), true).forEach(function(r2) {
+          defineProperty(e, r2, t[r2]);
+        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys2(Object(t)).forEach(function(r2) {
+          Object.defineProperty(e, r2, Object.getOwnPropertyDescriptor(t, r2));
         });
       }
       return e;
@@ -5801,12 +5801,12 @@ var require_objectWithoutPropertiesLoose = __commonJS({
   "node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js"(exports2, module2) {
     function _objectWithoutPropertiesLoose(r, e) {
       if (null == r) return {};
-      var t2 = {};
+      var t = {};
       for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
         if (e.includes(n)) continue;
-        t2[n] = r[n];
+        t[n] = r[n];
       }
-      return t2;
+      return t;
     }
     __name(_objectWithoutPropertiesLoose, "_objectWithoutPropertiesLoose");
     module2.exports = _objectWithoutPropertiesLoose, module2.exports.__esModule = true, module2.exports["default"] = module2.exports;
@@ -5889,7 +5889,7 @@ var require_isWebColor = __commonJS({
     "use strict";
     exports2.__esModule = true;
     exports2.default = void 0;
-    var isWebColor = /* @__PURE__ */ __name((color2) => color2 === "currentcolor" || color2 === "currentColor" || color2 === "inherit" || color2.indexOf("var(") === 0, "isWebColor");
+    var isWebColor = /* @__PURE__ */ __name((color) => color === "currentcolor" || color === "currentColor" || color === "inherit" || color.indexOf("var(") === 0, "isWebColor");
     var _default = exports2.default = isWebColor;
     module2.exports = exports2.default;
   }
@@ -5899,33 +5899,33 @@ var require_isWebColor = __commonJS({
 var require_normalize_colors = __commonJS({
   "node_modules/react-native-web/node_modules/@react-native/normalize-colors/index.js"(exports2, module2) {
     "use strict";
-    function normalizeColor(color2) {
-      if (typeof color2 === "number") {
-        if (color2 >>> 0 === color2 && color2 >= 0 && color2 <= 4294967295) {
-          return color2;
+    function normalizeColor(color) {
+      if (typeof color === "number") {
+        if (color >>> 0 === color && color >= 0 && color <= 4294967295) {
+          return color;
         }
         return null;
       }
-      if (typeof color2 !== "string") {
+      if (typeof color !== "string") {
         return null;
       }
       const matchers = getMatchers();
       let match;
-      if (match = matchers.hex6.exec(color2)) {
+      if (match = matchers.hex6.exec(color)) {
         return parseInt(match[1] + "ff", 16) >>> 0;
       }
-      const colorFromKeyword = normalizeKeyword(color2);
+      const colorFromKeyword = normalizeKeyword(color);
       if (colorFromKeyword != null) {
         return colorFromKeyword;
       }
-      if (match = matchers.rgb.exec(color2)) {
+      if (match = matchers.rgb.exec(color)) {
         return (parse255(match[1]) << 24 | // r
         parse255(match[2]) << 16 | // g
         parse255(match[3]) << 8 | // b
         255) >>> // a
         0;
       }
-      if (match = matchers.rgba.exec(color2)) {
+      if (match = matchers.rgba.exec(color)) {
         if (match[6] !== void 0) {
           return (parse255(match[6]) << 24 | // r
           parse255(match[7]) << 16 | // g
@@ -5939,7 +5939,7 @@ var require_normalize_colors = __commonJS({
         parse1(match[5])) >>> // a
         0;
       }
-      if (match = matchers.hex3.exec(color2)) {
+      if (match = matchers.hex3.exec(color)) {
         return parseInt(
           match[1] + match[1] + // r
           match[2] + match[2] + // g
@@ -5949,10 +5949,10 @@ var require_normalize_colors = __commonJS({
           16
         ) >>> 0;
       }
-      if (match = matchers.hex8.exec(color2)) {
+      if (match = matchers.hex8.exec(color)) {
         return parseInt(match[1], 16) >>> 0;
       }
-      if (match = matchers.hex4.exec(color2)) {
+      if (match = matchers.hex4.exec(color)) {
         return parseInt(
           match[1] + match[1] + // r
           match[2] + match[2] + // g
@@ -5962,7 +5962,7 @@ var require_normalize_colors = __commonJS({
           16
         ) >>> 0;
       }
-      if (match = matchers.hsl.exec(color2)) {
+      if (match = matchers.hsl.exec(color)) {
         return (hslToRgb(
           parse360(match[1]),
           // h
@@ -5973,7 +5973,7 @@ var require_normalize_colors = __commonJS({
         ) | 255) >>> // a
         0;
       }
-      if (match = matchers.hsla.exec(color2)) {
+      if (match = matchers.hsla.exec(color)) {
         if (match[6] !== void 0) {
           return (hslToRgb(
             parse360(match[6]),
@@ -5995,7 +5995,7 @@ var require_normalize_colors = __commonJS({
         ) | parse1(match[5])) >>> // a
         0;
       }
-      if (match = matchers.hwb.exec(color2)) {
+      if (match = matchers.hwb.exec(color)) {
         return (hwbToRgb(
           parse360(match[1]),
           // h
@@ -6009,21 +6009,21 @@ var require_normalize_colors = __commonJS({
       return null;
     }
     __name(normalizeColor, "normalizeColor");
-    function hue2rgb(p, q, t2) {
-      if (t2 < 0) {
-        t2 += 1;
+    function hue2rgb(p, q, t) {
+      if (t < 0) {
+        t += 1;
       }
-      if (t2 > 1) {
-        t2 -= 1;
+      if (t > 1) {
+        t -= 1;
       }
-      if (t2 < 1 / 6) {
-        return p + (q - p) * 6 * t2;
+      if (t < 1 / 6) {
+        return p + (q - p) * 6 * t;
       }
-      if (t2 < 1 / 2) {
+      if (t < 1 / 2) {
         return q;
       }
-      if (t2 < 2 / 3) {
-        return p + (q - p) * (2 / 3 - t2) * 6;
+      if (t < 2 / 3) {
+        return p + (q - p) * (2 / 3 - t) * 6;
       }
       return p;
     }
@@ -6039,13 +6039,13 @@ var require_normalize_colors = __commonJS({
     __name(hslToRgb, "hslToRgb");
     function hwbToRgb(h, w, b) {
       if (w + b >= 1) {
-        const gray3 = Math.round(w * 255 / (w + b));
-        return gray3 << 24 | gray3 << 16 | gray3 << 8;
+        const gray = Math.round(w * 255 / (w + b));
+        return gray << 24 | gray << 16 | gray << 8;
       }
-      const red3 = hue2rgb(0, 1, h + 1 / 3) * (1 - w - b) + w;
-      const green3 = hue2rgb(0, 1, h) * (1 - w - b) + w;
-      const blue3 = hue2rgb(0, 1, h - 1 / 3) * (1 - w - b) + w;
-      return Math.round(red3 * 255) << 24 | Math.round(green3 * 255) << 16 | Math.round(blue3 * 255) << 8;
+      const red = hue2rgb(0, 1, h + 1 / 3) * (1 - w - b) + w;
+      const green = hue2rgb(0, 1, h) * (1 - w - b) + w;
+      const blue = hue2rgb(0, 1, h - 1 / 3) * (1 - w - b) + w;
+      return Math.round(red * 255) << 24 | Math.round(green * 255) << 16 | Math.round(blue * 255) << 8;
     }
     __name(hwbToRgb, "hwbToRgb");
     var NUMBER = "[-+]?\\d*\\.?\\d+";
@@ -6441,11 +6441,11 @@ var require_processColor = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _normalizeColors = _interopRequireDefault(require_normalize_colors());
-    var processColor = /* @__PURE__ */ __name((color2) => {
-      if (color2 === void 0 || color2 === null) {
-        return color2;
+    var processColor = /* @__PURE__ */ __name((color) => {
+      if (color === void 0 || color === null) {
+        return color;
       }
-      var int32Color = (0, _normalizeColors.default)(color2);
+      var int32Color = (0, _normalizeColors.default)(color);
       if (int32Color === void 0 || int32Color === null) {
         return void 0;
       }
@@ -6466,15 +6466,15 @@ var require_normalizeColor = __commonJS({
     exports2.default = void 0;
     var _isWebColor = _interopRequireDefault(require_isWebColor());
     var _processColor = _interopRequireDefault(require_processColor());
-    var normalizeColor = /* @__PURE__ */ __name(function normalizeColor2(color2, opacity) {
+    var normalizeColor = /* @__PURE__ */ __name(function normalizeColor2(color, opacity) {
       if (opacity === void 0) {
         opacity = 1;
       }
-      if (color2 == null) return;
-      if (typeof color2 === "string" && (0, _isWebColor.default)(color2)) {
-        return color2;
+      if (color == null) return;
+      if (typeof color === "string" && (0, _isWebColor.default)(color)) {
+        return color;
       }
-      var colorInt = (0, _processColor.default)(color2);
+      var colorInt = (0, _processColor.default)(color);
       if (colorInt != null) {
         var r = colorInt >> 16 & 255;
         var g = colorInt >> 8 & 255;
@@ -8482,22 +8482,22 @@ var require_preprocess = __commonJS({
       var offsetX = (0, _normalizeValueWithProperty.default)(width);
       var offsetY = (0, _normalizeValueWithProperty.default)(height);
       var blurRadius = (0, _normalizeValueWithProperty.default)(shadowRadius || 0);
-      var color2 = (0, _normalizeColor.default)(shadowColor || "black", shadowOpacity);
-      if (color2 != null && offsetX != null && offsetY != null && blurRadius != null) {
-        return offsetX + " " + offsetY + " " + blurRadius + " " + color2;
+      var color = (0, _normalizeColor.default)(shadowColor || "black", shadowOpacity);
+      if (color != null && offsetX != null && offsetY != null && blurRadius != null) {
+        return offsetX + " " + offsetY + " " + blurRadius + " " + color;
       }
     }, "createBoxShadowValue");
     exports2.createBoxShadowValue = createBoxShadowValue;
     var createTextShadowValue = /* @__PURE__ */ __name((style) => {
       var textShadowColor = style.textShadowColor, textShadowOffset = style.textShadowOffset, textShadowRadius = style.textShadowRadius;
       var _ref2 = textShadowOffset || defaultOffset, height = _ref2.height, width = _ref2.width;
-      var radius2 = textShadowRadius || 0;
+      var radius = textShadowRadius || 0;
       var offsetX = (0, _normalizeValueWithProperty.default)(width);
       var offsetY = (0, _normalizeValueWithProperty.default)(height);
-      var blurRadius = (0, _normalizeValueWithProperty.default)(radius2);
-      var color2 = (0, _normalizeValueWithProperty.default)(textShadowColor, "textShadowColor");
-      if (color2 && (height !== 0 || width !== 0 || radius2 !== 0) && offsetX != null && offsetY != null && blurRadius != null) {
-        return offsetX + " " + offsetY + " " + blurRadius + " " + color2;
+      var blurRadius = (0, _normalizeValueWithProperty.default)(radius);
+      var color = (0, _normalizeValueWithProperty.default)(textShadowColor, "textShadowColor");
+      if (color && (height !== 0 || width !== 0 || radius !== 0) && offsetX != null && offsetY != null && blurRadius != null) {
+        return offsetX + " " + offsetY + " " + blurRadius + " " + color;
       }
     }, "createTextShadowValue");
     exports2.createTextShadowValue = createTextShadowValue;
@@ -8750,13 +8750,13 @@ var require_parse = __commonJS({
     var plus = "+".charCodeAt(0);
     var isUnicodeRange = /^[a-f0-9?-]+$/i;
     module2.exports = function(input) {
-      var tokens2 = [];
+      var tokens = [];
       var value = input;
       var next, quote, prev, token, escape, escapePos, whitespacePos, parenthesesOpenPos;
       var pos = 0;
       var code = value.charCodeAt(pos);
       var max2 = value.length;
-      var stack = [{ nodes: tokens2 }];
+      var stack = [{ nodes: tokens }];
       var balanced = 0;
       var parent;
       var name = "";
@@ -8770,7 +8770,7 @@ var require_parse = __commonJS({
             code = value.charCodeAt(next);
           } while (code <= 32);
           token = value.slice(pos, next);
-          prev = tokens2[tokens2.length - 1];
+          prev = tokens[tokens.length - 1];
           if (code === closeParentheses && balanced) {
             after = token;
           } else if (prev && prev.type === "div") {
@@ -8779,7 +8779,7 @@ var require_parse = __commonJS({
           } else if (code === comma || code === colon || code === slash && value.charCodeAt(next + 1) !== star && (!parent || parent && parent.type === "function" && parent.value !== "calc")) {
             before = token;
           } else {
-            tokens2.push({
+            tokens.push({
               type: "space",
               sourceIndex: pos,
               sourceEndIndex: next,
@@ -8812,7 +8812,7 @@ var require_parse = __commonJS({
           } while (escape);
           token.value = value.slice(pos + 1, next);
           token.sourceEndIndex = token.unclosed ? next : next + 1;
-          tokens2.push(token);
+          tokens.push(token);
           pos = next + 1;
           code = value.charCodeAt(pos);
         } else if (code === slash && value.charCodeAt(pos + 1) === star) {
@@ -8828,12 +8828,12 @@ var require_parse = __commonJS({
             token.sourceEndIndex = next;
           }
           token.value = value.slice(pos + 2, next);
-          tokens2.push(token);
+          tokens.push(token);
           pos = next + 2;
           code = value.charCodeAt(pos);
         } else if ((code === slash || code === star) && parent && parent.type === "function" && parent.value === "calc") {
           token = value[pos];
-          tokens2.push({
+          tokens.push({
             type: "word",
             sourceIndex: pos - before.length,
             sourceEndIndex: pos + token.length,
@@ -8843,7 +8843,7 @@ var require_parse = __commonJS({
           code = value.charCodeAt(pos);
         } else if (code === slash || code === comma || code === colon) {
           token = value[pos];
-          tokens2.push({
+          tokens.push({
             type: "div",
             sourceIndex: pos - before.length,
             sourceEndIndex: pos + token.length,
@@ -8922,14 +8922,14 @@ var require_parse = __commonJS({
             pos = next + 1;
             token.sourceEndIndex = token.unclosed ? next : pos;
             code = value.charCodeAt(pos);
-            tokens2.push(token);
+            tokens.push(token);
           } else {
             balanced += 1;
             token.after = "";
             token.sourceEndIndex = pos + 1;
-            tokens2.push(token);
+            tokens.push(token);
             stack.push(token);
-            tokens2 = token.nodes = [];
+            tokens = token.nodes = [];
             parent = token;
           }
           name = "";
@@ -8943,7 +8943,7 @@ var require_parse = __commonJS({
           stack[stack.length - 1].sourceEndIndex = pos;
           stack.pop();
           parent = stack[balanced];
-          tokens2 = parent.nodes;
+          tokens = parent.nodes;
         } else {
           next = pos;
           do {
@@ -8957,14 +8957,14 @@ var require_parse = __commonJS({
           if (openParentheses === code) {
             name = token;
           } else if ((uLower === token.charCodeAt(0) || uUpper === token.charCodeAt(0)) && plus === token.charCodeAt(1) && isUnicodeRange.test(token.slice(2))) {
-            tokens2.push({
+            tokens.push({
               type: "unicode-range",
               sourceIndex: pos,
               sourceEndIndex: next,
               value: token
             });
           } else {
-            tokens2.push({
+            tokens.push({
               type: "word",
               sourceIndex: pos,
               sourceEndIndex: next,
@@ -9719,9 +9719,9 @@ var require_interopRequireWildcard = __commonJS({
     var _typeof = require_typeof()["default"];
     function _getRequireWildcardCache(e) {
       if ("function" != typeof WeakMap) return null;
-      var r = /* @__PURE__ */ new WeakMap(), t2 = /* @__PURE__ */ new WeakMap();
+      var r = /* @__PURE__ */ new WeakMap(), t = /* @__PURE__ */ new WeakMap();
       return (_getRequireWildcardCache = /* @__PURE__ */ __name(function _getRequireWildcardCache2(e2) {
-        return e2 ? t2 : r;
+        return e2 ? t : r;
       }, "_getRequireWildcardCache"))(e);
     }
     __name(_getRequireWildcardCache, "_getRequireWildcardCache");
@@ -9730,8 +9730,8 @@ var require_interopRequireWildcard = __commonJS({
       if (null === e || "object" != _typeof(e) && "function" != typeof e) return {
         "default": e
       };
-      var t2 = _getRequireWildcardCache(r);
-      if (t2 && t2.has(e)) return t2.get(e);
+      var t = _getRequireWildcardCache(r);
+      if (t && t.has(e)) return t.get(e);
       var n = {
         __proto__: null
       }, a = Object.defineProperty && Object.getOwnPropertyDescriptor;
@@ -9739,7 +9739,7 @@ var require_interopRequireWildcard = __commonJS({
         var i = a ? Object.getOwnPropertyDescriptor(e, u) : null;
         i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u];
       }
-      return n["default"] = e, t2 && t2.set(e, n), n;
+      return n["default"] = e, t && t.set(e, n), n;
     }
     __name(_interopRequireWildcard, "_interopRequireWildcard");
     module2.exports = _interopRequireWildcard, module2.exports.__esModule = true, module2.exports["default"] = module2.exports;
@@ -10229,7 +10229,7 @@ var require_UIManager = __commonJS({
           }
         }
       },
-      configureNextLayoutAnimation(config, onAnimationDidEnd) {
+      configureNextLayoutAnimation(config2, onAnimationDidEnd) {
         onAnimationDidEnd();
       },
       // mocks
@@ -10402,8 +10402,8 @@ var require_extends = __commonJS({
     function _extends2() {
       return module2.exports = _extends2 = Object.assign ? Object.assign.bind() : function(n) {
         for (var e = 1; e < arguments.length; e++) {
-          var t2 = arguments[e];
-          for (var r in t2) ({}).hasOwnProperty.call(t2, r) && (n[r] = t2[r]);
+          var t = arguments[e];
+          for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
         }
         return n;
       }, module2.exports.__esModule = true, module2.exports["default"] = module2.exports, _extends2.apply(null, arguments);
@@ -10705,7 +10705,7 @@ var require_mergeRefs = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = mergeRefs;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     function mergeRefs() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
@@ -10740,13 +10740,13 @@ var require_useMergeRefs = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = useMergeRefs;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _mergeRefs = _interopRequireDefault(require_mergeRefs());
     function useMergeRefs() {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
-      return React81.useMemo(
+      return React82.useMemo(
         () => (0, _mergeRefs.default)(...args),
         // eslint-disable-next-line
         [...args]
@@ -10764,10 +10764,10 @@ var require_useStable = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = useStable;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var UNINITIALIZED = typeof Symbol === "function" && typeof Symbol() === "symbol" ? Symbol() : Object.freeze({});
     function useStable(getInitialValue) {
-      var ref = React81.useRef(UNINITIALIZED);
+      var ref = React82.useRef(UNINITIALIZED);
       if (ref.current === UNINITIALIZED) {
         ref.current = getInitialValue();
       }
@@ -11372,8 +11372,8 @@ var require_ResponderSystem = __commonJS({
     }
     __name(changeCurrentResponder, "changeCurrentResponder");
     function getResponderConfig(id) {
-      var config = responderListenersMap.get(id);
-      return config != null ? config : emptyObject;
+      var config2 = responderListenersMap.get(id);
+      return config2 != null ? config2 : emptyObject;
     }
     __name(getResponderConfig, "getResponderConfig");
     function eventListener(domEvent) {
@@ -11515,8 +11515,8 @@ var require_ResponderSystem = __commonJS({
         var shouldSetCallbackBubbleName = shouldSetCallbacks[1];
         var bubbles = shouldSetCallbacks[2].bubbles;
         var check = /* @__PURE__ */ __name(function check2(id2, node2, callbackName) {
-          var config = getResponderConfig(id2);
-          var shouldSetCallback = config[callbackName];
+          var config2 = getResponderConfig(id2);
+          var shouldSetCallback = config2[callbackName];
           if (shouldSetCallback != null) {
             responderEvent.currentTarget = node2;
             if (shouldSetCallback(responderEvent) === true) {
@@ -11639,9 +11639,9 @@ var require_ResponderSystem = __commonJS({
       }
     }
     __name(attachListeners, "attachListeners");
-    function addNode(id, node, config) {
+    function addNode(id, node, config2) {
       (0, _utils.setResponderId)(node, id);
-      responderListenersMap.set(id, config);
+      responderListenersMap.set(id, config2);
     }
     __name(addNode, "addNode");
     function removeNode(id) {
@@ -11682,46 +11682,46 @@ var require_useResponderEvents = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = useResponderEvents;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var ResponderSystem = _interopRequireWildcard(require_ResponderSystem());
     var emptyObject = {};
     var idCounter = 0;
     function useStable(getInitialValue) {
-      var ref = React81.useRef(null);
+      var ref = React82.useRef(null);
       if (ref.current == null) {
         ref.current = getInitialValue();
       }
       return ref.current;
     }
     __name(useStable, "useStable");
-    function useResponderEvents(hostRef, config) {
-      if (config === void 0) {
-        config = emptyObject;
+    function useResponderEvents(hostRef, config2) {
+      if (config2 === void 0) {
+        config2 = emptyObject;
       }
       var id = useStable(() => idCounter++);
-      var isAttachedRef = React81.useRef(false);
-      React81.useEffect(() => {
+      var isAttachedRef = React82.useRef(false);
+      React82.useEffect(() => {
         ResponderSystem.attachListeners();
         return () => {
           ResponderSystem.removeNode(id);
         };
       }, [id]);
-      React81.useEffect(() => {
-        var _config = config, onMoveShouldSetResponder = _config.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = _config.onMoveShouldSetResponderCapture, onScrollShouldSetResponder = _config.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = _config.onScrollShouldSetResponderCapture, onSelectionChangeShouldSetResponder = _config.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = _config.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = _config.onStartShouldSetResponder, onStartShouldSetResponderCapture = _config.onStartShouldSetResponderCapture;
+      React82.useEffect(() => {
+        var _config = config2, onMoveShouldSetResponder = _config.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = _config.onMoveShouldSetResponderCapture, onScrollShouldSetResponder = _config.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = _config.onScrollShouldSetResponderCapture, onSelectionChangeShouldSetResponder = _config.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = _config.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = _config.onStartShouldSetResponder, onStartShouldSetResponderCapture = _config.onStartShouldSetResponderCapture;
         var requiresResponderSystem = onMoveShouldSetResponder != null || onMoveShouldSetResponderCapture != null || onScrollShouldSetResponder != null || onScrollShouldSetResponderCapture != null || onSelectionChangeShouldSetResponder != null || onSelectionChangeShouldSetResponderCapture != null || onStartShouldSetResponder != null || onStartShouldSetResponderCapture != null;
         var node = hostRef.current;
         if (requiresResponderSystem) {
-          ResponderSystem.addNode(id, node, config);
+          ResponderSystem.addNode(id, node, config2);
           isAttachedRef.current = true;
         } else if (isAttachedRef.current) {
           ResponderSystem.removeNode(id);
           isAttachedRef.current = false;
         }
-      }, [config, hostRef, id]);
-      React81.useDebugValue({
+      }, [config2, hostRef, id]);
+      React82.useDebugValue({
         isResponder: hostRef.current === ResponderSystem.getResponderNode()
       });
-      React81.useDebugValue(config);
+      React82.useDebugValue(config2);
     }
     __name(useResponderEvents, "useResponderEvents");
     module2.exports = exports2.default;
@@ -11752,7 +11752,7 @@ var require_View = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var forwardedProps = _interopRequireWildcard(require_forwardedProps());
     var _pick = _interopRequireDefault(require_pick());
@@ -11772,17 +11772,17 @@ var require_View = __commonJS({
       pointerEvents: true
     });
     var pickProps = /* @__PURE__ */ __name((props) => (0, _pick.default)(props, forwardPropsList), "pickProps");
-    var View10 = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+    var View10 = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
       var hrefAttrs = props.hrefAttrs, onLayout = props.onLayout, onMoveShouldSetResponder = props.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = props.onMoveShouldSetResponderCapture, onResponderEnd = props.onResponderEnd, onResponderGrant = props.onResponderGrant, onResponderMove = props.onResponderMove, onResponderReject = props.onResponderReject, onResponderRelease = props.onResponderRelease, onResponderStart = props.onResponderStart, onResponderTerminate = props.onResponderTerminate, onResponderTerminationRequest = props.onResponderTerminationRequest, onScrollShouldSetResponder = props.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = props.onScrollShouldSetResponderCapture, onSelectionChangeShouldSetResponder = props.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = props.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = props.onStartShouldSetResponder, onStartShouldSetResponderCapture = props.onStartShouldSetResponderCapture, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       if (process.env.NODE_ENV !== "production") {
-        React81.Children.toArray(props.children).forEach((item) => {
+        React82.Children.toArray(props.children).forEach((item) => {
           if (typeof item === "string") {
             console.error("Unexpected text node: " + item + ". A text node cannot be a child of a <View>.");
           }
         });
       }
-      var hasTextAncestor = React81.useContext(_TextAncestorContext.default);
-      var hostRef = React81.useRef(null);
+      var hasTextAncestor = React82.useContext(_TextAncestorContext.default);
+      var hostRef = React82.useRef(null);
       var _useLocaleContext = (0, _useLocale.useLocaleContext)(), contextDirection = _useLocaleContext.direction;
       (0, _useElementLayout.default)(hostRef, onLayout);
       (0, _useResponderEvents.default)(hostRef, {
@@ -11973,8 +11973,8 @@ var require_unsupportedIterableToArray = __commonJS({
     function _unsupportedIterableToArray(r, a) {
       if (r) {
         if ("string" == typeof r) return arrayLikeToArray(r, a);
-        var t2 = {}.toString.call(r).slice(8, -1);
-        return "Object" === t2 && r.constructor && (t2 = r.constructor.name), "Map" === t2 || "Set" === t2 ? Array.from(r) : "Arguments" === t2 || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t2) ? arrayLikeToArray(r, a) : void 0;
+        var t = {}.toString.call(r).slice(8, -1);
+        return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? arrayLikeToArray(r, a) : void 0;
       }
     }
     __name(_unsupportedIterableToArray, "_unsupportedIterableToArray");
@@ -11987,10 +11987,10 @@ var require_createForOfIteratorHelperLoose = __commonJS({
   "node_modules/@babel/runtime/helpers/createForOfIteratorHelperLoose.js"(exports2, module2) {
     var unsupportedIterableToArray = require_unsupportedIterableToArray();
     function _createForOfIteratorHelperLoose(r, e) {
-      var t2 = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
-      if (t2) return (t2 = t2.call(r)).next.bind(t2);
-      if (Array.isArray(r) || (t2 = unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) {
-        t2 && (r = t2);
+      var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+      if (t) return (t = t.call(r)).next.bind(t);
+      if (Array.isArray(r) || (t = unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) {
+        t && (r = t);
         var o = 0;
         return function() {
           return o >= r.length ? {
@@ -12020,7 +12020,7 @@ var require_RefreshControl = __commonJS({
     var _react = _interopRequireDefault(require("react"));
     var _excluded = ["colors", "enabled", "onRefresh", "progressBackgroundColor", "progressViewOffset", "refreshing", "size", "tintColor", "title", "titleColor"];
     function RefreshControl(props) {
-      var colors = props.colors, enabled = props.enabled, onRefresh = props.onRefresh, progressBackgroundColor = props.progressBackgroundColor, progressViewOffset = props.progressViewOffset, refreshing = props.refreshing, size6 = props.size, tintColor = props.tintColor, title = props.title, titleColor = props.titleColor, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
+      var colors = props.colors, enabled = props.enabled, onRefresh = props.onRefresh, progressBackgroundColor = props.progressBackgroundColor, progressViewOffset = props.progressViewOffset, refreshing = props.refreshing, size5 = props.size, tintColor = props.tintColor, title = props.title, titleColor = props.titleColor, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       return /* @__PURE__ */ _react.default.createElement(_View.default, rest);
     }
     __name(RefreshControl, "RefreshControl");
@@ -12225,7 +12225,7 @@ var require_ScrollViewBase = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
@@ -12267,14 +12267,14 @@ var require_ScrollViewBase = __commonJS({
       return eventThrottle > 0 && timeSinceLastTick >= eventThrottle;
     }
     __name(shouldEmitScrollEvent, "shouldEmitScrollEvent");
-    var ScrollViewBase = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+    var ScrollViewBase = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
       var onScroll = props.onScroll, onTouchMove = props.onTouchMove, onWheel = props.onWheel, _props$scrollEnabled = props.scrollEnabled, scrollEnabled = _props$scrollEnabled === void 0 ? true : _props$scrollEnabled, _props$scrollEventThr = props.scrollEventThrottle, scrollEventThrottle = _props$scrollEventThr === void 0 ? 0 : _props$scrollEventThr, showsHorizontalScrollIndicator = props.showsHorizontalScrollIndicator, showsVerticalScrollIndicator = props.showsVerticalScrollIndicator, style = props.style, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var scrollState = React81.useRef({
+      var scrollState = React82.useRef({
         isScrolling: false,
         scrollLastTick: 0
       });
-      var scrollTimeout = React81.useRef(null);
-      var scrollRef = React81.useRef(null);
+      var scrollTimeout = React82.useRef(null);
+      var scrollRef = React82.useRef(null);
       function createPreventableScrollHandler(handler) {
         return (e) => {
           if (scrollEnabled) {
@@ -12325,7 +12325,7 @@ var require_ScrollViewBase = __commonJS({
       }
       __name(handleScrollEnd, "handleScrollEnd");
       var hideScrollbar = showsHorizontalScrollIndicator === false || showsVerticalScrollIndicator === false;
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, rest, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, rest, {
         onScroll: handleScroll,
         onTouchMove: createPreventableScrollHandler(onTouchMove),
         onWheel: createPreventableScrollHandler(onWheel),
@@ -13766,8 +13766,8 @@ var require_StateSafePureComponent = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _invariant = _interopRequireDefault(require_invariant());
-    var React81 = _interopRequireWildcard(require("react"));
-    var _StateSafePureComponent = class _StateSafePureComponent extends React81.PureComponent {
+    var React82 = _interopRequireWildcard(require("react"));
+    var _StateSafePureComponent = class _StateSafePureComponent extends React82.PureComponent {
       constructor(props) {
         super(props);
         this._inAsyncStateUpdate = false;
@@ -13832,9 +13832,9 @@ var require_ViewabilityHelper = __commonJS({
     var _createForOfIteratorHelperLoose2 = _interopRequireDefault(require_createForOfIteratorHelperLoose());
     var _invariant = _interopRequireDefault(require_invariant());
     var _ViewabilityHelper = class _ViewabilityHelper {
-      constructor(config) {
-        if (config === void 0) {
-          config = {
+      constructor(config2) {
+        if (config2 === void 0) {
+          config2 = {
             viewAreaCoveragePercentThreshold: 0
           };
         }
@@ -13842,7 +13842,7 @@ var require_ViewabilityHelper = __commonJS({
         this._timers = /* @__PURE__ */ new Set();
         this._viewableIndices = [];
         this._viewableItems = /* @__PURE__ */ new Map();
-        this._config = config;
+        this._config = config2;
       }
       /**
        * Cleanup, e.g. on unmount. Clears any pending timers.
@@ -14003,15 +14003,15 @@ var require_VirtualizedListContext = __commonJS({
     exports2.VirtualizedListContextResetter = VirtualizedListContextResetter;
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _react = _interopRequireWildcard(require("react"));
-    var React81 = _react;
+    var React82 = _react;
     var __DEV__ = process.env.NODE_ENV !== "production";
-    var VirtualizedListContext = exports2.VirtualizedListContext = /* @__PURE__ */ React81.createContext(null);
+    var VirtualizedListContext = exports2.VirtualizedListContext = /* @__PURE__ */ React82.createContext(null);
     if (__DEV__) {
       VirtualizedListContext.displayName = "VirtualizedListContext";
     }
     function VirtualizedListContextResetter(_ref) {
       var children = _ref.children;
-      return /* @__PURE__ */ React81.createElement(VirtualizedListContext.Provider, {
+      return /* @__PURE__ */ React82.createElement(VirtualizedListContext.Provider, {
         value: null
       }, children);
     }
@@ -14026,7 +14026,7 @@ var require_VirtualizedListContext = __commonJS({
         registerAsNestedChild: value.registerAsNestedChild,
         unregisterAsNestedChild: value.unregisterAsNestedChild
       }), [value.getScrollMetrics, value.horizontal, value.getOutermostParentListRef, value.registerAsNestedChild, value.unregisterAsNestedChild]);
-      return /* @__PURE__ */ React81.createElement(VirtualizedListContext.Provider, {
+      return /* @__PURE__ */ React82.createElement(VirtualizedListContext.Provider, {
         value: context
       }, children);
     }
@@ -14037,7 +14037,7 @@ var require_VirtualizedListContext = __commonJS({
       var context = (0, _react.useMemo)(() => currContext == null ? null : (0, _objectSpread2.default)((0, _objectSpread2.default)({}, currContext), {}, {
         cellKey
       }), [currContext, cellKey]);
-      return /* @__PURE__ */ React81.createElement(VirtualizedListContext.Provider, {
+      return /* @__PURE__ */ React82.createElement(VirtualizedListContext.Provider, {
         value: context
       }, children);
     }
@@ -14059,8 +14059,8 @@ var require_VirtualizedListCellRenderer = __commonJS({
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _VirtualizedListContext = require_VirtualizedListContext();
     var _invariant = _interopRequireDefault(require_invariant());
-    var React81 = _interopRequireWildcard(require("react"));
-    var _CellRenderer = class _CellRenderer extends React81.Component {
+    var React82 = _interopRequireWildcard(require("react"));
+    var _CellRenderer = class _CellRenderer extends React82.Component {
       constructor() {
         super(...arguments);
         this.state = {
@@ -14114,7 +14114,7 @@ var require_VirtualizedListCellRenderer = __commonJS({
           console.warn("VirtualizedList: Both ListItemComponent and renderItem props are present. ListItemComponent will take precedence over renderItem.");
         }
         if (ListItemComponent2) {
-          return /* @__PURE__ */ React81.createElement(ListItemComponent2, {
+          return /* @__PURE__ */ React82.createElement(ListItemComponent2, {
             item,
             index: index8,
             separators: this._separators
@@ -14132,20 +14132,20 @@ var require_VirtualizedListCellRenderer = __commonJS({
       render() {
         var _this$props4 = this.props, CellRendererComponent = _this$props4.CellRendererComponent, ItemSeparatorComponent = _this$props4.ItemSeparatorComponent, ListItemComponent2 = _this$props4.ListItemComponent, cellKey = _this$props4.cellKey, horizontal = _this$props4.horizontal, item = _this$props4.item, index8 = _this$props4.index, inversionStyle = _this$props4.inversionStyle, onCellFocusCapture = _this$props4.onCellFocusCapture, onCellLayout = _this$props4.onCellLayout, renderItem = _this$props4.renderItem;
         var element = this._renderElement(renderItem, ListItemComponent2, item, index8);
-        var itemSeparator = /* @__PURE__ */ React81.isValidElement(ItemSeparatorComponent) ? (
+        var itemSeparator = /* @__PURE__ */ React82.isValidElement(ItemSeparatorComponent) ? (
           // $FlowFixMe[incompatible-type]
           ItemSeparatorComponent
         ) : (
           // $FlowFixMe[incompatible-type]
-          ItemSeparatorComponent && /* @__PURE__ */ React81.createElement(ItemSeparatorComponent, this.state.separatorProps)
+          ItemSeparatorComponent && /* @__PURE__ */ React82.createElement(ItemSeparatorComponent, this.state.separatorProps)
         );
         var cellStyle = inversionStyle ? horizontal ? [styles.rowReverse, inversionStyle] : [styles.columnReverse, inversionStyle] : horizontal ? [styles.row, inversionStyle] : inversionStyle;
-        var result = !CellRendererComponent ? /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({
+        var result = !CellRendererComponent ? /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({
           style: cellStyle,
           onFocusCapture: onCellFocusCapture
         }, onCellLayout && {
           onLayout: this._onLayout
-        }), element, itemSeparator) : /* @__PURE__ */ React81.createElement(CellRendererComponent, (0, _extends2.default)({
+        }), element, itemSeparator) : /* @__PURE__ */ React82.createElement(CellRendererComponent, (0, _extends2.default)({
           cellKey,
           index: index8,
           item,
@@ -14154,7 +14154,7 @@ var require_VirtualizedListCellRenderer = __commonJS({
         }, onCellLayout && {
           onLayout: this._onLayout
         }), element, itemSeparator);
-        return /* @__PURE__ */ React81.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
+        return /* @__PURE__ */ React82.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
           cellKey: this.props.cellKey
         }, result);
       }
@@ -14353,7 +14353,7 @@ var require_VirtualizedList = __commonJS({
     var _VirtualizeUtils = require_VirtualizeUtils();
     var _invariant = _interopRequireDefault(require_invariant());
     var _nullthrows = _interopRequireDefault(require_nullthrows());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var __DEV__ = process.env.NODE_ENV !== "production";
     var ON_EDGE_REACHED_EPSILON = 1e-3;
     var _usedIndexForKey = false;
@@ -14503,8 +14503,8 @@ var require_VirtualizedList = __commonJS({
         this._nestedChildLists.forEach((childList) => {
           childList.recordInteraction();
         });
-        this._viewabilityTuples.forEach((t2) => {
-          t2.viewabilityHelper.recordInteraction();
+        this._viewabilityTuples.forEach((t) => {
+          t.viewabilityHelper.recordInteraction();
         });
         this._updateViewableItems(this.props, this.state.cellsAroundViewport);
       }
@@ -14615,15 +14615,15 @@ var require_VirtualizedList = __commonJS({
         this._defaultRenderScrollComponent = (props) => {
           var onRefresh = props.onRefresh;
           if (this._isNestedWithSameOrientation()) {
-            return /* @__PURE__ */ React81.createElement(_View.default, props);
+            return /* @__PURE__ */ React82.createElement(_View.default, props);
           } else if (onRefresh) {
             var _props$refreshing;
             (0, _invariant.default)(typeof props.refreshing === "boolean", "`refreshing` prop must be set as a boolean in order to use `onRefresh`, but got `" + JSON.stringify((_props$refreshing = props.refreshing) !== null && _props$refreshing !== void 0 ? _props$refreshing : "undefined") + "`");
             return (
               // $FlowFixMe[prop-missing] Invalid prop usage
               // $FlowFixMe[incompatible-use]
-              /* @__PURE__ */ React81.createElement(_ScrollView.default, (0, _extends2.default)({}, props, {
-                refreshControl: props.refreshControl == null ? /* @__PURE__ */ React81.createElement(
+              /* @__PURE__ */ React82.createElement(_ScrollView.default, (0, _extends2.default)({}, props, {
+                refreshControl: props.refreshControl == null ? /* @__PURE__ */ React82.createElement(
                   _RefreshControl.default,
                   {
                     refreshing: props.refreshing,
@@ -14634,7 +14634,7 @@ var require_VirtualizedList = __commonJS({
               }))
             );
           } else {
-            return /* @__PURE__ */ React81.createElement(_ScrollView.default, props);
+            return /* @__PURE__ */ React82.createElement(_ScrollView.default, props);
           }
         };
         this._onCellLayout = (e, cellKey, index8) => {
@@ -15118,7 +15118,7 @@ var require_VirtualizedList = __commonJS({
             stickyHeaderIndices.push(cells.length);
           }
           var shouldListenForLayout = getItemLayout == null || debug || _this._fillRateHelper.enabled();
-          cells.push(/* @__PURE__ */ React81.createElement(_VirtualizedListCellRenderer.default, (0, _extends2.default)({
+          cells.push(/* @__PURE__ */ React82.createElement(_VirtualizedListCellRenderer.default, (0, _extends2.default)({
             CellRendererComponent,
             ItemSeparatorComponent: ii < end ? ItemSeparatorComponent : void 0,
             ListItemComponent: ListItemComponent2,
@@ -15183,15 +15183,15 @@ var require_VirtualizedList = __commonJS({
           if (stickyIndicesFromProps.has(0)) {
             stickyHeaderIndices.push(0);
           }
-          var _element = /* @__PURE__ */ React81.isValidElement(ListHeaderComponent) ? ListHeaderComponent : (
+          var _element = /* @__PURE__ */ React82.isValidElement(ListHeaderComponent) ? ListHeaderComponent : (
             // $FlowFixMe[not-a-component]
             // $FlowFixMe[incompatible-type-arg]
-            /* @__PURE__ */ React81.createElement(ListHeaderComponent, null)
+            /* @__PURE__ */ React82.createElement(ListHeaderComponent, null)
           );
-          cells.push(/* @__PURE__ */ React81.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
+          cells.push(/* @__PURE__ */ React82.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
             cellKey: this._getCellKey() + "-header",
             key: "$header"
-          }, /* @__PURE__ */ React81.createElement(
+          }, /* @__PURE__ */ React82.createElement(
             _View.default,
             {
               onLayout: this._onLayoutHeader,
@@ -15203,15 +15203,15 @@ var require_VirtualizedList = __commonJS({
         }
         var itemCount = this.props.getItemCount(data);
         if (itemCount === 0 && ListEmptyComponent) {
-          var _element2 = /* @__PURE__ */ React81.isValidElement(ListEmptyComponent) ? ListEmptyComponent : (
+          var _element2 = /* @__PURE__ */ React82.isValidElement(ListEmptyComponent) ? ListEmptyComponent : (
             // $FlowFixMe[not-a-component]
             // $FlowFixMe[incompatible-type-arg]
-            /* @__PURE__ */ React81.createElement(ListEmptyComponent, null)
+            /* @__PURE__ */ React82.createElement(ListEmptyComponent, null)
           );
-          cells.push(/* @__PURE__ */ React81.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
+          cells.push(/* @__PURE__ */ React82.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
             cellKey: this._getCellKey() + "-empty",
             key: "$empty"
-          }, /* @__PURE__ */ React81.cloneElement(_element2, {
+          }, /* @__PURE__ */ React82.cloneElement(_element2, {
             onLayout: /* @__PURE__ */ __name((event) => {
               this._onLayoutEmpty(event);
               if (_element2.props.onLayout) {
@@ -15239,7 +15239,7 @@ var require_VirtualizedList = __commonJS({
               var firstMetrics = this.__getFrameMetricsApprox(section.first, this.props);
               var lastMetrics = this.__getFrameMetricsApprox(last, this.props);
               var spacerSize = lastMetrics.offset + lastMetrics.length - firstMetrics.offset;
-              cells.push(/* @__PURE__ */ React81.createElement(_View.default, {
+              cells.push(/* @__PURE__ */ React82.createElement(_View.default, {
                 key: "$spacer-" + section.first,
                 style: {
                   [spacerKey]: spacerSize
@@ -15255,15 +15255,15 @@ var require_VirtualizedList = __commonJS({
           }
         }
         if (ListFooterComponent) {
-          var _element3 = /* @__PURE__ */ React81.isValidElement(ListFooterComponent) ? ListFooterComponent : (
+          var _element3 = /* @__PURE__ */ React82.isValidElement(ListFooterComponent) ? ListFooterComponent : (
             // $FlowFixMe[not-a-component]
             // $FlowFixMe[incompatible-type-arg]
-            /* @__PURE__ */ React81.createElement(ListFooterComponent, null)
+            /* @__PURE__ */ React82.createElement(ListFooterComponent, null)
           );
-          cells.push(/* @__PURE__ */ React81.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
+          cells.push(/* @__PURE__ */ React82.createElement(_VirtualizedListContext.VirtualizedListCellContextProvider, {
             cellKey: this._getFooterCellKey(),
             key: "$footer"
-          }, /* @__PURE__ */ React81.createElement(
+          }, /* @__PURE__ */ React82.createElement(
             _View.default,
             {
               onLayout: this._onLayoutFooter,
@@ -15288,7 +15288,7 @@ var require_VirtualizedList = __commonJS({
           style: inversionStyle ? [inversionStyle, this.props.style] : this.props.style
         });
         this._hasMore = this.state.cellsAroundViewport.last < itemCount - 1;
-        var innerRet = /* @__PURE__ */ React81.createElement(_VirtualizedListContext.VirtualizedListContextProvider, {
+        var innerRet = /* @__PURE__ */ React82.createElement(_VirtualizedListContext.VirtualizedListContextProvider, {
           value: {
             cellKey: null,
             getScrollMetrics: this._getScrollMetrics,
@@ -15297,12 +15297,12 @@ var require_VirtualizedList = __commonJS({
             registerAsNestedChild: this._registerAsNestedChild,
             unregisterAsNestedChild: this._unregisterAsNestedChild
           }
-        }, /* @__PURE__ */ React81.cloneElement((this.props.renderScrollComponent || this._defaultRenderScrollComponent)(scrollProps), {
+        }, /* @__PURE__ */ React82.cloneElement((this.props.renderScrollComponent || this._defaultRenderScrollComponent)(scrollProps), {
           ref: this._captureScrollRef
         }, cells));
         var ret = innerRet;
         if (this.props.debug) {
-          return /* @__PURE__ */ React81.createElement(_View.default, {
+          return /* @__PURE__ */ React82.createElement(_View.default, {
             style: styles.debug
           }, ret, this._renderDebugOverlay());
         } else {
@@ -15390,20 +15390,20 @@ var require_VirtualizedList = __commonJS({
         var windowLen = frameLast.offset + frameLast.length - windowTop;
         var visTop = this._scrollMetrics.offset;
         var visLen = this._scrollMetrics.visibleLength;
-        return /* @__PURE__ */ React81.createElement(_View.default, {
+        return /* @__PURE__ */ React82.createElement(_View.default, {
           style: [styles.debugOverlayBase, styles.debugOverlay]
-        }, framesInLayout.map((f, ii2) => /* @__PURE__ */ React81.createElement(_View.default, {
+        }, framesInLayout.map((f, ii2) => /* @__PURE__ */ React82.createElement(_View.default, {
           key: "f" + ii2,
           style: [styles.debugOverlayBase, styles.debugOverlayFrame, {
             top: f.offset * normalize,
             height: f.length * normalize
           }]
-        })), /* @__PURE__ */ React81.createElement(_View.default, {
+        })), /* @__PURE__ */ React82.createElement(_View.default, {
           style: [styles.debugOverlayBase, styles.debugOverlayFrameLast, {
             top: windowTop * normalize,
             height: windowLen * normalize
           }]
-        }), /* @__PURE__ */ React81.createElement(_View.default, {
+        }), /* @__PURE__ */ React82.createElement(_View.default, {
           style: [styles.debugOverlayBase, styles.debugOverlayFrameVis, {
             top: visTop * normalize,
             height: visLen * normalize
@@ -15609,7 +15609,7 @@ var require_FlatList = __commonJS({
     var _deepDiffer = _interopRequireDefault(require_deepDiffer());
     var _Platform = _interopRequireDefault(require_Platform());
     var _invariant = _interopRequireDefault(require_invariant());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _VirtualizedList = _interopRequireDefault(require_VirtualizedList());
     var _VirtualizeUtils = require_VirtualizeUtils();
     var _memoizeOne = _interopRequireDefault(require_memoize_one_cjs());
@@ -15626,7 +15626,7 @@ var require_FlatList = __commonJS({
       return typeof Object(data).length === "number";
     }
     __name(isArrayLike, "isArrayLike");
-    var _FlatList = class _FlatList extends React81.PureComponent {
+    var _FlatList = class _FlatList extends React82.PureComponent {
       /**
        * Scrolls to the end of the content. May be janky without `getItemLayout` prop.
        */
@@ -15754,7 +15754,7 @@ var require_FlatList = __commonJS({
           var cols = numColumnsOrDefault(numColumns);
           var render = /* @__PURE__ */ __name((props) => {
             if (ListItemComponent2) {
-              return /* @__PURE__ */ React81.createElement(ListItemComponent2, props);
+              return /* @__PURE__ */ React82.createElement(ListItemComponent2, props);
             } else if (renderItem) {
               return renderItem(props);
             } else {
@@ -15765,7 +15765,7 @@ var require_FlatList = __commonJS({
             if (cols > 1) {
               var _item2 = info.item, _index = info.index;
               (0, _invariant.default)(Array.isArray(_item2), "Expected array of items with numColumns > 1");
-              return /* @__PURE__ */ React81.createElement(_View.default, {
+              return /* @__PURE__ */ React82.createElement(_View.default, {
                 style: [styles.row, columnWrapperStyle]
               }, _item2.map((it, kk) => {
                 var element = render({
@@ -15774,7 +15774,7 @@ var require_FlatList = __commonJS({
                   index: _index * cols + kk,
                   separators: info.separators
                 });
-                return element != null ? /* @__PURE__ */ React81.createElement(React81.Fragment, {
+                return element != null ? /* @__PURE__ */ React82.createElement(React82.Fragment, {
                   key: kk
                 }, element) : null;
               }));
@@ -15864,7 +15864,7 @@ var require_FlatList = __commonJS({
         var renderer = strictMode ? this._memoizedRenderer : this._renderer;
         return (
           // $FlowFixMe[incompatible-exact] - `restProps` (`Props`) is inexact.
-          /* @__PURE__ */ React81.createElement(_VirtualizedList.default, (0, _extends2.default)({}, restProps, {
+          /* @__PURE__ */ React82.createElement(_VirtualizedList.default, (0, _extends2.default)({}, restProps, {
             getItem: this._getItem,
             getItemCount: this._getItemCount,
             keyExtractor: this._keyExtractor,
@@ -16151,7 +16151,7 @@ var require_NativeAnimatedHelper = __commonJS({
       }, {});
     }() : NativeAnimatedModule;
     var API = exports2.API = {
-      getValue: /* @__PURE__ */ __name(function getValue(tag, saveValueCallback) {
+      getValue: /* @__PURE__ */ __name(function getValue2(tag, saveValueCallback) {
         (0, _invariant.default)(nativeOps, "Native animated module is not available");
         if (useSingleOpBatching) {
           if (saveValueCallback) {
@@ -16202,11 +16202,11 @@ var require_NativeAnimatedHelper = __commonJS({
           fn(...args);
         }
       }, "queueOperation"),
-      createAnimatedNode: /* @__PURE__ */ __name(function createAnimatedNode(tag, config) {
+      createAnimatedNode: /* @__PURE__ */ __name(function createAnimatedNode(tag, config2) {
         (0, _invariant.default)(nativeOps, "Native animated module is not available");
-        API.queueOperation(nativeOps.createAnimatedNode, tag, config);
+        API.queueOperation(nativeOps.createAnimatedNode, tag, config2);
       }, "createAnimatedNode"),
-      updateAnimatedNodeConfig: /* @__PURE__ */ __name(function updateAnimatedNodeConfig(tag, config) {
+      updateAnimatedNodeConfig: /* @__PURE__ */ __name(function updateAnimatedNodeConfig(tag, config2) {
         (0, _invariant.default)(nativeOps, "Native animated module is not available");
       }, "updateAnimatedNodeConfig"),
       startListeningToAnimatedNodeValue: /* @__PURE__ */ __name(function startListeningToAnimatedNodeValue(tag) {
@@ -16225,15 +16225,15 @@ var require_NativeAnimatedHelper = __commonJS({
         (0, _invariant.default)(nativeOps, "Native animated module is not available");
         API.queueOperation(nativeOps.disconnectAnimatedNodes, parentTag, childTag);
       }, "disconnectAnimatedNodes"),
-      startAnimatingNode: /* @__PURE__ */ __name(function startAnimatingNode(animationId, nodeTag, config, endCallback) {
+      startAnimatingNode: /* @__PURE__ */ __name(function startAnimatingNode(animationId, nodeTag, config2, endCallback) {
         (0, _invariant.default)(nativeOps, "Native animated module is not available");
         if (useSingleOpBatching) {
           if (endCallback) {
             eventListenerAnimationFinishedCallbacks[animationId] = endCallback;
           }
-          API.queueOperation(nativeOps.startAnimatingNode, animationId, nodeTag, config);
+          API.queueOperation(nativeOps.startAnimatingNode, animationId, nodeTag, config2);
         } else {
-          API.queueOperation(nativeOps.startAnimatingNode, animationId, nodeTag, config, endCallback);
+          API.queueOperation(nativeOps.startAnimatingNode, animationId, nodeTag, config2, endCallback);
         }
       }, "startAnimatingNode"),
       stopAnimation: /* @__PURE__ */ __name(function stopAnimation(animationId) {
@@ -16366,9 +16366,9 @@ var require_NativeAnimatedHelper = __commonJS({
     }
     __name(isSupportedInterpolationParam, "isSupportedInterpolationParam");
     function validateTransform(configs) {
-      configs.forEach((config) => {
-        if (!isSupportedTransformProp(config.property)) {
-          throw new Error("Property '" + config.property + "' is not supported by native animated module");
+      configs.forEach((config2) => {
+        if (!isSupportedTransformProp(config2.property)) {
+          throw new Error("Property '" + config2.property + "' is not supported by native animated module");
         }
       });
     }
@@ -16381,8 +16381,8 @@ var require_NativeAnimatedHelper = __commonJS({
       }
     }
     __name(validateStyles, "validateStyles");
-    function validateInterpolation(config) {
-      for (var _key3 in config) {
+    function validateInterpolation(config2) {
+      for (var _key3 in config2) {
         if (!isSupportedInterpolationParam(_key3)) {
           throw new Error("Interpolation property '" + _key3 + "' is not supported by native animated module");
         }
@@ -16402,18 +16402,18 @@ var require_NativeAnimatedHelper = __commonJS({
     }
     __name(assertNativeAnimatedModule, "assertNativeAnimatedModule");
     var _warnedMissingNativeAnimated = false;
-    function shouldUseNativeDriver(config) {
-      if (config.useNativeDriver == null) {
+    function shouldUseNativeDriver(config2) {
+      if (config2.useNativeDriver == null) {
         console.warn("Animated: `useNativeDriver` was not specified. This is a required option and must be explicitly set to `true` or `false`");
       }
-      if (config.useNativeDriver === true && !NativeAnimatedModule) {
+      if (config2.useNativeDriver === true && !NativeAnimatedModule) {
         if (!_warnedMissingNativeAnimated) {
           console.warn("Animated: `useNativeDriver` is not supported because the native animated module is missing. Falling back to JS-based animation. To resolve this, add `RCTAnimation` module to this app, or remove `useNativeDriver`. Make sure to run `bundle exec pod install` first. Read more about autolinking: https://github.com/react-native-community/cli/blob/master/docs/autolinking.md");
           _warnedMissingNativeAnimated = true;
         }
         return false;
       }
-      return config.useNativeDriver || false;
+      return config2.useNativeDriver || false;
     }
     __name(shouldUseNativeDriver, "shouldUseNativeDriver");
     function transformDataType(value) {
@@ -16589,11 +16589,11 @@ var require_AnimatedNode = __commonJS({
         var nativeTag = (_this$__nativeTag = this.__nativeTag) !== null && _this$__nativeTag !== void 0 ? _this$__nativeTag : _NativeAnimatedHelper.default.generateNewNodeTag();
         if (this.__nativeTag == null) {
           this.__nativeTag = nativeTag;
-          var config = this.__getNativeConfig();
+          var config2 = this.__getNativeConfig();
           if (this._platformConfig) {
-            config.platformConfig = this._platformConfig;
+            config2.platformConfig = this._platformConfig;
           }
-          _NativeAnimatedHelper.default.API.createAnimatedNode(nativeTag, config);
+          _NativeAnimatedHelper.default.API.createAnimatedNode(nativeTag, config2);
           this.__shouldUpdateListenersForNewNativeTag = true;
         }
         return nativeTag;
@@ -16703,31 +16703,31 @@ var require_AnimatedInterpolation = __commonJS({
     var _invariant = _interopRequireDefault(require_invariant());
     var _normalizeColors = _interopRequireDefault(require_normalize_colors());
     var __DEV__ = process.env.NODE_ENV !== "production";
-    var linear = /* @__PURE__ */ __name((t2) => t2, "linear");
-    function createInterpolation(config) {
-      if (config.outputRange && typeof config.outputRange[0] === "string") {
-        return createInterpolationFromStringOutputRange(config);
+    var linear = /* @__PURE__ */ __name((t) => t, "linear");
+    function createInterpolation(config2) {
+      if (config2.outputRange && typeof config2.outputRange[0] === "string") {
+        return createInterpolationFromStringOutputRange(config2);
       }
-      var outputRange = config.outputRange;
-      var inputRange = config.inputRange;
+      var outputRange = config2.outputRange;
+      var inputRange = config2.inputRange;
       if (__DEV__) {
         checkInfiniteRange("outputRange", outputRange);
         checkInfiniteRange("inputRange", inputRange);
         checkValidInputRange(inputRange);
         (0, _invariant.default)(inputRange.length === outputRange.length, "inputRange (" + inputRange.length + ") and outputRange (" + outputRange.length + ") must have the same length");
       }
-      var easing = config.easing || linear;
+      var easing = config2.easing || linear;
       var extrapolateLeft = "extend";
-      if (config.extrapolateLeft !== void 0) {
-        extrapolateLeft = config.extrapolateLeft;
-      } else if (config.extrapolate !== void 0) {
-        extrapolateLeft = config.extrapolate;
+      if (config2.extrapolateLeft !== void 0) {
+        extrapolateLeft = config2.extrapolateLeft;
+      } else if (config2.extrapolate !== void 0) {
+        extrapolateLeft = config2.extrapolate;
       }
       var extrapolateRight = "extend";
-      if (config.extrapolateRight !== void 0) {
-        extrapolateRight = config.extrapolateRight;
-      } else if (config.extrapolate !== void 0) {
-        extrapolateRight = config.extrapolate;
+      if (config2.extrapolateRight !== void 0) {
+        extrapolateRight = config2.extrapolateRight;
+      } else if (config2.extrapolate !== void 0) {
+        extrapolateRight = config2.extrapolate;
       }
       return (input) => {
         (0, _invariant.default)(typeof input === "number", "Cannot interpolation an input which is not a number");
@@ -16795,8 +16795,8 @@ var require_AnimatedInterpolation = __commonJS({
     }
     __name(colorToRgba, "colorToRgba");
     var stringShapeRegex = /[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?/g;
-    function createInterpolationFromStringOutputRange(config) {
-      var outputRange = config.outputRange;
+    function createInterpolationFromStringOutputRange(config2) {
+      var outputRange = config2.outputRange;
       (0, _invariant.default)(outputRange.length >= 2, "Bad output range");
       outputRange = outputRange.map(colorToRgba);
       checkPattern(outputRange);
@@ -16807,7 +16807,7 @@ var require_AnimatedInterpolation = __commonJS({
         });
       });
       var interpolations = outputRange[0].match(stringShapeRegex).map((value, i) => {
-        return createInterpolation((0, _objectSpread2.default)((0, _objectSpread2.default)({}, config), {}, {
+        return createInterpolation((0, _objectSpread2.default)((0, _objectSpread2.default)({}, config2), {}, {
           outputRange: outputRanges[i]
         }));
       });
@@ -16868,11 +16868,11 @@ var require_AnimatedInterpolation = __commonJS({
     __name(checkInfiniteRange, "checkInfiniteRange");
     var _AnimatedInterpolation = class _AnimatedInterpolation extends _AnimatedWithChildren.default {
       // Export for testing.
-      constructor(parent, config) {
+      constructor(parent, config2) {
         super();
         this._parent = parent;
-        this._config = config;
-        this._interpolation = createInterpolation(config);
+        this._config = config2;
+        this._interpolation = createInterpolation(config2);
       }
       __makeNative(platformConfig) {
         this._parent.__makeNative(platformConfig);
@@ -16883,8 +16883,8 @@ var require_AnimatedInterpolation = __commonJS({
         (0, _invariant.default)(typeof parentValue === "number", "Cannot interpolate an input which is not a number.");
         return this._interpolation(parentValue);
       }
-      interpolate(config) {
-        return new _AnimatedInterpolation(this, config);
+      interpolate(config2) {
+        return new _AnimatedInterpolation(this, config2);
       }
       __attach() {
         this._parent.__addChild(this);
@@ -16951,7 +16951,7 @@ var require_AnimatedValue = __commonJS({
     }
     __name(_executeAsAnimatedBatch, "_executeAsAnimatedBatch");
     var _AnimatedValue = class _AnimatedValue extends _AnimatedWithChildren.default {
-      constructor(value, config) {
+      constructor(value, config2) {
         super();
         if (typeof value !== "number") {
           throw new Error("AnimatedValue: Attempting to set value to undefined");
@@ -16959,7 +16959,7 @@ var require_AnimatedValue = __commonJS({
         this._startingValue = this._value = value;
         this._offset = 0;
         this._animation = null;
-        if (config && config.useNativeDriver) {
+        if (config2 && config2.useNativeDriver) {
           this.__makeNative();
         }
       }
@@ -17076,8 +17076,8 @@ var require_AnimatedValue = __commonJS({
        * Interpolates the value before updating the property, e.g. mapping 0-1 to
        * 0-10.
        */
-      interpolate(config) {
-        return new _AnimatedInterpolation.default(this, config);
+      interpolate(config2) {
+        return new _AnimatedInterpolation.default(this, config2);
       }
       /**
        * Typically only used internally, but could be used by a custom Animation
@@ -17221,21 +17221,21 @@ var require_AnimatedEvent = __commonJS({
     }
     __name(validateMapping, "validateMapping");
     var _AnimatedEvent = class _AnimatedEvent {
-      constructor(argMapping, config) {
+      constructor(argMapping, config2) {
         this._listeners = [];
         this._argMapping = argMapping;
-        if (config == null) {
+        if (config2 == null) {
           console.warn("Animated.event now requires a second argument for options");
-          config = {
+          config2 = {
             useNativeDriver: false
           };
         }
-        if (config.listener) {
-          this.__addListener(config.listener);
+        if (config2.listener) {
+          this.__addListener(config2.listener);
         }
         this._callListeners = this._callListeners.bind(this);
         this._attachedEvent = null;
-        this.__isNative = (0, _NativeAnimatedHelper.shouldUseNativeDriver)(config);
+        this.__isNative = (0, _NativeAnimatedHelper.shouldUseNativeDriver)(config2);
       }
       __addListener(callback) {
         this._listeners.push(callback);
@@ -17837,16 +17837,16 @@ var require_createAnimatedComponent = __commonJS({
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs2());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _excluded = ["style"];
     function createAnimatedComponent(Component) {
-      return /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+      return /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
         var _useAnimatedProps = (0, _useAnimatedProps2.default)(props), reducedProps = _useAnimatedProps[0], callbackRef = _useAnimatedProps[1];
         var ref = (0, _useMergeRefs.default)(callbackRef, forwardedRef);
         var passthroughAnimatedPropExplicitValues = reducedProps.passthroughAnimatedPropExplicitValues, style = reducedProps.style;
         var _ref = passthroughAnimatedPropExplicitValues !== null && passthroughAnimatedPropExplicitValues !== void 0 ? passthroughAnimatedPropExplicitValues : {}, passthroughStyle = _ref.style, passthroughProps = (0, _objectWithoutPropertiesLoose2.default)(_ref, _excluded);
         var mergedStyle = [style, passthroughStyle];
-        return /* @__PURE__ */ React81.createElement(Component, (0, _extends2.default)({}, reducedProps, passthroughProps, {
+        return /* @__PURE__ */ React82.createElement(Component, (0, _extends2.default)({}, reducedProps, passthroughProps, {
           style: mergedStyle,
           ref
         }));
@@ -17866,10 +17866,10 @@ var require_AnimatedFlatList = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _FlatList = _interopRequireDefault(require_FlatList2());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
-    var FlatListWithEventThrottle = /* @__PURE__ */ React81.forwardRef((props, ref) => /* @__PURE__ */ React81.createElement(_FlatList.default, (0, _extends2.default)({
+    var FlatListWithEventThrottle = /* @__PURE__ */ React82.forwardRef((props, ref) => /* @__PURE__ */ React82.createElement(_FlatList.default, (0, _extends2.default)({
       scrollEventThrottle: 1e-4
     }, props, {
       ref
@@ -18097,7 +18097,7 @@ var require_Image = __commonJS({
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var _AssetRegistry = require_AssetRegistry();
     var _preprocess = require_preprocess();
@@ -18115,20 +18115,20 @@ var require_Image = __commonJS({
     var _filterId = 0;
     var svgDataUriPattern = /^(data:image\/svg\+xml;utf8,)(.*)/;
     function createTintColorSVG(tintColor, id) {
-      return tintColor && id != null ? /* @__PURE__ */ React81.createElement("svg", {
+      return tintColor && id != null ? /* @__PURE__ */ React82.createElement("svg", {
         style: {
           position: "absolute",
           height: 0,
           visibility: "hidden",
           width: 0
         }
-      }, /* @__PURE__ */ React81.createElement("defs", null, /* @__PURE__ */ React81.createElement("filter", {
+      }, /* @__PURE__ */ React82.createElement("defs", null, /* @__PURE__ */ React82.createElement("filter", {
         id: "tint-" + id,
         suppressHydrationWarning: true
-      }, /* @__PURE__ */ React81.createElement("feFlood", {
+      }, /* @__PURE__ */ React82.createElement("feFlood", {
         floodColor: "" + tintColor,
         key: tintColor
-      }), /* @__PURE__ */ React81.createElement("feComposite", {
+      }), /* @__PURE__ */ React82.createElement("feComposite", {
         in2: "SourceAlpha",
         operator: "in"
       })))) : null;
@@ -18212,7 +18212,7 @@ var require_Image = __commonJS({
       return uri;
     }
     __name(resolveAssetUri, "resolveAssetUri");
-    var Image2 = /* @__PURE__ */ React81.forwardRef((props, ref) => {
+    var Image2 = /* @__PURE__ */ React82.forwardRef((props, ref) => {
       var _ariaLabel = props["aria-label"], accessibilityLabel = props.accessibilityLabel, blurRadius = props.blurRadius, defaultSource = props.defaultSource, draggable = props.draggable, onError = props.onError, onLayout = props.onLayout, onLoad = props.onLoad, onLoadEnd = props.onLoadEnd, onLoadStart = props.onLoadStart, pointerEvents = props.pointerEvents, source = props.source, style = props.style, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var ariaLabel = _ariaLabel || accessibilityLabel;
       if (process.env.NODE_ENV !== "production") {
@@ -18220,7 +18220,7 @@ var require_Image = __commonJS({
           throw new Error("The <Image> component cannot contain children. If you want to render content on top of the image, consider using the <ImageBackground> component or absolute positioning.");
         }
       }
-      var _React$useState = React81.useState(() => {
+      var _React$useState = React82.useState(() => {
         var uri2 = resolveAssetUri(source);
         if (uri2 != null) {
           var isLoaded = _ImageLoader.default.has(uri2);
@@ -18230,11 +18230,11 @@ var require_Image = __commonJS({
         }
         return IDLE;
       }), state = _React$useState[0], updateState = _React$useState[1];
-      var _React$useState2 = React81.useState({}), layout = _React$useState2[0], updateLayout = _React$useState2[1];
-      var hasTextAncestor = React81.useContext(_TextAncestorContext.default);
-      var hiddenImageRef = React81.useRef(null);
-      var filterRef = React81.useRef(_filterId++);
-      var requestRef = React81.useRef(null);
+      var _React$useState2 = React82.useState({}), layout = _React$useState2[0], updateLayout = _React$useState2[1];
+      var hasTextAncestor = React82.useContext(_TextAncestorContext.default);
+      var hiddenImageRef = React82.useRef(null);
+      var filterRef = React82.useRef(_filterId++);
+      var requestRef = React82.useRef(null);
       var shouldDisplaySource = state === LOADED || state === LOADING && defaultSource == null;
       var _extractNonStandardSt = extractNonStandardStyleProps(style, blurRadius, filterRef.current, props.tintColor), _resizeMode = _extractNonStandardSt[0], filter = _extractNonStandardSt[1], _tintColor = _extractNonStandardSt[2];
       var resizeMode = props.resizeMode || _resizeMode || "cover";
@@ -18273,7 +18273,7 @@ var require_Image = __commonJS({
       }
       __name(handleLayout, "handleLayout");
       var uri = resolveAssetUri(source);
-      React81.useEffect(() => {
+      React82.useEffect(() => {
         abortPendingRequest();
         if (uri != null) {
           updateState(LOADING);
@@ -18311,7 +18311,7 @@ var require_Image = __commonJS({
         __name(abortPendingRequest, "abortPendingRequest");
         return abortPendingRequest;
       }, [uri, requestRef, updateState, onError, onLoad, onLoadEnd, onLoadStart]);
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, rest, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, rest, {
         "aria-label": ariaLabel,
         onLayout: handleLayout,
         pointerEvents,
@@ -18328,7 +18328,7 @@ var require_Image = __commonJS({
             boxShadow: null
           }
         ]
-      }), /* @__PURE__ */ React81.createElement(_View.default, {
+      }), /* @__PURE__ */ React82.createElement(_View.default, {
         style: [styles.image, resizeModeStyles[resizeMode], {
           backgroundImage,
           filter
@@ -18423,7 +18423,7 @@ var require_AnimatedImage = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _Image = _interopRequireDefault(require_Image());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
     var _default = exports2.default = (0, _createAnimatedComponent.default)(_Image.default);
@@ -18440,10 +18440,10 @@ var require_AnimatedScrollView = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _ScrollView = _interopRequireDefault(require_ScrollView());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
-    var ScrollViewWithEventThrottle = /* @__PURE__ */ React81.forwardRef((props, ref) => /* @__PURE__ */ React81.createElement(_ScrollView.default, (0, _extends2.default)({
+    var ScrollViewWithEventThrottle = /* @__PURE__ */ React82.forwardRef((props, ref) => /* @__PURE__ */ React82.createElement(_ScrollView.default, (0, _extends2.default)({
       scrollEventThrottle: 1e-4
     }, props, {
       ref
@@ -18469,9 +18469,9 @@ var require_VirtualizedSectionList = __commonJS({
     var _VirtualizedList = _interopRequireDefault(require_VirtualizedList());
     var _VirtualizeUtils = require_VirtualizeUtils();
     var _invariant = _interopRequireDefault(require_invariant());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _excluded = ["ItemSeparatorComponent", "SectionSeparatorComponent", "renderItem", "renderSectionFooter", "renderSectionHeader", "sections", "stickySectionHeadersEnabled"];
-    var _VirtualizedSectionList = class _VirtualizedSectionList extends React81.PureComponent {
+    var _VirtualizedSectionList = class _VirtualizedSectionList extends React82.PureComponent {
       constructor() {
         super(...arguments);
         this._keyExtractor = (item, index8) => {
@@ -18530,7 +18530,7 @@ var require_VirtualizedSectionList = __commonJS({
               var renderItem = info.section.renderItem || this.props.renderItem;
               var SeparatorComponent = this._getSeparatorComponent(index8, info, listItemCount);
               (0, _invariant.default)(renderItem, "no renderItem!");
-              return /* @__PURE__ */ React81.createElement(ItemWithSeparator, {
+              return /* @__PURE__ */ React82.createElement(ItemWithSeparator, {
                 SeparatorComponent,
                 LeadingSeparatorComponent: infoIndex === 0 ? this.props.SectionSeparatorComponent : void 0,
                 cellKey: info.key,
@@ -18620,7 +18620,7 @@ var require_VirtualizedSectionList = __commonJS({
           itemCount += this.props.getItemCount(section.data);
         }
         var renderItem = this._renderItem(itemCount);
-        return /* @__PURE__ */ React81.createElement(_VirtualizedList.default, (0, _extends2.default)({}, passThroughProps, {
+        return /* @__PURE__ */ React82.createElement(_VirtualizedList.default, (0, _extends2.default)({}, passThroughProps, {
           keyExtractor: this._keyExtractor,
           stickyHeaderIndices,
           renderItem,
@@ -18713,23 +18713,23 @@ var require_VirtualizedSectionList = __commonJS({
     var VirtualizedSectionList = _VirtualizedSectionList;
     function ItemWithSeparator(props) {
       var LeadingSeparatorComponent = props.LeadingSeparatorComponent, SeparatorComponent = props.SeparatorComponent, cellKey = props.cellKey, prevCellKey = props.prevCellKey, setSelfHighlightCallback = props.setSelfHighlightCallback, updateHighlightFor = props.updateHighlightFor, setSelfUpdatePropsCallback = props.setSelfUpdatePropsCallback, updatePropsFor = props.updatePropsFor, item = props.item, index8 = props.index, section = props.section, inverted = props.inverted;
-      var _React$useState = React81.useState(false), leadingSeparatorHiglighted = _React$useState[0], setLeadingSeparatorHighlighted = _React$useState[1];
-      var _React$useState2 = React81.useState(false), separatorHighlighted = _React$useState2[0], setSeparatorHighlighted = _React$useState2[1];
-      var _React$useState3 = React81.useState({
+      var _React$useState = React82.useState(false), leadingSeparatorHiglighted = _React$useState[0], setLeadingSeparatorHighlighted = _React$useState[1];
+      var _React$useState2 = React82.useState(false), separatorHighlighted = _React$useState2[0], setSeparatorHighlighted = _React$useState2[1];
+      var _React$useState3 = React82.useState({
         leadingItem: props.leadingItem,
         leadingSection: props.leadingSection,
         section: props.section,
         trailingItem: props.item,
         trailingSection: props.trailingSection
       }), leadingSeparatorProps = _React$useState3[0], setLeadingSeparatorProps = _React$useState3[1];
-      var _React$useState4 = React81.useState({
+      var _React$useState4 = React82.useState({
         leadingItem: props.item,
         leadingSection: props.leadingSection,
         section: props.section,
         trailingItem: props.trailingItem,
         trailingSection: props.trailingSection
       }), separatorProps = _React$useState4[0], setSeparatorProps = _React$useState4[1];
-      React81.useEffect(() => {
+      React82.useEffect(() => {
         setSelfHighlightCallback(cellKey, setSeparatorHighlighted);
         setSelfUpdatePropsCallback(cellKey, setSeparatorProps);
         return () => {
@@ -18770,13 +18770,13 @@ var require_VirtualizedSectionList = __commonJS({
         section,
         separators
       });
-      var leadingSeparator = LeadingSeparatorComponent != null && /* @__PURE__ */ React81.createElement(LeadingSeparatorComponent, (0, _extends2.default)({
+      var leadingSeparator = LeadingSeparatorComponent != null && /* @__PURE__ */ React82.createElement(LeadingSeparatorComponent, (0, _extends2.default)({
         highlighted: leadingSeparatorHiglighted
       }, leadingSeparatorProps));
-      var separator = SeparatorComponent != null && /* @__PURE__ */ React81.createElement(SeparatorComponent, (0, _extends2.default)({
+      var separator = SeparatorComponent != null && /* @__PURE__ */ React82.createElement(SeparatorComponent, (0, _extends2.default)({
         highlighted: separatorHighlighted
       }, separatorProps));
-      return leadingSeparator || separator ? /* @__PURE__ */ React81.createElement(_View.default, null, inverted === false ? leadingSeparator : separator, element, inverted === false ? separator : leadingSeparator) : element;
+      return leadingSeparator || separator ? /* @__PURE__ */ React82.createElement(_View.default, null, inverted === false ? leadingSeparator : separator, element, inverted === false ? separator : leadingSeparator) : element;
     }
     __name(ItemWithSeparator, "ItemWithSeparator");
     var _default = exports2.default = VirtualizedSectionList;
@@ -18795,10 +18795,10 @@ var require_SectionList = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _Platform = _interopRequireDefault(require_Platform());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _VirtualizedSectionList = _interopRequireDefault(require_VirtualizedSectionList());
     var _excluded = ["stickySectionHeadersEnabled"];
-    var _SectionList = class _SectionList extends React81.PureComponent {
+    var _SectionList = class _SectionList extends React82.PureComponent {
       constructor() {
         super(...arguments);
         this._captureRef = (ref) => {
@@ -18856,7 +18856,7 @@ var require_SectionList = __commonJS({
       render() {
         var _this$props = this.props, _stickySectionHeadersEnabled = _this$props.stickySectionHeadersEnabled, restProps = (0, _objectWithoutPropertiesLoose2.default)(_this$props, _excluded);
         var stickySectionHeadersEnabled = _stickySectionHeadersEnabled !== null && _stickySectionHeadersEnabled !== void 0 ? _stickySectionHeadersEnabled : _Platform.default.OS === "ios";
-        return /* @__PURE__ */ React81.createElement(_VirtualizedSectionList.default, (0, _extends2.default)({}, restProps, {
+        return /* @__PURE__ */ React82.createElement(_VirtualizedSectionList.default, (0, _extends2.default)({}, restProps, {
           stickySectionHeadersEnabled,
           ref: this._captureRef,
           getItemCount: /* @__PURE__ */ __name((items) => items.length, "getItemCount"),
@@ -18894,10 +18894,10 @@ var require_AnimatedSectionList = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _SectionList = _interopRequireDefault(require_SectionList2());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
-    var SectionListWithEventThrottle = /* @__PURE__ */ React81.forwardRef((props, ref) => /* @__PURE__ */ React81.createElement(_SectionList.default, (0, _extends2.default)({
+    var SectionListWithEventThrottle = /* @__PURE__ */ React82.forwardRef((props, ref) => /* @__PURE__ */ React82.createElement(_SectionList.default, (0, _extends2.default)({
       scrollEventThrottle: 1e-4
     }, props, {
       ref
@@ -18918,7 +18918,7 @@ var require_Text = __commonJS({
     exports2.default = void 0;
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var forwardedProps = _interopRequireWildcard(require_forwardedProps());
     var _pick = _interopRequireDefault(require_pick());
@@ -18936,10 +18936,10 @@ var require_Text = __commonJS({
       pointerEvents: true
     });
     var pickProps = /* @__PURE__ */ __name((props) => (0, _pick.default)(props, forwardPropsList), "pickProps");
-    var Text5 = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+    var Text5 = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
       var hrefAttrs = props.hrefAttrs, numberOfLines = props.numberOfLines, onClick = props.onClick, onLayout = props.onLayout, onPress = props.onPress, onMoveShouldSetResponder = props.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = props.onMoveShouldSetResponderCapture, onResponderEnd = props.onResponderEnd, onResponderGrant = props.onResponderGrant, onResponderMove = props.onResponderMove, onResponderReject = props.onResponderReject, onResponderRelease = props.onResponderRelease, onResponderStart = props.onResponderStart, onResponderTerminate = props.onResponderTerminate, onResponderTerminationRequest = props.onResponderTerminationRequest, onScrollShouldSetResponder = props.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = props.onScrollShouldSetResponderCapture, onSelectionChangeShouldSetResponder = props.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = props.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = props.onStartShouldSetResponder, onStartShouldSetResponderCapture = props.onStartShouldSetResponderCapture, selectable = props.selectable, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var hasTextAncestor = React81.useContext(_TextAncestorContext.default);
-      var hostRef = React81.useRef(null);
+      var hasTextAncestor = React82.useContext(_TextAncestorContext.default);
+      var hostRef = React82.useRef(null);
       var _useLocaleContext = (0, _useLocale.useLocaleContext)(), contextDirection = _useLocaleContext.direction;
       (0, _useElementLayout.default)(hostRef, onLayout);
       (0, _useResponderEvents.default)(hostRef, {
@@ -18960,7 +18960,7 @@ var require_Text = __commonJS({
         onStartShouldSetResponder,
         onStartShouldSetResponderCapture
       });
-      var handleClick = React81.useCallback((e) => {
+      var handleClick = React82.useCallback((e) => {
         if (onClick != null) {
           onClick(e);
         } else if (onPress != null) {
@@ -19004,7 +19004,7 @@ var require_Text = __commonJS({
       var element = (0, _createElement.default)(component, supportedProps, {
         writingDirection
       });
-      return hasTextAncestor ? element : /* @__PURE__ */ React81.createElement(_TextAncestorContext.default.Provider, {
+      return hasTextAncestor ? element : /* @__PURE__ */ React82.createElement(_TextAncestorContext.default.Provider, {
         value: true
       }, element);
     });
@@ -19071,7 +19071,7 @@ var require_AnimatedText = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _Text = _interopRequireDefault(require_Text());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
     var _default = exports2.default = (0, _createAnimatedComponent.default)(_Text.default);
@@ -19087,7 +19087,7 @@ var require_AnimatedView = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _View = _interopRequireDefault(require_View());
     var _createAnimatedComponent = _interopRequireDefault(require_createAnimatedComponent());
     var _default = exports2.default = (0, _createAnimatedComponent.default)(_View.default);
@@ -19119,8 +19119,8 @@ var require_AnimatedAddition = __commonJS({
       __getValue() {
         return this._a.__getValue() + this._b.__getValue();
       }
-      interpolate(config) {
-        return new _AnimatedInterpolation.default(this, config);
+      interpolate(config2) {
+        return new _AnimatedInterpolation.default(this, config2);
       }
       __attach() {
         this._a.__addChild(this);
@@ -19166,8 +19166,8 @@ var require_AnimatedDiffClamp = __commonJS({
         this._a.__makeNative(platformConfig);
         super.__makeNative(platformConfig);
       }
-      interpolate(config) {
-        return new _AnimatedInterpolation.default(this, config);
+      interpolate(config2) {
+        return new _AnimatedInterpolation.default(this, config2);
       }
       __getValue() {
         var value = this._a.__getValue();
@@ -19238,8 +19238,8 @@ var require_AnimatedDivision = __commonJS({
         this._warnedAboutDivideByZero = false;
         return a / b;
       }
-      interpolate(config) {
-        return new _AnimatedInterpolation.default(this, config);
+      interpolate(config2) {
+        return new _AnimatedInterpolation.default(this, config2);
       }
       __attach() {
         this._a.__addChild(this);
@@ -19286,8 +19286,8 @@ var require_AnimatedModulo = __commonJS({
       __getValue() {
         return (this._a.__getValue() % this._modulus + this._modulus) % this._modulus;
       }
-      interpolate(config) {
-        return new _AnimatedInterpolation.default(this, config);
+      interpolate(config2) {
+        return new _AnimatedInterpolation.default(this, config2);
       }
       __attach() {
         this._a.__addChild(this);
@@ -19335,8 +19335,8 @@ var require_AnimatedMultiplication = __commonJS({
       __getValue() {
         return this._a.__getValue() * this._b.__getValue();
       }
-      interpolate(config) {
-        return new _AnimatedInterpolation.default(this, config);
+      interpolate(config2) {
+        return new _AnimatedInterpolation.default(this, config2);
       }
       __attach() {
         this._a.__addChild(this);
@@ -19385,8 +19385,8 @@ var require_AnimatedSubtraction = __commonJS({
       __getValue() {
         return this._a.__getValue() - this._b.__getValue();
       }
-      interpolate(config) {
-        return new _AnimatedInterpolation.default(this, config);
+      interpolate(config2) {
+        return new _AnimatedInterpolation.default(this, config2);
       }
       __attach() {
         this._a.__addChild(this);
@@ -19680,13 +19680,13 @@ var require_Animation = __commonJS({
         startNativeAnimationNextId += 1;
         _NativeAnimatedHelper.default.API.setWaitingForIdentifier(startNativeAnimationWaitId);
         try {
-          var config = this.__getNativeAnimationConfig();
-          animatedValue.__makeNative(config.platformConfig);
+          var config2 = this.__getNativeAnimationConfig();
+          animatedValue.__makeNative(config2.platformConfig);
           this.__nativeId = _NativeAnimatedHelper.default.generateNewAnimationId();
           _NativeAnimatedHelper.default.API.startAnimatingNode(
             this.__nativeId,
             animatedValue.__getNativeTag(),
-            config,
+            config2,
             // $FlowFixMe[method-unbinding] added when improving typing for this parameters
             this.__debouncedOnEnd.bind(this)
           );
@@ -19714,14 +19714,14 @@ var require_DecayAnimation = __commonJS({
     var _Animation = _interopRequireDefault(require_Animation());
     var _NativeAnimatedHelper = require_NativeAnimatedHelper();
     var _DecayAnimation = class _DecayAnimation extends _Animation.default {
-      constructor(config) {
+      constructor(config2) {
         var _config$deceleration, _config$isInteraction, _config$iterations;
         super();
-        this._deceleration = (_config$deceleration = config.deceleration) !== null && _config$deceleration !== void 0 ? _config$deceleration : 0.998;
-        this._velocity = config.velocity;
-        this._useNativeDriver = (0, _NativeAnimatedHelper.shouldUseNativeDriver)(config);
-        this.__isInteraction = (_config$isInteraction = config.isInteraction) !== null && _config$isInteraction !== void 0 ? _config$isInteraction : !this._useNativeDriver;
-        this.__iterations = (_config$iterations = config.iterations) !== null && _config$iterations !== void 0 ? _config$iterations : 1;
+        this._deceleration = (_config$deceleration = config2.deceleration) !== null && _config$deceleration !== void 0 ? _config$deceleration : 0.998;
+        this._velocity = config2.velocity;
+        this._useNativeDriver = (0, _NativeAnimatedHelper.shouldUseNativeDriver)(config2);
+        this.__isInteraction = (_config$isInteraction = config2.isInteraction) !== null && _config$isInteraction !== void 0 ? _config$isInteraction : !this._useNativeDriver;
+        this.__iterations = (_config$iterations = config2.iterations) !== null && _config$iterations !== void 0 ? _config$iterations : 1;
       }
       __getNativeAnimationConfig() {
         return {
@@ -19805,12 +19805,12 @@ var require_SpringConfig = __commonJS({
         return start + n * (end - start);
       }
       __name(projectNormal, "projectNormal");
-      function linearInterpolation(t2, start, end) {
-        return t2 * end + (1 - t2) * start;
+      function linearInterpolation(t, start, end) {
+        return t * end + (1 - t) * start;
       }
       __name(linearInterpolation, "linearInterpolation");
-      function quadraticOutInterpolation(t2, start, end) {
-        return linearInterpolation(2 * t2 - t2 * t2, start, end);
+      function quadraticOutInterpolation(t, start, end) {
+        return linearInterpolation(2 * t - t * t, start, end);
       }
       __name(quadraticOutInterpolation, "quadraticOutInterpolation");
       function b3Friction1(x) {
@@ -19873,19 +19873,19 @@ var require_AnimatedColor = __commonJS({
       a: 1
     };
     var _uniqueId = 1;
-    var processColorObject = /* @__PURE__ */ __name((color2) => {
-      return color2;
+    var processColorObject = /* @__PURE__ */ __name((color) => {
+      return color;
     }, "processColorObject");
-    function processColor(color2) {
-      if (color2 === void 0 || color2 === null) {
+    function processColor(color) {
+      if (color === void 0 || color === null) {
         return null;
       }
-      if (isRgbaValue(color2)) {
-        return color2;
+      if (isRgbaValue(color)) {
+        return color;
       }
       var normalizedColor = (0, _normalizeColors.default)(
         // $FlowIgnore[incompatible-cast] - Type is verified above
-        color2
+        color
       );
       if (normalizedColor === void 0 || normalizedColor === null) {
         return null;
@@ -19919,7 +19919,7 @@ var require_AnimatedColor = __commonJS({
     }
     __name(isRgbaAnimatedValue, "isRgbaAnimatedValue");
     var _AnimatedColor = class _AnimatedColor extends _AnimatedWithChildren.default {
-      constructor(valueIn, config) {
+      constructor(valueIn, config2) {
         super();
         this._listeners = {};
         var value = valueIn !== null && valueIn !== void 0 ? valueIn : defaultColor;
@@ -19946,7 +19946,7 @@ var require_AnimatedColor = __commonJS({
           this.b = new _AnimatedValue.default(initColor.b);
           this.a = new _AnimatedValue.default(initColor.a);
         }
-        if (this.nativeColor || config && config.useNativeDriver) {
+        if (this.nativeColor || config2 && config2.useNativeDriver) {
           this.__makeNative();
         }
       }
@@ -20141,36 +20141,36 @@ var require_SpringAnimation = __commonJS({
     var _NativeAnimatedHelper = require_NativeAnimatedHelper();
     var _AnimatedColor = _interopRequireDefault(require_AnimatedColor());
     var _SpringAnimation = class _SpringAnimation extends _Animation.default {
-      constructor(config) {
+      constructor(config2) {
         var _config$overshootClam, _config$restDisplacem, _config$restSpeedThre, _config$velocity, _config$velocity2, _config$delay, _config$isInteraction, _config$iterations;
         super();
-        this._overshootClamping = (_config$overshootClam = config.overshootClamping) !== null && _config$overshootClam !== void 0 ? _config$overshootClam : false;
-        this._restDisplacementThreshold = (_config$restDisplacem = config.restDisplacementThreshold) !== null && _config$restDisplacem !== void 0 ? _config$restDisplacem : 1e-3;
-        this._restSpeedThreshold = (_config$restSpeedThre = config.restSpeedThreshold) !== null && _config$restSpeedThre !== void 0 ? _config$restSpeedThre : 1e-3;
-        this._initialVelocity = (_config$velocity = config.velocity) !== null && _config$velocity !== void 0 ? _config$velocity : 0;
-        this._lastVelocity = (_config$velocity2 = config.velocity) !== null && _config$velocity2 !== void 0 ? _config$velocity2 : 0;
-        this._toValue = config.toValue;
-        this._delay = (_config$delay = config.delay) !== null && _config$delay !== void 0 ? _config$delay : 0;
-        this._useNativeDriver = (0, _NativeAnimatedHelper.shouldUseNativeDriver)(config);
-        this._platformConfig = config.platformConfig;
-        this.__isInteraction = (_config$isInteraction = config.isInteraction) !== null && _config$isInteraction !== void 0 ? _config$isInteraction : !this._useNativeDriver;
-        this.__iterations = (_config$iterations = config.iterations) !== null && _config$iterations !== void 0 ? _config$iterations : 1;
-        if (config.stiffness !== void 0 || config.damping !== void 0 || config.mass !== void 0) {
+        this._overshootClamping = (_config$overshootClam = config2.overshootClamping) !== null && _config$overshootClam !== void 0 ? _config$overshootClam : false;
+        this._restDisplacementThreshold = (_config$restDisplacem = config2.restDisplacementThreshold) !== null && _config$restDisplacem !== void 0 ? _config$restDisplacem : 1e-3;
+        this._restSpeedThreshold = (_config$restSpeedThre = config2.restSpeedThreshold) !== null && _config$restSpeedThre !== void 0 ? _config$restSpeedThre : 1e-3;
+        this._initialVelocity = (_config$velocity = config2.velocity) !== null && _config$velocity !== void 0 ? _config$velocity : 0;
+        this._lastVelocity = (_config$velocity2 = config2.velocity) !== null && _config$velocity2 !== void 0 ? _config$velocity2 : 0;
+        this._toValue = config2.toValue;
+        this._delay = (_config$delay = config2.delay) !== null && _config$delay !== void 0 ? _config$delay : 0;
+        this._useNativeDriver = (0, _NativeAnimatedHelper.shouldUseNativeDriver)(config2);
+        this._platformConfig = config2.platformConfig;
+        this.__isInteraction = (_config$isInteraction = config2.isInteraction) !== null && _config$isInteraction !== void 0 ? _config$isInteraction : !this._useNativeDriver;
+        this.__iterations = (_config$iterations = config2.iterations) !== null && _config$iterations !== void 0 ? _config$iterations : 1;
+        if (config2.stiffness !== void 0 || config2.damping !== void 0 || config2.mass !== void 0) {
           var _config$stiffness, _config$damping, _config$mass;
-          (0, _invariant.default)(config.bounciness === void 0 && config.speed === void 0 && config.tension === void 0 && config.friction === void 0, "You can define one of bounciness/speed, tension/friction, or stiffness/damping/mass, but not more than one");
-          this._stiffness = (_config$stiffness = config.stiffness) !== null && _config$stiffness !== void 0 ? _config$stiffness : 100;
-          this._damping = (_config$damping = config.damping) !== null && _config$damping !== void 0 ? _config$damping : 10;
-          this._mass = (_config$mass = config.mass) !== null && _config$mass !== void 0 ? _config$mass : 1;
-        } else if (config.bounciness !== void 0 || config.speed !== void 0) {
+          (0, _invariant.default)(config2.bounciness === void 0 && config2.speed === void 0 && config2.tension === void 0 && config2.friction === void 0, "You can define one of bounciness/speed, tension/friction, or stiffness/damping/mass, but not more than one");
+          this._stiffness = (_config$stiffness = config2.stiffness) !== null && _config$stiffness !== void 0 ? _config$stiffness : 100;
+          this._damping = (_config$damping = config2.damping) !== null && _config$damping !== void 0 ? _config$damping : 10;
+          this._mass = (_config$mass = config2.mass) !== null && _config$mass !== void 0 ? _config$mass : 1;
+        } else if (config2.bounciness !== void 0 || config2.speed !== void 0) {
           var _config$bounciness, _config$speed;
-          (0, _invariant.default)(config.tension === void 0 && config.friction === void 0 && config.stiffness === void 0 && config.damping === void 0 && config.mass === void 0, "You can define one of bounciness/speed, tension/friction, or stiffness/damping/mass, but not more than one");
-          var springConfig = _SpringConfig.default.fromBouncinessAndSpeed((_config$bounciness = config.bounciness) !== null && _config$bounciness !== void 0 ? _config$bounciness : 8, (_config$speed = config.speed) !== null && _config$speed !== void 0 ? _config$speed : 12);
+          (0, _invariant.default)(config2.tension === void 0 && config2.friction === void 0 && config2.stiffness === void 0 && config2.damping === void 0 && config2.mass === void 0, "You can define one of bounciness/speed, tension/friction, or stiffness/damping/mass, but not more than one");
+          var springConfig = _SpringConfig.default.fromBouncinessAndSpeed((_config$bounciness = config2.bounciness) !== null && _config$bounciness !== void 0 ? _config$bounciness : 8, (_config$speed = config2.speed) !== null && _config$speed !== void 0 ? _config$speed : 12);
           this._stiffness = springConfig.stiffness;
           this._damping = springConfig.damping;
           this._mass = 1;
         } else {
           var _config$tension, _config$friction;
-          var _springConfig = _SpringConfig.default.fromOrigamiTensionAndFriction((_config$tension = config.tension) !== null && _config$tension !== void 0 ? _config$tension : 40, (_config$friction = config.friction) !== null && _config$friction !== void 0 ? _config$friction : 7);
+          var _springConfig = _SpringConfig.default.fromOrigamiTensionAndFriction((_config$tension = config2.tension) !== null && _config$tension !== void 0 ? _config$tension : 40, (_config$friction = config2.friction) !== null && _config$friction !== void 0 ? _config$friction : 7);
           this._stiffness = _springConfig.stiffness;
           this._damping = _springConfig.damping;
           this._mass = 1;
@@ -20269,15 +20269,15 @@ var require_SpringAnimation = __commonJS({
         var x0 = this._toValue - this._startPosition;
         var position = 0;
         var velocity = 0;
-        var t2 = this._frameTime;
+        var t = this._frameTime;
         if (zeta < 1) {
-          var envelope = Math.exp(-zeta * omega0 * t2);
-          position = this._toValue - envelope * ((v0 + zeta * omega0 * x0) / omega1 * Math.sin(omega1 * t2) + x0 * Math.cos(omega1 * t2));
-          velocity = zeta * omega0 * envelope * (Math.sin(omega1 * t2) * (v0 + zeta * omega0 * x0) / omega1 + x0 * Math.cos(omega1 * t2)) - envelope * (Math.cos(omega1 * t2) * (v0 + zeta * omega0 * x0) - omega1 * x0 * Math.sin(omega1 * t2));
+          var envelope = Math.exp(-zeta * omega0 * t);
+          position = this._toValue - envelope * ((v0 + zeta * omega0 * x0) / omega1 * Math.sin(omega1 * t) + x0 * Math.cos(omega1 * t));
+          velocity = zeta * omega0 * envelope * (Math.sin(omega1 * t) * (v0 + zeta * omega0 * x0) / omega1 + x0 * Math.cos(omega1 * t)) - envelope * (Math.cos(omega1 * t) * (v0 + zeta * omega0 * x0) - omega1 * x0 * Math.sin(omega1 * t));
         } else {
-          var _envelope = Math.exp(-omega0 * t2);
-          position = this._toValue - _envelope * (x0 + (v0 + omega0 * x0) * t2);
-          velocity = _envelope * (v0 * (t2 * omega0 - 1) + t2 * x0 * (omega0 * omega0));
+          var _envelope = Math.exp(-omega0 * t);
+          position = this._toValue - _envelope * (x0 + (v0 + omega0 * x0) * t);
+          velocity = _envelope * (v0 * (t * omega0 - 1) + t * x0 * (omega0 * omega0));
         }
         this._lastTime = now;
         this._lastPosition = position;
@@ -20465,8 +20465,8 @@ var require_Easing = __commonJS({
        *
        * http://cubic-bezier.com/#0,0,1,1
        */
-      static linear(t2) {
-        return t2;
+      static linear(t) {
+        return t;
       }
       /**
        * A simple inertial interaction, similar to an object slowly accelerating to
@@ -20474,11 +20474,11 @@ var require_Easing = __commonJS({
        *
        * http://cubic-bezier.com/#.42,0,1,1
        */
-      static ease(t2) {
+      static ease(t) {
         if (!ease) {
           ease = _Easing.bezier(0.42, 0, 1, 1);
         }
-        return ease(t2);
+        return ease(t);
       }
       /**
        * A quadratic function, `f(t) = t * t`. Position equals the square of elapsed
@@ -20486,8 +20486,8 @@ var require_Easing = __commonJS({
        *
        * http://easings.net/#easeInQuad
        */
-      static quad(t2) {
-        return t2 * t2;
+      static quad(t) {
+        return t * t;
       }
       /**
        * A cubic function, `f(t) = t * t * t`. Position equals the cube of elapsed
@@ -20495,8 +20495,8 @@ var require_Easing = __commonJS({
        *
        * http://easings.net/#easeInCubic
        */
-      static cubic(t2) {
-        return t2 * t2 * t2;
+      static cubic(t) {
+        return t * t * t;
       }
       /**
        * A power function. Position is equal to the Nth power of elapsed time.
@@ -20505,31 +20505,31 @@ var require_Easing = __commonJS({
        * n = 5: http://easings.net/#easeInQuint
        */
       static poly(n) {
-        return (t2) => Math.pow(t2, n);
+        return (t) => Math.pow(t, n);
       }
       /**
        * A sinusoidal function.
        *
        * http://easings.net/#easeInSine
        */
-      static sin(t2) {
-        return 1 - Math.cos(t2 * Math.PI / 2);
+      static sin(t) {
+        return 1 - Math.cos(t * Math.PI / 2);
       }
       /**
        * A circular function.
        *
        * http://easings.net/#easeInCirc
        */
-      static circle(t2) {
-        return 1 - Math.sqrt(1 - t2 * t2);
+      static circle(t) {
+        return 1 - Math.sqrt(1 - t * t);
       }
       /**
        * An exponential function.
        *
        * http://easings.net/#easeInExpo
        */
-      static exp(t2) {
-        return Math.pow(2, 10 * (t2 - 1));
+      static exp(t) {
+        return Math.pow(2, 10 * (t - 1));
       }
       /**
        * A simple elastic interaction, similar to a spring oscillating back and
@@ -20546,7 +20546,7 @@ var require_Easing = __commonJS({
           bounciness = 1;
         }
         var p = bounciness * Math.PI;
-        return (t2) => 1 - Math.pow(Math.cos(t2 * Math.PI / 2), 3) * Math.cos(t2 * p);
+        return (t) => 1 - Math.pow(Math.cos(t * Math.PI / 2), 3) * Math.cos(t * p);
       }
       /**
        * Use with `Animated.parallel()` to create a simple effect where the object
@@ -20560,27 +20560,27 @@ var require_Easing = __commonJS({
         if (s === void 0) {
           s = 1.70158;
         }
-        return (t2) => t2 * t2 * ((s + 1) * t2 - s);
+        return (t) => t * t * ((s + 1) * t - s);
       }
       /**
        * Provides a simple bouncing effect.
        *
        * http://easings.net/#easeInBounce
        */
-      static bounce(t2) {
-        if (t2 < 1 / 2.75) {
-          return 7.5625 * t2 * t2;
+      static bounce(t) {
+        if (t < 1 / 2.75) {
+          return 7.5625 * t * t;
         }
-        if (t2 < 2 / 2.75) {
-          var _t = t2 - 1.5 / 2.75;
+        if (t < 2 / 2.75) {
+          var _t = t - 1.5 / 2.75;
           return 7.5625 * _t * _t + 0.75;
         }
-        if (t2 < 2.5 / 2.75) {
-          var _t2 = t2 - 2.25 / 2.75;
+        if (t < 2.5 / 2.75) {
+          var _t2 = t - 2.25 / 2.75;
           return 7.5625 * _t2 * _t2 + 0.9375;
         }
-        var t22 = t2 - 2.625 / 2.75;
-        return 7.5625 * t22 * t22 + 0.984375;
+        var t2 = t - 2.625 / 2.75;
+        return 7.5625 * t2 * t2 + 0.984375;
       }
       /**
        * Provides a cubic bezier curve, equivalent to CSS Transitions'
@@ -20602,7 +20602,7 @@ var require_Easing = __commonJS({
        * Runs an easing function backwards.
        */
       static out(easing) {
-        return (t2) => 1 - easing(1 - t2);
+        return (t) => 1 - easing(1 - t);
       }
       /**
        * Makes any easing function symmetrical. The easing function will run
@@ -20610,11 +20610,11 @@ var require_Easing = __commonJS({
        * duration.
        */
       static inOut(easing) {
-        return (t2) => {
-          if (t2 < 0.5) {
-            return easing(t2 * 2) / 2;
+        return (t) => {
+          if (t < 0.5) {
+            return easing(t * 2) / 2;
           }
-          return 1 - easing((1 - t2) * 2) / 2;
+          return 1 - easing((1 - t) * 2) / 2;
         };
       }
     };
@@ -20661,17 +20661,17 @@ var require_TimingAnimation = __commonJS({
     }
     __name(easeInOut, "easeInOut");
     var _TimingAnimation = class _TimingAnimation extends _Animation.default {
-      constructor(config) {
+      constructor(config2) {
         var _config$easing, _config$duration, _config$delay, _config$iterations, _config$isInteraction;
         super();
-        this._toValue = config.toValue;
-        this._easing = (_config$easing = config.easing) !== null && _config$easing !== void 0 ? _config$easing : easeInOut();
-        this._duration = (_config$duration = config.duration) !== null && _config$duration !== void 0 ? _config$duration : 500;
-        this._delay = (_config$delay = config.delay) !== null && _config$delay !== void 0 ? _config$delay : 0;
-        this.__iterations = (_config$iterations = config.iterations) !== null && _config$iterations !== void 0 ? _config$iterations : 1;
-        this._useNativeDriver = (0, _NativeAnimatedHelper.shouldUseNativeDriver)(config);
-        this._platformConfig = config.platformConfig;
-        this.__isInteraction = (_config$isInteraction = config.isInteraction) !== null && _config$isInteraction !== void 0 ? _config$isInteraction : !this._useNativeDriver;
+        this._toValue = config2.toValue;
+        this._easing = (_config$easing = config2.easing) !== null && _config$easing !== void 0 ? _config$easing : easeInOut();
+        this._duration = (_config$duration = config2.duration) !== null && _config$duration !== void 0 ? _config$duration : 500;
+        this._delay = (_config$delay = config2.delay) !== null && _config$delay !== void 0 ? _config$delay : 0;
+        this.__iterations = (_config$iterations = config2.iterations) !== null && _config$iterations !== void 0 ? _config$iterations : 1;
+        this._useNativeDriver = (0, _NativeAnimatedHelper.shouldUseNativeDriver)(config2);
+        this._platformConfig = config2.platformConfig;
+        this.__isInteraction = (_config$isInteraction = config2.isInteraction) !== null && _config$isInteraction !== void 0 ? _config$isInteraction : !this._useNativeDriver;
       }
       __getNativeAnimationConfig() {
         var frameDuration = 1e3 / 60;
@@ -20797,22 +20797,22 @@ var require_AnimatedImplementation = __commonJS({
     var diffClamp = /* @__PURE__ */ __name(function diffClamp2(a, min2, max2) {
       return new _AnimatedDiffClamp.default(a, min2, max2);
     }, "diffClamp");
-    var _combineCallbacks = /* @__PURE__ */ __name(function _combineCallbacks2(callback, config) {
-      if (callback && config.onComplete) {
+    var _combineCallbacks = /* @__PURE__ */ __name(function _combineCallbacks2(callback, config2) {
+      if (callback && config2.onComplete) {
         return function() {
-          config.onComplete && config.onComplete(...arguments);
+          config2.onComplete && config2.onComplete(...arguments);
           callback && callback(...arguments);
         };
       } else {
-        return callback || config.onComplete;
+        return callback || config2.onComplete;
       }
     }, "_combineCallbacks");
-    var maybeVectorAnim = /* @__PURE__ */ __name(function maybeVectorAnim2(value, config, anim) {
+    var maybeVectorAnim = /* @__PURE__ */ __name(function maybeVectorAnim2(value, config2, anim) {
       if (value instanceof _AnimatedValueXY.default) {
-        var configX = (0, _objectSpread2.default)({}, config);
-        var configY = (0, _objectSpread2.default)({}, config);
-        for (var key in config) {
-          var _config$key = config[key], x = _config$key.x, y = _config$key.y;
+        var configX = (0, _objectSpread2.default)({}, config2);
+        var configY = (0, _objectSpread2.default)({}, config2);
+        for (var key in config2) {
+          var _config$key = config2[key], x = _config$key.x, y = _config$key.y;
           if (x !== void 0 && y !== void 0) {
             configX[key] = x;
             configY[key] = y;
@@ -20824,12 +20824,12 @@ var require_AnimatedImplementation = __commonJS({
           stopTogether: false
         });
       } else if (value instanceof _AnimatedColor.default) {
-        var configR = (0, _objectSpread2.default)({}, config);
-        var configG = (0, _objectSpread2.default)({}, config);
-        var configB = (0, _objectSpread2.default)({}, config);
-        var configA = (0, _objectSpread2.default)({}, config);
-        for (var _key in config) {
-          var _config$_key = config[_key], r = _config$_key.r, g = _config$_key.g, b = _config$_key.b, a = _config$_key.a;
+        var configR = (0, _objectSpread2.default)({}, config2);
+        var configG = (0, _objectSpread2.default)({}, config2);
+        var configB = (0, _objectSpread2.default)({}, config2);
+        var configA = (0, _objectSpread2.default)({}, config2);
+        for (var _key in config2) {
+          var _config$_key = config2[_key], r = _config$_key.r, g = _config$_key.g, b = _config$_key.b, a = _config$_key.a;
           if (r !== void 0 && g !== void 0 && b !== void 0 && a !== void 0) {
             configR[_key] = r;
             configG[_key] = g;
@@ -20847,7 +20847,7 @@ var require_AnimatedImplementation = __commonJS({
       }
       return null;
     }, "maybeVectorAnim");
-    var spring = /* @__PURE__ */ __name(function spring2(value, config) {
+    var spring = /* @__PURE__ */ __name(function spring2(value, config2) {
       var _start = /* @__PURE__ */ __name(function start(animatedValue, configuration, callback) {
         callback = _combineCallbacks(callback, configuration);
         var singleValue = animatedValue;
@@ -20859,9 +20859,9 @@ var require_AnimatedImplementation = __commonJS({
           singleValue.animate(new _SpringAnimation.default(singleConfig), callback);
         }
       }, "start");
-      return maybeVectorAnim(value, config, spring2) || {
+      return maybeVectorAnim(value, config2, spring2) || {
         start: /* @__PURE__ */ __name(function start(callback) {
-          _start(value, config, callback);
+          _start(value, config2, callback);
         }, "start"),
         stop: /* @__PURE__ */ __name(function stop() {
           value.stopAnimation();
@@ -20870,17 +20870,17 @@ var require_AnimatedImplementation = __commonJS({
           value.resetAnimation();
         }, "reset"),
         _startNativeLoop: /* @__PURE__ */ __name(function _startNativeLoop(iterations) {
-          var singleConfig = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, config), {}, {
+          var singleConfig = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, config2), {}, {
             iterations
           });
           _start(value, singleConfig);
         }, "_startNativeLoop"),
         _isUsingNativeDriver: /* @__PURE__ */ __name(function _isUsingNativeDriver() {
-          return config.useNativeDriver || false;
+          return config2.useNativeDriver || false;
         }, "_isUsingNativeDriver")
       };
     }, "spring");
-    var timing = /* @__PURE__ */ __name(function timing2(value, config) {
+    var timing = /* @__PURE__ */ __name(function timing2(value, config2) {
       var _start2 = /* @__PURE__ */ __name(function start(animatedValue, configuration, callback) {
         callback = _combineCallbacks(callback, configuration);
         var singleValue = animatedValue;
@@ -20892,9 +20892,9 @@ var require_AnimatedImplementation = __commonJS({
           singleValue.animate(new _TimingAnimation.default(singleConfig), callback);
         }
       }, "start");
-      return maybeVectorAnim(value, config, timing2) || {
+      return maybeVectorAnim(value, config2, timing2) || {
         start: /* @__PURE__ */ __name(function start(callback) {
-          _start2(value, config, callback);
+          _start2(value, config2, callback);
         }, "start"),
         stop: /* @__PURE__ */ __name(function stop() {
           value.stopAnimation();
@@ -20903,17 +20903,17 @@ var require_AnimatedImplementation = __commonJS({
           value.resetAnimation();
         }, "reset"),
         _startNativeLoop: /* @__PURE__ */ __name(function _startNativeLoop(iterations) {
-          var singleConfig = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, config), {}, {
+          var singleConfig = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, config2), {}, {
             iterations
           });
           _start2(value, singleConfig);
         }, "_startNativeLoop"),
         _isUsingNativeDriver: /* @__PURE__ */ __name(function _isUsingNativeDriver() {
-          return config.useNativeDriver || false;
+          return config2.useNativeDriver || false;
         }, "_isUsingNativeDriver")
       };
     }, "timing");
-    var decay = /* @__PURE__ */ __name(function decay2(value, config) {
+    var decay = /* @__PURE__ */ __name(function decay2(value, config2) {
       var _start3 = /* @__PURE__ */ __name(function start(animatedValue, configuration, callback) {
         callback = _combineCallbacks(callback, configuration);
         var singleValue = animatedValue;
@@ -20921,9 +20921,9 @@ var require_AnimatedImplementation = __commonJS({
         singleValue.stopTracking();
         singleValue.animate(new _DecayAnimation.default(singleConfig), callback);
       }, "start");
-      return maybeVectorAnim(value, config, decay2) || {
+      return maybeVectorAnim(value, config2, decay2) || {
         start: /* @__PURE__ */ __name(function start(callback) {
-          _start3(value, config, callback);
+          _start3(value, config2, callback);
         }, "start"),
         stop: /* @__PURE__ */ __name(function stop() {
           value.stopAnimation();
@@ -20932,17 +20932,17 @@ var require_AnimatedImplementation = __commonJS({
           value.resetAnimation();
         }, "reset"),
         _startNativeLoop: /* @__PURE__ */ __name(function _startNativeLoop(iterations) {
-          var singleConfig = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, config), {}, {
+          var singleConfig = (0, _objectSpread2.default)((0, _objectSpread2.default)({}, config2), {}, {
             iterations
           });
           _start3(value, singleConfig);
         }, "_startNativeLoop"),
         _isUsingNativeDriver: /* @__PURE__ */ __name(function _isUsingNativeDriver() {
-          return config.useNativeDriver || false;
+          return config2.useNativeDriver || false;
         }, "_isUsingNativeDriver")
       };
     }, "decay");
-    var sequence = /* @__PURE__ */ __name(function sequence2(animations) {
+    var sequence = /* @__PURE__ */ __name(function sequence2(animations2) {
       var current = 0;
       return {
         start: /* @__PURE__ */ __name(function start(callback) {
@@ -20952,27 +20952,27 @@ var require_AnimatedImplementation = __commonJS({
               return;
             }
             current++;
-            if (current === animations.length) {
+            if (current === animations2.length) {
               callback && callback(result);
               return;
             }
-            animations[current].start(onComplete2);
+            animations2[current].start(onComplete2);
           }, "onComplete");
-          if (animations.length === 0) {
+          if (animations2.length === 0) {
             callback && callback({
               finished: true
             });
           } else {
-            animations[current].start(onComplete);
+            animations2[current].start(onComplete);
           }
         }, "start"),
         stop: /* @__PURE__ */ __name(function stop() {
-          if (current < animations.length) {
-            animations[current].stop();
+          if (current < animations2.length) {
+            animations2[current].stop();
           }
         }, "stop"),
         reset: /* @__PURE__ */ __name(function reset() {
-          animations.forEach((animation, idx) => {
+          animations2.forEach((animation, idx) => {
             if (idx <= current) {
               animation.reset();
             }
@@ -20987,23 +20987,23 @@ var require_AnimatedImplementation = __commonJS({
         }, "_isUsingNativeDriver")
       };
     }, "sequence");
-    var parallel = /* @__PURE__ */ __name(function parallel2(animations, config) {
+    var parallel = /* @__PURE__ */ __name(function parallel2(animations2, config2) {
       var doneCount = 0;
       var hasEnded = {};
-      var stopTogether = !(config && config.stopTogether === false);
+      var stopTogether = !(config2 && config2.stopTogether === false);
       var result = {
         start: /* @__PURE__ */ __name(function start(callback) {
-          if (doneCount === animations.length) {
+          if (doneCount === animations2.length) {
             callback && callback({
               finished: true
             });
             return;
           }
-          animations.forEach((animation, idx) => {
+          animations2.forEach((animation, idx) => {
             var cb = /* @__PURE__ */ __name(function cb2(endResult) {
               hasEnded[idx] = true;
               doneCount++;
-              if (doneCount === animations.length) {
+              if (doneCount === animations2.length) {
                 doneCount = 0;
                 callback && callback(endResult);
                 return;
@@ -21022,13 +21022,13 @@ var require_AnimatedImplementation = __commonJS({
           });
         }, "start"),
         stop: /* @__PURE__ */ __name(function stop() {
-          animations.forEach((animation, idx) => {
+          animations2.forEach((animation, idx) => {
             !hasEnded[idx] && animation.stop();
             hasEnded[idx] = true;
           });
         }, "stop"),
         reset: /* @__PURE__ */ __name(function reset() {
-          animations.forEach((animation, idx) => {
+          animations2.forEach((animation, idx) => {
             animation.reset();
             hasEnded[idx] = false;
             doneCount = 0;
@@ -21051,8 +21051,8 @@ var require_AnimatedImplementation = __commonJS({
         useNativeDriver: false
       });
     }, "delay");
-    var stagger = /* @__PURE__ */ __name(function stagger2(time, animations) {
-      return parallel(animations.map((animation, i) => {
+    var stagger = /* @__PURE__ */ __name(function stagger2(time, animations2) {
+      return parallel(animations2.map((animation, i) => {
         return sequence([delay(time * i), animation]);
       }));
     }, "stagger");
@@ -21125,8 +21125,8 @@ var require_AnimatedImplementation = __commonJS({
       }
     }
     __name(unforkEvent, "unforkEvent");
-    var event = /* @__PURE__ */ __name(function event2(argMapping, config) {
-      var animatedEvent = new _AnimatedEvent.AnimatedEvent(argMapping, config);
+    var event = /* @__PURE__ */ __name(function event2(argMapping, config2) {
+      var animatedEvent = new _AnimatedEvent.AnimatedEvent(argMapping, config2);
       if (animatedEvent.__isNative) {
         return animatedEvent;
       } else {
@@ -21349,50 +21349,50 @@ var require_AnimatedMock = __commonJS({
         return false;
       }, "_isUsingNativeDriver")
     };
-    var mockCompositeAnimation = /* @__PURE__ */ __name((animations) => (0, _objectSpread2.default)((0, _objectSpread2.default)({}, emptyAnimation), {}, {
+    var mockCompositeAnimation = /* @__PURE__ */ __name((animations2) => (0, _objectSpread2.default)((0, _objectSpread2.default)({}, emptyAnimation), {}, {
       start: mockAnimationStart((callback) => {
-        animations.forEach((animation) => animation.start());
+        animations2.forEach((animation) => animation.start());
         callback == null ? void 0 : callback({
           finished: true
         });
       })
     }), "mockCompositeAnimation");
-    var spring = /* @__PURE__ */ __name(function spring2(value, config) {
+    var spring = /* @__PURE__ */ __name(function spring2(value, config2) {
       var anyValue = value;
       return (0, _objectSpread2.default)((0, _objectSpread2.default)({}, emptyAnimation), {}, {
         start: mockAnimationStart((callback) => {
-          anyValue.setValue(config.toValue);
+          anyValue.setValue(config2.toValue);
           callback == null ? void 0 : callback({
             finished: true
           });
         })
       });
     }, "spring");
-    var timing = /* @__PURE__ */ __name(function timing2(value, config) {
+    var timing = /* @__PURE__ */ __name(function timing2(value, config2) {
       var anyValue = value;
       return (0, _objectSpread2.default)((0, _objectSpread2.default)({}, emptyAnimation), {}, {
         start: mockAnimationStart((callback) => {
-          anyValue.setValue(config.toValue);
+          anyValue.setValue(config2.toValue);
           callback == null ? void 0 : callback({
             finished: true
           });
         })
       });
     }, "timing");
-    var decay = /* @__PURE__ */ __name(function decay2(value, config) {
+    var decay = /* @__PURE__ */ __name(function decay2(value, config2) {
       return emptyAnimation;
     }, "decay");
-    var sequence = /* @__PURE__ */ __name(function sequence2(animations) {
-      return mockCompositeAnimation(animations);
+    var sequence = /* @__PURE__ */ __name(function sequence2(animations2) {
+      return mockCompositeAnimation(animations2);
     }, "sequence");
-    var parallel = /* @__PURE__ */ __name(function parallel2(animations, config) {
-      return mockCompositeAnimation(animations);
+    var parallel = /* @__PURE__ */ __name(function parallel2(animations2, config2) {
+      return mockCompositeAnimation(animations2);
     }, "parallel");
     var delay = /* @__PURE__ */ __name(function delay2(time) {
       return emptyAnimation;
     }, "delay");
-    var stagger = /* @__PURE__ */ __name(function stagger2(time, animations) {
-      return mockCompositeAnimation(animations);
+    var stagger = /* @__PURE__ */ __name(function stagger2(time, animations2) {
+      return mockCompositeAnimation(animations2);
     }, "stagger");
     var loop = /* @__PURE__ */ __name(function loop2(animation, _temp) {
       var _ref = _temp === void 0 ? {} : _temp, _ref$iterations = _ref.iterations, iterations = _ref$iterations === void 0 ? -1 : _ref$iterations;
@@ -21446,7 +21446,7 @@ var require_Animated = __commonJS({
     var _AnimatedView = _interopRequireDefault(require_AnimatedView());
     var _AnimatedMock = _interopRequireDefault(require_AnimatedMock());
     var _AnimatedImplementation = _interopRequireDefault(require_AnimatedImplementation());
-    var Animated = _Platform.default.isTesting ? _AnimatedMock.default : _AnimatedImplementation.default;
+    var Animated2 = _Platform.default.isTesting ? _AnimatedMock.default : _AnimatedImplementation.default;
     var _default = exports2.default = (0, _objectSpread2.default)({
       FlatList: _AnimatedFlatList.default,
       Image: _AnimatedImage.default,
@@ -21454,7 +21454,7 @@ var require_Animated = __commonJS({
       SectionList: _AnimatedSectionList.default,
       Text: _AnimatedText.default,
       View: _AnimatedView.default
-    }, Animated);
+    }, Animated2);
     module2.exports = exports2.default;
   }
 });
@@ -21532,23 +21532,23 @@ var require_AppContainer = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
-    var RootTagContext = /* @__PURE__ */ React81.createContext(null);
-    var AppContainer = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+    var RootTagContext = /* @__PURE__ */ React82.createContext(null);
+    var AppContainer = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
       var children = props.children, WrapperComponent = props.WrapperComponent;
-      var innerView = /* @__PURE__ */ React81.createElement(_View.default, {
+      var innerView = /* @__PURE__ */ React82.createElement(_View.default, {
         children,
         key: 1,
         style: styles.appContainer
       });
       if (WrapperComponent) {
-        innerView = /* @__PURE__ */ React81.createElement(WrapperComponent, null, innerView);
+        innerView = /* @__PURE__ */ React82.createElement(WrapperComponent, null, innerView);
       }
-      return /* @__PURE__ */ React81.createElement(RootTagContext.Provider, {
+      return /* @__PURE__ */ React82.createElement(RootTagContext.Provider, {
         value: props.rootTag
-      }, /* @__PURE__ */ React81.createElement(_View.default, {
+      }, /* @__PURE__ */ React82.createElement(_View.default, {
         ref: forwardedRef,
         style: styles.appContainer
       }, innerView));
@@ -21651,8 +21651,8 @@ var require_AppRegistry = __commonJS({
         };
         return appKey;
       }
-      static registerConfig(config) {
-        config.forEach((_ref) => {
+      static registerConfig(config2) {
+        config2.forEach((_ref) => {
           var appKey = _ref.appKey, component = _ref.component, run = _ref.run;
           if (run) {
             _AppRegistry.registerRunnable(appKey, run);
@@ -21896,10 +21896,10 @@ var require_LayoutAnimation = __commonJS({
     var _Platform = _interopRequireDefault(require_Platform());
     var _UIManager = _interopRequireDefault(require_UIManager());
     var __DEV__ = process.env.NODE_ENV !== "production";
-    function configureNext(config, onAnimationDidEnd) {
+    function configureNext(config2, onAnimationDidEnd) {
       if (!_Platform.default.isTesting) {
         _UIManager.default.configureNextLayoutAnimation(
-          config,
+          config2,
           onAnimationDidEnd !== null && onAnimationDidEnd !== void 0 ? onAnimationDidEnd : function() {
           },
           function() {
@@ -22407,7 +22407,7 @@ var require_PanResponder = __commonJS({
        *  accordingly. (numberActiveTouches) may not be totally accurate unless you
        *  are the responder.
        */
-      create(config) {
+      create(config2) {
         var interactionState = {
           handle: null,
           shouldCancelClick: false,
@@ -22429,17 +22429,17 @@ var require_PanResponder = __commonJS({
         };
         var panHandlers = {
           onStartShouldSetResponder(event) {
-            return config.onStartShouldSetPanResponder == null ? false : config.onStartShouldSetPanResponder(event, gestureState);
+            return config2.onStartShouldSetPanResponder == null ? false : config2.onStartShouldSetPanResponder(event, gestureState);
           },
           onMoveShouldSetResponder(event) {
-            return config.onMoveShouldSetPanResponder == null ? false : config.onMoveShouldSetPanResponder(event, gestureState);
+            return config2.onMoveShouldSetPanResponder == null ? false : config2.onMoveShouldSetPanResponder(event, gestureState);
           },
           onStartShouldSetResponderCapture(event) {
             if (event.nativeEvent.touches.length === 1) {
               PanResponder2._initializeGestureState(gestureState);
             }
             gestureState.numberActiveTouches = event.touchHistory.numberActiveTouches;
-            return config.onStartShouldSetPanResponderCapture != null ? config.onStartShouldSetPanResponderCapture(event, gestureState) : false;
+            return config2.onStartShouldSetPanResponderCapture != null ? config2.onStartShouldSetPanResponderCapture(event, gestureState) : false;
           },
           onMoveShouldSetResponderCapture(event) {
             var touchHistory = event.touchHistory;
@@ -22447,7 +22447,7 @@ var require_PanResponder = __commonJS({
               return false;
             }
             PanResponder2._updateGestureStateOnMove(gestureState, touchHistory);
-            return config.onMoveShouldSetPanResponderCapture ? config.onMoveShouldSetPanResponderCapture(event, gestureState) : false;
+            return config2.onMoveShouldSetPanResponderCapture ? config2.onMoveShouldSetPanResponderCapture(event, gestureState) : false;
           },
           onResponderGrant(event) {
             if (!interactionState.handle) {
@@ -22461,24 +22461,24 @@ var require_PanResponder = __commonJS({
             gestureState.y0 = currentCentroidY(event.touchHistory);
             gestureState.dx = 0;
             gestureState.dy = 0;
-            if (config.onPanResponderGrant) {
-              config.onPanResponderGrant(event, gestureState);
+            if (config2.onPanResponderGrant) {
+              config2.onPanResponderGrant(event, gestureState);
             }
-            return config.onShouldBlockNativeResponder == null ? true : config.onShouldBlockNativeResponder(event, gestureState);
+            return config2.onShouldBlockNativeResponder == null ? true : config2.onShouldBlockNativeResponder(event, gestureState);
           },
           onResponderReject(event) {
-            clearInteractionHandle(interactionState, config.onPanResponderReject, event, gestureState);
+            clearInteractionHandle(interactionState, config2.onPanResponderReject, event, gestureState);
           },
           onResponderRelease(event) {
-            clearInteractionHandle(interactionState, config.onPanResponderRelease, event, gestureState);
+            clearInteractionHandle(interactionState, config2.onPanResponderRelease, event, gestureState);
             setInteractionTimeout(interactionState);
             PanResponder2._initializeGestureState(gestureState);
           },
           onResponderStart(event) {
             var touchHistory = event.touchHistory;
             gestureState.numberActiveTouches = touchHistory.numberActiveTouches;
-            if (config.onPanResponderStart) {
-              config.onPanResponderStart(event, gestureState);
+            if (config2.onPanResponderStart) {
+              config2.onPanResponderStart(event, gestureState);
             }
           },
           onResponderMove(event) {
@@ -22487,22 +22487,22 @@ var require_PanResponder = __commonJS({
               return;
             }
             PanResponder2._updateGestureStateOnMove(gestureState, touchHistory);
-            if (config.onPanResponderMove) {
-              config.onPanResponderMove(event, gestureState);
+            if (config2.onPanResponderMove) {
+              config2.onPanResponderMove(event, gestureState);
             }
           },
           onResponderEnd(event) {
             var touchHistory = event.touchHistory;
             gestureState.numberActiveTouches = touchHistory.numberActiveTouches;
-            clearInteractionHandle(interactionState, config.onPanResponderEnd, event, gestureState);
+            clearInteractionHandle(interactionState, config2.onPanResponderEnd, event, gestureState);
           },
           onResponderTerminate(event) {
-            clearInteractionHandle(interactionState, config.onPanResponderTerminate, event, gestureState);
+            clearInteractionHandle(interactionState, config2.onPanResponderTerminate, event, gestureState);
             setInteractionTimeout(interactionState);
             PanResponder2._initializeGestureState(gestureState);
           },
           onResponderTerminationRequest(event) {
-            return config.onPanResponderTerminationRequest == null ? true : config.onPanResponderTerminationRequest(event, gestureState);
+            return config2.onPanResponderTerminationRequest == null ? true : config2.onPanResponderTerminationRequest(event, gestureState);
           },
           // We do not want to trigger 'click' activated gestures or native behaviors
           // on any pan target that is under a mouse cursor when it is released.
@@ -22647,11 +22647,11 @@ var require_ActivityIndicator = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _excluded = ["animating", "color", "hidesWhenStopped", "size", "style"];
-    var createSvgCircle = /* @__PURE__ */ __name((style) => /* @__PURE__ */ React81.createElement("circle", {
+    var createSvgCircle = /* @__PURE__ */ __name((style) => /* @__PURE__ */ React82.createElement("circle", {
       cx: "16",
       cy: "16",
       fill: "none",
@@ -22659,32 +22659,32 @@ var require_ActivityIndicator = __commonJS({
       strokeWidth: "4",
       style
     }), "createSvgCircle");
-    var ActivityIndicator2 = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
-      var _props$animating = props.animating, animating = _props$animating === void 0 ? true : _props$animating, _props$color = props.color, color2 = _props$color === void 0 ? "#1976D2" : _props$color, _props$hidesWhenStopp = props.hidesWhenStopped, hidesWhenStopped = _props$hidesWhenStopp === void 0 ? true : _props$hidesWhenStopp, _props$size = props.size, size6 = _props$size === void 0 ? "small" : _props$size, style = props.style, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var svg = /* @__PURE__ */ React81.createElement("svg", {
+    var ActivityIndicator2 = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
+      var _props$animating = props.animating, animating = _props$animating === void 0 ? true : _props$animating, _props$color = props.color, color = _props$color === void 0 ? "#1976D2" : _props$color, _props$hidesWhenStopp = props.hidesWhenStopped, hidesWhenStopped = _props$hidesWhenStopp === void 0 ? true : _props$hidesWhenStopp, _props$size = props.size, size5 = _props$size === void 0 ? "small" : _props$size, style = props.style, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
+      var svg = /* @__PURE__ */ React82.createElement("svg", {
         height: "100%",
         viewBox: "0 0 32 32",
         width: "100%"
       }, createSvgCircle({
-        stroke: color2,
+        stroke: color,
         opacity: 0.2
       }), createSvgCircle({
-        stroke: color2,
+        stroke: color,
         strokeDasharray: 80,
         strokeDashoffset: 60
       }));
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, other, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, other, {
         "aria-valuemax": 1,
         "aria-valuemin": 0,
         ref: forwardedRef,
         role: "progressbar",
         style: [styles.container, style]
-      }), /* @__PURE__ */ React81.createElement(_View.default, {
+      }), /* @__PURE__ */ React82.createElement(_View.default, {
         children: svg,
-        style: [typeof size6 === "number" ? {
-          height: size6,
-          width: size6
-        } : indicatorSizes[size6], styles.animation, !animating && styles.animationPause, !animating && hidesWhenStopped && styles.hidesWhenStopped]
+        style: [typeof size5 === "number" ? {
+          height: size5,
+          width: size5
+        } : indicatorSizes[size5], styles.animation, !animating && styles.animationPause, !animating && hidesWhenStopped && styles.hidesWhenStopped]
       }));
     });
     ActivityIndicator2.displayName = "ActivityIndicator";
@@ -22796,7 +22796,7 @@ var require_PressResponder = __commonJS({
     var DEFAULT_LONG_PRESS_DELAY_MS = 450;
     var DEFAULT_PRESS_DELAY_MS = 50;
     var _PressResponder = class _PressResponder {
-      constructor(config) {
+      constructor(config2) {
         this._eventHandlers = null;
         this._isPointerTouch = false;
         this._longPressDelayTimeout = null;
@@ -22805,10 +22805,10 @@ var require_PressResponder = __commonJS({
         this._pressOutDelayTimeout = null;
         this._touchState = NOT_RESPONDER;
         this._responderElement = null;
-        this.configure(config);
+        this.configure(config2);
       }
-      configure(config) {
-        this._config = config;
+      configure(config2) {
+        this._config = config2;
       }
       /**
        * Resets any pending timers. This should be called on unmount.
@@ -23123,21 +23123,21 @@ var require_usePressEvents = __commonJS({
     exports2.default = usePressEvents;
     var _PressResponder = _interopRequireDefault(require_PressResponder());
     var _react = require("react");
-    function usePressEvents(hostRef, config) {
+    function usePressEvents(hostRef, config2) {
       var pressResponderRef = (0, _react.useRef)(null);
       if (pressResponderRef.current == null) {
-        pressResponderRef.current = new _PressResponder.default(config);
+        pressResponderRef.current = new _PressResponder.default(config2);
       }
       var pressResponder = pressResponderRef.current;
       (0, _react.useEffect)(() => {
-        pressResponder.configure(config);
-      }, [config, pressResponder]);
+        pressResponder.configure(config2);
+      }, [config2, pressResponder]);
       (0, _react.useEffect)(() => {
         return () => {
           pressResponder.reset();
         };
       }, [pressResponder]);
-      (0, _react.useDebugValue)(config);
+      (0, _react.useDebugValue)(config2);
       return pressResponder.getEventHandlers();
     }
     __name(usePressEvents, "usePressEvents");
@@ -23157,7 +23157,7 @@ var require_TouchableOpacity = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _react = _interopRequireWildcard(require("react"));
-    var React81 = _react;
+    var React82 = _react;
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _usePressEvents = _interopRequireDefault(require_usePressEvents());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
@@ -23202,7 +23202,7 @@ var require_TouchableOpacity = __commonJS({
         }
       }), [delayLongPress, delayPressIn, delayPressOut, disabled, onLongPress, onPress, onPressIn, onPressOut, rejectResponderTermination, setOpacityActive, setOpacityInactive]);
       var pressEventHandlers = (0, _usePressEvents.default)(hostRef, pressConfig);
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
         accessibilityDisabled: disabled,
         focusable: !disabled && focusable !== false,
         pointerEvents: disabled ? "box-none" : void 0,
@@ -23226,7 +23226,7 @@ var require_TouchableOpacity = __commonJS({
         touchAction: "manipulation"
       }
     });
-    var MemoedTouchableOpacity = /* @__PURE__ */ React81.memo(/* @__PURE__ */ React81.forwardRef(TouchableOpacity));
+    var MemoedTouchableOpacity = /* @__PURE__ */ React82.memo(/* @__PURE__ */ React82.forwardRef(TouchableOpacity));
     MemoedTouchableOpacity.displayName = "TouchableOpacity";
     var _default = exports2.default = MemoedTouchableOpacity;
     module2.exports = exports2.default;
@@ -23241,24 +23241,24 @@ var require_Button = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _TouchableOpacity = _interopRequireDefault(require_TouchableOpacity());
     var _Text = _interopRequireDefault(require_Text());
-    var Button = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
-      var accessibilityLabel = props.accessibilityLabel, color2 = props.color, disabled = props.disabled, onPress = props.onPress, testID = props.testID, title = props.title;
-      return /* @__PURE__ */ React81.createElement(_TouchableOpacity.default, {
+    var Button = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
+      var accessibilityLabel = props.accessibilityLabel, color = props.color, disabled = props.disabled, onPress = props.onPress, testID = props.testID, title = props.title;
+      return /* @__PURE__ */ React82.createElement(_TouchableOpacity.default, {
         accessibilityLabel,
         accessibilityRole: "button",
         disabled,
         focusable: !disabled,
         onPress,
         ref: forwardedRef,
-        style: [styles.button, color2 && {
-          backgroundColor: color2
+        style: [styles.button, color && {
+          backgroundColor: color
         }, disabled && styles.buttonDisabled],
         testID
-      }, /* @__PURE__ */ React81.createElement(_Text.default, {
+      }, /* @__PURE__ */ React82.createElement(_Text.default, {
         style: [styles.text, disabled && styles.textDisabled]
       }, title));
     });
@@ -23299,13 +23299,13 @@ var require_CheckBox = __commonJS({
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _excluded = ["aria-readonly", "color", "disabled", "onChange", "onValueChange", "readOnly", "style", "value"];
-    var CheckBox = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
-      var ariaReadOnly = props["aria-readonly"], color2 = props.color, disabled = props.disabled, onChange = props.onChange, onValueChange = props.onValueChange, readOnly = props.readOnly, style = props.style, value = props.value, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
+    var CheckBox = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
+      var ariaReadOnly = props["aria-readonly"], color = props.color, disabled = props.disabled, onChange = props.onChange, onValueChange = props.onValueChange, readOnly = props.readOnly, style = props.style, value = props.value, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       function handleChange(event) {
         var value2 = event.nativeEvent.target.checked;
         event.nativeEvent.value = value2;
@@ -23313,14 +23313,14 @@ var require_CheckBox = __commonJS({
         onValueChange && onValueChange(value2);
       }
       __name(handleChange, "handleChange");
-      var fakeControl = /* @__PURE__ */ React81.createElement(_View.default, {
+      var fakeControl = /* @__PURE__ */ React82.createElement(_View.default, {
         style: [
           styles.fakeControl,
           value && styles.fakeControlChecked,
           // custom color
-          value && color2 && {
-            backgroundColor: color2,
-            borderColor: color2
+          value && color && {
+            backgroundColor: color,
+            borderColor: color
           },
           disabled && styles.fakeControlDisabled,
           value && disabled && styles.fakeControlCheckedAndDisabled
@@ -23335,7 +23335,7 @@ var require_CheckBox = __commonJS({
         style: [styles.nativeControl, styles.cursorInherit],
         type: "checkbox"
       });
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, other, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, other, {
         "aria-disabled": disabled,
         "aria-readonly": ariaReadOnly,
         style: [styles.root, style, disabled && styles.cursorDefault]
@@ -23403,7 +23403,7 @@ var require_ImageBackground = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _react = _interopRequireWildcard(require("react"));
-    var React81 = _react;
+    var React82 = _react;
     var _Image = _interopRequireDefault(require_Image());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
@@ -23412,10 +23412,10 @@ var require_ImageBackground = __commonJS({
     var ImageBackground = /* @__PURE__ */ (0, _react.forwardRef)((props, forwardedRef) => {
       var children = props.children, _props$style = props.style, style = _props$style === void 0 ? emptyObject : _props$style, imageStyle = props.imageStyle, imageRef = props.imageRef, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var _StyleSheet$flatten = _StyleSheet.default.flatten(style), height = _StyleSheet$flatten.height, width = _StyleSheet$flatten.width;
-      return /* @__PURE__ */ React81.createElement(_View.default, {
+      return /* @__PURE__ */ React82.createElement(_View.default, {
         ref: forwardedRef,
         style
-      }, /* @__PURE__ */ React81.createElement(_Image.default, (0, _extends2.default)({}, rest, {
+      }, /* @__PURE__ */ React82.createElement(_Image.default, (0, _extends2.default)({}, rest, {
         ref: imageRef,
         style: [{
           // Temporary Workaround:
@@ -23448,10 +23448,10 @@ var require_KeyboardAvoidingView = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _View = _interopRequireDefault(require_View());
     var _excluded = ["behavior", "contentContainerStyle", "keyboardVerticalOffset"];
-    var _KeyboardAvoidingView = class _KeyboardAvoidingView extends React81.Component {
+    var _KeyboardAvoidingView = class _KeyboardAvoidingView extends React82.Component {
       constructor() {
         super(...arguments);
         this.frame = null;
@@ -23471,7 +23471,7 @@ var require_KeyboardAvoidingView = __commonJS({
       }
       render() {
         var _this$props = this.props, behavior = _this$props.behavior, contentContainerStyle = _this$props.contentContainerStyle, keyboardVerticalOffset = _this$props.keyboardVerticalOffset, rest = (0, _objectWithoutPropertiesLoose2.default)(_this$props, _excluded);
-        return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({
+        return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({
           onLayout: this.onLayout
         }, rest));
       }
@@ -23491,12 +23491,12 @@ var require_ModalPortal = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _reactDom = _interopRequireDefault(require("react-dom"));
     var _canUseDom = _interopRequireDefault(require_canUseDom());
     function ModalPortal(props) {
       var children = props.children;
-      var elementRef = React81.useRef(null);
+      var elementRef = React82.useRef(null);
       if (_canUseDom.default && !elementRef.current) {
         var element = document.createElement("div");
         if (element && document.body) {
@@ -23504,7 +23504,7 @@ var require_ModalPortal = __commonJS({
           elementRef.current = element;
         }
       }
-      React81.useEffect(() => {
+      React82.useEffect(() => {
         if (_canUseDom.default) {
           return () => {
             if (document.body && elementRef.current) {
@@ -23530,7 +23530,7 @@ var require_ModalAnimation = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _createElement = _interopRequireDefault(require_createElement());
     var ANIMATION_DURATION = 300;
@@ -23546,11 +23546,11 @@ var require_ModalAnimation = __commonJS({
     __name(getAnimationStyle, "getAnimationStyle");
     function ModalAnimation(props) {
       var animationType = props.animationType, children = props.children, onDismiss = props.onDismiss, onShow = props.onShow, visible = props.visible;
-      var _React$useState = React81.useState(false), isRendering = _React$useState[0], setIsRendering = _React$useState[1];
-      var wasVisible = React81.useRef(false);
-      var wasRendering = React81.useRef(false);
+      var _React$useState = React82.useState(false), isRendering = _React$useState[0], setIsRendering = _React$useState[1];
+      var wasVisible = React82.useRef(false);
+      var wasRendering = React82.useRef(false);
       var isAnimated = animationType && animationType !== "none";
-      var animationEndCallback = React81.useCallback((e) => {
+      var animationEndCallback = React82.useCallback((e) => {
         if (e && e.currentTarget !== e.target) {
           return;
         }
@@ -23562,13 +23562,13 @@ var require_ModalAnimation = __commonJS({
           setIsRendering(false);
         }
       }, [onShow, visible]);
-      React81.useEffect(() => {
+      React82.useEffect(() => {
         if (wasRendering.current && !isRendering && onDismiss) {
           onDismiss();
         }
         wasRendering.current = isRendering;
       }, [isRendering, onDismiss]);
-      React81.useEffect(() => {
+      React82.useEffect(() => {
         if (visible) {
           setIsRendering(true);
         }
@@ -23669,14 +23669,14 @@ var require_ModalContent = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _View = _interopRequireDefault(require_View());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _canUseDom = _interopRequireDefault(require_canUseDom());
     var _excluded = ["active", "children", "onRequestClose", "transparent"];
-    var ModalContent = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+    var ModalContent = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
       var active = props.active, children = props.children, onRequestClose = props.onRequestClose, transparent = props.transparent, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      React81.useEffect(() => {
+      React82.useEffect(() => {
         if (_canUseDom.default) {
           var closeOnEscape = /* @__PURE__ */ __name((e) => {
             if (active && e.key === "Escape") {
@@ -23690,15 +23690,15 @@ var require_ModalContent = __commonJS({
           return () => document.removeEventListener("keyup", closeOnEscape, false);
         }
       }, [active, onRequestClose]);
-      var style = React81.useMemo(() => {
+      var style = React82.useMemo(() => {
         return [styles.modal, transparent ? styles.modalTransparent : styles.modalOpaque];
       }, [transparent]);
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, rest, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, rest, {
         "aria-modal": true,
         ref: forwardedRef,
         role: active ? "dialog" : null,
         style
-      }), /* @__PURE__ */ React81.createElement(_View.default, {
+      }), /* @__PURE__ */ React82.createElement(_View.default, {
         style: styles.container
       }, children));
     });
@@ -23734,7 +23734,7 @@ var require_ModalFocusTrap = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _View = _interopRequireDefault(require_View());
     var _createElement = _interopRequireDefault(require_createElement());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
@@ -23780,12 +23780,12 @@ var require_ModalFocusTrap = __commonJS({
     __name(focusLastDescendant, "focusLastDescendant");
     var ModalFocusTrap = /* @__PURE__ */ __name((_ref) => {
       var active = _ref.active, children = _ref.children;
-      var trapElementRef = React81.useRef();
-      var focusRef = React81.useRef({
+      var trapElementRef = React82.useRef();
+      var focusRef = React82.useRef({
         trapFocusInProgress: false,
         lastFocusedElement: null
       });
-      React81.useEffect(() => {
+      React82.useEffect(() => {
         if (_canUseDom.default) {
           var trapFocus = /* @__PURE__ */ __name(() => {
             if (trapElementRef.current == null || focusRef.current.trapFocusInProgress || !active) {
@@ -23812,7 +23812,7 @@ var require_ModalFocusTrap = __commonJS({
           return () => document.removeEventListener("focus", trapFocus, true);
         }
       }, [active]);
-      React81.useEffect(function() {
+      React82.useEffect(function() {
         if (_canUseDom.default) {
           var lastFocusedElementOutsideTrap = document.activeElement;
           return function() {
@@ -23822,9 +23822,9 @@ var require_ModalFocusTrap = __commonJS({
           };
         }
       }, []);
-      return /* @__PURE__ */ React81.createElement(React81.Fragment, null, /* @__PURE__ */ React81.createElement(FocusBracket, null), /* @__PURE__ */ React81.createElement(_View.default, {
+      return /* @__PURE__ */ React82.createElement(React82.Fragment, null, /* @__PURE__ */ React82.createElement(FocusBracket, null), /* @__PURE__ */ React82.createElement(_View.default, {
         ref: trapElementRef
-      }, children), /* @__PURE__ */ React81.createElement(FocusBracket, null));
+      }, children), /* @__PURE__ */ React82.createElement(FocusBracket, null));
     }, "ModalFocusTrap");
     var _default = exports2.default = ModalFocusTrap;
     var styles = _StyleSheet.default.create({
@@ -23847,7 +23847,7 @@ var require_Modal = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _ModalPortal = _interopRequireDefault(require_ModalPortal());
     var _ModalAnimation = _interopRequireDefault(require_ModalAnimation());
     var _ModalContent = _interopRequireDefault(require_ModalContent());
@@ -23887,33 +23887,33 @@ var require_Modal = __commonJS({
       notifyActiveModalListeners();
     }
     __name(addActiveModal, "addActiveModal");
-    var Modal = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+    var Modal = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
       var animationType = props.animationType, children = props.children, onDismiss = props.onDismiss, onRequestClose = props.onRequestClose, onShow = props.onShow, transparent = props.transparent, _props$visible = props.visible, visible = _props$visible === void 0 ? true : _props$visible, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var modalId = React81.useMemo(() => uniqueModalIdentifier++, []);
-      var _React$useState = React81.useState(false), isActive = _React$useState[0], setIsActive = _React$useState[1];
-      var onDismissCallback = React81.useCallback(() => {
+      var modalId = React82.useMemo(() => uniqueModalIdentifier++, []);
+      var _React$useState = React82.useState(false), isActive = _React$useState[0], setIsActive = _React$useState[1];
+      var onDismissCallback = React82.useCallback(() => {
         removeActiveModal(modalId);
         if (onDismiss) {
           onDismiss();
         }
       }, [modalId, onDismiss]);
-      var onShowCallback = React81.useCallback(() => {
+      var onShowCallback = React82.useCallback(() => {
         addActiveModal(modalId, setIsActive);
         if (onShow) {
           onShow();
         }
       }, [modalId, onShow]);
-      React81.useEffect(() => {
+      React82.useEffect(() => {
         return () => removeActiveModal(modalId);
       }, [modalId]);
-      return /* @__PURE__ */ React81.createElement(_ModalPortal.default, null, /* @__PURE__ */ React81.createElement(_ModalAnimation.default, {
+      return /* @__PURE__ */ React82.createElement(_ModalPortal.default, null, /* @__PURE__ */ React82.createElement(_ModalAnimation.default, {
         animationType,
         onDismiss: onDismissCallback,
         onShow: onShowCallback,
         visible
-      }, /* @__PURE__ */ React81.createElement(_ModalFocusTrap.default, {
+      }, /* @__PURE__ */ React82.createElement(_ModalFocusTrap.default, {
         active: isActive
-      }, /* @__PURE__ */ React81.createElement(_ModalContent.default, (0, _extends2.default)({}, rest, {
+      }, /* @__PURE__ */ React82.createElement(_ModalContent.default, (0, _extends2.default)({}, rest, {
         active: isActive,
         onRequestClose,
         ref: forwardedRef,
@@ -23934,9 +23934,9 @@ var require_PickerItem = __commonJS({
     exports2.default = PickerItem;
     var _createElement = _interopRequireDefault(require_createElement());
     function PickerItem(props) {
-      var color2 = props.color, label = props.label, testID = props.testID, value = props.value;
+      var color = props.color, label = props.label, testID = props.testID, value = props.value;
       var style = {
-        color: color2
+        color
       };
       return (0, _createElement.default)("option", {
         children: label,
@@ -23961,16 +23961,16 @@ var require_Picker = __commonJS({
     exports2.default = void 0;
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _usePlatformMethods = _interopRequireDefault(require_usePlatformMethods());
     var _PickerItem = _interopRequireDefault(require_PickerItem());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _excluded = ["children", "enabled", "onValueChange", "selectedValue", "style", "testID", "itemStyle", "mode", "prompt"];
-    var Picker = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+    var Picker = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
       var children = props.children, enabled = props.enabled, onValueChange = props.onValueChange, selectedValue = props.selectedValue, style = props.style, testID = props.testID, itemStyle = props.itemStyle, mode = props.mode, prompt = props.prompt, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var hostRef = React81.useRef(null);
+      var hostRef = React82.useRef(null);
       function handleChange(e) {
         var _e$target = e.target, selectedIndex = _e$target.selectedIndex, value = _e$target.value;
         if (onValueChange) {
@@ -24268,11 +24268,11 @@ var require_useEvent2 = __commonJS({
     "use strict";
     var _interopRequireDefault = require_interopRequireDefault().default;
     exports2.__esModule = true;
-    exports2.default = useEvent12;
+    exports2.default = useEvent13;
     var _addEventListener = require_addEventListener();
     var _useLayoutEffect = _interopRequireDefault(require_useLayoutEffect());
     var _useStable = _interopRequireDefault(require_useStable());
-    function useEvent12(eventType, options) {
+    function useEvent13(eventType, options) {
       var targetListeners = (0, _useStable.default)(() => /* @__PURE__ */ new Map());
       var addListener = (0, _useStable.default)(() => {
         return (target, callback) => {
@@ -24300,7 +24300,7 @@ var require_useEvent2 = __commonJS({
       }, [targetListeners]);
       return addListener;
     }
-    __name(useEvent12, "useEvent");
+    __name(useEvent13, "useEvent");
     module2.exports = exports2.default;
   }
 });
@@ -24334,8 +24334,8 @@ var require_useHover = __commonJS({
       return pointerType != null ? pointerType : (0, _modality.getModality)();
     }
     __name(getPointerType, "getPointerType");
-    function useHover3(targetRef, config) {
-      var contain = config.contain, disabled = config.disabled, onHoverStart = config.onHoverStart, onHoverChange = config.onHoverChange, onHoverUpdate = config.onHoverUpdate, onHoverEnd = config.onHoverEnd;
+    function useHover3(targetRef, config2) {
+      var contain = config2.contain, disabled = config2.disabled, onHoverStart = config2.onHoverStart, onHoverChange = config2.onHoverChange, onHoverUpdate = config2.onHoverUpdate, onHoverEnd = config2.onHoverEnd;
       var canUsePE = supportsPointerEvent();
       var addMoveListener = (0, _useEvent.default)(canUsePE ? "pointermove" : "mousemove", opts);
       var addEnterListener = (0, _useEvent.default)(canUsePE ? "pointerenter" : "mouseenter", opts);
@@ -24431,7 +24431,7 @@ var require_Pressable = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _react = _interopRequireWildcard(require("react"));
-    var React81 = _react;
+    var React82 = _react;
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _useHover = _interopRequireDefault(require_useHover());
     var _usePressEvents = _interopRequireDefault(require_usePressEvents());
@@ -24471,7 +24471,7 @@ var require_Pressable = __commonJS({
         focused,
         pressed
       };
-      var blurHandler = React81.useCallback((e) => {
+      var blurHandler = React82.useCallback((e) => {
         if (e.nativeEvent.target === hostRef.current) {
           setFocused(false);
           if (onBlur != null) {
@@ -24479,7 +24479,7 @@ var require_Pressable = __commonJS({
           }
         }
       }, [hostRef, setFocused, onBlur]);
-      var focusHandler = React81.useCallback((e) => {
+      var focusHandler = React82.useCallback((e) => {
         if (e.nativeEvent.target === hostRef.current) {
           setFocused(true);
           if (onFocus != null) {
@@ -24487,7 +24487,7 @@ var require_Pressable = __commonJS({
           }
         }
       }, [hostRef, setFocused, onFocus]);
-      var contextMenuHandler = React81.useCallback((e) => {
+      var contextMenuHandler = React82.useCallback((e) => {
         if (onContextMenuPress != null) {
           onContextMenuPress(e);
         }
@@ -24495,7 +24495,7 @@ var require_Pressable = __commonJS({
           onContextMenu(e);
         }
       }, [onContextMenu, onContextMenuPress]);
-      var keyDownHandler = React81.useCallback((e) => {
+      var keyDownHandler = React82.useCallback((e) => {
         if (onKeyDownPress != null) {
           onKeyDownPress(e);
         }
@@ -24509,7 +24509,7 @@ var require_Pressable = __commonJS({
       } else {
         _tabIndex = disabled ? -1 : 0;
       }
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
         "aria-disabled": disabled,
         onBlur: blurHandler,
         onContextMenu: contextMenuHandler,
@@ -24553,15 +24553,15 @@ var require_ProgressBar = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _excluded = ["color", "indeterminate", "progress", "trackColor", "style"];
-    var ProgressBar = /* @__PURE__ */ React81.forwardRef((props, ref) => {
-      var _props$color = props.color, color2 = _props$color === void 0 ? "#1976D2" : _props$color, _props$indeterminate = props.indeterminate, indeterminate = _props$indeterminate === void 0 ? false : _props$indeterminate, _props$progress = props.progress, progress = _props$progress === void 0 ? 0 : _props$progress, _props$trackColor = props.trackColor, trackColor = _props$trackColor === void 0 ? "transparent" : _props$trackColor, style = props.style, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
+    var ProgressBar = /* @__PURE__ */ React82.forwardRef((props, ref) => {
+      var _props$color = props.color, color = _props$color === void 0 ? "#1976D2" : _props$color, _props$indeterminate = props.indeterminate, indeterminate = _props$indeterminate === void 0 ? false : _props$indeterminate, _props$progress = props.progress, progress = _props$progress === void 0 ? 0 : _props$progress, _props$trackColor = props.trackColor, trackColor = _props$trackColor === void 0 ? "transparent" : _props$trackColor, style = props.style, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
       var percentageProgress = progress * 100;
       var width = indeterminate ? "25%" : percentageProgress + "%";
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, other, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, other, {
         "aria-valuemax": 100,
         "aria-valuemin": 0,
         "aria-valuenow": indeterminate ? null : percentageProgress,
@@ -24570,9 +24570,9 @@ var require_ProgressBar = __commonJS({
         style: [styles.track, style, {
           backgroundColor: trackColor
         }]
-      }), /* @__PURE__ */ React81.createElement(_View.default, {
+      }), /* @__PURE__ */ React82.createElement(_View.default, {
         style: [{
-          backgroundColor: color2,
+          backgroundColor: color,
           width
         }, styles.progress, indeterminate && styles.animation]
       }));
@@ -24620,7 +24620,7 @@ var require_SafeAreaView = __commonJS({
     exports2.default = void 0;
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
     var _View = _interopRequireDefault(require_View());
     var _canUseDom = _interopRequireDefault(require_canUseDom());
@@ -24631,9 +24631,9 @@ var require_SafeAreaView = __commonJS({
       }
       return "env";
     }();
-    var SafeAreaView = /* @__PURE__ */ React81.forwardRef((props, ref) => {
+    var SafeAreaView = /* @__PURE__ */ React82.forwardRef((props, ref) => {
       var style = props.style, rest = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, rest, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, rest, {
         ref,
         style: [styles.root, style]
       }));
@@ -24711,7 +24711,7 @@ var require_Switch = __commonJS({
     var _objectSpread2 = _interopRequireDefault(require_objectSpread2());
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var _multiplyStyleLengthValue = _interopRequireDefault(require_multiplyStyleLengthValue());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
@@ -24726,9 +24726,9 @@ var require_Switch = __commonJS({
     var defaultActiveThumbColor = "#009688";
     var defaultThumbColor = "#FAFAFA";
     var defaultDisabledThumbColor = "#BDBDBD";
-    var Switch2 = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+    var Switch2 = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
       var ariaLabel = props["aria-label"], accessibilityLabel = props.accessibilityLabel, activeThumbColor = props.activeThumbColor, activeTrackColor = props.activeTrackColor, _props$disabled = props.disabled, disabled = _props$disabled === void 0 ? false : _props$disabled, onValueChange = props.onValueChange, _props$style = props.style, style = _props$style === void 0 ? emptyObject : _props$style, thumbColor = props.thumbColor, trackColor = props.trackColor, _props$value = props.value, value = _props$value === void 0 ? false : _props$value, other = (0, _objectWithoutPropertiesLoose2.default)(props, _excluded);
-      var thumbRef = React81.useRef(null);
+      var thumbRef = React82.useRef(null);
       function handleChange(event) {
         if (onValueChange != null) {
           onValueChange(event.nativeEvent.target.checked);
@@ -24822,11 +24822,11 @@ var require_Switch = __commonJS({
         type: "checkbox",
         role: "switch"
       });
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, other, {
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, other, {
         style: rootStyle
-      }), /* @__PURE__ */ React81.createElement(_View.default, {
+      }), /* @__PURE__ */ React82.createElement(_View.default, {
         style: trackStyle
-      }), /* @__PURE__ */ React81.createElement(_View.default, {
+      }), /* @__PURE__ */ React82.createElement(_View.default, {
         ref: thumbRef,
         style: thumbStyle
       }), nativeControl);
@@ -24885,7 +24885,7 @@ var require_TextInput = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = void 0;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _createElement = _interopRequireDefault(require_createElement());
     var forwardedProps = _interopRequireWildcard(require_forwardedProps());
     var _pick = _interopRequireDefault(require_pick());
@@ -24936,7 +24936,7 @@ var require_TextInput = __commonJS({
     }
     __name(isEventComposing, "isEventComposing");
     var focusTimeout = null;
-    var TextInput2 = /* @__PURE__ */ React81.forwardRef((props, forwardedRef) => {
+    var TextInput2 = /* @__PURE__ */ React82.forwardRef((props, forwardedRef) => {
       var _props$autoCapitalize = props.autoCapitalize, autoCapitalize = _props$autoCapitalize === void 0 ? "sentences" : _props$autoCapitalize, autoComplete = props.autoComplete, autoCompleteType = props.autoCompleteType, _props$autoCorrect = props.autoCorrect, autoCorrect = _props$autoCorrect === void 0 ? true : _props$autoCorrect, blurOnSubmit = props.blurOnSubmit, caretHidden = props.caretHidden, clearTextOnFocus = props.clearTextOnFocus, dir = props.dir, editable = props.editable, enterKeyHint = props.enterKeyHint, inputMode = props.inputMode, keyboardType = props.keyboardType, _props$multiline = props.multiline, multiline = _props$multiline === void 0 ? false : _props$multiline, numberOfLines = props.numberOfLines, onBlur = props.onBlur, onChange = props.onChange, onChangeText = props.onChangeText, onContentSizeChange = props.onContentSizeChange, onFocus = props.onFocus, onKeyPress = props.onKeyPress, onLayout = props.onLayout, onMoveShouldSetResponder = props.onMoveShouldSetResponder, onMoveShouldSetResponderCapture = props.onMoveShouldSetResponderCapture, onResponderEnd = props.onResponderEnd, onResponderGrant = props.onResponderGrant, onResponderMove = props.onResponderMove, onResponderReject = props.onResponderReject, onResponderRelease = props.onResponderRelease, onResponderStart = props.onResponderStart, onResponderTerminate = props.onResponderTerminate, onResponderTerminationRequest = props.onResponderTerminationRequest, onScrollShouldSetResponder = props.onScrollShouldSetResponder, onScrollShouldSetResponderCapture = props.onScrollShouldSetResponderCapture, onSelectionChange = props.onSelectionChange, onSelectionChangeShouldSetResponder = props.onSelectionChangeShouldSetResponder, onSelectionChangeShouldSetResponderCapture = props.onSelectionChangeShouldSetResponderCapture, onStartShouldSetResponder = props.onStartShouldSetResponder, onStartShouldSetResponderCapture = props.onStartShouldSetResponderCapture, onSubmitEditing = props.onSubmitEditing, placeholderTextColor = props.placeholderTextColor, _props$readOnly = props.readOnly, readOnly = _props$readOnly === void 0 ? false : _props$readOnly, returnKeyType = props.returnKeyType, rows = props.rows, _props$secureTextEntr = props.secureTextEntry, secureTextEntry = _props$secureTextEntr === void 0 ? false : _props$secureTextEntr, selection = props.selection, selectTextOnFocus = props.selectTextOnFocus, showSoftInputOnFocus = props.showSoftInputOnFocus, spellCheck = props.spellCheck;
       var type;
       var _inputMode;
@@ -24982,20 +24982,20 @@ var require_TextInput = __commonJS({
       if (secureTextEntry) {
         type = "password";
       }
-      var dimensions = React81.useRef({
+      var dimensions = React82.useRef({
         height: null,
         width: null
       });
-      var hostRef = React81.useRef(null);
-      var prevSelection = React81.useRef(null);
-      var prevSecureTextEntry = React81.useRef(false);
-      React81.useEffect(() => {
+      var hostRef = React82.useRef(null);
+      var prevSelection = React82.useRef(null);
+      var prevSecureTextEntry = React82.useRef(false);
+      React82.useEffect(() => {
         if (hostRef.current && prevSelection.current) {
           setSelection(hostRef.current, prevSelection.current);
         }
         prevSecureTextEntry.current = secureTextEntry;
       }, [secureTextEntry]);
-      var handleContentSizeChange = React81.useCallback((hostNode) => {
+      var handleContentSizeChange = React82.useCallback((hostNode) => {
         if (multiline && onContentSizeChange && hostNode != null) {
           var newHeight = hostNode.scrollHeight;
           var newWidth = hostNode.scrollWidth;
@@ -25013,7 +25013,7 @@ var require_TextInput = __commonJS({
           }
         }
       }, [multiline, onContentSizeChange]);
-      var imperativeRef = React81.useMemo(() => (hostNode) => {
+      var imperativeRef = React82.useMemo(() => (hostNode) => {
         if (hostNode != null) {
           hostNode.clear = function() {
             if (hostNode != null) {
@@ -25699,8 +25699,8 @@ var require_Touchable = __commonJS({
         }
         _UIManager.default.measure(tag, this._handleQueryLayout);
       }, "_remeasureMetricsOnActivation"),
-      _handleQueryLayout: /* @__PURE__ */ __name(function _handleQueryLayout(l, t2, w, h, globalX, globalY) {
-        if (!l && !t2 && !w && !h && !globalX && !globalY) {
+      _handleQueryLayout: /* @__PURE__ */ __name(function _handleQueryLayout(l, t, w, h, globalX, globalY) {
+        if (!l && !t && !w && !h && !globalX && !globalY) {
           return;
         }
         this.state.touchable.positionOnActivate && _Position.default.release(this.state.touchable.positionOnActivate);
@@ -25878,7 +25878,7 @@ var require_Touchable = __commonJS({
        * Renders a debugging overlay to visualize touch target with hitSlop (might not work on Android).
        */
       renderDebugView: /* @__PURE__ */ __name((_ref) => {
-        var color2 = _ref.color, hitSlop = _ref.hitSlop;
+        var color = _ref.color, hitSlop = _ref.hitSlop;
         if (!Touchable.TOUCH_TARGET_DEBUG) {
           return null;
         }
@@ -25895,7 +25895,7 @@ var require_Touchable = __commonJS({
         for (var key in hitSlop) {
           debugHitSlopStyle[key] = -hitSlop[key];
         }
-        var normalizedColor = (0, _normalizeColors.default)(color2);
+        var normalizedColor = (0, _normalizeColors.default)(color);
         if (typeof normalizedColor !== "number") {
           return null;
         }
@@ -25930,7 +25930,7 @@ var require_TouchableHighlight = __commonJS({
     var _extends2 = _interopRequireDefault(require_extends());
     var _objectWithoutPropertiesLoose2 = _interopRequireDefault(require_objectWithoutPropertiesLoose());
     var _react = _interopRequireWildcard(require("react"));
-    var React81 = _react;
+    var React82 = _react;
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _usePressEvents = _interopRequireDefault(require_usePressEvents());
     var _StyleSheet = _interopRequireDefault(require_StyleSheet());
@@ -25998,14 +25998,14 @@ var require_TouchableHighlight = __commonJS({
         }
       }), [delayLongPress, delayPressIn, delayPressOut, disabled, onLongPress, onPress, onPressIn, onPressOut, rejectResponderTermination, showUnderlay, hideUnderlay]);
       var pressEventHandlers = (0, _usePressEvents.default)(hostRef, pressConfig);
-      var child = React81.Children.only(children);
-      return /* @__PURE__ */ React81.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
+      var child = React82.Children.only(children);
+      return /* @__PURE__ */ React82.createElement(_View.default, (0, _extends2.default)({}, rest, pressEventHandlers, {
         accessibilityDisabled: disabled,
         focusable: !disabled && focusable !== false,
         pointerEvents: disabled ? "box-none" : void 0,
         ref: setRef2,
         style: [styles.root, style, !disabled && styles.actionable, extraStyles && extraStyles.underlay]
-      }), /* @__PURE__ */ React81.cloneElement(child, {
+      }), /* @__PURE__ */ React82.cloneElement(child, {
         style: [child.props.style, extraStyles && extraStyles.child]
       }));
     }
@@ -26019,7 +26019,7 @@ var require_TouchableHighlight = __commonJS({
         touchAction: "manipulation"
       }
     });
-    var MemoedTouchableHighlight = /* @__PURE__ */ React81.memo(/* @__PURE__ */ React81.forwardRef(TouchableHighlight));
+    var MemoedTouchableHighlight = /* @__PURE__ */ React82.memo(/* @__PURE__ */ React82.forwardRef(TouchableHighlight));
     MemoedTouchableHighlight.displayName = "TouchableHighlight";
     var _default = exports2.default = MemoedTouchableHighlight;
     module2.exports = exports2.default;
@@ -26078,7 +26078,7 @@ var require_TouchableWithoutFeedback = __commonJS({
     exports2.__esModule = true;
     exports2.default = void 0;
     var _react = _interopRequireWildcard(require("react"));
-    var React81 = _react;
+    var React82 = _react;
     var _pick = _interopRequireDefault(require_pick());
     var _useMergeRefs = _interopRequireDefault(require_useMergeRefs());
     var _usePressEvents = _interopRequireDefault(require_usePressEvents());
@@ -26116,17 +26116,17 @@ var require_TouchableWithoutFeedback = __commonJS({
         onPressEnd: onPressOut
       }), [disabled, delayPressIn, delayPressOut, delayLongPress, onLongPress, onPress, onPressIn, onPressOut, rejectResponderTermination]);
       var pressEventHandlers = (0, _usePressEvents.default)(hostRef, pressConfig);
-      var element = React81.Children.only(props.children);
+      var element = React82.Children.only(props.children);
       var children = [element.props.children];
       var supportedProps = pickProps(props);
       supportedProps.accessibilityDisabled = disabled;
       supportedProps.focusable = !disabled && focusable !== false;
       supportedProps.ref = (0, _useMergeRefs.default)(forwardedRef, hostRef, element.ref);
       var elementProps = Object.assign(supportedProps, pressEventHandlers);
-      return /* @__PURE__ */ React81.cloneElement(element, elementProps, ...children);
+      return /* @__PURE__ */ React82.cloneElement(element, elementProps, ...children);
     }
     __name(TouchableWithoutFeedback, "TouchableWithoutFeedback");
-    var MemoedTouchableWithoutFeedback = /* @__PURE__ */ React81.memo(/* @__PURE__ */ React81.forwardRef(TouchableWithoutFeedback));
+    var MemoedTouchableWithoutFeedback = /* @__PURE__ */ React82.memo(/* @__PURE__ */ React82.forwardRef(TouchableWithoutFeedback));
     MemoedTouchableWithoutFeedback.displayName = "TouchableWithoutFeedback";
     var _default = exports2.default = MemoedTouchableWithoutFeedback;
     module2.exports = exports2.default;
@@ -26210,11 +26210,11 @@ var require_useColorScheme = __commonJS({
     var _interopRequireWildcard = require_interopRequireWildcard().default;
     exports2.__esModule = true;
     exports2.default = useColorScheme;
-    var React81 = _interopRequireWildcard(require("react"));
+    var React82 = _interopRequireWildcard(require("react"));
     var _Appearance = _interopRequireDefault(require_Appearance());
     function useColorScheme() {
-      var _React$useState = React81.useState(_Appearance.default.getColorScheme()), colorScheme = _React$useState[0], setColorScheme = _React$useState[1];
-      React81.useEffect(() => {
+      var _React$useState = React82.useState(_Appearance.default.getColorScheme()), colorScheme = _React$useState[0], setColorScheme = _React$useState[1];
+      React82.useEffect(() => {
         function listener(appearance) {
           setColorScheme(appearance.colorScheme);
         }
@@ -26755,6 +26755,18 @@ __export(tamagui_config_exports, {
   default: () => tamagui_config_default
 });
 module.exports = __toCommonJS(tamagui_config_exports);
+
+// node_modules/@tamagui/react-native-media-driver/dist/esm/createMedia.mjs
+var import_web = require("@tamagui/core");
+
+// node_modules/@tamagui/react-native-media-driver/dist/esm/matchMedia.mjs
+var matchMedia = globalThis.matchMedia;
+
+// node_modules/@tamagui/react-native-media-driver/dist/esm/createMedia.mjs
+function createMedia(media) {
+  return (0, import_web.setupMatchMedia)(matchMedia), media;
+}
+__name(createMedia, "createMedia");
 
 // node_modules/tamagui/dist/esm/index.mjs
 var esm_exports = {};
@@ -27577,20 +27589,20 @@ var import_core2 = require("@tamagui/core");
 
 // node_modules/@tamagui/stacks/dist/esm/getElevation.mjs
 var import_core = require("@tamagui/core");
-var getElevation = /* @__PURE__ */ __name((size6, extras) => {
-  if (!size6) return;
+var getElevation = /* @__PURE__ */ __name((size5, extras) => {
+  if (!size5) return;
   const {
-    tokens: tokens2
-  } = extras, token = tokens2.size[size6], sizeNum = (0, import_core.isVariable)(token) ? +token.val : size6;
+    tokens
+  } = extras, token = tokens.size[size5], sizeNum = (0, import_core.isVariable)(token) ? +token.val : size5;
   return getSizedElevation(sizeNum, extras);
 }, "getElevation");
 var getSizedElevation = /* @__PURE__ */ __name((val, {
   theme,
-  tokens: tokens2
+  tokens
 }) => {
   let num = 0;
   if (val === true) {
-    const val2 = (0, import_core.getVariableValue)(tokens2.size.true);
+    const val2 = (0, import_core.getVariableValue)(tokens.size.true);
     typeof val2 == "number" ? num = val2 : num = 10;
   } else num = +val;
   if (num === 0) return;
@@ -27654,40 +27666,40 @@ ZStack.displayName = "ZStack";
 var import_core3 = require("@tamagui/core");
 
 // node_modules/@tamagui/get-token/dist/esm/index.mjs
-var import_web = require("@tamagui/core");
+var import_web2 = require("@tamagui/core");
 var defaultOptions = {
   shift: 0,
   bounds: [0]
 };
-var getSize = /* @__PURE__ */ __name((size6, options) => getTokenRelative("size", size6, options), "getSize");
-var getSpace = /* @__PURE__ */ __name((space2, options) => getTokenRelative("space", space2, options), "getSpace");
+var getSize = /* @__PURE__ */ __name((size5, options) => getTokenRelative("size", size5, options), "getSize");
+var getSpace = /* @__PURE__ */ __name((space, options) => getTokenRelative("space", space, options), "getSpace");
 var cacheVariables = {};
 var cacheWholeVariables = {};
 var cacheKeys = {};
 var cacheWholeKeys = {};
 var stepTokenUpOrDown = /* @__PURE__ */ __name((type, current, options = defaultOptions) => {
   var _a, _b;
-  const tokens2 = (0, import_web.getTokens)({
+  const tokens = (0, import_web2.getTokens)({
     prefixed: true
   })[type];
   if (!(type in cacheVariables)) {
     cacheKeys[type] = [], cacheVariables[type] = [], cacheWholeKeys[type] = [], cacheWholeVariables[type] = [];
-    const sorted = Object.keys(tokens2).map((k) => tokens2[k]).sort((a, b) => a.val - b.val);
+    const sorted = Object.keys(tokens).map((k) => tokens[k]).sort((a, b) => a.val - b.val);
     for (const token of sorted) cacheKeys[type].push(token.key), cacheVariables[type].push(token);
     const sortedExcludingHalfSteps = sorted.filter((x) => !x.key.endsWith(".5"));
     for (const token of sortedExcludingHalfSteps) cacheWholeKeys[type].push(token.key), cacheWholeVariables[type].push(token);
   }
   const isString = typeof current == "string", tokensOrdered = (options.excludeHalfSteps ? isString ? cacheWholeKeys : cacheWholeVariables : isString ? cacheKeys : cacheVariables)[type], min2 = ((_a = options.bounds) == null ? void 0 : _a[0]) ?? 0, max2 = ((_b = options.bounds) == null ? void 0 : _b[1]) ?? tokensOrdered.length - 1, currentIndex = tokensOrdered.indexOf(current);
   let shift5 = options.shift || 0;
-  shift5 && (current === "$true" || (0, import_web.isVariable)(current) && current.name === "true") && (shift5 += shift5 > 0 ? 1 : -1);
+  shift5 && (current === "$true" || (0, import_web2.isVariable)(current) && current.name === "true") && (shift5 += shift5 > 0 ? 1 : -1);
   const index8 = Math.min(max2, Math.max(min2, currentIndex + shift5)), found = tokensOrdered[index8];
-  return (typeof found == "string" ? tokens2[found] : found) || tokens2.$true;
+  return (typeof found == "string" ? tokens[found] : found) || tokens.$true;
 }, "stepTokenUpOrDown");
 var getTokenRelative = stepTokenUpOrDown;
 
 // node_modules/@tamagui/get-button-sized/dist/esm/index.mjs
 var getButtonSized = /* @__PURE__ */ __name((val, {
-  tokens: tokens2,
+  tokens,
   props
 }) => {
   if (!val || props.circular) return;
@@ -27696,7 +27708,7 @@ var getButtonSized = /* @__PURE__ */ __name((val, {
     height: val,
     borderRadius: props.circular ? 1e5 : val * 0.2
   };
-  const xSize = getSpace(val), radiusToken = tokens2.radius[val] ?? tokens2.radius.$true;
+  const xSize = getSpace(val), radiusToken = tokens.radius[val] ?? tokens.radius.$true;
   return {
     paddingHorizontal: xSize,
     height: val,
@@ -27733,22 +27745,22 @@ var bordered = /* @__PURE__ */ __name((val, {
 var padded = {
   true: /* @__PURE__ */ __name((_, extras) => {
     const {
-      tokens: tokens2,
+      tokens,
       props
     } = extras;
     return {
-      padding: tokens2.space[props.size] || tokens2.space.$true
+      padding: tokens.space[props.size] || tokens.space.$true
     };
   }, "true")
 };
 var radiused = {
   true: /* @__PURE__ */ __name((_, extras) => {
     const {
-      tokens: tokens2,
+      tokens,
       props
     } = extras;
     return {
-      borderRadius: tokens2.radius[props.size] || tokens2.radius.$true
+      borderRadius: tokens.radius[props.size] || tokens.radius.$true
     };
   }, "true")
 };
@@ -27759,18 +27771,18 @@ var circularStyle = {
 var circular = {
   true: /* @__PURE__ */ __name((_, {
     props,
-    tokens: tokens2
+    tokens
   }) => {
     if (!("size" in props)) return circularStyle;
-    const size6 = typeof props.size == "number" ? props.size : tokens2.size[props.size];
+    const size5 = typeof props.size == "number" ? props.size : tokens.size[props.size];
     return {
       ...circularStyle,
-      width: size6,
-      height: size6,
-      maxWidth: size6,
-      maxHeight: size6,
-      minWidth: size6,
-      minHeight: size6
+      width: size5,
+      height: size5,
+      maxWidth: size5,
+      maxHeight: size5,
+      minWidth: size5,
+      minHeight: size5
     };
   }, "true")
 };
@@ -27886,7 +27898,7 @@ var useStackedZIndex = /* @__PURE__ */ __name((props) => {
   const {
     stackZIndex,
     zIndex: zIndexProp = 1e3
-  } = props, id = (0, import_react4.useId)(), zIndex2 = (0, import_react4.useMemo)(() => {
+  } = props, id = (0, import_react4.useId)(), zIndex = (0, import_react4.useMemo)(() => {
     if (stackZIndex) {
       const highest = Object.values(CurrentPortalZIndices).reduce((acc, cur) => Math.max(acc, cur), 0);
       return Math.max(stackZIndex, highest + 1);
@@ -27897,7 +27909,7 @@ var useStackedZIndex = /* @__PURE__ */ __name((props) => {
     if (typeof stackZIndex == "number") return CurrentPortalZIndices[id] = stackZIndex, () => {
       delete CurrentPortalZIndices[id];
     };
-  }, [stackZIndex]), zIndex2;
+  }, [stackZIndex]), zIndex;
 }, "useStackedZIndex");
 
 // node_modules/@tamagui/portal/dist/esm/Portal.mjs
@@ -27909,7 +27921,7 @@ var Portal = React4.memo((propsIn) => {
     host = (_a = globalThis.document) == null ? void 0 : _a.body,
     stackZIndex,
     ...props
-  } = propsIn, zIndex2 = useStackedZIndex(propsIn);
+  } = propsIn, zIndex = useStackedZIndex(propsIn);
   return (0, import_react_dom.createPortal)(/* @__PURE__ */ (0, import_jsx_runtime.jsx)(YStack, {
     contain: "strict",
     fullscreen: true,
@@ -27918,7 +27930,7 @@ var Portal = React4.memo((propsIn) => {
     maxHeight: "100vh",
     pointerEvents: "none",
     ...props,
-    zIndex: zIndex2
+    zIndex
   }), host);
 });
 
@@ -29168,7 +29180,7 @@ var SheetImplementationCustom = import_react18.default.forwardRef(function(props
     animation,
     animationConfig: animationConfigProp,
     modal = false,
-    zIndex: zIndex2 = parentSheet.zIndex + 1,
+    zIndex = parentSheet.zIndex + 1,
     moveOnKeyboardChange = false,
     unmountChildrenWhenHidden = false,
     portalProps,
@@ -29203,19 +29215,19 @@ var SheetImplementationCustom = import_react18.default.forwardRef(function(props
   }, []), positions = import_react18.default.useMemo(() => snapPoints.map((point) => getYPositions(snapPointsMode, point, screenSize, frameSize)), [screenSize, frameSize, snapPoints, snapPointsMode]), {
     animationDriver
   } = (0, import_core7.useConfiguration)(), {
-    useAnimatedNumber,
-    useAnimatedNumberStyle,
-    useAnimatedNumberReaction
-  } = animationDriver, AnimatedView = animationDriver.View ?? import_core7.Stack;
+    useAnimatedNumber: useAnimatedNumber2,
+    useAnimatedNumberStyle: useAnimatedNumberStyle2,
+    useAnimatedNumberReaction: useAnimatedNumberReaction2
+  } = animationDriver, AnimatedView2 = animationDriver.View ?? import_core7.Stack;
   useIsomorphicLayoutEffect(() => {
     if (sheetInsideSheet && open) return sheetInsideSheet(true), () => {
       sheetInsideSheet(false);
     };
   }, [sheetInsideSheet, open]);
   const nextParentContext = import_react18.default.useMemo(() => ({
-    zIndex: zIndex2
-  }), [zIndex2]), startPosition = (0, import_core7.useDidFinishSSR)() && screenSize ? screenSize : hiddenSize, animatedNumber = useAnimatedNumber(startPosition), at = import_react18.default.useRef(startPosition), hasntMeasured = at.current === hiddenSize, [disableAnimation, setDisableAnimation] = (0, import_react18.useState)(hasntMeasured);
-  useAnimatedNumberReaction({
+    zIndex
+  }), [zIndex]), startPosition = (0, import_core7.useDidFinishSSR)() && screenSize ? screenSize : hiddenSize, animatedNumber = useAnimatedNumber2(startPosition), at = import_react18.default.useRef(startPosition), hasntMeasured = at.current === hiddenSize, [disableAnimation, setDisableAnimation] = (0, import_react18.useState)(hasntMeasured);
+  useAnimatedNumberReaction2({
     value: animatedNumber,
     hostRef: sheetRef
   }, import_react18.default.useCallback((value) => {
@@ -29314,7 +29326,7 @@ var SheetImplementationCustom = import_react18.default.forwardRef(function(props
     var _a;
     const next = Math.min((_a = e.nativeEvent) == null ? void 0 : _a.layout.height, import_react_native_web.Dimensions.get(relativeDimensionTo).height);
     next && setMaxContentSize(next);
-  }, []), animatedStyle = useAnimatedNumberStyle(animatedNumber, (val) => {
+  }, []), animatedStyle = useAnimatedNumberStyle2(animatedNumber, (val) => {
     "worklet";
     return {
       transform: [{
@@ -29371,7 +29383,7 @@ var SheetImplementationCustom = import_react18.default.forwardRef(function(props
           pointerEvents: "none"
         },
         onLayout: handleMaxContentViewLayout
-      }), /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(AnimatedView, {
+      }), /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(AnimatedView2, {
         ref,
         ...panResponder == null ? void 0 : panResponder.panHandlers,
         onLayout: handleAnimationViewLayout,
@@ -29382,7 +29394,7 @@ var SheetImplementationCustom = import_react18.default.forwardRef(function(props
         disableClassName: true,
         style: [{
           position: "absolute",
-          zIndex: zIndex2,
+          zIndex,
           width: "100%",
           height: forcedContentHeight,
           minHeight: forcedContentHeight,
@@ -29405,7 +29417,7 @@ var SheetImplementationCustom = import_react18.default.forwardRef(function(props
   const shouldMountChildren = unmountChildrenWhenHidden ? !!opacity : true;
   if (modal) {
     const modalContents = /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Portal, {
-      stackZIndex: zIndex2,
+      stackZIndex: zIndex,
       ...portalProps,
       children: shouldMountChildren && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(ContainerComponent, {
         children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_core7.Theme, {
@@ -29444,9 +29456,9 @@ __name(getYPositions, "getYPositions");
 var import_react19 = __toESM(require("react"), 1);
 
 // node_modules/@tamagui/scroll-view/dist/esm/ScrollView.mjs
-var import_web2 = require("@tamagui/core");
+var import_web3 = require("@tamagui/core");
 var import_react_native_web2 = __toESM(require_cjs21(), 1);
-var ScrollView = (0, import_web2.styled)(import_react_native_web2.ScrollView, {
+var ScrollView = (0, import_web3.styled)(import_react_native_web2.ScrollView, {
   name: "ScrollView",
   scrollEnabled: true,
   variants: {
@@ -29828,8 +29840,8 @@ var getFontSized = /* @__PURE__ */ __name((sizeTokenIn = "$true", {
   if (!font) return {
     fontSize: sizeTokenIn
   };
-  const sizeToken = sizeTokenIn === "$true" ? getDefaultSizeToken(font) : sizeTokenIn, style = {}, fontSize = font.size[sizeToken], lineHeight = (_a = font.lineHeight) == null ? void 0 : _a[sizeToken], fontWeight = (_b = font.weight) == null ? void 0 : _b[sizeToken], letterSpacing = (_c = font.letterSpacing) == null ? void 0 : _c[sizeToken], textTransform = (_d = font.transform) == null ? void 0 : _d[sizeToken], fontStyle = props.fontStyle ?? ((_e = font.style) == null ? void 0 : _e[sizeToken]), color2 = props.color ?? ((_f = font.color) == null ? void 0 : _f[sizeToken]);
-  return fontStyle && (style.fontStyle = fontStyle), textTransform && (style.textTransform = textTransform), fontFamily && (style.fontFamily = fontFamily), fontWeight && (style.fontWeight = fontWeight), letterSpacing && (style.letterSpacing = letterSpacing), fontSize && (style.fontSize = fontSize), lineHeight && (style.lineHeight = lineHeight), color2 && (style.color = color2), process.env.NODE_ENV === "development" && props.debug && props.debug === "verbose" && (console.groupCollapsed("  \u{1F539} getFontSized", sizeTokenIn, sizeToken), isClient && console.info({
+  const sizeToken = sizeTokenIn === "$true" ? getDefaultSizeToken(font) : sizeTokenIn, style = {}, fontSize = font.size[sizeToken], lineHeight = (_a = font.lineHeight) == null ? void 0 : _a[sizeToken], fontWeight = (_b = font.weight) == null ? void 0 : _b[sizeToken], letterSpacing = (_c = font.letterSpacing) == null ? void 0 : _c[sizeToken], textTransform = (_d = font.transform) == null ? void 0 : _d[sizeToken], fontStyle = props.fontStyle ?? ((_e = font.style) == null ? void 0 : _e[sizeToken]), color = props.color ?? ((_f = font.color) == null ? void 0 : _f[sizeToken]);
+  return fontStyle && (style.fontStyle = fontStyle), textTransform && (style.textTransform = textTransform), fontFamily && (style.fontFamily = fontFamily), fontWeight && (style.fontWeight = fontWeight), letterSpacing && (style.letterSpacing = letterSpacing), fontSize && (style.fontSize = fontSize), lineHeight && (style.lineHeight = lineHeight), color && (style.color = color), process.env.NODE_ENV === "development" && props.debug && props.debug === "verbose" && (console.groupCollapsed("  \u{1F539} getFontSized", sizeTokenIn, sizeToken), isClient && console.info({
     style,
     props,
     font
@@ -29847,8 +29859,8 @@ function getDefaultSizeToken(font) {
 __name(getDefaultSizeToken, "getDefaultSizeToken");
 
 // node_modules/@tamagui/text/dist/esm/SizableText.mjs
-var import_web3 = require("@tamagui/core");
-var SizableText = (0, import_web3.styled)(import_web3.Text, {
+var import_web4 = require("@tamagui/core");
+var SizableText = (0, import_web4.styled)(import_web4.Text, {
   name: "SizableText",
   fontFamily: "$body",
   variants: {
@@ -29866,14 +29878,14 @@ var SizableText = (0, import_web3.styled)(import_web3.Text, {
 });
 SizableText.staticConfig.variants.fontFamily = {
   "...": /* @__PURE__ */ __name((_val, extras) => {
-    const sizeProp = extras.props.size, fontSizeProp = extras.props.fontSize, size6 = sizeProp === "$true" && fontSizeProp ? fontSizeProp : extras.props.size || "$true";
-    return getFontSized(size6, extras);
+    const sizeProp = extras.props.size, fontSizeProp = extras.props.fontSize, size5 = sizeProp === "$true" && fontSizeProp ? fontSizeProp : extras.props.size || "$true";
+    return getFontSized(size5, extras);
   }, "...")
 };
 
 // node_modules/@tamagui/text/dist/esm/Paragraph.mjs
-var import_web4 = require("@tamagui/core");
-var Paragraph = (0, import_web4.styled)(SizableText, {
+var import_web5 = require("@tamagui/core");
+var Paragraph = (0, import_web5.styled)(SizableText, {
   name: "Paragraph",
   tag: "p",
   userSelect: "auto",
@@ -29883,8 +29895,8 @@ var Paragraph = (0, import_web4.styled)(SizableText, {
 });
 
 // node_modules/@tamagui/text/dist/esm/Headings.mjs
-var import_web5 = require("@tamagui/core");
-var Heading = (0, import_web5.styled)(Paragraph, {
+var import_web6 = require("@tamagui/core");
+var Heading = (0, import_web6.styled)(Paragraph, {
   tag: "span",
   name: "Heading",
   accessibilityRole: "header",
@@ -29892,32 +29904,32 @@ var Heading = (0, import_web5.styled)(Paragraph, {
   size: "$8",
   margin: 0
 });
-var H1 = (0, import_web5.styled)(Heading, {
+var H1 = (0, import_web6.styled)(Heading, {
   name: "H1",
   tag: "h1",
   size: "$10"
 });
-var H2 = (0, import_web5.styled)(Heading, {
+var H2 = (0, import_web6.styled)(Heading, {
   name: "H2",
   tag: "h2",
   size: "$9"
 });
-var H3 = (0, import_web5.styled)(Heading, {
+var H3 = (0, import_web6.styled)(Heading, {
   name: "H3",
   tag: "h3",
   size: "$8"
 });
-var H4 = (0, import_web5.styled)(Heading, {
+var H4 = (0, import_web6.styled)(Heading, {
   name: "H4",
   tag: "h4",
   size: "$7"
 });
-var H5 = (0, import_web5.styled)(Heading, {
+var H5 = (0, import_web6.styled)(Heading, {
   name: "H5",
   tag: "h5",
   size: "$6"
 });
-var H6 = (0, import_web5.styled)(Heading, {
+var H6 = (0, import_web6.styled)(Heading, {
   name: "H6",
   tag: "h6",
   size: "$5"
@@ -29930,9 +29942,9 @@ function wrapChildrenInText(TextComponent, propsIn, extraProps) {
   const {
     children,
     textProps,
-    size: size6,
+    size: size5,
     noTextWrap,
-    color: color2,
+    color,
     fontFamily,
     fontSize,
     fontWeight,
@@ -29945,7 +29957,7 @@ function wrapChildrenInText(TextComponent, propsIn, extraProps) {
   const props = {
     ...extraProps
   };
-  return color2 && (props.color = color2), fontFamily && (props.fontFamily = fontFamily), fontSize && (props.fontSize = fontSize), fontWeight && (props.fontWeight = fontWeight), letterSpacing && (props.letterSpacing = letterSpacing), textAlign && (props.textAlign = textAlign), size6 && (props.size = size6), fontStyle && (props.fontStyle = fontStyle), maxFontSizeMultiplier && (props.maxFontSizeMultiplier = maxFontSizeMultiplier), import_react23.default.Children.toArray(children).map((child, index8) => typeof child == "string" ? (
+  return color && (props.color = color), fontFamily && (props.fontFamily = fontFamily), fontSize && (props.fontSize = fontSize), fontWeight && (props.fontWeight = fontWeight), letterSpacing && (props.letterSpacing = letterSpacing), textAlign && (props.textAlign = textAlign), size5 && (props.size = size5), fontStyle && (props.fontStyle = fontStyle), maxFontSizeMultiplier && (props.maxFontSizeMultiplier = maxFontSizeMultiplier), import_react23.default.Children.toArray(children).map((child, index8) => typeof child == "string" ? (
     // so "data-disable-theme" is a hack to fix themeInverse, don't ask me why
     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(TextComponent, {
       ...props,
@@ -30013,15 +30025,15 @@ var DialogPortalItem = /* @__PURE__ */ __name((props) => {
   const {
     __scopeDialog,
     children,
-    space: space2,
+    space,
     spaceDirection,
     separator
   } = props, themeName = (0, import_core12.useThemeName)(), context = useDialogContext(PORTAL_NAME, props.__scopeDialog);
   let childrenSpaced = children;
-  return (space2 || separator) && (childrenSpaced = (0, import_core12.spacedChildren)({
+  return (space || separator) && (childrenSpaced = (0, import_core12.spacedChildren)({
     children,
     separator,
-    space: space2,
+    space,
     direction: spaceDirection
   })), /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(AdaptPortalContents, {
     children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(DialogProvider, {
@@ -30675,13 +30687,13 @@ Image.abortPrefetch = import_react_native_web5.Image.abortPrefetch;
 Image.queryCache = import_react_native_web5.Image.queryCache;
 
 // node_modules/@tamagui/shapes/dist/esm/Square.mjs
-var import_web6 = require("@tamagui/core");
+var import_web7 = require("@tamagui/core");
 
 // node_modules/@tamagui/shapes/dist/esm/getShapeSize.mjs
-var getShapeSize = /* @__PURE__ */ __name((size6, {
-  tokens: tokens2
+var getShapeSize = /* @__PURE__ */ __name((size5, {
+  tokens
 }) => {
-  const width = tokens2.size[size6] ?? size6, height = tokens2.size[size6] ?? size6;
+  const width = tokens.size[size5] ?? size5, height = tokens.size[size5] ?? size5;
   return {
     width,
     height,
@@ -30693,7 +30705,7 @@ var getShapeSize = /* @__PURE__ */ __name((size6, {
 }, "getShapeSize");
 
 // node_modules/@tamagui/shapes/dist/esm/Square.mjs
-var Square = (0, import_web6.styled)(ThemeableStack, {
+var Square = (0, import_web7.styled)(ThemeableStack, {
   name: "Square",
   alignItems: "center",
   justifyContent: "center",
@@ -30706,8 +30718,8 @@ var Square = (0, import_web6.styled)(ThemeableStack, {
 });
 
 // node_modules/@tamagui/shapes/dist/esm/Circle.mjs
-var import_web7 = require("@tamagui/core");
-var Circle = (0, import_web7.styled)(Square, {
+var import_web8 = require("@tamagui/core");
+var Circle = (0, import_web8.styled)(Square, {
   name: "Circle",
   circular: true
 });
@@ -30792,16 +30804,16 @@ var AvatarFrame = (0, import_core15.styled)(Square, {
 var Avatar = withStaticProperties(React33.forwardRef((props, forwardedRef) => {
   const {
     __scopeAvatar,
-    size: size6 = "$true",
+    size: size5 = "$true",
     ...avatarProps
   } = props, [imageLoadingStatus, setImageLoadingStatus] = React33.useState("idle");
   return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(AvatarProvider, {
-    size: size6,
+    size: size5,
     scope: __scopeAvatar,
     imageLoadingStatus,
     onImageLoadingStatusChange: setImageLoadingStatus,
     children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(AvatarFrame, {
-      size: size6,
+      size: size5,
       ...avatarProps,
       ref: forwardedRef
     })
@@ -30829,22 +30841,22 @@ var getFontSizeToken = /* @__PURE__ */ __name((inSize, opts) => {
   var _a;
   if (typeof inSize == "number") return null;
   const relativeSize = (opts == null ? void 0 : opts.relativeSize) || 0, conf = (0, import_core16.getConfig)(), fontSize = ((_a = conf.fontsParsed[(opts == null ? void 0 : opts.font) || conf.defaultFontToken]) == null ? void 0 : _a.size) || // fallback to size tokens
-  conf.tokensParsed.size, size6 = (inSize === "$true" && !("$true" in fontSize) ? "$4" : inSize) ?? ("$true" in fontSize ? "$true" : "$4"), sizeTokens = Object.keys(fontSize);
-  let foundIndex = sizeTokens.indexOf(size6);
-  foundIndex === -1 && size6.endsWith(".5") && (foundIndex = sizeTokens.indexOf(size6.replace(".5", ""))), process.env.NODE_ENV === "development" && foundIndex === -1 && console.warn("No font size found", size6, opts, "in size tokens", sizeTokens);
+  conf.tokensParsed.size, size5 = (inSize === "$true" && !("$true" in fontSize) ? "$4" : inSize) ?? ("$true" in fontSize ? "$true" : "$4"), sizeTokens = Object.keys(fontSize);
+  let foundIndex = sizeTokens.indexOf(size5);
+  foundIndex === -1 && size5.endsWith(".5") && (foundIndex = sizeTokens.indexOf(size5.replace(".5", ""))), process.env.NODE_ENV === "development" && foundIndex === -1 && console.warn("No font size found", size5, opts, "in size tokens", sizeTokens);
   const tokenIndex = Math.min(Math.max(0, foundIndex + relativeSize), sizeTokens.length - 1);
-  return sizeTokens[tokenIndex] ?? size6;
+  return sizeTokens[tokenIndex] ?? size5;
 }, "getFontSizeToken");
 
 // node_modules/@tamagui/helpers-tamagui/dist/esm/prevent.mjs
 var prevent = /* @__PURE__ */ __name((e) => [e.preventDefault(), e.stopPropagation()], "prevent");
 
 // node_modules/@tamagui/helpers-tamagui/dist/esm/useCurrentColor.mjs
-var import_web8 = require("@tamagui/core");
+var import_web9 = require("@tamagui/core");
 var useCurrentColor = /* @__PURE__ */ __name((colorProp) => {
   var _a, _b;
-  const theme = (0, import_web8.useTheme)();
-  return (0, import_web8.getVariable)(
+  const theme = (0, import_web9.useTheme)();
+  return (0, import_web9.getVariable)(
     // TODO can remove 'web' here, will return DynamicColor for iOS for ListItem icons, which is supported in newer react-native-svg versions
     colorProp || ((_a = theme[colorProp]) == null ? void 0 : _a.get("web")) || ((_b = theme.color) == null ? void 0 : _b.get("web"))
   );
@@ -30853,20 +30865,20 @@ var useCurrentColor = /* @__PURE__ */ __name((colorProp) => {
 // node_modules/@tamagui/helpers-tamagui/dist/esm/useGetThemedIcon.mjs
 var import_react25 = __toESM(require("react"), 1);
 var useGetThemedIcon = /* @__PURE__ */ __name((props) => {
-  const color2 = useCurrentColor(props.color);
+  const color = useCurrentColor(props.color);
   return (el) => el && (import_react25.default.isValidElement(el) ? import_react25.default.cloneElement(el, {
     ...props,
-    color: color2,
+    color,
     // @ts-expect-error
     ...el.props
   }) : import_react25.default.createElement(el, props));
 }, "useGetThemedIcon");
 
 // node_modules/@tamagui/button/dist/esm/Button.mjs
-var import_web9 = require("@tamagui/core");
+var import_web10 = require("@tamagui/core");
 var import_react26 = require("react");
 var import_jsx_runtime21 = require("react/jsx-runtime");
-var ButtonContext = (0, import_web9.createStyledContext)({
+var ButtonContext = (0, import_web10.createStyledContext)({
   // keeping these here means they work with styled() passing down color to text
   color: void 0,
   ellipse: void 0,
@@ -30881,7 +30893,7 @@ var ButtonContext = (0, import_web9.createStyledContext)({
   variant: void 0
 });
 var BUTTON_NAME = "Button";
-var ButtonFrame = (0, import_web9.styled)(ThemeableStack, {
+var ButtonFrame = (0, import_web10.styled)(ThemeableStack, {
   name: BUTTON_NAME,
   tag: "button",
   context: ButtonContext,
@@ -30941,7 +30953,7 @@ var ButtonFrame = (0, import_web9.styled)(ThemeableStack, {
     unstyled: process.env.TAMAGUI_HEADLESS === "1"
   }
 });
-var ButtonText = (0, import_web9.styled)(SizableText, {
+var ButtonText = (0, import_web10.styled)(SizableText, {
   name: "Button",
   context: ButtonContext,
   variants: {
@@ -30966,12 +30978,12 @@ var ButtonIcon = /* @__PURE__ */ __name((props) => {
     children,
     scaleIcon = 1
   } = props, {
-    size: size6,
-    color: color2
-  } = (0, import_react26.useContext)(ButtonContext), iconSize = (typeof size6 == "number" ? size6 * 0.5 : getFontSize(size6)) * scaleIcon;
+    size: size5,
+    color
+  } = (0, import_react26.useContext)(ButtonContext), iconSize = (typeof size5 == "number" ? size5 * 0.5 : getFontSize(size5)) * scaleIcon;
   return useGetThemedIcon({
     size: iconSize,
-    color: color2
+    color
   })(children);
 }, "ButtonIcon");
 var ButtonComponent = ButtonFrame.styleable(function(props, ref) {
@@ -30996,13 +31008,13 @@ function useButton({
 } = {
   Text: Button2.Text
 }) {
-  const isNested = (0, import_react26.useContext)(ButtonNestingContext), propsActive = (0, import_web9.useProps)(propsIn, {
+  const isNested = (0, import_react26.useContext)(ButtonNestingContext), propsActive = (0, import_web10.useProps)(propsIn, {
     noNormalize: true,
     noExpand: true
   }), {
     icon,
     iconAfter,
-    space: space2,
+    space,
     spaceFlex,
     scaleIcon = 1,
     scaleSpace = 0.66,
@@ -31017,12 +31029,12 @@ function useButton({
     ellipse,
     maxFontSizeMultiplier,
     ...restProps
-  } = propsActive, size6 = propsActive.size || (propsActive.unstyled ? void 0 : "$true"), color2 = propsActive.color, iconSize = (typeof size6 == "number" ? size6 * 0.5 : getFontSize(size6, {
+  } = propsActive, size5 = propsActive.size || (propsActive.unstyled ? void 0 : "$true"), color = propsActive.color, iconSize = (typeof size5 == "number" ? size5 * 0.5 : getFontSize(size5, {
     font: (fontFamily == null ? void 0 : fontFamily[0]) === "$" ? fontFamily : void 0
   })) * scaleIcon, getThemedIcon = useGetThemedIcon({
     size: iconSize,
-    color: color2
-  }), [themedIcon, themedIconAfter] = [icon, iconAfter].map(getThemedIcon), spaceSize = space2 ?? (0, import_web9.getVariableValue)(iconSize) * scaleSpace, contents = noTextWrap ? [propsIn.children] : wrapChildrenInText(Text5, {
+    color
+  }), [themedIcon, themedIconAfter] = [icon, iconAfter].map(getThemedIcon), spaceSize = space ?? (0, import_web10.getVariableValue)(iconSize) * scaleSpace, contents = noTextWrap ? [propsIn.children] : wrapChildrenInText(Text5, {
     children: propsIn.children,
     fontFamily,
     fontSize,
@@ -31034,8 +31046,8 @@ function useButton({
     maxFontSizeMultiplier
   }, Text5 === ButtonText && propsActive.unstyled !== true ? {
     unstyled: process.env.TAMAGUI_HEADLESS === "1",
-    size: size6
-  } : void 0), inner2 = (0, import_web9.spacedChildren)({
+    size: size5
+  } : void 0), inner2 = (0, import_web10.spacedChildren)({
     // a bit arbitrary but scaling to font size is necessary so long as button does
     space: spaceSize,
     spaceFlex,
@@ -31046,7 +31058,7 @@ function useButton({
     // so even if icons are undefined we still pass them
     children: [themedIcon, ...contents, themedIconAfter]
   }), props = {
-    size: size6,
+    size: size5,
     ...propsIn.disabled && {
       // in rnw - false still has keyboard tabIndex, undefined = not actually focusable
       focusable: void 0,
@@ -31078,11 +31090,11 @@ function useButton({
 __name(useButton, "useButton");
 
 // node_modules/@tamagui/card/dist/esm/Card.mjs
-var import_web10 = require("@tamagui/core");
-var CardContext = (0, import_web10.createStyledContext)({
+var import_web11 = require("@tamagui/core");
+var CardContext = (0, import_web11.createStyledContext)({
   size: "$true"
 });
-var CardFrame = (0, import_web10.styled)(ThemeableStack, {
+var CardFrame = (0, import_web11.styled)(ThemeableStack, {
   name: "Card",
   context: CardContext,
   variants: {
@@ -31095,9 +31107,9 @@ var CardFrame = (0, import_web10.styled)(ThemeableStack, {
     },
     size: {
       "...size": /* @__PURE__ */ __name((val, {
-        tokens: tokens2
+        tokens
       }) => ({
-        borderRadius: tokens2.radius[val] ?? val
+        borderRadius: tokens.radius[val] ?? val
       }), "...size")
     }
   },
@@ -31105,7 +31117,7 @@ var CardFrame = (0, import_web10.styled)(ThemeableStack, {
     unstyled: process.env.TAMAGUI_HEADLESS === "1"
   }
 });
-var CardHeader = (0, import_web10.styled)(ThemeableStack, {
+var CardHeader = (0, import_web11.styled)(ThemeableStack, {
   name: "CardHeader",
   context: CardContext,
   variants: {
@@ -31118,9 +31130,9 @@ var CardHeader = (0, import_web10.styled)(ThemeableStack, {
     },
     size: {
       "...size": /* @__PURE__ */ __name((val, {
-        tokens: tokens2
+        tokens
       }) => ({
-        padding: tokens2.space[val] ?? val
+        padding: tokens.space[val] ?? val
       }), "...size")
     }
   },
@@ -31128,7 +31140,7 @@ var CardHeader = (0, import_web10.styled)(ThemeableStack, {
     unstyled: process.env.TAMAGUI_HEADLESS === "1"
   }
 });
-var CardFooter = (0, import_web10.styled)(CardHeader, {
+var CardFooter = (0, import_web11.styled)(CardHeader, {
   name: "CardFooter",
   variants: {
     unstyled: {
@@ -31144,7 +31156,7 @@ var CardFooter = (0, import_web10.styled)(CardHeader, {
     unstyled: process.env.TAMAGUI_HEADLESS === "1"
   }
 });
-var CardBackground = (0, import_web10.styled)(ThemeableStack, {
+var CardBackground = (0, import_web11.styled)(ThemeableStack, {
   name: "CardBackground",
   variants: {
     unstyled: {
@@ -31161,7 +31173,7 @@ var CardBackground = (0, import_web10.styled)(ThemeableStack, {
     unstyled: process.env.TAMAGUI_HEADLESS === "1"
   }
 });
-var Card = (0, import_web10.withStaticProperties)(CardFrame, {
+var Card = (0, import_web11.withStaticProperties)(CardFrame, {
   Header: CardHeader,
   Footer: CardFooter,
   Background: CardBackground
@@ -31260,7 +31272,7 @@ var focusFocusable = /* @__PURE__ */ __name((id) => {
 }, "focusFocusable");
 
 // node_modules/@tamagui/focusable/dist/esm/focusableInputHOC.mjs
-var import_web11 = require("@tamagui/core");
+var import_web12 = require("@tamagui/core");
 var import_react27 = __toESM(require("react"), 1);
 function useFocusable({
   isInput,
@@ -31289,7 +31301,7 @@ function useFocusable({
     (_a = unregisterFocusable.current) == null ? void 0 : _a.call(unregisterFocusable);
   }, []), {
     ref: combinedRefs,
-    onChangeText: (0, import_web11.useEvent)((value2) => {
+    onChangeText: (0, import_web12.useEvent)((value2) => {
       inputValue.current = value2, onChangeText == null ? void 0 : onChangeText(value2);
     })
   };
@@ -31297,7 +31309,7 @@ function useFocusable({
 __name(useFocusable, "useFocusable");
 
 // node_modules/@tamagui/label/dist/esm/Label.mjs
-var import_web12 = require("@tamagui/core");
+var import_web13 = require("@tamagui/core");
 var React36 = __toESM(require("react"), 1);
 var import_jsx_runtime22 = require("react/jsx-runtime");
 var NAME = "Label";
@@ -31307,7 +31319,7 @@ var [LabelProvider, useLabelContextImpl] = createContext4(NAME, {
     current: null
   }
 });
-var LabelFrame = (0, import_web12.styled)(SizableText, {
+var LabelFrame = (0, import_web13.styled)(SizableText, {
   name: "Label",
   tag: "label",
   variants: {
@@ -31383,7 +31395,7 @@ var LabelComponent = React36.forwardRef((props, forwardedRef) => {
   });
 });
 LabelComponent.displayName = NAME;
-var Label = LabelFrame.extractable((0, import_web12.themeable)(LabelComponent), {
+var Label = LabelFrame.extractable((0, import_web13.themeable)(LabelComponent), {
   neverFlatten: true
 });
 var useLabelContext = /* @__PURE__ */ __name((element) => {
@@ -31539,10 +31551,10 @@ function createCheckbox(createProps) {
       unstyled = false,
       ...props
     } = _props, propsActive = (0, import_core19.useProps)(props), styledContext = import_react29.default.useContext(CheckboxStyledContext);
-    let adjustedSize = 0, size6 = 0;
+    let adjustedSize = 0, size5 = 0;
     unstyled || (adjustedSize = (0, import_core19.getVariableValue)(getSize(propsActive.size ?? (styledContext == null ? void 0 : styledContext.size) ?? "$true", {
       shift: sizeAdjust
-    })), size6 = scaleSize ? Math.round(adjustedSize * scaleSize) : adjustedSize);
+    })), size5 = scaleSize ? Math.round(adjustedSize * scaleSize) : adjustedSize);
     const [checked = false, setChecked] = useControllableState({
       prop: checkedProp,
       defaultProp: defaultChecked,
@@ -31579,14 +31591,14 @@ function createCheckbox(createProps) {
         scaleIcon: scaleIcon ?? (styledContext == null ? void 0 : styledContext.scaleIcon) ?? 1,
         children: [/* @__PURE__ */ (0, import_jsx_runtime25.jsx)(Frame2, {
           ...!unstyled && {
-            width: size6,
-            height: size6
+            width: size5,
+            height: size5
           },
           tag: "button",
           ref: checkboxRef,
           unstyled,
           ...unstyled === false && {
-            size: size6,
+            size: size5,
             theme: checked ? "active" : null
           },
           checked,
@@ -31738,9 +31750,9 @@ var GroupFrame = (0, import_core21.styled)(ThemeableStack, {
       }
     },
     size: /* @__PURE__ */ __name((val, {
-      tokens: tokens2
+      tokens
     }) => ({
-      borderRadius: tokens2.radius[val] ?? val ?? tokens2.radius.$true
+      borderRadius: tokens.radius[val] ?? val ?? tokens.radius.$true
     }), "size")
   },
   defaultVariants: {
@@ -31752,8 +31764,8 @@ function createGroup(verticalDefault) {
     const activeProps = (0, import_core21.useProps)(props), {
       __scopeGroup,
       children: childrenProp,
-      space: space2,
-      size: size6 = "$true",
+      space,
+      size: size5 = "$true",
       spaceDirection,
       separator,
       scrollable,
@@ -31766,12 +31778,12 @@ function createGroup(verticalDefault) {
       ...restProps
     } = activeProps, vertical = orientation === "vertical", [itemChildrenCount, setItemChildrenCount] = useControllableState({
       defaultProp: forceUseItem ? 1 : 0
-    }), isUsingItems = itemChildrenCount > 0, radius2 = borderRadius ?? (size6 ? (0, import_core21.getVariableValue)((0, import_core21.getTokens)().radius[size6]) - 1 : void 0), disablePassBorderRadius = disablePassBorderRadiusProp ?? !(radius2 !== void 0), childrenArray = import_react30.default.Children.toArray(childrenProp), children = isUsingItems ? import_react30.default.Children.toArray(childrenProp).filter(import_react30.default.isValidElement) : childrenArray.map((child, i) => {
+    }), isUsingItems = itemChildrenCount > 0, radius = borderRadius ?? (size5 ? (0, import_core21.getVariableValue)((0, import_core21.getTokens)().radius[size5]) - 1 : void 0), disablePassBorderRadius = disablePassBorderRadiusProp ?? !(radius !== void 0), childrenArray = import_react30.default.Children.toArray(childrenProp), children = isUsingItems ? import_react30.default.Children.toArray(childrenProp).filter(import_react30.default.isValidElement) : childrenArray.map((child, i) => {
       if (!import_react30.default.isValidElement(child) || child.type === import_react30.default.Fragment) return child;
       const disabled = child.props.disabled ?? disabledProp, isFirst = i === 0, isLast = i === childrenArray.length - 1, radiusStyles = disablePassBorderRadius === true ? null : getBorderRadius({
         isFirst,
         isLast,
-        radius: radius2,
+        radius,
         vertical,
         disable: disablePassBorderRadius
       }), props2 = {
@@ -31784,20 +31796,20 @@ function createGroup(verticalDefault) {
     }), indexedChildren = useIndexedChildren((0, import_core21.spacedChildren)({
       direction: spaceDirection,
       separator,
-      space: space2,
+      space,
       children
     })), onItemMount = import_react30.default.useCallback(() => setItemChildrenCount((prev) => prev + 1), []), onItemUnmount = import_react30.default.useCallback(() => setItemChildrenCount((prev) => prev - 1), []);
     return /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(GroupProvider, {
       disablePassBorderRadius,
       vertical: orientation === "vertical",
-      radius: radius2,
+      radius,
       disabled: disabledProp,
       onItemMount,
       onItemUnmount,
       scope: __scopeGroup,
       children: /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(GroupFrame, {
         ref,
-        size: size6,
+        size: size5,
         flexDirection: orientation === "horizontal" ? "row" : "column",
         borderRadius,
         ...restProps,
@@ -31873,14 +31885,14 @@ var wrapScroll = /* @__PURE__ */ __name(({
 var getBorderRadius = /* @__PURE__ */ __name(({
   isFirst,
   isLast,
-  radius: radius2,
+  radius,
   vertical,
   disable
 }) => ({
-  borderTopLeftRadius: isFirst && disable !== "top" && disable !== "start" ? radius2 : 0,
-  borderTopRightRadius: disable !== "top" && disable !== "end" && (vertical && isFirst || !vertical && isLast) ? radius2 : 0,
-  borderBottomLeftRadius: disable !== "bottom" && disable !== "start" && (vertical && isLast || !vertical && isFirst) ? radius2 : 0,
-  borderBottomRightRadius: isLast && disable !== "bottom" && disable !== "end" ? radius2 : 0
+  borderTopLeftRadius: isFirst && disable !== "top" && disable !== "start" ? radius : 0,
+  borderTopRightRadius: disable !== "top" && disable !== "end" && (vertical && isFirst || !vertical && isLast) ? radius : 0,
+  borderBottomLeftRadius: disable !== "bottom" && disable !== "start" && (vertical && isLast || !vertical && isFirst) ? radius : 0,
+  borderBottomRightRadius: isLast && disable !== "bottom" && disable !== "end" ? radius : 0
 }), "getBorderRadius");
 var cloneElementWithPropOrder = /* @__PURE__ */ __name((child, props) => {
   const next = (0, import_core21.mergeProps)(child.props, props, (0, import_core21.getConfig)().shorthands);
@@ -31889,18 +31901,6 @@ var cloneElementWithPropOrder = /* @__PURE__ */ __name((child, props) => {
     props: null
   }, next);
 }, "cloneElementWithPropOrder");
-
-// node_modules/@tamagui/react-native-media-driver/dist/esm/createMedia.mjs
-var import_web13 = require("@tamagui/core");
-
-// node_modules/@tamagui/react-native-media-driver/dist/esm/matchMedia.mjs
-var matchMedia = globalThis.matchMedia;
-
-// node_modules/@tamagui/react-native-media-driver/dist/esm/createMedia.mjs
-function createMedia(media) {
-  return (0, import_web13.setupMatchMedia)(matchMedia), media;
-}
-__name(createMedia, "createMedia");
 
 // node_modules/@tamagui/elements/dist/esm/index.mjs
 var import_core22 = require("@tamagui/core");
@@ -31970,11 +31970,11 @@ var ListItemFrame = (0, import_web14.styled)(ThemeableStack, {
     },
     size: {
       "...size": /* @__PURE__ */ __name((val, {
-        tokens: tokens2
+        tokens
       }) => ({
-        minHeight: tokens2.size[val],
-        paddingHorizontal: tokens2.space[val],
-        paddingVertical: getSpace(tokens2.space[val], {
+        minHeight: tokens.size[val],
+        paddingHorizontal: tokens.space[val],
+        paddingVertical: getSpace(tokens.space[val], {
           shift: -4
         })
       }), "...size")
@@ -32060,7 +32060,7 @@ var useListItem = /* @__PURE__ */ __name((propsIn, {
     iconAfter,
     noTextWrap,
     theme: themeName,
-    space: space2,
+    space,
     spaceFlex,
     scaleIcon = 1,
     scaleSpace = 1,
@@ -32068,7 +32068,7 @@ var useListItem = /* @__PURE__ */ __name((propsIn, {
     subTitle,
     title,
     // text props
-    color: color2,
+    color,
     fontWeight,
     fontSize,
     fontFamily,
@@ -32077,7 +32077,7 @@ var useListItem = /* @__PURE__ */ __name((propsIn, {
     ellipse,
     ...rest
   } = props, textProps = {
-    color: color2,
+    color,
     fontWeight,
     fontSize,
     fontFamily,
@@ -32085,9 +32085,9 @@ var useListItem = /* @__PURE__ */ __name((propsIn, {
     textAlign,
     ellipse,
     children
-  }, size6 = props.size || "$true", iconSize = getFontSize(size6) * scaleIcon, getThemedIcon = useGetThemedIcon({
+  }, size5 = props.size || "$true", iconSize = getFontSize(size5) * scaleIcon, getThemedIcon = useGetThemedIcon({
     size: iconSize,
-    color: color2
+    color
   }), [themedIcon, themedIconAfter] = [icon, iconAfter].map(getThemedIcon), sizeToken = (0, import_web14.getTokens)().space[props.space] ?? iconSize, spaceSize = (0, import_web14.getVariableValue)(sizeToken) * scaleSpace, contents = wrapChildrenInText(Text5, textProps);
   return {
     props: {
@@ -32100,7 +32100,7 @@ var useListItem = /* @__PURE__ */ __name((propsIn, {
         }) : null, title || subTitle ? /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(YStack, {
           flex: 1,
           children: [noTextWrap === "all" ? title : /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Title, {
-            size: size6,
+            size: size5,
             children: title
           }), subTitle ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(import_jsx_runtime29.Fragment, {
             children: typeof subTitle == "string" && noTextWrap !== "all" ? (
@@ -32108,7 +32108,7 @@ var useListItem = /* @__PURE__ */ __name((propsIn, {
               // or standardize on subtle colors in themes
               /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Subtitle, {
                 unstyled,
-                size: size6,
+                size: size5,
                 children: subTitle
               })
             ) : subTitle
@@ -32369,13 +32369,13 @@ function computeCoordsFromPlacement(_ref, placement, rtl) {
   return coords;
 }
 __name(computeCoordsFromPlacement, "computeCoordsFromPlacement");
-var computePosition = /* @__PURE__ */ __name(async (reference, floating, config) => {
+var computePosition = /* @__PURE__ */ __name(async (reference, floating, config2) => {
   const {
     placement = "bottom",
     strategy = "absolute",
     middleware = [],
     platform: platform2
-  } = config;
+  } = config2;
   const validMiddleware = middleware.filter(Boolean);
   const rtl = await (platform2.isRTL == null ? void 0 : platform2.isRTL(floating));
   let rects = await platform2.getElementRects({
@@ -33808,15 +33808,15 @@ function useFloating(options) {
     if (!referenceRef.current || !floatingRef.current) {
       return;
     }
-    const config = {
+    const config2 = {
       placement,
       strategy,
       middleware: latestMiddleware
     };
     if (platformRef.current) {
-      config.platform = platformRef.current;
+      config2.platform = platformRef.current;
     }
-    computePosition2(referenceRef.current, floatingRef.current, config).then((data2) => {
+    computePosition2(referenceRef.current, floatingRef.current, config2).then((data2) => {
       const fullData = {
         ...data2,
         // The floating element's position may be recomputed while it's closed
@@ -33981,7 +33981,7 @@ function Popper(props) {
   var _a;
   const {
     children,
-    size: size6,
+    size: size5,
     strategy = "absolute",
     placement = "bottom",
     stayInFrame,
@@ -34013,7 +34013,7 @@ function Popper(props) {
     if (open && refs.reference.current && refs.floating.current) return floating.update(), autoUpdate(refs.reference.current, refs.floating.current, floating.update);
   }, [open, floating.update, refs.floating, refs.reference]);
   const popperContext = {
-    size: size6,
+    size: size5,
     arrowRef: setArrow,
     arrowStyle: middlewareData.arrow,
     onArrowSize: setArrowSize,
@@ -34060,10 +34060,10 @@ var PopperContentFrame = (0, import_core24.styled)(ThemeableStack, {
     },
     size: {
       "...size": /* @__PURE__ */ __name((val, {
-        tokens: tokens2
+        tokens
       }) => ({
-        padding: tokens2.space[val],
-        borderRadius: tokens2.radius[val]
+        padding: tokens.space[val],
+        borderRadius: tokens.radius[val]
       }), "...size")
     }
   },
@@ -34083,7 +34083,7 @@ var PopperContent = React45.forwardRef(function(props, forwardedRef) {
     x,
     y,
     getFloatingProps,
-    size: size6,
+    size: size5,
     update,
     floatingStyles,
     hasFloating
@@ -34091,7 +34091,7 @@ var PopperContent = React45.forwardRef(function(props, forwardedRef) {
     "data-placement": placement,
     "data-strategy": strategy,
     contain: "layout",
-    size: size6,
+    size: size5,
     ...rest
   }, "popper-content-frame"), [placement, strategy, props]), [needsMeasure, setNeedsMeasure] = React45.useState(true);
   React45.useEffect(() => {
@@ -34169,28 +34169,28 @@ var PopperArrow = PopperArrowFrame.styleable(function(propsIn, forwardedRef) {
   } = props, context = usePopperContext(__scopePopper), sizeVal = typeof sizeProp == "number" ? sizeProp : (0, import_core24.getVariableValue)(getSpace(sizeProp ?? context.size, {
     shift: -2,
     bounds: [2]
-  })), size6 = Math.max(0, +sizeVal), {
+  })), size5 = Math.max(0, +sizeVal), {
     placement
   } = context, refs = useComposedRefs(context.arrowRef, forwardedRef), x = ((_a = context.arrowStyle) == null ? void 0 : _a.x) || 0, y = ((_b = context.arrowStyle) == null ? void 0 : _b.y) || 0, primaryPlacement = placement ? placement.split("-")[0] : "top", arrowStyle = {
     x,
     y,
-    width: size6,
-    height: size6
+    width: size5,
+    height: size5
   }, innerArrowStyle = {}, isVertical = primaryPlacement === "bottom" || primaryPlacement === "top";
   if (primaryPlacement) {
-    arrowStyle[isVertical ? "width" : "height"] = size6 * 2;
+    arrowStyle[isVertical ? "width" : "height"] = size5 * 2;
     const oppSide = opposites[primaryPlacement];
-    oppSide && (arrowStyle[oppSide] = -size6, innerArrowStyle[oppSide] = size6 / 2), (oppSide === "top" || oppSide === "bottom") && (arrowStyle.left = 0), (oppSide === "left" || oppSide === "right") && (arrowStyle.top = 0), useIsomorphicLayoutEffect(() => {
+    oppSide && (arrowStyle[oppSide] = -size5, innerArrowStyle[oppSide] = size5 / 2), (oppSide === "top" || oppSide === "bottom") && (arrowStyle.left = 0), (oppSide === "left" || oppSide === "right") && (arrowStyle.top = 0), useIsomorphicLayoutEffect(() => {
       var _a2;
-      (_a2 = context.onArrowSize) == null ? void 0 : _a2.call(context, size6);
-    }, [size6, context.onArrowSize]);
+      (_a2 = context.onArrowSize) == null ? void 0 : _a2.call(context, size5);
+    }, [size5, context.onArrowSize]);
   }
   return /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(PopperArrowOuterFrame, {
     ref: refs,
     ...arrowStyle,
     children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(PopperArrowFrame, {
-      width: size6,
-      height: size6,
+      width: size5,
+      height: size5,
       ...arrowProps,
       ...innerArrowStyle,
       rotate: "45deg",
@@ -34477,15 +34477,15 @@ function useFloating3(options) {
     if (!referenceRef.current || !floatingRef.current) {
       return;
     }
-    const config = {
+    const config2 = {
       placement,
       strategy,
       middleware: latestMiddleware
     };
     if (platformRef.current) {
-      config.platform = platformRef.current;
+      config2.platform = platformRef.current;
     }
-    computePosition2(referenceRef.current, floatingRef.current, config).then((data2) => {
+    computePosition2(referenceRef.current, floatingRef.current, config2).then((data2) => {
       const fullData = {
         ...data2,
         // The floating element's position may be recomputed while it's closed
@@ -35987,7 +35987,7 @@ var PopoverContent = PopperContentFrame.extractable(React49.forwardRef(function(
     allowPinchZoom,
     trapFocus,
     disableRemoveScroll = true,
-    zIndex: zIndex2,
+    zIndex,
     __scopePopover,
     ...contentImplProps
   } = props, context = usePopoverContext(__scopePopover), contentRef = React49.useRef(null), composedRefs = useComposedRefs(forwardedRef, contentRef), isRightClickOutsideRef = React49.useRef(false), [isFullyHidden, setIsFullyHidden] = React49.useState(!context.open);
@@ -36039,7 +36039,7 @@ __name(PopoverRepropagateContext, "PopoverRepropagateContext");
 function PopoverContentPortal(props) {
   const {
     __scopePopover
-  } = props, zIndex2 = props.zIndex ?? 15e4, context = usePopoverContext(__scopePopover), popperContext = usePopperContext(__scopePopover || POPOVER_SCOPE), themeName = (0, import_core25.useThemeName)();
+  } = props, zIndex = props.zIndex ?? 15e4, context = usePopoverContext(__scopePopover), popperContext = usePopperContext(__scopePopover || POPOVER_SCOPE), themeName = (0, import_core25.useThemeName)();
   let contents = props.children;
   return (import_react_native_web7.Platform.OS === "android" || import_react_native_web7.Platform.OS === "ios") && (contents = /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(PopoverRepropagateContext, {
     scope: __scopePopover || POPOVER_SCOPE,
@@ -36047,7 +36047,7 @@ function PopoverContentPortal(props) {
     context,
     children: props.children
   })), /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Portal, {
-    zIndex: zIndex2,
+    zIndex,
     children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)(import_core25.Theme, {
       forceClassName: true,
       name: themeName,
@@ -36346,10 +36346,10 @@ var ProgressFrame = (0, import_core26.styled)(ThemeableStack, {
     },
     size: {
       "...size": /* @__PURE__ */ __name((val) => {
-        const size6 = Math.round((0, import_core26.getVariableValue)(getSize(val)) * 0.25);
+        const size5 = Math.round((0, import_core26.getVariableValue)(getSize(val)) * 0.25);
         return {
-          height: size6,
-          minWidth: (0, import_core26.getVariableValue)(size6) * 20,
+          height: size5,
+          minWidth: (0, import_core26.getVariableValue)(size5) * 20,
           width: "100%"
         };
       }, "...size")
@@ -36366,7 +36366,7 @@ var Progress = withStaticProperties(ProgressFrame.styleable(function(props, forw
     value: valueProp,
     max: maxProp,
     getValueLabel = defaultGetValueLabel,
-    size: size6 = "$true",
+    size: size5 = "$true",
     ...progressProps
   } = props, max2 = isValidMaxNumber(maxProp) ? maxProp : DEFAULT_MAX, value = isValidValueNumber(valueProp, max2) ? valueProp : null, valueLabel = isNumber(value) ? getValueLabel(value, max2) : void 0, [width, setWidth] = React50.useState(0);
   return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(ProgressProvider, {
@@ -36384,7 +36384,7 @@ var Progress = withStaticProperties(ProgressFrame.styleable(function(props, forw
       "data-value": value ?? void 0,
       "data-max": max2,
       ...progressProps.unstyled !== true && {
-        size: size6
+        size: size5
       },
       ...progressProps,
       onLayout: /* @__PURE__ */ __name((e) => {
@@ -36456,10 +36456,10 @@ var RadioGroupItemFrame = (0, import_core27.styled)(ThemeableStack, {
       "...size": /* @__PURE__ */ __name((value, {
         props
       }) => {
-        const size6 = Math.floor((0, import_core27.getVariableValue)(getSize(value)) * (props.scaleSize ?? 0.5));
+        const size5 = Math.floor((0, import_core27.getVariableValue)(getSize(value)) * (props.scaleSize ?? 0.5));
         return {
-          width: size6,
-          height: size6
+          width: size5,
+          height: size5
         };
       }, "...size")
     }
@@ -37479,15 +37479,15 @@ function useFloating5(options) {
     if (!referenceRef.current || !floatingRef.current) {
       return;
     }
-    const config = {
+    const config2 = {
       placement,
       strategy,
       middleware: latestMiddleware
     };
     if (platformRef.current) {
-      config.platform = platformRef.current;
+      config2.platform = platformRef.current;
     }
-    computePosition2(referenceRef.current, floatingRef.current, config).then((data2) => {
+    computePosition2(referenceRef.current, floatingRef.current, config2).then((data2) => {
       const fullData = {
         ...data2,
         // The floating element's position may be recomputed while it's closed
@@ -40375,7 +40375,7 @@ var CONTENT_NAME3 = "SelectContent";
 var SelectContent = /* @__PURE__ */ __name(({
   children,
   __scopeSelect,
-  zIndex: zIndex2 = 1e3,
+  zIndex = 1e3,
   ...focusScopeProps
 }) => {
   const context = useSelectContext(CONTENT_NAME3, __scopeSelect), itemParentContext = useSelectItemParentContext(CONTENT_NAME3, __scopeSelect), themeName = (0, import_core33.useThemeName)(), showSheet = useShowSelectSheet(context), contents = /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_core33.Theme, {
@@ -40383,7 +40383,7 @@ var SelectContent = /* @__PURE__ */ __name(({
     name: themeName,
     children
   }), touch = (0, import_core33.useIsTouchDevice)(), overlayStyle = import_react43.default.useMemo(() => ({
-    zIndex: zIndex2,
+    zIndex,
     pointerEvents: context.open ? "auto" : "none"
   }), [context.open]);
   return itemParentContext.shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(import_jsx_runtime41.Fragment, {
@@ -40652,7 +40652,7 @@ var SelectItem = ListItemFrame.styleable(function(props, forwardedRef) {
     dataRef,
     interactions,
     shouldRenderWebNative,
-    size: size6,
+    size: size5,
     onActiveChange,
     initialValue: initialValue2
   } = context, [isSelected, setSelected] = React61.useState(initialValue2 === value);
@@ -40717,7 +40717,7 @@ var SelectItem = ListItemFrame.styleable(function(props, forwardedRef) {
         hoverTheme: true,
         focusTheme: true,
         cursor: "default",
-        size: size6,
+        size: size5,
         outlineOffset: -0.5,
         focusVisibleStyle: {
           outlineColor: "$outlineColor",
@@ -40947,9 +40947,9 @@ var SelectViewportFrame = (0, import_core37.styled)(ThemeableStack, {
     },
     size: {
       "...size": /* @__PURE__ */ __name((val, {
-        tokens: tokens2
+        tokens
       }) => ({
-        borderRadius: tokens2.radius[val] ?? val
+        borderRadius: tokens.radius[val] ?? val
       }), "...size")
     }
   },
@@ -41113,11 +41113,11 @@ var NativeSelectFrame = (0, import_core38.styled)(ThemeableStack, {
     size: {
       "...size": /* @__PURE__ */ __name((val, extras) => {
         const {
-          tokens: tokens2
-        } = extras, paddingHorizontal = (0, import_core38.getVariableValue)(tokens2.space[val]);
+          tokens
+        } = extras, paddingHorizontal = (0, import_core38.getVariableValue)(tokens.space[val]);
         return {
-          borderRadius: tokens2.radius[val] ?? val,
-          minHeight: tokens2.size[val],
+          borderRadius: tokens.radius[val] ?? val,
+          minHeight: tokens.size[val],
           paddingRight: paddingHorizontal + 20,
           paddingLeft: paddingHorizontal,
           paddingVertical: getSpace(val, {
@@ -41135,16 +41135,16 @@ var SelectGroup = React65.forwardRef((props, forwardedRef) => {
   const {
     __scopeSelect,
     ...groupProps
-  } = props, groupId = React65.useId(), context = useSelectContext(GROUP_NAME3, __scopeSelect), itemParentContext = useSelectItemParentContext(GROUP_NAME3, __scopeSelect), size6 = itemParentContext.size ?? "$true", nativeSelectRef = React65.useRef(null), content = itemParentContext.shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(NativeSelectFrame, {
+  } = props, groupId = React65.useId(), context = useSelectContext(GROUP_NAME3, __scopeSelect), itemParentContext = useSelectItemParentContext(GROUP_NAME3, __scopeSelect), size5 = itemParentContext.size ?? "$true", nativeSelectRef = React65.useRef(null), content = itemParentContext.shouldRenderWebNative ? /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(NativeSelectFrame, {
     asChild: true,
-    size: size6,
+    size: size5,
     value: context.value,
     id: itemParentContext.id,
     children: /* @__PURE__ */ (0, import_jsx_runtime48.jsx)(NativeSelectTextFrame, {
       onChange: /* @__PURE__ */ __name((event) => {
         itemParentContext.onChange(event.currentTarget.value);
       }, "onChange"),
-      size: size6,
+      size: size5,
       ref: nativeSelectRef,
       style: {
         color: "var(--color)",
@@ -41421,14 +41421,14 @@ var SliderFrame = (0, import_core39.styled)(YStack, {
     },
     size: /* @__PURE__ */ __name((val, extras) => {
       if (!val) return;
-      const orientation = extras.props.orientation, size6 = Math.round((0, import_core39.getVariableValue)(getSize(val)) / 6);
+      const orientation = extras.props.orientation, size5 = Math.round((0, import_core39.getVariableValue)(getSize(val)) / 6);
       return orientation === "horizontal" ? {
-        height: size6,
-        borderRadius: size6,
+        height: size5,
+        borderRadius: size5,
         justifyContent: "center"
       } : {
-        width: size6,
-        borderRadius: size6,
+        width: size5,
+        borderRadius: size5,
         alignItems: "center"
       };
     }, "size")
@@ -41705,14 +41705,14 @@ var SliderTrackActive = React67.forwardRef((props, forwardedRef) => {
 SliderTrackActive.displayName = RANGE_NAME;
 var THUMB_NAME = "SliderThumb";
 var getThumbSize = /* @__PURE__ */ __name((val) => {
-  const tokens2 = (0, import_core40.getTokens)(), size6 = typeof val == "number" ? val : getSize(tokens2.size[val], {
+  const tokens = (0, import_core40.getTokens)(), size5 = typeof val == "number" ? val : getSize(tokens.size[val], {
     shift: -1
   });
   return {
-    width: size6,
-    height: size6,
-    minWidth: size6,
-    minHeight: size6
+    width: size5,
+    height: size5,
+    minWidth: size5,
+    minHeight: size5
   };
 }, "getThumbSize");
 var SliderThumbFrame = (0, import_core40.styled)(ThemeableStack, {
@@ -41743,25 +41743,25 @@ var SliderThumb = React67.memo(SliderThumbFrame.styleable(function(props, forwar
     index: index8,
     size: sizeProp,
     ...thumbProps
-  } = props, context = useSliderContext(THUMB_NAME, __scopeSlider), orientation = useSliderOrientationContext(THUMB_NAME, __scopeSlider), [thumb, setThumb] = React67.useState(null), composedRefs = useComposedRefs(forwardedRef, setThumb), value = context.values[index8], percent = value === void 0 ? 0 : convertValueToPercentage(value, context.min, context.max), label = getLabel(index8, context.values.length), sizeIn = sizeProp ?? context.size ?? "$true", [size6, setSize] = React67.useState(() => (0, import_core40.getVariableValue)(getThumbSize(sizeIn).width)), thumbInBoundsOffset = size6 ? getThumbInBoundsOffset(size6, percent, orientation.direction) : 0;
+  } = props, context = useSliderContext(THUMB_NAME, __scopeSlider), orientation = useSliderOrientationContext(THUMB_NAME, __scopeSlider), [thumb, setThumb] = React67.useState(null), composedRefs = useComposedRefs(forwardedRef, setThumb), value = context.values[index8], percent = value === void 0 ? 0 : convertValueToPercentage(value, context.min, context.max), label = getLabel(index8, context.values.length), sizeIn = sizeProp ?? context.size ?? "$true", [size5, setSize] = React67.useState(() => (0, import_core40.getVariableValue)(getThumbSize(sizeIn).width)), thumbInBoundsOffset = size5 ? getThumbInBoundsOffset(size5, percent, orientation.direction) : 0;
   React67.useEffect(() => {
     if (thumb) return context.thumbs.set(thumb, index8), () => {
       context.thumbs.delete(thumb);
     };
   }, [thumb, context.thumbs, index8]);
   const positionalStyles = context.orientation === "horizontal" ? {
-    x: thumbInBoundsOffset - size6 / 2,
-    y: -size6 / 2,
+    x: thumbInBoundsOffset - size5 / 2,
+    y: -size5 / 2,
     top: "50%",
-    ...size6 === 0 && {
+    ...size5 === 0 && {
       top: "auto",
       bottom: "auto"
     }
   } : {
-    x: -size6 / 2,
-    y: size6 / 2,
+    x: -size5 / 2,
+    y: size5 / 2,
     left: "50%",
-    ...size6 === 0 && {
+    ...size5 === 0 && {
       left: "auto",
       right: "auto"
     }
@@ -42011,10 +42011,10 @@ var SwitchThumb = (0, import_core42.styled)(ThemeableStack, {
     },
     size: {
       "...size": /* @__PURE__ */ __name((val) => {
-        const size6 = getSwitchHeight(val);
+        const size5 = getSwitchHeight(val);
         return {
-          height: size6,
-          width: size6
+          height: size5,
+          width: size5
         };
       }, "...size")
     }
@@ -42089,12 +42089,12 @@ function createSwitch(createProps) {
     } = context, styledContext = SwitchStyledContext.useStyledContext(), {
       unstyled: unstyledContext,
       size: sizeContext
-    } = styledContext, unstyled = process.env.TAMAGUI_HEADLESS === "1" ? true : unstyledProp ?? unstyledContext ?? false, size6 = sizeProp ?? sizeContext ?? "$true", initialChecked = React69.useRef(checked).current, [thumbWidth, setThumbWidth] = React69.useState(0), distance = frameWidth - thumbWidth, x = initialChecked ? checked ? 0 : -distance : checked ? distance : 0;
+    } = styledContext, unstyled = process.env.TAMAGUI_HEADLESS === "1" ? true : unstyledProp ?? unstyledContext ?? false, size5 = sizeProp ?? sizeContext ?? "$true", initialChecked = React69.useRef(checked).current, [thumbWidth, setThumbWidth] = React69.useState(0), distance = frameWidth - thumbWidth, x = initialChecked ? checked ? 0 : -distance : checked ? distance : 0;
     return /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(Thumb2, {
       ref: forwardedRef,
       unstyled,
       ...unstyled === false && {
-        size: size6,
+        size: size5,
         ...!disableActiveTheme && {
           theme: checked ? "active" : null
         }
@@ -42388,7 +42388,7 @@ var TabsComponent = TabsFrame.styleable((props, forwardedRef) => {
     orientation = "horizontal",
     dir,
     activationMode = "automatic",
-    size: size6 = "$true",
+    size: size5 = "$true",
     ...tabsProps
   } = props, direction = useDirection(dir), [value, setValue] = useControllableState({
     prop: valueProp,
@@ -42403,7 +42403,7 @@ var TabsComponent = TabsFrame.styleable((props, forwardedRef) => {
     orientation,
     dir: direction,
     activationMode,
-    size: size6,
+    size: size5,
     registerTrigger,
     triggersCount,
     unregisterTrigger,
@@ -42476,19 +42476,19 @@ function _mutateTheme(props) {
     process.env.NODE_ENV === "development" && console.warn("Theme mutation is not supported on server side");
     return;
   }
-  const config = (0, import_web16.getConfig)(), {
+  const config2 = (0, import_web16.getConfig)(), {
     name: themeName,
     theme: themeIn,
     insertCSS,
     mutationType
   } = props;
   if (process.env.NODE_ENV === "development") {
-    if (!config) throw new Error("No config");
-    const theme2 = config.themes[props.name];
+    if (!config2) throw new Error("No config");
+    const theme2 = config2.themes[props.name];
     if (mutationType !== "add" && !theme2) throw new Error(`${mutationType === "replace" ? "Replace" : "Update"} theme failed! Theme ${props.name} does not exist`);
   }
   const theme = {
-    ...mutationType === "update" ? config.themes[themeName] ?? {} : {},
+    ...mutationType === "update" ? config2.themes[themeName] ?? {} : {},
     ...themeIn
   };
   for (const key in theme) (0, import_web16.ensureThemeVariable)(theme, key);
@@ -42503,8 +42503,8 @@ function _mutateTheme(props) {
 }
 __name(_mutateTheme, "_mutateTheme");
 function updateThemeConfig(themeName, theme) {
-  const config = (0, import_web16.getConfig)();
-  config.themes[themeName] = theme, (0, import_web16.updateConfig)("themes", config.themes);
+  const config2 = (0, import_web16.getConfig)();
+  config2.themes[themeName] = theme, (0, import_web16.updateConfig)("themes", config2.themes);
 }
 __name(updateThemeConfig, "updateThemeConfig");
 function notifyThemeManagersOfUpdate(themeName, theme) {
@@ -42517,11 +42517,11 @@ function notifyThemeManagersOfUpdate(themeName, theme) {
 }
 __name(notifyThemeManagersOfUpdate, "notifyThemeManagersOfUpdate");
 function insertThemeCSS(themes, batch = false) {
-  const config = (0, import_web16.getConfig)();
+  const config2 = (0, import_web16.getConfig)();
   let cssRules = [];
   for (const themeName in themes) {
     const theme = themes[themeName], rules = (0, import_web16.getThemeCSSRules)({
-      config,
+      config: config2,
       themeName,
       names: [themeName],
       hasDarkLight: true,
@@ -42695,11 +42695,11 @@ var ToggleGroupItem = ToggleFrame.extractable(import_react48.default.forwardRef(
     ...rest
   } = props, valueContext = useToggleGroupValueContext(props.__scopeToggleGroup), context = useToggleGroupContext(props.__scopeToggleGroup), pressed = valueContext == null ? void 0 : valueContext.value.includes(props.value), disabled = context.disabled || props.disabled || false, groupItemProps = useGroupItem({
     disabled
-  }), size6 = props.size ?? context.size, sizeProps = props.unstyled ? {} : {
+  }), size5 = props.size ?? context.size, sizeProps = props.unstyled ? {} : {
     width: void 0,
     height: void 0,
-    padding: (0, import_web18.getVariableValue)(size6) * 0.6
-  }, iconSize = (typeof size6 == "number" ? size6 * 0.7 : getFontSize(size6)) * 1.2, theme = (0, import_web18.useTheme)(), getThemedIcon = useGetThemedIcon({
+    padding: (0, import_web18.getVariableValue)(size5) * 0.6
+  }, iconSize = (typeof size5 == "number" ? size5 * 0.7 : getFontSize(size5)) * 1.2, theme = (0, import_web18.useTheme)(), getThemedIcon = useGetThemedIcon({
     size: iconSize,
     color: theme.color
   }), children = import_react48.default.Children.toArray(props.children).map((child) => props.disablePassStyles || !import_react48.default.isValidElement(child) ? child : getThemedIcon(child)), commonProps = {
@@ -42867,12 +42867,12 @@ var ToggleGroupImpl = ToggleGroupImplElementFrame.extractable(import_react48.def
     ...toggleGroupProps
   }, adjustedSize = (0, import_web18.getVariableValue)(getSize(sizeProp, {
     shift: sizeAdjust
-  })), size6 = Math.round(adjustedSize * 0.45);
+  })), size5 = Math.round(adjustedSize * 0.45);
   return /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(ToggleGroupContext, {
     scope: __scopeToggleGroup,
     rovingFocus,
     disabled,
-    size: size6,
+    size: size5,
     children: rovingFocus ? /* @__PURE__ */ (0, import_jsx_runtime55.jsx)(RovingFocusGroup, {
       asChild: "except-style",
       __scopeRovingFocusGroup: __scopeToggleGroup || TOGGLE_GROUP_CONTEXT,
@@ -43155,15 +43155,15 @@ function useFloating7(options) {
     if (!referenceRef.current || !floatingRef.current) {
       return;
     }
-    const config = {
+    const config2 = {
       placement,
       strategy,
       middleware: latestMiddleware
     };
     if (platformRef.current) {
-      config.platform = platformRef.current;
+      config2.platform = platformRef.current;
     }
-    computePosition2(referenceRef.current, floatingRef.current, config).then((data2) => {
+    computePosition2(referenceRef.current, floatingRef.current, config2).then((data2) => {
       const fullData = {
         ...data2,
         // The floating element's position may be recomputed while it's closed
@@ -45026,17 +45026,17 @@ var import_react_native_web12 = __toESM(require_cjs21(), 1);
 var import_jsx_runtime61 = require("react/jsx-runtime");
 var Spinner = YStack.extractable((0, import_core52.themeable)(React79.forwardRef((props, ref) => {
   const {
-    size: size6,
+    size: size5,
     color: colorProp,
     ...stackProps
   } = props, theme = (0, import_core52.useTheme)();
-  let color2 = colorProp;
-  return color2 && color2[0] === "$" && (color2 = (0, import_core52.variableToString)(theme[color2])), /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(YStack, {
+  let color = colorProp;
+  return color && color[0] === "$" && (color = (0, import_core52.variableToString)(theme[color])), /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(YStack, {
     ref,
     ...stackProps,
     children: /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(import_react_native_web12.ActivityIndicator, {
-      size: size6,
-      color: color2
+      size: size5,
+      color
     })
   });
 }), {
@@ -45096,3938 +45096,443 @@ var Text4 = (0, import_core54.styled)(import_core54.Text, {
 // node_modules/tamagui/dist/esm/index.mjs
 var import_core55 = require("@tamagui/core");
 
-// node_modules/@tamagui/font-inter/dist/esm/index.mjs
-var import_core56 = require("@tamagui/core");
-var createInterFont = /* @__PURE__ */ __name((font = {}, {
-  sizeLineHeight = /* @__PURE__ */ __name((size6) => size6 + 10, "sizeLineHeight"),
-  sizeSize = /* @__PURE__ */ __name((size6) => size6 * 1, "sizeSize")
-} = {}) => {
-  const size6 = Object.fromEntries(Object.entries({
-    ...defaultSizes,
-    ...font.size
-  }).map(([k, v]) => [k, sizeSize(+v)]));
-  return (0, import_core56.createFont)({
-    family: import_core56.isWeb ? 'Inter, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif' : "Inter",
-    lineHeight: Object.fromEntries(Object.entries(size6).map(([k, v]) => [k, sizeLineHeight((0, import_core56.getVariableValue)(v))])),
-    weight: {
-      4: "300"
-    },
-    letterSpacing: {
-      4: 0
-    },
-    ...font,
-    size: size6
-  });
-}, "createInterFont");
-var defaultSizes = {
-  1: 11,
-  2: 12,
-  3: 13,
-  4: 14,
-  true: 14,
-  5: 16,
-  6: 18,
-  7: 20,
-  8: 23,
-  9: 30,
-  10: 46,
-  11: 55,
-  12: 62,
-  13: 72,
-  14: 92,
-  15: 114,
-  16: 134
-};
-
-// node_modules/@tamagui/shorthands/dist/esm/index.mjs
-var shorthands = {
-  // web-only
-  ussel: "userSelect",
-  cur: "cursor",
-  // tamagui
-  pe: "pointerEvents",
-  // text
-  col: "color",
-  ff: "fontFamily",
-  fos: "fontSize",
-  fost: "fontStyle",
-  fow: "fontWeight",
-  ls: "letterSpacing",
-  lh: "lineHeight",
-  ta: "textAlign",
-  tt: "textTransform",
-  ww: "wordWrap",
-  // view
-  ac: "alignContent",
-  ai: "alignItems",
-  als: "alignSelf",
-  b: "bottom",
-  bc: "backgroundColor",
-  bg: "backgroundColor",
-  bbc: "borderBottomColor",
-  bblr: "borderBottomLeftRadius",
-  bbrr: "borderBottomRightRadius",
-  bbw: "borderBottomWidth",
-  blc: "borderLeftColor",
-  blw: "borderLeftWidth",
-  boc: "borderColor",
-  br: "borderRadius",
-  bs: "borderStyle",
-  brw: "borderRightWidth",
-  brc: "borderRightColor",
-  btc: "borderTopColor",
-  btlr: "borderTopLeftRadius",
-  btrr: "borderTopRightRadius",
-  btw: "borderTopWidth",
-  bw: "borderWidth",
-  dsp: "display",
-  f: "flex",
-  fb: "flexBasis",
-  fd: "flexDirection",
-  fg: "flexGrow",
-  fs: "flexShrink",
-  fw: "flexWrap",
-  h: "height",
-  jc: "justifyContent",
-  l: "left",
-  m: "margin",
-  mah: "maxHeight",
-  maw: "maxWidth",
-  mb: "marginBottom",
-  mih: "minHeight",
-  miw: "minWidth",
-  ml: "marginLeft",
-  mr: "marginRight",
-  mt: "marginTop",
-  mx: "marginHorizontal",
-  my: "marginVertical",
-  o: "opacity",
-  ov: "overflow",
-  p: "padding",
-  pb: "paddingBottom",
-  pl: "paddingLeft",
-  pos: "position",
-  pr: "paddingRight",
-  pt: "paddingTop",
-  px: "paddingHorizontal",
-  py: "paddingVertical",
-  r: "right",
-  shac: "shadowColor",
-  shar: "shadowRadius",
-  shof: "shadowOffset",
-  shop: "shadowOpacity",
-  t: "top",
-  w: "width",
-  zi: "zIndex"
-};
-shorthands.bls = "borderLeftStyle";
-shorthands.brs = "borderRightStyle";
-shorthands.bts = "borderTopStyle";
-shorthands.bbs = "borderBottomStyle";
-shorthands.bxs = "boxSizing";
-shorthands.bxsh = "boxShadow";
-shorthands.ox = "overflowX";
-shorthands.oy = "overflowY";
-
-// node_modules/@tamagui/themes/dist/esm/generated-new.mjs
-var generated_new_exports = {};
-__export(generated_new_exports, {
-  dark: () => dark,
-  dark_Button: () => dark_Button,
-  dark_Card: () => dark_Card,
-  dark_Checkbox: () => dark_Checkbox,
-  dark_DialogOverlay: () => dark_DialogOverlay,
-  dark_DrawerFrame: () => dark_DrawerFrame,
-  dark_Input: () => dark_Input,
-  dark_ListItem: () => dark_ListItem,
-  dark_ModalOverlay: () => dark_ModalOverlay,
-  dark_Progress: () => dark_Progress,
-  dark_ProgressIndicator: () => dark_ProgressIndicator,
-  dark_RadioGroupItem: () => dark_RadioGroupItem,
-  dark_SheetOverlay: () => dark_SheetOverlay,
-  dark_SliderThumb: () => dark_SliderThumb,
-  dark_SliderTrack: () => dark_SliderTrack,
-  dark_SliderTrackActive: () => dark_SliderTrackActive,
-  dark_Switch: () => dark_Switch,
-  dark_SwitchThumb: () => dark_SwitchThumb,
-  dark_TextArea: () => dark_TextArea,
-  dark_Tooltip: () => dark_Tooltip,
-  dark_TooltipArrow: () => dark_TooltipArrow,
-  dark_TooltipContent: () => dark_TooltipContent,
-  dark_active: () => dark_active,
-  dark_active_Button: () => dark_active_Button,
-  dark_active_Card: () => dark_active_Card,
-  dark_active_Checkbox: () => dark_active_Checkbox,
-  dark_active_DialogOverlay: () => dark_active_DialogOverlay,
-  dark_active_DrawerFrame: () => dark_active_DrawerFrame,
-  dark_active_Input: () => dark_active_Input,
-  dark_active_ListItem: () => dark_active_ListItem,
-  dark_active_ModalOverlay: () => dark_active_ModalOverlay,
-  dark_active_Progress: () => dark_active_Progress,
-  dark_active_ProgressIndicator: () => dark_active_ProgressIndicator,
-  dark_active_RadioGroupItem: () => dark_active_RadioGroupItem,
-  dark_active_SheetOverlay: () => dark_active_SheetOverlay,
-  dark_active_SliderThumb: () => dark_active_SliderThumb,
-  dark_active_SliderTrack: () => dark_active_SliderTrack,
-  dark_active_SliderTrackActive: () => dark_active_SliderTrackActive,
-  dark_active_Switch: () => dark_active_Switch,
-  dark_active_SwitchThumb: () => dark_active_SwitchThumb,
-  dark_active_TextArea: () => dark_active_TextArea,
-  dark_active_Tooltip: () => dark_active_Tooltip,
-  dark_active_TooltipArrow: () => dark_active_TooltipArrow,
-  dark_active_TooltipContent: () => dark_active_TooltipContent,
-  dark_alt1: () => dark_alt1,
-  dark_alt1_Button: () => dark_alt1_Button,
-  dark_alt1_Card: () => dark_alt1_Card,
-  dark_alt1_Checkbox: () => dark_alt1_Checkbox,
-  dark_alt1_DialogOverlay: () => dark_alt1_DialogOverlay,
-  dark_alt1_DrawerFrame: () => dark_alt1_DrawerFrame,
-  dark_alt1_Input: () => dark_alt1_Input,
-  dark_alt1_ListItem: () => dark_alt1_ListItem,
-  dark_alt1_ModalOverlay: () => dark_alt1_ModalOverlay,
-  dark_alt1_Progress: () => dark_alt1_Progress,
-  dark_alt1_ProgressIndicator: () => dark_alt1_ProgressIndicator,
-  dark_alt1_RadioGroupItem: () => dark_alt1_RadioGroupItem,
-  dark_alt1_SheetOverlay: () => dark_alt1_SheetOverlay,
-  dark_alt1_SliderThumb: () => dark_alt1_SliderThumb,
-  dark_alt1_SliderTrack: () => dark_alt1_SliderTrack,
-  dark_alt1_SliderTrackActive: () => dark_alt1_SliderTrackActive,
-  dark_alt1_Switch: () => dark_alt1_Switch,
-  dark_alt1_SwitchThumb: () => dark_alt1_SwitchThumb,
-  dark_alt1_TextArea: () => dark_alt1_TextArea,
-  dark_alt1_Tooltip: () => dark_alt1_Tooltip,
-  dark_alt1_TooltipArrow: () => dark_alt1_TooltipArrow,
-  dark_alt1_TooltipContent: () => dark_alt1_TooltipContent,
-  dark_alt2: () => dark_alt2,
-  dark_alt2_Button: () => dark_alt2_Button,
-  dark_alt2_Card: () => dark_alt2_Card,
-  dark_alt2_Checkbox: () => dark_alt2_Checkbox,
-  dark_alt2_DialogOverlay: () => dark_alt2_DialogOverlay,
-  dark_alt2_DrawerFrame: () => dark_alt2_DrawerFrame,
-  dark_alt2_Input: () => dark_alt2_Input,
-  dark_alt2_ListItem: () => dark_alt2_ListItem,
-  dark_alt2_ModalOverlay: () => dark_alt2_ModalOverlay,
-  dark_alt2_Progress: () => dark_alt2_Progress,
-  dark_alt2_ProgressIndicator: () => dark_alt2_ProgressIndicator,
-  dark_alt2_RadioGroupItem: () => dark_alt2_RadioGroupItem,
-  dark_alt2_SheetOverlay: () => dark_alt2_SheetOverlay,
-  dark_alt2_SliderThumb: () => dark_alt2_SliderThumb,
-  dark_alt2_SliderTrack: () => dark_alt2_SliderTrack,
-  dark_alt2_SliderTrackActive: () => dark_alt2_SliderTrackActive,
-  dark_alt2_Switch: () => dark_alt2_Switch,
-  dark_alt2_SwitchThumb: () => dark_alt2_SwitchThumb,
-  dark_alt2_TextArea: () => dark_alt2_TextArea,
-  dark_alt2_Tooltip: () => dark_alt2_Tooltip,
-  dark_alt2_TooltipArrow: () => dark_alt2_TooltipArrow,
-  dark_alt2_TooltipContent: () => dark_alt2_TooltipContent,
-  dark_blue: () => dark_blue,
-  dark_blue_Button: () => dark_blue_Button,
-  dark_blue_Card: () => dark_blue_Card,
-  dark_blue_Checkbox: () => dark_blue_Checkbox,
-  dark_blue_DialogOverlay: () => dark_blue_DialogOverlay,
-  dark_blue_DrawerFrame: () => dark_blue_DrawerFrame,
-  dark_blue_Input: () => dark_blue_Input,
-  dark_blue_ListItem: () => dark_blue_ListItem,
-  dark_blue_ModalOverlay: () => dark_blue_ModalOverlay,
-  dark_blue_Progress: () => dark_blue_Progress,
-  dark_blue_ProgressIndicator: () => dark_blue_ProgressIndicator,
-  dark_blue_RadioGroupItem: () => dark_blue_RadioGroupItem,
-  dark_blue_SheetOverlay: () => dark_blue_SheetOverlay,
-  dark_blue_SliderThumb: () => dark_blue_SliderThumb,
-  dark_blue_SliderTrack: () => dark_blue_SliderTrack,
-  dark_blue_SliderTrackActive: () => dark_blue_SliderTrackActive,
-  dark_blue_Switch: () => dark_blue_Switch,
-  dark_blue_SwitchThumb: () => dark_blue_SwitchThumb,
-  dark_blue_TextArea: () => dark_blue_TextArea,
-  dark_blue_Tooltip: () => dark_blue_Tooltip,
-  dark_blue_TooltipArrow: () => dark_blue_TooltipArrow,
-  dark_blue_TooltipContent: () => dark_blue_TooltipContent,
-  dark_blue_active: () => dark_blue_active,
-  dark_blue_active_Button: () => dark_blue_active_Button,
-  dark_blue_active_Card: () => dark_blue_active_Card,
-  dark_blue_active_Checkbox: () => dark_blue_active_Checkbox,
-  dark_blue_active_DialogOverlay: () => dark_blue_active_DialogOverlay,
-  dark_blue_active_DrawerFrame: () => dark_blue_active_DrawerFrame,
-  dark_blue_active_Input: () => dark_blue_active_Input,
-  dark_blue_active_ListItem: () => dark_blue_active_ListItem,
-  dark_blue_active_ModalOverlay: () => dark_blue_active_ModalOverlay,
-  dark_blue_active_Progress: () => dark_blue_active_Progress,
-  dark_blue_active_ProgressIndicator: () => dark_blue_active_ProgressIndicator,
-  dark_blue_active_RadioGroupItem: () => dark_blue_active_RadioGroupItem,
-  dark_blue_active_SheetOverlay: () => dark_blue_active_SheetOverlay,
-  dark_blue_active_SliderThumb: () => dark_blue_active_SliderThumb,
-  dark_blue_active_SliderTrack: () => dark_blue_active_SliderTrack,
-  dark_blue_active_SliderTrackActive: () => dark_blue_active_SliderTrackActive,
-  dark_blue_active_Switch: () => dark_blue_active_Switch,
-  dark_blue_active_SwitchThumb: () => dark_blue_active_SwitchThumb,
-  dark_blue_active_TextArea: () => dark_blue_active_TextArea,
-  dark_blue_active_Tooltip: () => dark_blue_active_Tooltip,
-  dark_blue_active_TooltipArrow: () => dark_blue_active_TooltipArrow,
-  dark_blue_active_TooltipContent: () => dark_blue_active_TooltipContent,
-  dark_blue_alt1: () => dark_blue_alt1,
-  dark_blue_alt1_Button: () => dark_blue_alt1_Button,
-  dark_blue_alt1_Card: () => dark_blue_alt1_Card,
-  dark_blue_alt1_Checkbox: () => dark_blue_alt1_Checkbox,
-  dark_blue_alt1_DialogOverlay: () => dark_blue_alt1_DialogOverlay,
-  dark_blue_alt1_DrawerFrame: () => dark_blue_alt1_DrawerFrame,
-  dark_blue_alt1_Input: () => dark_blue_alt1_Input,
-  dark_blue_alt1_ListItem: () => dark_blue_alt1_ListItem,
-  dark_blue_alt1_ModalOverlay: () => dark_blue_alt1_ModalOverlay,
-  dark_blue_alt1_Progress: () => dark_blue_alt1_Progress,
-  dark_blue_alt1_ProgressIndicator: () => dark_blue_alt1_ProgressIndicator,
-  dark_blue_alt1_RadioGroupItem: () => dark_blue_alt1_RadioGroupItem,
-  dark_blue_alt1_SheetOverlay: () => dark_blue_alt1_SheetOverlay,
-  dark_blue_alt1_SliderThumb: () => dark_blue_alt1_SliderThumb,
-  dark_blue_alt1_SliderTrack: () => dark_blue_alt1_SliderTrack,
-  dark_blue_alt1_SliderTrackActive: () => dark_blue_alt1_SliderTrackActive,
-  dark_blue_alt1_Switch: () => dark_blue_alt1_Switch,
-  dark_blue_alt1_SwitchThumb: () => dark_blue_alt1_SwitchThumb,
-  dark_blue_alt1_TextArea: () => dark_blue_alt1_TextArea,
-  dark_blue_alt1_Tooltip: () => dark_blue_alt1_Tooltip,
-  dark_blue_alt1_TooltipArrow: () => dark_blue_alt1_TooltipArrow,
-  dark_blue_alt1_TooltipContent: () => dark_blue_alt1_TooltipContent,
-  dark_blue_alt2: () => dark_blue_alt2,
-  dark_blue_alt2_Button: () => dark_blue_alt2_Button,
-  dark_blue_alt2_Card: () => dark_blue_alt2_Card,
-  dark_blue_alt2_Checkbox: () => dark_blue_alt2_Checkbox,
-  dark_blue_alt2_DialogOverlay: () => dark_blue_alt2_DialogOverlay,
-  dark_blue_alt2_DrawerFrame: () => dark_blue_alt2_DrawerFrame,
-  dark_blue_alt2_Input: () => dark_blue_alt2_Input,
-  dark_blue_alt2_ListItem: () => dark_blue_alt2_ListItem,
-  dark_blue_alt2_ModalOverlay: () => dark_blue_alt2_ModalOverlay,
-  dark_blue_alt2_Progress: () => dark_blue_alt2_Progress,
-  dark_blue_alt2_ProgressIndicator: () => dark_blue_alt2_ProgressIndicator,
-  dark_blue_alt2_RadioGroupItem: () => dark_blue_alt2_RadioGroupItem,
-  dark_blue_alt2_SheetOverlay: () => dark_blue_alt2_SheetOverlay,
-  dark_blue_alt2_SliderThumb: () => dark_blue_alt2_SliderThumb,
-  dark_blue_alt2_SliderTrack: () => dark_blue_alt2_SliderTrack,
-  dark_blue_alt2_SliderTrackActive: () => dark_blue_alt2_SliderTrackActive,
-  dark_blue_alt2_Switch: () => dark_blue_alt2_Switch,
-  dark_blue_alt2_SwitchThumb: () => dark_blue_alt2_SwitchThumb,
-  dark_blue_alt2_TextArea: () => dark_blue_alt2_TextArea,
-  dark_blue_alt2_Tooltip: () => dark_blue_alt2_Tooltip,
-  dark_blue_alt2_TooltipArrow: () => dark_blue_alt2_TooltipArrow,
-  dark_blue_alt2_TooltipContent: () => dark_blue_alt2_TooltipContent,
-  dark_green: () => dark_green,
-  dark_green_Button: () => dark_green_Button,
-  dark_green_Card: () => dark_green_Card,
-  dark_green_Checkbox: () => dark_green_Checkbox,
-  dark_green_DialogOverlay: () => dark_green_DialogOverlay,
-  dark_green_DrawerFrame: () => dark_green_DrawerFrame,
-  dark_green_Input: () => dark_green_Input,
-  dark_green_ListItem: () => dark_green_ListItem,
-  dark_green_ModalOverlay: () => dark_green_ModalOverlay,
-  dark_green_Progress: () => dark_green_Progress,
-  dark_green_ProgressIndicator: () => dark_green_ProgressIndicator,
-  dark_green_RadioGroupItem: () => dark_green_RadioGroupItem,
-  dark_green_SheetOverlay: () => dark_green_SheetOverlay,
-  dark_green_SliderThumb: () => dark_green_SliderThumb,
-  dark_green_SliderTrack: () => dark_green_SliderTrack,
-  dark_green_SliderTrackActive: () => dark_green_SliderTrackActive,
-  dark_green_Switch: () => dark_green_Switch,
-  dark_green_SwitchThumb: () => dark_green_SwitchThumb,
-  dark_green_TextArea: () => dark_green_TextArea,
-  dark_green_Tooltip: () => dark_green_Tooltip,
-  dark_green_TooltipArrow: () => dark_green_TooltipArrow,
-  dark_green_TooltipContent: () => dark_green_TooltipContent,
-  dark_green_active: () => dark_green_active,
-  dark_green_active_Button: () => dark_green_active_Button,
-  dark_green_active_Card: () => dark_green_active_Card,
-  dark_green_active_Checkbox: () => dark_green_active_Checkbox,
-  dark_green_active_DialogOverlay: () => dark_green_active_DialogOverlay,
-  dark_green_active_DrawerFrame: () => dark_green_active_DrawerFrame,
-  dark_green_active_Input: () => dark_green_active_Input,
-  dark_green_active_ListItem: () => dark_green_active_ListItem,
-  dark_green_active_ModalOverlay: () => dark_green_active_ModalOverlay,
-  dark_green_active_Progress: () => dark_green_active_Progress,
-  dark_green_active_ProgressIndicator: () => dark_green_active_ProgressIndicator,
-  dark_green_active_RadioGroupItem: () => dark_green_active_RadioGroupItem,
-  dark_green_active_SheetOverlay: () => dark_green_active_SheetOverlay,
-  dark_green_active_SliderThumb: () => dark_green_active_SliderThumb,
-  dark_green_active_SliderTrack: () => dark_green_active_SliderTrack,
-  dark_green_active_SliderTrackActive: () => dark_green_active_SliderTrackActive,
-  dark_green_active_Switch: () => dark_green_active_Switch,
-  dark_green_active_SwitchThumb: () => dark_green_active_SwitchThumb,
-  dark_green_active_TextArea: () => dark_green_active_TextArea,
-  dark_green_active_Tooltip: () => dark_green_active_Tooltip,
-  dark_green_active_TooltipArrow: () => dark_green_active_TooltipArrow,
-  dark_green_active_TooltipContent: () => dark_green_active_TooltipContent,
-  dark_green_alt1: () => dark_green_alt1,
-  dark_green_alt1_Button: () => dark_green_alt1_Button,
-  dark_green_alt1_Card: () => dark_green_alt1_Card,
-  dark_green_alt1_Checkbox: () => dark_green_alt1_Checkbox,
-  dark_green_alt1_DialogOverlay: () => dark_green_alt1_DialogOverlay,
-  dark_green_alt1_DrawerFrame: () => dark_green_alt1_DrawerFrame,
-  dark_green_alt1_Input: () => dark_green_alt1_Input,
-  dark_green_alt1_ListItem: () => dark_green_alt1_ListItem,
-  dark_green_alt1_ModalOverlay: () => dark_green_alt1_ModalOverlay,
-  dark_green_alt1_Progress: () => dark_green_alt1_Progress,
-  dark_green_alt1_ProgressIndicator: () => dark_green_alt1_ProgressIndicator,
-  dark_green_alt1_RadioGroupItem: () => dark_green_alt1_RadioGroupItem,
-  dark_green_alt1_SheetOverlay: () => dark_green_alt1_SheetOverlay,
-  dark_green_alt1_SliderThumb: () => dark_green_alt1_SliderThumb,
-  dark_green_alt1_SliderTrack: () => dark_green_alt1_SliderTrack,
-  dark_green_alt1_SliderTrackActive: () => dark_green_alt1_SliderTrackActive,
-  dark_green_alt1_Switch: () => dark_green_alt1_Switch,
-  dark_green_alt1_SwitchThumb: () => dark_green_alt1_SwitchThumb,
-  dark_green_alt1_TextArea: () => dark_green_alt1_TextArea,
-  dark_green_alt1_Tooltip: () => dark_green_alt1_Tooltip,
-  dark_green_alt1_TooltipArrow: () => dark_green_alt1_TooltipArrow,
-  dark_green_alt1_TooltipContent: () => dark_green_alt1_TooltipContent,
-  dark_green_alt2: () => dark_green_alt2,
-  dark_green_alt2_Button: () => dark_green_alt2_Button,
-  dark_green_alt2_Card: () => dark_green_alt2_Card,
-  dark_green_alt2_Checkbox: () => dark_green_alt2_Checkbox,
-  dark_green_alt2_DialogOverlay: () => dark_green_alt2_DialogOverlay,
-  dark_green_alt2_DrawerFrame: () => dark_green_alt2_DrawerFrame,
-  dark_green_alt2_Input: () => dark_green_alt2_Input,
-  dark_green_alt2_ListItem: () => dark_green_alt2_ListItem,
-  dark_green_alt2_ModalOverlay: () => dark_green_alt2_ModalOverlay,
-  dark_green_alt2_Progress: () => dark_green_alt2_Progress,
-  dark_green_alt2_ProgressIndicator: () => dark_green_alt2_ProgressIndicator,
-  dark_green_alt2_RadioGroupItem: () => dark_green_alt2_RadioGroupItem,
-  dark_green_alt2_SheetOverlay: () => dark_green_alt2_SheetOverlay,
-  dark_green_alt2_SliderThumb: () => dark_green_alt2_SliderThumb,
-  dark_green_alt2_SliderTrack: () => dark_green_alt2_SliderTrack,
-  dark_green_alt2_SliderTrackActive: () => dark_green_alt2_SliderTrackActive,
-  dark_green_alt2_Switch: () => dark_green_alt2_Switch,
-  dark_green_alt2_SwitchThumb: () => dark_green_alt2_SwitchThumb,
-  dark_green_alt2_TextArea: () => dark_green_alt2_TextArea,
-  dark_green_alt2_Tooltip: () => dark_green_alt2_Tooltip,
-  dark_green_alt2_TooltipArrow: () => dark_green_alt2_TooltipArrow,
-  dark_green_alt2_TooltipContent: () => dark_green_alt2_TooltipContent,
-  dark_orange: () => dark_orange,
-  dark_orange_Button: () => dark_orange_Button,
-  dark_orange_Card: () => dark_orange_Card,
-  dark_orange_Checkbox: () => dark_orange_Checkbox,
-  dark_orange_DialogOverlay: () => dark_orange_DialogOverlay,
-  dark_orange_DrawerFrame: () => dark_orange_DrawerFrame,
-  dark_orange_Input: () => dark_orange_Input,
-  dark_orange_ListItem: () => dark_orange_ListItem,
-  dark_orange_ModalOverlay: () => dark_orange_ModalOverlay,
-  dark_orange_Progress: () => dark_orange_Progress,
-  dark_orange_ProgressIndicator: () => dark_orange_ProgressIndicator,
-  dark_orange_RadioGroupItem: () => dark_orange_RadioGroupItem,
-  dark_orange_SheetOverlay: () => dark_orange_SheetOverlay,
-  dark_orange_SliderThumb: () => dark_orange_SliderThumb,
-  dark_orange_SliderTrack: () => dark_orange_SliderTrack,
-  dark_orange_SliderTrackActive: () => dark_orange_SliderTrackActive,
-  dark_orange_Switch: () => dark_orange_Switch,
-  dark_orange_SwitchThumb: () => dark_orange_SwitchThumb,
-  dark_orange_TextArea: () => dark_orange_TextArea,
-  dark_orange_Tooltip: () => dark_orange_Tooltip,
-  dark_orange_TooltipArrow: () => dark_orange_TooltipArrow,
-  dark_orange_TooltipContent: () => dark_orange_TooltipContent,
-  dark_orange_active: () => dark_orange_active,
-  dark_orange_active_Button: () => dark_orange_active_Button,
-  dark_orange_active_Card: () => dark_orange_active_Card,
-  dark_orange_active_Checkbox: () => dark_orange_active_Checkbox,
-  dark_orange_active_DialogOverlay: () => dark_orange_active_DialogOverlay,
-  dark_orange_active_DrawerFrame: () => dark_orange_active_DrawerFrame,
-  dark_orange_active_Input: () => dark_orange_active_Input,
-  dark_orange_active_ListItem: () => dark_orange_active_ListItem,
-  dark_orange_active_ModalOverlay: () => dark_orange_active_ModalOverlay,
-  dark_orange_active_Progress: () => dark_orange_active_Progress,
-  dark_orange_active_ProgressIndicator: () => dark_orange_active_ProgressIndicator,
-  dark_orange_active_RadioGroupItem: () => dark_orange_active_RadioGroupItem,
-  dark_orange_active_SheetOverlay: () => dark_orange_active_SheetOverlay,
-  dark_orange_active_SliderThumb: () => dark_orange_active_SliderThumb,
-  dark_orange_active_SliderTrack: () => dark_orange_active_SliderTrack,
-  dark_orange_active_SliderTrackActive: () => dark_orange_active_SliderTrackActive,
-  dark_orange_active_Switch: () => dark_orange_active_Switch,
-  dark_orange_active_SwitchThumb: () => dark_orange_active_SwitchThumb,
-  dark_orange_active_TextArea: () => dark_orange_active_TextArea,
-  dark_orange_active_Tooltip: () => dark_orange_active_Tooltip,
-  dark_orange_active_TooltipArrow: () => dark_orange_active_TooltipArrow,
-  dark_orange_active_TooltipContent: () => dark_orange_active_TooltipContent,
-  dark_orange_alt1: () => dark_orange_alt1,
-  dark_orange_alt1_Button: () => dark_orange_alt1_Button,
-  dark_orange_alt1_Card: () => dark_orange_alt1_Card,
-  dark_orange_alt1_Checkbox: () => dark_orange_alt1_Checkbox,
-  dark_orange_alt1_DialogOverlay: () => dark_orange_alt1_DialogOverlay,
-  dark_orange_alt1_DrawerFrame: () => dark_orange_alt1_DrawerFrame,
-  dark_orange_alt1_Input: () => dark_orange_alt1_Input,
-  dark_orange_alt1_ListItem: () => dark_orange_alt1_ListItem,
-  dark_orange_alt1_ModalOverlay: () => dark_orange_alt1_ModalOverlay,
-  dark_orange_alt1_Progress: () => dark_orange_alt1_Progress,
-  dark_orange_alt1_ProgressIndicator: () => dark_orange_alt1_ProgressIndicator,
-  dark_orange_alt1_RadioGroupItem: () => dark_orange_alt1_RadioGroupItem,
-  dark_orange_alt1_SheetOverlay: () => dark_orange_alt1_SheetOverlay,
-  dark_orange_alt1_SliderThumb: () => dark_orange_alt1_SliderThumb,
-  dark_orange_alt1_SliderTrack: () => dark_orange_alt1_SliderTrack,
-  dark_orange_alt1_SliderTrackActive: () => dark_orange_alt1_SliderTrackActive,
-  dark_orange_alt1_Switch: () => dark_orange_alt1_Switch,
-  dark_orange_alt1_SwitchThumb: () => dark_orange_alt1_SwitchThumb,
-  dark_orange_alt1_TextArea: () => dark_orange_alt1_TextArea,
-  dark_orange_alt1_Tooltip: () => dark_orange_alt1_Tooltip,
-  dark_orange_alt1_TooltipArrow: () => dark_orange_alt1_TooltipArrow,
-  dark_orange_alt1_TooltipContent: () => dark_orange_alt1_TooltipContent,
-  dark_orange_alt2: () => dark_orange_alt2,
-  dark_orange_alt2_Button: () => dark_orange_alt2_Button,
-  dark_orange_alt2_Card: () => dark_orange_alt2_Card,
-  dark_orange_alt2_Checkbox: () => dark_orange_alt2_Checkbox,
-  dark_orange_alt2_DialogOverlay: () => dark_orange_alt2_DialogOverlay,
-  dark_orange_alt2_DrawerFrame: () => dark_orange_alt2_DrawerFrame,
-  dark_orange_alt2_Input: () => dark_orange_alt2_Input,
-  dark_orange_alt2_ListItem: () => dark_orange_alt2_ListItem,
-  dark_orange_alt2_ModalOverlay: () => dark_orange_alt2_ModalOverlay,
-  dark_orange_alt2_Progress: () => dark_orange_alt2_Progress,
-  dark_orange_alt2_ProgressIndicator: () => dark_orange_alt2_ProgressIndicator,
-  dark_orange_alt2_RadioGroupItem: () => dark_orange_alt2_RadioGroupItem,
-  dark_orange_alt2_SheetOverlay: () => dark_orange_alt2_SheetOverlay,
-  dark_orange_alt2_SliderThumb: () => dark_orange_alt2_SliderThumb,
-  dark_orange_alt2_SliderTrack: () => dark_orange_alt2_SliderTrack,
-  dark_orange_alt2_SliderTrackActive: () => dark_orange_alt2_SliderTrackActive,
-  dark_orange_alt2_Switch: () => dark_orange_alt2_Switch,
-  dark_orange_alt2_SwitchThumb: () => dark_orange_alt2_SwitchThumb,
-  dark_orange_alt2_TextArea: () => dark_orange_alt2_TextArea,
-  dark_orange_alt2_Tooltip: () => dark_orange_alt2_Tooltip,
-  dark_orange_alt2_TooltipArrow: () => dark_orange_alt2_TooltipArrow,
-  dark_orange_alt2_TooltipContent: () => dark_orange_alt2_TooltipContent,
-  dark_pink: () => dark_pink,
-  dark_pink_Button: () => dark_pink_Button,
-  dark_pink_Card: () => dark_pink_Card,
-  dark_pink_Checkbox: () => dark_pink_Checkbox,
-  dark_pink_DialogOverlay: () => dark_pink_DialogOverlay,
-  dark_pink_DrawerFrame: () => dark_pink_DrawerFrame,
-  dark_pink_Input: () => dark_pink_Input,
-  dark_pink_ListItem: () => dark_pink_ListItem,
-  dark_pink_ModalOverlay: () => dark_pink_ModalOverlay,
-  dark_pink_Progress: () => dark_pink_Progress,
-  dark_pink_ProgressIndicator: () => dark_pink_ProgressIndicator,
-  dark_pink_RadioGroupItem: () => dark_pink_RadioGroupItem,
-  dark_pink_SheetOverlay: () => dark_pink_SheetOverlay,
-  dark_pink_SliderThumb: () => dark_pink_SliderThumb,
-  dark_pink_SliderTrack: () => dark_pink_SliderTrack,
-  dark_pink_SliderTrackActive: () => dark_pink_SliderTrackActive,
-  dark_pink_Switch: () => dark_pink_Switch,
-  dark_pink_SwitchThumb: () => dark_pink_SwitchThumb,
-  dark_pink_TextArea: () => dark_pink_TextArea,
-  dark_pink_Tooltip: () => dark_pink_Tooltip,
-  dark_pink_TooltipArrow: () => dark_pink_TooltipArrow,
-  dark_pink_TooltipContent: () => dark_pink_TooltipContent,
-  dark_pink_active: () => dark_pink_active,
-  dark_pink_active_Button: () => dark_pink_active_Button,
-  dark_pink_active_Card: () => dark_pink_active_Card,
-  dark_pink_active_Checkbox: () => dark_pink_active_Checkbox,
-  dark_pink_active_DialogOverlay: () => dark_pink_active_DialogOverlay,
-  dark_pink_active_DrawerFrame: () => dark_pink_active_DrawerFrame,
-  dark_pink_active_Input: () => dark_pink_active_Input,
-  dark_pink_active_ListItem: () => dark_pink_active_ListItem,
-  dark_pink_active_ModalOverlay: () => dark_pink_active_ModalOverlay,
-  dark_pink_active_Progress: () => dark_pink_active_Progress,
-  dark_pink_active_ProgressIndicator: () => dark_pink_active_ProgressIndicator,
-  dark_pink_active_RadioGroupItem: () => dark_pink_active_RadioGroupItem,
-  dark_pink_active_SheetOverlay: () => dark_pink_active_SheetOverlay,
-  dark_pink_active_SliderThumb: () => dark_pink_active_SliderThumb,
-  dark_pink_active_SliderTrack: () => dark_pink_active_SliderTrack,
-  dark_pink_active_SliderTrackActive: () => dark_pink_active_SliderTrackActive,
-  dark_pink_active_Switch: () => dark_pink_active_Switch,
-  dark_pink_active_SwitchThumb: () => dark_pink_active_SwitchThumb,
-  dark_pink_active_TextArea: () => dark_pink_active_TextArea,
-  dark_pink_active_Tooltip: () => dark_pink_active_Tooltip,
-  dark_pink_active_TooltipArrow: () => dark_pink_active_TooltipArrow,
-  dark_pink_active_TooltipContent: () => dark_pink_active_TooltipContent,
-  dark_pink_alt1: () => dark_pink_alt1,
-  dark_pink_alt1_Button: () => dark_pink_alt1_Button,
-  dark_pink_alt1_Card: () => dark_pink_alt1_Card,
-  dark_pink_alt1_Checkbox: () => dark_pink_alt1_Checkbox,
-  dark_pink_alt1_DialogOverlay: () => dark_pink_alt1_DialogOverlay,
-  dark_pink_alt1_DrawerFrame: () => dark_pink_alt1_DrawerFrame,
-  dark_pink_alt1_Input: () => dark_pink_alt1_Input,
-  dark_pink_alt1_ListItem: () => dark_pink_alt1_ListItem,
-  dark_pink_alt1_ModalOverlay: () => dark_pink_alt1_ModalOverlay,
-  dark_pink_alt1_Progress: () => dark_pink_alt1_Progress,
-  dark_pink_alt1_ProgressIndicator: () => dark_pink_alt1_ProgressIndicator,
-  dark_pink_alt1_RadioGroupItem: () => dark_pink_alt1_RadioGroupItem,
-  dark_pink_alt1_SheetOverlay: () => dark_pink_alt1_SheetOverlay,
-  dark_pink_alt1_SliderThumb: () => dark_pink_alt1_SliderThumb,
-  dark_pink_alt1_SliderTrack: () => dark_pink_alt1_SliderTrack,
-  dark_pink_alt1_SliderTrackActive: () => dark_pink_alt1_SliderTrackActive,
-  dark_pink_alt1_Switch: () => dark_pink_alt1_Switch,
-  dark_pink_alt1_SwitchThumb: () => dark_pink_alt1_SwitchThumb,
-  dark_pink_alt1_TextArea: () => dark_pink_alt1_TextArea,
-  dark_pink_alt1_Tooltip: () => dark_pink_alt1_Tooltip,
-  dark_pink_alt1_TooltipArrow: () => dark_pink_alt1_TooltipArrow,
-  dark_pink_alt1_TooltipContent: () => dark_pink_alt1_TooltipContent,
-  dark_pink_alt2: () => dark_pink_alt2,
-  dark_pink_alt2_Button: () => dark_pink_alt2_Button,
-  dark_pink_alt2_Card: () => dark_pink_alt2_Card,
-  dark_pink_alt2_Checkbox: () => dark_pink_alt2_Checkbox,
-  dark_pink_alt2_DialogOverlay: () => dark_pink_alt2_DialogOverlay,
-  dark_pink_alt2_DrawerFrame: () => dark_pink_alt2_DrawerFrame,
-  dark_pink_alt2_Input: () => dark_pink_alt2_Input,
-  dark_pink_alt2_ListItem: () => dark_pink_alt2_ListItem,
-  dark_pink_alt2_ModalOverlay: () => dark_pink_alt2_ModalOverlay,
-  dark_pink_alt2_Progress: () => dark_pink_alt2_Progress,
-  dark_pink_alt2_ProgressIndicator: () => dark_pink_alt2_ProgressIndicator,
-  dark_pink_alt2_RadioGroupItem: () => dark_pink_alt2_RadioGroupItem,
-  dark_pink_alt2_SheetOverlay: () => dark_pink_alt2_SheetOverlay,
-  dark_pink_alt2_SliderThumb: () => dark_pink_alt2_SliderThumb,
-  dark_pink_alt2_SliderTrack: () => dark_pink_alt2_SliderTrack,
-  dark_pink_alt2_SliderTrackActive: () => dark_pink_alt2_SliderTrackActive,
-  dark_pink_alt2_Switch: () => dark_pink_alt2_Switch,
-  dark_pink_alt2_SwitchThumb: () => dark_pink_alt2_SwitchThumb,
-  dark_pink_alt2_TextArea: () => dark_pink_alt2_TextArea,
-  dark_pink_alt2_Tooltip: () => dark_pink_alt2_Tooltip,
-  dark_pink_alt2_TooltipArrow: () => dark_pink_alt2_TooltipArrow,
-  dark_pink_alt2_TooltipContent: () => dark_pink_alt2_TooltipContent,
-  dark_purple: () => dark_purple,
-  dark_purple_Button: () => dark_purple_Button,
-  dark_purple_Card: () => dark_purple_Card,
-  dark_purple_Checkbox: () => dark_purple_Checkbox,
-  dark_purple_DialogOverlay: () => dark_purple_DialogOverlay,
-  dark_purple_DrawerFrame: () => dark_purple_DrawerFrame,
-  dark_purple_Input: () => dark_purple_Input,
-  dark_purple_ListItem: () => dark_purple_ListItem,
-  dark_purple_ModalOverlay: () => dark_purple_ModalOverlay,
-  dark_purple_Progress: () => dark_purple_Progress,
-  dark_purple_ProgressIndicator: () => dark_purple_ProgressIndicator,
-  dark_purple_RadioGroupItem: () => dark_purple_RadioGroupItem,
-  dark_purple_SheetOverlay: () => dark_purple_SheetOverlay,
-  dark_purple_SliderThumb: () => dark_purple_SliderThumb,
-  dark_purple_SliderTrack: () => dark_purple_SliderTrack,
-  dark_purple_SliderTrackActive: () => dark_purple_SliderTrackActive,
-  dark_purple_Switch: () => dark_purple_Switch,
-  dark_purple_SwitchThumb: () => dark_purple_SwitchThumb,
-  dark_purple_TextArea: () => dark_purple_TextArea,
-  dark_purple_Tooltip: () => dark_purple_Tooltip,
-  dark_purple_TooltipArrow: () => dark_purple_TooltipArrow,
-  dark_purple_TooltipContent: () => dark_purple_TooltipContent,
-  dark_purple_active: () => dark_purple_active,
-  dark_purple_active_Button: () => dark_purple_active_Button,
-  dark_purple_active_Card: () => dark_purple_active_Card,
-  dark_purple_active_Checkbox: () => dark_purple_active_Checkbox,
-  dark_purple_active_DialogOverlay: () => dark_purple_active_DialogOverlay,
-  dark_purple_active_DrawerFrame: () => dark_purple_active_DrawerFrame,
-  dark_purple_active_Input: () => dark_purple_active_Input,
-  dark_purple_active_ListItem: () => dark_purple_active_ListItem,
-  dark_purple_active_ModalOverlay: () => dark_purple_active_ModalOverlay,
-  dark_purple_active_Progress: () => dark_purple_active_Progress,
-  dark_purple_active_ProgressIndicator: () => dark_purple_active_ProgressIndicator,
-  dark_purple_active_RadioGroupItem: () => dark_purple_active_RadioGroupItem,
-  dark_purple_active_SheetOverlay: () => dark_purple_active_SheetOverlay,
-  dark_purple_active_SliderThumb: () => dark_purple_active_SliderThumb,
-  dark_purple_active_SliderTrack: () => dark_purple_active_SliderTrack,
-  dark_purple_active_SliderTrackActive: () => dark_purple_active_SliderTrackActive,
-  dark_purple_active_Switch: () => dark_purple_active_Switch,
-  dark_purple_active_SwitchThumb: () => dark_purple_active_SwitchThumb,
-  dark_purple_active_TextArea: () => dark_purple_active_TextArea,
-  dark_purple_active_Tooltip: () => dark_purple_active_Tooltip,
-  dark_purple_active_TooltipArrow: () => dark_purple_active_TooltipArrow,
-  dark_purple_active_TooltipContent: () => dark_purple_active_TooltipContent,
-  dark_purple_alt1: () => dark_purple_alt1,
-  dark_purple_alt1_Button: () => dark_purple_alt1_Button,
-  dark_purple_alt1_Card: () => dark_purple_alt1_Card,
-  dark_purple_alt1_Checkbox: () => dark_purple_alt1_Checkbox,
-  dark_purple_alt1_DialogOverlay: () => dark_purple_alt1_DialogOverlay,
-  dark_purple_alt1_DrawerFrame: () => dark_purple_alt1_DrawerFrame,
-  dark_purple_alt1_Input: () => dark_purple_alt1_Input,
-  dark_purple_alt1_ListItem: () => dark_purple_alt1_ListItem,
-  dark_purple_alt1_ModalOverlay: () => dark_purple_alt1_ModalOverlay,
-  dark_purple_alt1_Progress: () => dark_purple_alt1_Progress,
-  dark_purple_alt1_ProgressIndicator: () => dark_purple_alt1_ProgressIndicator,
-  dark_purple_alt1_RadioGroupItem: () => dark_purple_alt1_RadioGroupItem,
-  dark_purple_alt1_SheetOverlay: () => dark_purple_alt1_SheetOverlay,
-  dark_purple_alt1_SliderThumb: () => dark_purple_alt1_SliderThumb,
-  dark_purple_alt1_SliderTrack: () => dark_purple_alt1_SliderTrack,
-  dark_purple_alt1_SliderTrackActive: () => dark_purple_alt1_SliderTrackActive,
-  dark_purple_alt1_Switch: () => dark_purple_alt1_Switch,
-  dark_purple_alt1_SwitchThumb: () => dark_purple_alt1_SwitchThumb,
-  dark_purple_alt1_TextArea: () => dark_purple_alt1_TextArea,
-  dark_purple_alt1_Tooltip: () => dark_purple_alt1_Tooltip,
-  dark_purple_alt1_TooltipArrow: () => dark_purple_alt1_TooltipArrow,
-  dark_purple_alt1_TooltipContent: () => dark_purple_alt1_TooltipContent,
-  dark_purple_alt2: () => dark_purple_alt2,
-  dark_purple_alt2_Button: () => dark_purple_alt2_Button,
-  dark_purple_alt2_Card: () => dark_purple_alt2_Card,
-  dark_purple_alt2_Checkbox: () => dark_purple_alt2_Checkbox,
-  dark_purple_alt2_DialogOverlay: () => dark_purple_alt2_DialogOverlay,
-  dark_purple_alt2_DrawerFrame: () => dark_purple_alt2_DrawerFrame,
-  dark_purple_alt2_Input: () => dark_purple_alt2_Input,
-  dark_purple_alt2_ListItem: () => dark_purple_alt2_ListItem,
-  dark_purple_alt2_ModalOverlay: () => dark_purple_alt2_ModalOverlay,
-  dark_purple_alt2_Progress: () => dark_purple_alt2_Progress,
-  dark_purple_alt2_ProgressIndicator: () => dark_purple_alt2_ProgressIndicator,
-  dark_purple_alt2_RadioGroupItem: () => dark_purple_alt2_RadioGroupItem,
-  dark_purple_alt2_SheetOverlay: () => dark_purple_alt2_SheetOverlay,
-  dark_purple_alt2_SliderThumb: () => dark_purple_alt2_SliderThumb,
-  dark_purple_alt2_SliderTrack: () => dark_purple_alt2_SliderTrack,
-  dark_purple_alt2_SliderTrackActive: () => dark_purple_alt2_SliderTrackActive,
-  dark_purple_alt2_Switch: () => dark_purple_alt2_Switch,
-  dark_purple_alt2_SwitchThumb: () => dark_purple_alt2_SwitchThumb,
-  dark_purple_alt2_TextArea: () => dark_purple_alt2_TextArea,
-  dark_purple_alt2_Tooltip: () => dark_purple_alt2_Tooltip,
-  dark_purple_alt2_TooltipArrow: () => dark_purple_alt2_TooltipArrow,
-  dark_purple_alt2_TooltipContent: () => dark_purple_alt2_TooltipContent,
-  dark_red: () => dark_red,
-  dark_red_Button: () => dark_red_Button,
-  dark_red_Card: () => dark_red_Card,
-  dark_red_Checkbox: () => dark_red_Checkbox,
-  dark_red_DialogOverlay: () => dark_red_DialogOverlay,
-  dark_red_DrawerFrame: () => dark_red_DrawerFrame,
-  dark_red_Input: () => dark_red_Input,
-  dark_red_ListItem: () => dark_red_ListItem,
-  dark_red_ModalOverlay: () => dark_red_ModalOverlay,
-  dark_red_Progress: () => dark_red_Progress,
-  dark_red_ProgressIndicator: () => dark_red_ProgressIndicator,
-  dark_red_RadioGroupItem: () => dark_red_RadioGroupItem,
-  dark_red_SheetOverlay: () => dark_red_SheetOverlay,
-  dark_red_SliderThumb: () => dark_red_SliderThumb,
-  dark_red_SliderTrack: () => dark_red_SliderTrack,
-  dark_red_SliderTrackActive: () => dark_red_SliderTrackActive,
-  dark_red_Switch: () => dark_red_Switch,
-  dark_red_SwitchThumb: () => dark_red_SwitchThumb,
-  dark_red_TextArea: () => dark_red_TextArea,
-  dark_red_Tooltip: () => dark_red_Tooltip,
-  dark_red_TooltipArrow: () => dark_red_TooltipArrow,
-  dark_red_TooltipContent: () => dark_red_TooltipContent,
-  dark_red_active: () => dark_red_active,
-  dark_red_active_Button: () => dark_red_active_Button,
-  dark_red_active_Card: () => dark_red_active_Card,
-  dark_red_active_Checkbox: () => dark_red_active_Checkbox,
-  dark_red_active_DialogOverlay: () => dark_red_active_DialogOverlay,
-  dark_red_active_DrawerFrame: () => dark_red_active_DrawerFrame,
-  dark_red_active_Input: () => dark_red_active_Input,
-  dark_red_active_ListItem: () => dark_red_active_ListItem,
-  dark_red_active_ModalOverlay: () => dark_red_active_ModalOverlay,
-  dark_red_active_Progress: () => dark_red_active_Progress,
-  dark_red_active_ProgressIndicator: () => dark_red_active_ProgressIndicator,
-  dark_red_active_RadioGroupItem: () => dark_red_active_RadioGroupItem,
-  dark_red_active_SheetOverlay: () => dark_red_active_SheetOverlay,
-  dark_red_active_SliderThumb: () => dark_red_active_SliderThumb,
-  dark_red_active_SliderTrack: () => dark_red_active_SliderTrack,
-  dark_red_active_SliderTrackActive: () => dark_red_active_SliderTrackActive,
-  dark_red_active_Switch: () => dark_red_active_Switch,
-  dark_red_active_SwitchThumb: () => dark_red_active_SwitchThumb,
-  dark_red_active_TextArea: () => dark_red_active_TextArea,
-  dark_red_active_Tooltip: () => dark_red_active_Tooltip,
-  dark_red_active_TooltipArrow: () => dark_red_active_TooltipArrow,
-  dark_red_active_TooltipContent: () => dark_red_active_TooltipContent,
-  dark_red_alt1: () => dark_red_alt1,
-  dark_red_alt1_Button: () => dark_red_alt1_Button,
-  dark_red_alt1_Card: () => dark_red_alt1_Card,
-  dark_red_alt1_Checkbox: () => dark_red_alt1_Checkbox,
-  dark_red_alt1_DialogOverlay: () => dark_red_alt1_DialogOverlay,
-  dark_red_alt1_DrawerFrame: () => dark_red_alt1_DrawerFrame,
-  dark_red_alt1_Input: () => dark_red_alt1_Input,
-  dark_red_alt1_ListItem: () => dark_red_alt1_ListItem,
-  dark_red_alt1_ModalOverlay: () => dark_red_alt1_ModalOverlay,
-  dark_red_alt1_Progress: () => dark_red_alt1_Progress,
-  dark_red_alt1_ProgressIndicator: () => dark_red_alt1_ProgressIndicator,
-  dark_red_alt1_RadioGroupItem: () => dark_red_alt1_RadioGroupItem,
-  dark_red_alt1_SheetOverlay: () => dark_red_alt1_SheetOverlay,
-  dark_red_alt1_SliderThumb: () => dark_red_alt1_SliderThumb,
-  dark_red_alt1_SliderTrack: () => dark_red_alt1_SliderTrack,
-  dark_red_alt1_SliderTrackActive: () => dark_red_alt1_SliderTrackActive,
-  dark_red_alt1_Switch: () => dark_red_alt1_Switch,
-  dark_red_alt1_SwitchThumb: () => dark_red_alt1_SwitchThumb,
-  dark_red_alt1_TextArea: () => dark_red_alt1_TextArea,
-  dark_red_alt1_Tooltip: () => dark_red_alt1_Tooltip,
-  dark_red_alt1_TooltipArrow: () => dark_red_alt1_TooltipArrow,
-  dark_red_alt1_TooltipContent: () => dark_red_alt1_TooltipContent,
-  dark_red_alt2: () => dark_red_alt2,
-  dark_red_alt2_Button: () => dark_red_alt2_Button,
-  dark_red_alt2_Card: () => dark_red_alt2_Card,
-  dark_red_alt2_Checkbox: () => dark_red_alt2_Checkbox,
-  dark_red_alt2_DialogOverlay: () => dark_red_alt2_DialogOverlay,
-  dark_red_alt2_DrawerFrame: () => dark_red_alt2_DrawerFrame,
-  dark_red_alt2_Input: () => dark_red_alt2_Input,
-  dark_red_alt2_ListItem: () => dark_red_alt2_ListItem,
-  dark_red_alt2_ModalOverlay: () => dark_red_alt2_ModalOverlay,
-  dark_red_alt2_Progress: () => dark_red_alt2_Progress,
-  dark_red_alt2_ProgressIndicator: () => dark_red_alt2_ProgressIndicator,
-  dark_red_alt2_RadioGroupItem: () => dark_red_alt2_RadioGroupItem,
-  dark_red_alt2_SheetOverlay: () => dark_red_alt2_SheetOverlay,
-  dark_red_alt2_SliderThumb: () => dark_red_alt2_SliderThumb,
-  dark_red_alt2_SliderTrack: () => dark_red_alt2_SliderTrack,
-  dark_red_alt2_SliderTrackActive: () => dark_red_alt2_SliderTrackActive,
-  dark_red_alt2_Switch: () => dark_red_alt2_Switch,
-  dark_red_alt2_SwitchThumb: () => dark_red_alt2_SwitchThumb,
-  dark_red_alt2_TextArea: () => dark_red_alt2_TextArea,
-  dark_red_alt2_Tooltip: () => dark_red_alt2_Tooltip,
-  dark_red_alt2_TooltipArrow: () => dark_red_alt2_TooltipArrow,
-  dark_red_alt2_TooltipContent: () => dark_red_alt2_TooltipContent,
-  dark_yellow: () => dark_yellow,
-  dark_yellow_Button: () => dark_yellow_Button,
-  dark_yellow_Card: () => dark_yellow_Card,
-  dark_yellow_Checkbox: () => dark_yellow_Checkbox,
-  dark_yellow_DialogOverlay: () => dark_yellow_DialogOverlay,
-  dark_yellow_DrawerFrame: () => dark_yellow_DrawerFrame,
-  dark_yellow_Input: () => dark_yellow_Input,
-  dark_yellow_ListItem: () => dark_yellow_ListItem,
-  dark_yellow_ModalOverlay: () => dark_yellow_ModalOverlay,
-  dark_yellow_Progress: () => dark_yellow_Progress,
-  dark_yellow_ProgressIndicator: () => dark_yellow_ProgressIndicator,
-  dark_yellow_RadioGroupItem: () => dark_yellow_RadioGroupItem,
-  dark_yellow_SheetOverlay: () => dark_yellow_SheetOverlay,
-  dark_yellow_SliderThumb: () => dark_yellow_SliderThumb,
-  dark_yellow_SliderTrack: () => dark_yellow_SliderTrack,
-  dark_yellow_SliderTrackActive: () => dark_yellow_SliderTrackActive,
-  dark_yellow_Switch: () => dark_yellow_Switch,
-  dark_yellow_SwitchThumb: () => dark_yellow_SwitchThumb,
-  dark_yellow_TextArea: () => dark_yellow_TextArea,
-  dark_yellow_Tooltip: () => dark_yellow_Tooltip,
-  dark_yellow_TooltipArrow: () => dark_yellow_TooltipArrow,
-  dark_yellow_TooltipContent: () => dark_yellow_TooltipContent,
-  dark_yellow_active: () => dark_yellow_active,
-  dark_yellow_active_Button: () => dark_yellow_active_Button,
-  dark_yellow_active_Card: () => dark_yellow_active_Card,
-  dark_yellow_active_Checkbox: () => dark_yellow_active_Checkbox,
-  dark_yellow_active_DialogOverlay: () => dark_yellow_active_DialogOverlay,
-  dark_yellow_active_DrawerFrame: () => dark_yellow_active_DrawerFrame,
-  dark_yellow_active_Input: () => dark_yellow_active_Input,
-  dark_yellow_active_ListItem: () => dark_yellow_active_ListItem,
-  dark_yellow_active_ModalOverlay: () => dark_yellow_active_ModalOverlay,
-  dark_yellow_active_Progress: () => dark_yellow_active_Progress,
-  dark_yellow_active_ProgressIndicator: () => dark_yellow_active_ProgressIndicator,
-  dark_yellow_active_RadioGroupItem: () => dark_yellow_active_RadioGroupItem,
-  dark_yellow_active_SheetOverlay: () => dark_yellow_active_SheetOverlay,
-  dark_yellow_active_SliderThumb: () => dark_yellow_active_SliderThumb,
-  dark_yellow_active_SliderTrack: () => dark_yellow_active_SliderTrack,
-  dark_yellow_active_SliderTrackActive: () => dark_yellow_active_SliderTrackActive,
-  dark_yellow_active_Switch: () => dark_yellow_active_Switch,
-  dark_yellow_active_SwitchThumb: () => dark_yellow_active_SwitchThumb,
-  dark_yellow_active_TextArea: () => dark_yellow_active_TextArea,
-  dark_yellow_active_Tooltip: () => dark_yellow_active_Tooltip,
-  dark_yellow_active_TooltipArrow: () => dark_yellow_active_TooltipArrow,
-  dark_yellow_active_TooltipContent: () => dark_yellow_active_TooltipContent,
-  dark_yellow_alt1: () => dark_yellow_alt1,
-  dark_yellow_alt1_Button: () => dark_yellow_alt1_Button,
-  dark_yellow_alt1_Card: () => dark_yellow_alt1_Card,
-  dark_yellow_alt1_Checkbox: () => dark_yellow_alt1_Checkbox,
-  dark_yellow_alt1_DialogOverlay: () => dark_yellow_alt1_DialogOverlay,
-  dark_yellow_alt1_DrawerFrame: () => dark_yellow_alt1_DrawerFrame,
-  dark_yellow_alt1_Input: () => dark_yellow_alt1_Input,
-  dark_yellow_alt1_ListItem: () => dark_yellow_alt1_ListItem,
-  dark_yellow_alt1_ModalOverlay: () => dark_yellow_alt1_ModalOverlay,
-  dark_yellow_alt1_Progress: () => dark_yellow_alt1_Progress,
-  dark_yellow_alt1_ProgressIndicator: () => dark_yellow_alt1_ProgressIndicator,
-  dark_yellow_alt1_RadioGroupItem: () => dark_yellow_alt1_RadioGroupItem,
-  dark_yellow_alt1_SheetOverlay: () => dark_yellow_alt1_SheetOverlay,
-  dark_yellow_alt1_SliderThumb: () => dark_yellow_alt1_SliderThumb,
-  dark_yellow_alt1_SliderTrack: () => dark_yellow_alt1_SliderTrack,
-  dark_yellow_alt1_SliderTrackActive: () => dark_yellow_alt1_SliderTrackActive,
-  dark_yellow_alt1_Switch: () => dark_yellow_alt1_Switch,
-  dark_yellow_alt1_SwitchThumb: () => dark_yellow_alt1_SwitchThumb,
-  dark_yellow_alt1_TextArea: () => dark_yellow_alt1_TextArea,
-  dark_yellow_alt1_Tooltip: () => dark_yellow_alt1_Tooltip,
-  dark_yellow_alt1_TooltipArrow: () => dark_yellow_alt1_TooltipArrow,
-  dark_yellow_alt1_TooltipContent: () => dark_yellow_alt1_TooltipContent,
-  dark_yellow_alt2: () => dark_yellow_alt2,
-  dark_yellow_alt2_Button: () => dark_yellow_alt2_Button,
-  dark_yellow_alt2_Card: () => dark_yellow_alt2_Card,
-  dark_yellow_alt2_Checkbox: () => dark_yellow_alt2_Checkbox,
-  dark_yellow_alt2_DialogOverlay: () => dark_yellow_alt2_DialogOverlay,
-  dark_yellow_alt2_DrawerFrame: () => dark_yellow_alt2_DrawerFrame,
-  dark_yellow_alt2_Input: () => dark_yellow_alt2_Input,
-  dark_yellow_alt2_ListItem: () => dark_yellow_alt2_ListItem,
-  dark_yellow_alt2_ModalOverlay: () => dark_yellow_alt2_ModalOverlay,
-  dark_yellow_alt2_Progress: () => dark_yellow_alt2_Progress,
-  dark_yellow_alt2_ProgressIndicator: () => dark_yellow_alt2_ProgressIndicator,
-  dark_yellow_alt2_RadioGroupItem: () => dark_yellow_alt2_RadioGroupItem,
-  dark_yellow_alt2_SheetOverlay: () => dark_yellow_alt2_SheetOverlay,
-  dark_yellow_alt2_SliderThumb: () => dark_yellow_alt2_SliderThumb,
-  dark_yellow_alt2_SliderTrack: () => dark_yellow_alt2_SliderTrack,
-  dark_yellow_alt2_SliderTrackActive: () => dark_yellow_alt2_SliderTrackActive,
-  dark_yellow_alt2_Switch: () => dark_yellow_alt2_Switch,
-  dark_yellow_alt2_SwitchThumb: () => dark_yellow_alt2_SwitchThumb,
-  dark_yellow_alt2_TextArea: () => dark_yellow_alt2_TextArea,
-  dark_yellow_alt2_Tooltip: () => dark_yellow_alt2_Tooltip,
-  dark_yellow_alt2_TooltipArrow: () => dark_yellow_alt2_TooltipArrow,
-  dark_yellow_alt2_TooltipContent: () => dark_yellow_alt2_TooltipContent,
-  light: () => light,
-  light_Button: () => light_Button,
-  light_Card: () => light_Card,
-  light_Checkbox: () => light_Checkbox,
-  light_DialogOverlay: () => light_DialogOverlay,
-  light_DrawerFrame: () => light_DrawerFrame,
-  light_Input: () => light_Input,
-  light_ListItem: () => light_ListItem,
-  light_ModalOverlay: () => light_ModalOverlay,
-  light_Progress: () => light_Progress,
-  light_ProgressIndicator: () => light_ProgressIndicator,
-  light_RadioGroupItem: () => light_RadioGroupItem,
-  light_SheetOverlay: () => light_SheetOverlay,
-  light_SliderThumb: () => light_SliderThumb,
-  light_SliderTrack: () => light_SliderTrack,
-  light_SliderTrackActive: () => light_SliderTrackActive,
-  light_Switch: () => light_Switch,
-  light_SwitchThumb: () => light_SwitchThumb,
-  light_TextArea: () => light_TextArea,
-  light_Tooltip: () => light_Tooltip,
-  light_TooltipArrow: () => light_TooltipArrow,
-  light_TooltipContent: () => light_TooltipContent,
-  light_active: () => light_active,
-  light_active_Button: () => light_active_Button,
-  light_active_Card: () => light_active_Card,
-  light_active_Checkbox: () => light_active_Checkbox,
-  light_active_DialogOverlay: () => light_active_DialogOverlay,
-  light_active_DrawerFrame: () => light_active_DrawerFrame,
-  light_active_Input: () => light_active_Input,
-  light_active_ListItem: () => light_active_ListItem,
-  light_active_ModalOverlay: () => light_active_ModalOverlay,
-  light_active_Progress: () => light_active_Progress,
-  light_active_ProgressIndicator: () => light_active_ProgressIndicator,
-  light_active_RadioGroupItem: () => light_active_RadioGroupItem,
-  light_active_SheetOverlay: () => light_active_SheetOverlay,
-  light_active_SliderThumb: () => light_active_SliderThumb,
-  light_active_SliderTrack: () => light_active_SliderTrack,
-  light_active_SliderTrackActive: () => light_active_SliderTrackActive,
-  light_active_Switch: () => light_active_Switch,
-  light_active_SwitchThumb: () => light_active_SwitchThumb,
-  light_active_TextArea: () => light_active_TextArea,
-  light_active_Tooltip: () => light_active_Tooltip,
-  light_active_TooltipArrow: () => light_active_TooltipArrow,
-  light_active_TooltipContent: () => light_active_TooltipContent,
-  light_alt1: () => light_alt1,
-  light_alt1_Button: () => light_alt1_Button,
-  light_alt1_Card: () => light_alt1_Card,
-  light_alt1_Checkbox: () => light_alt1_Checkbox,
-  light_alt1_DialogOverlay: () => light_alt1_DialogOverlay,
-  light_alt1_DrawerFrame: () => light_alt1_DrawerFrame,
-  light_alt1_Input: () => light_alt1_Input,
-  light_alt1_ListItem: () => light_alt1_ListItem,
-  light_alt1_ModalOverlay: () => light_alt1_ModalOverlay,
-  light_alt1_Progress: () => light_alt1_Progress,
-  light_alt1_ProgressIndicator: () => light_alt1_ProgressIndicator,
-  light_alt1_RadioGroupItem: () => light_alt1_RadioGroupItem,
-  light_alt1_SheetOverlay: () => light_alt1_SheetOverlay,
-  light_alt1_SliderThumb: () => light_alt1_SliderThumb,
-  light_alt1_SliderTrack: () => light_alt1_SliderTrack,
-  light_alt1_SliderTrackActive: () => light_alt1_SliderTrackActive,
-  light_alt1_Switch: () => light_alt1_Switch,
-  light_alt1_SwitchThumb: () => light_alt1_SwitchThumb,
-  light_alt1_TextArea: () => light_alt1_TextArea,
-  light_alt1_Tooltip: () => light_alt1_Tooltip,
-  light_alt1_TooltipArrow: () => light_alt1_TooltipArrow,
-  light_alt1_TooltipContent: () => light_alt1_TooltipContent,
-  light_alt2: () => light_alt2,
-  light_alt2_Button: () => light_alt2_Button,
-  light_alt2_Card: () => light_alt2_Card,
-  light_alt2_Checkbox: () => light_alt2_Checkbox,
-  light_alt2_DialogOverlay: () => light_alt2_DialogOverlay,
-  light_alt2_DrawerFrame: () => light_alt2_DrawerFrame,
-  light_alt2_Input: () => light_alt2_Input,
-  light_alt2_ListItem: () => light_alt2_ListItem,
-  light_alt2_ModalOverlay: () => light_alt2_ModalOverlay,
-  light_alt2_Progress: () => light_alt2_Progress,
-  light_alt2_ProgressIndicator: () => light_alt2_ProgressIndicator,
-  light_alt2_RadioGroupItem: () => light_alt2_RadioGroupItem,
-  light_alt2_SheetOverlay: () => light_alt2_SheetOverlay,
-  light_alt2_SliderThumb: () => light_alt2_SliderThumb,
-  light_alt2_SliderTrack: () => light_alt2_SliderTrack,
-  light_alt2_SliderTrackActive: () => light_alt2_SliderTrackActive,
-  light_alt2_Switch: () => light_alt2_Switch,
-  light_alt2_SwitchThumb: () => light_alt2_SwitchThumb,
-  light_alt2_TextArea: () => light_alt2_TextArea,
-  light_alt2_Tooltip: () => light_alt2_Tooltip,
-  light_alt2_TooltipArrow: () => light_alt2_TooltipArrow,
-  light_alt2_TooltipContent: () => light_alt2_TooltipContent,
-  light_blue: () => light_blue,
-  light_blue_Button: () => light_blue_Button,
-  light_blue_Card: () => light_blue_Card,
-  light_blue_Checkbox: () => light_blue_Checkbox,
-  light_blue_DialogOverlay: () => light_blue_DialogOverlay,
-  light_blue_DrawerFrame: () => light_blue_DrawerFrame,
-  light_blue_Input: () => light_blue_Input,
-  light_blue_ListItem: () => light_blue_ListItem,
-  light_blue_ModalOverlay: () => light_blue_ModalOverlay,
-  light_blue_Progress: () => light_blue_Progress,
-  light_blue_ProgressIndicator: () => light_blue_ProgressIndicator,
-  light_blue_RadioGroupItem: () => light_blue_RadioGroupItem,
-  light_blue_SheetOverlay: () => light_blue_SheetOverlay,
-  light_blue_SliderThumb: () => light_blue_SliderThumb,
-  light_blue_SliderTrack: () => light_blue_SliderTrack,
-  light_blue_SliderTrackActive: () => light_blue_SliderTrackActive,
-  light_blue_Switch: () => light_blue_Switch,
-  light_blue_SwitchThumb: () => light_blue_SwitchThumb,
-  light_blue_TextArea: () => light_blue_TextArea,
-  light_blue_Tooltip: () => light_blue_Tooltip,
-  light_blue_TooltipArrow: () => light_blue_TooltipArrow,
-  light_blue_TooltipContent: () => light_blue_TooltipContent,
-  light_blue_active: () => light_blue_active,
-  light_blue_active_Button: () => light_blue_active_Button,
-  light_blue_active_Card: () => light_blue_active_Card,
-  light_blue_active_Checkbox: () => light_blue_active_Checkbox,
-  light_blue_active_DialogOverlay: () => light_blue_active_DialogOverlay,
-  light_blue_active_DrawerFrame: () => light_blue_active_DrawerFrame,
-  light_blue_active_Input: () => light_blue_active_Input,
-  light_blue_active_ListItem: () => light_blue_active_ListItem,
-  light_blue_active_ModalOverlay: () => light_blue_active_ModalOverlay,
-  light_blue_active_Progress: () => light_blue_active_Progress,
-  light_blue_active_ProgressIndicator: () => light_blue_active_ProgressIndicator,
-  light_blue_active_RadioGroupItem: () => light_blue_active_RadioGroupItem,
-  light_blue_active_SheetOverlay: () => light_blue_active_SheetOverlay,
-  light_blue_active_SliderThumb: () => light_blue_active_SliderThumb,
-  light_blue_active_SliderTrack: () => light_blue_active_SliderTrack,
-  light_blue_active_SliderTrackActive: () => light_blue_active_SliderTrackActive,
-  light_blue_active_Switch: () => light_blue_active_Switch,
-  light_blue_active_SwitchThumb: () => light_blue_active_SwitchThumb,
-  light_blue_active_TextArea: () => light_blue_active_TextArea,
-  light_blue_active_Tooltip: () => light_blue_active_Tooltip,
-  light_blue_active_TooltipArrow: () => light_blue_active_TooltipArrow,
-  light_blue_active_TooltipContent: () => light_blue_active_TooltipContent,
-  light_blue_alt1: () => light_blue_alt1,
-  light_blue_alt1_Button: () => light_blue_alt1_Button,
-  light_blue_alt1_Card: () => light_blue_alt1_Card,
-  light_blue_alt1_Checkbox: () => light_blue_alt1_Checkbox,
-  light_blue_alt1_DialogOverlay: () => light_blue_alt1_DialogOverlay,
-  light_blue_alt1_DrawerFrame: () => light_blue_alt1_DrawerFrame,
-  light_blue_alt1_Input: () => light_blue_alt1_Input,
-  light_blue_alt1_ListItem: () => light_blue_alt1_ListItem,
-  light_blue_alt1_ModalOverlay: () => light_blue_alt1_ModalOverlay,
-  light_blue_alt1_Progress: () => light_blue_alt1_Progress,
-  light_blue_alt1_ProgressIndicator: () => light_blue_alt1_ProgressIndicator,
-  light_blue_alt1_RadioGroupItem: () => light_blue_alt1_RadioGroupItem,
-  light_blue_alt1_SheetOverlay: () => light_blue_alt1_SheetOverlay,
-  light_blue_alt1_SliderThumb: () => light_blue_alt1_SliderThumb,
-  light_blue_alt1_SliderTrack: () => light_blue_alt1_SliderTrack,
-  light_blue_alt1_SliderTrackActive: () => light_blue_alt1_SliderTrackActive,
-  light_blue_alt1_Switch: () => light_blue_alt1_Switch,
-  light_blue_alt1_SwitchThumb: () => light_blue_alt1_SwitchThumb,
-  light_blue_alt1_TextArea: () => light_blue_alt1_TextArea,
-  light_blue_alt1_Tooltip: () => light_blue_alt1_Tooltip,
-  light_blue_alt1_TooltipArrow: () => light_blue_alt1_TooltipArrow,
-  light_blue_alt1_TooltipContent: () => light_blue_alt1_TooltipContent,
-  light_blue_alt2: () => light_blue_alt2,
-  light_blue_alt2_Button: () => light_blue_alt2_Button,
-  light_blue_alt2_Card: () => light_blue_alt2_Card,
-  light_blue_alt2_Checkbox: () => light_blue_alt2_Checkbox,
-  light_blue_alt2_DialogOverlay: () => light_blue_alt2_DialogOverlay,
-  light_blue_alt2_DrawerFrame: () => light_blue_alt2_DrawerFrame,
-  light_blue_alt2_Input: () => light_blue_alt2_Input,
-  light_blue_alt2_ListItem: () => light_blue_alt2_ListItem,
-  light_blue_alt2_ModalOverlay: () => light_blue_alt2_ModalOverlay,
-  light_blue_alt2_Progress: () => light_blue_alt2_Progress,
-  light_blue_alt2_ProgressIndicator: () => light_blue_alt2_ProgressIndicator,
-  light_blue_alt2_RadioGroupItem: () => light_blue_alt2_RadioGroupItem,
-  light_blue_alt2_SheetOverlay: () => light_blue_alt2_SheetOverlay,
-  light_blue_alt2_SliderThumb: () => light_blue_alt2_SliderThumb,
-  light_blue_alt2_SliderTrack: () => light_blue_alt2_SliderTrack,
-  light_blue_alt2_SliderTrackActive: () => light_blue_alt2_SliderTrackActive,
-  light_blue_alt2_Switch: () => light_blue_alt2_Switch,
-  light_blue_alt2_SwitchThumb: () => light_blue_alt2_SwitchThumb,
-  light_blue_alt2_TextArea: () => light_blue_alt2_TextArea,
-  light_blue_alt2_Tooltip: () => light_blue_alt2_Tooltip,
-  light_blue_alt2_TooltipArrow: () => light_blue_alt2_TooltipArrow,
-  light_blue_alt2_TooltipContent: () => light_blue_alt2_TooltipContent,
-  light_green: () => light_green,
-  light_green_Button: () => light_green_Button,
-  light_green_Card: () => light_green_Card,
-  light_green_Checkbox: () => light_green_Checkbox,
-  light_green_DialogOverlay: () => light_green_DialogOverlay,
-  light_green_DrawerFrame: () => light_green_DrawerFrame,
-  light_green_Input: () => light_green_Input,
-  light_green_ListItem: () => light_green_ListItem,
-  light_green_ModalOverlay: () => light_green_ModalOverlay,
-  light_green_Progress: () => light_green_Progress,
-  light_green_ProgressIndicator: () => light_green_ProgressIndicator,
-  light_green_RadioGroupItem: () => light_green_RadioGroupItem,
-  light_green_SheetOverlay: () => light_green_SheetOverlay,
-  light_green_SliderThumb: () => light_green_SliderThumb,
-  light_green_SliderTrack: () => light_green_SliderTrack,
-  light_green_SliderTrackActive: () => light_green_SliderTrackActive,
-  light_green_Switch: () => light_green_Switch,
-  light_green_SwitchThumb: () => light_green_SwitchThumb,
-  light_green_TextArea: () => light_green_TextArea,
-  light_green_Tooltip: () => light_green_Tooltip,
-  light_green_TooltipArrow: () => light_green_TooltipArrow,
-  light_green_TooltipContent: () => light_green_TooltipContent,
-  light_green_active: () => light_green_active,
-  light_green_active_Button: () => light_green_active_Button,
-  light_green_active_Card: () => light_green_active_Card,
-  light_green_active_Checkbox: () => light_green_active_Checkbox,
-  light_green_active_DialogOverlay: () => light_green_active_DialogOverlay,
-  light_green_active_DrawerFrame: () => light_green_active_DrawerFrame,
-  light_green_active_Input: () => light_green_active_Input,
-  light_green_active_ListItem: () => light_green_active_ListItem,
-  light_green_active_ModalOverlay: () => light_green_active_ModalOverlay,
-  light_green_active_Progress: () => light_green_active_Progress,
-  light_green_active_ProgressIndicator: () => light_green_active_ProgressIndicator,
-  light_green_active_RadioGroupItem: () => light_green_active_RadioGroupItem,
-  light_green_active_SheetOverlay: () => light_green_active_SheetOverlay,
-  light_green_active_SliderThumb: () => light_green_active_SliderThumb,
-  light_green_active_SliderTrack: () => light_green_active_SliderTrack,
-  light_green_active_SliderTrackActive: () => light_green_active_SliderTrackActive,
-  light_green_active_Switch: () => light_green_active_Switch,
-  light_green_active_SwitchThumb: () => light_green_active_SwitchThumb,
-  light_green_active_TextArea: () => light_green_active_TextArea,
-  light_green_active_Tooltip: () => light_green_active_Tooltip,
-  light_green_active_TooltipArrow: () => light_green_active_TooltipArrow,
-  light_green_active_TooltipContent: () => light_green_active_TooltipContent,
-  light_green_alt1: () => light_green_alt1,
-  light_green_alt1_Button: () => light_green_alt1_Button,
-  light_green_alt1_Card: () => light_green_alt1_Card,
-  light_green_alt1_Checkbox: () => light_green_alt1_Checkbox,
-  light_green_alt1_DialogOverlay: () => light_green_alt1_DialogOverlay,
-  light_green_alt1_DrawerFrame: () => light_green_alt1_DrawerFrame,
-  light_green_alt1_Input: () => light_green_alt1_Input,
-  light_green_alt1_ListItem: () => light_green_alt1_ListItem,
-  light_green_alt1_ModalOverlay: () => light_green_alt1_ModalOverlay,
-  light_green_alt1_Progress: () => light_green_alt1_Progress,
-  light_green_alt1_ProgressIndicator: () => light_green_alt1_ProgressIndicator,
-  light_green_alt1_RadioGroupItem: () => light_green_alt1_RadioGroupItem,
-  light_green_alt1_SheetOverlay: () => light_green_alt1_SheetOverlay,
-  light_green_alt1_SliderThumb: () => light_green_alt1_SliderThumb,
-  light_green_alt1_SliderTrack: () => light_green_alt1_SliderTrack,
-  light_green_alt1_SliderTrackActive: () => light_green_alt1_SliderTrackActive,
-  light_green_alt1_Switch: () => light_green_alt1_Switch,
-  light_green_alt1_SwitchThumb: () => light_green_alt1_SwitchThumb,
-  light_green_alt1_TextArea: () => light_green_alt1_TextArea,
-  light_green_alt1_Tooltip: () => light_green_alt1_Tooltip,
-  light_green_alt1_TooltipArrow: () => light_green_alt1_TooltipArrow,
-  light_green_alt1_TooltipContent: () => light_green_alt1_TooltipContent,
-  light_green_alt2: () => light_green_alt2,
-  light_green_alt2_Button: () => light_green_alt2_Button,
-  light_green_alt2_Card: () => light_green_alt2_Card,
-  light_green_alt2_Checkbox: () => light_green_alt2_Checkbox,
-  light_green_alt2_DialogOverlay: () => light_green_alt2_DialogOverlay,
-  light_green_alt2_DrawerFrame: () => light_green_alt2_DrawerFrame,
-  light_green_alt2_Input: () => light_green_alt2_Input,
-  light_green_alt2_ListItem: () => light_green_alt2_ListItem,
-  light_green_alt2_ModalOverlay: () => light_green_alt2_ModalOverlay,
-  light_green_alt2_Progress: () => light_green_alt2_Progress,
-  light_green_alt2_ProgressIndicator: () => light_green_alt2_ProgressIndicator,
-  light_green_alt2_RadioGroupItem: () => light_green_alt2_RadioGroupItem,
-  light_green_alt2_SheetOverlay: () => light_green_alt2_SheetOverlay,
-  light_green_alt2_SliderThumb: () => light_green_alt2_SliderThumb,
-  light_green_alt2_SliderTrack: () => light_green_alt2_SliderTrack,
-  light_green_alt2_SliderTrackActive: () => light_green_alt2_SliderTrackActive,
-  light_green_alt2_Switch: () => light_green_alt2_Switch,
-  light_green_alt2_SwitchThumb: () => light_green_alt2_SwitchThumb,
-  light_green_alt2_TextArea: () => light_green_alt2_TextArea,
-  light_green_alt2_Tooltip: () => light_green_alt2_Tooltip,
-  light_green_alt2_TooltipArrow: () => light_green_alt2_TooltipArrow,
-  light_green_alt2_TooltipContent: () => light_green_alt2_TooltipContent,
-  light_orange: () => light_orange,
-  light_orange_Button: () => light_orange_Button,
-  light_orange_Card: () => light_orange_Card,
-  light_orange_Checkbox: () => light_orange_Checkbox,
-  light_orange_DialogOverlay: () => light_orange_DialogOverlay,
-  light_orange_DrawerFrame: () => light_orange_DrawerFrame,
-  light_orange_Input: () => light_orange_Input,
-  light_orange_ListItem: () => light_orange_ListItem,
-  light_orange_ModalOverlay: () => light_orange_ModalOverlay,
-  light_orange_Progress: () => light_orange_Progress,
-  light_orange_ProgressIndicator: () => light_orange_ProgressIndicator,
-  light_orange_RadioGroupItem: () => light_orange_RadioGroupItem,
-  light_orange_SheetOverlay: () => light_orange_SheetOverlay,
-  light_orange_SliderThumb: () => light_orange_SliderThumb,
-  light_orange_SliderTrack: () => light_orange_SliderTrack,
-  light_orange_SliderTrackActive: () => light_orange_SliderTrackActive,
-  light_orange_Switch: () => light_orange_Switch,
-  light_orange_SwitchThumb: () => light_orange_SwitchThumb,
-  light_orange_TextArea: () => light_orange_TextArea,
-  light_orange_Tooltip: () => light_orange_Tooltip,
-  light_orange_TooltipArrow: () => light_orange_TooltipArrow,
-  light_orange_TooltipContent: () => light_orange_TooltipContent,
-  light_orange_active: () => light_orange_active,
-  light_orange_active_Button: () => light_orange_active_Button,
-  light_orange_active_Card: () => light_orange_active_Card,
-  light_orange_active_Checkbox: () => light_orange_active_Checkbox,
-  light_orange_active_DialogOverlay: () => light_orange_active_DialogOverlay,
-  light_orange_active_DrawerFrame: () => light_orange_active_DrawerFrame,
-  light_orange_active_Input: () => light_orange_active_Input,
-  light_orange_active_ListItem: () => light_orange_active_ListItem,
-  light_orange_active_ModalOverlay: () => light_orange_active_ModalOverlay,
-  light_orange_active_Progress: () => light_orange_active_Progress,
-  light_orange_active_ProgressIndicator: () => light_orange_active_ProgressIndicator,
-  light_orange_active_RadioGroupItem: () => light_orange_active_RadioGroupItem,
-  light_orange_active_SheetOverlay: () => light_orange_active_SheetOverlay,
-  light_orange_active_SliderThumb: () => light_orange_active_SliderThumb,
-  light_orange_active_SliderTrack: () => light_orange_active_SliderTrack,
-  light_orange_active_SliderTrackActive: () => light_orange_active_SliderTrackActive,
-  light_orange_active_Switch: () => light_orange_active_Switch,
-  light_orange_active_SwitchThumb: () => light_orange_active_SwitchThumb,
-  light_orange_active_TextArea: () => light_orange_active_TextArea,
-  light_orange_active_Tooltip: () => light_orange_active_Tooltip,
-  light_orange_active_TooltipArrow: () => light_orange_active_TooltipArrow,
-  light_orange_active_TooltipContent: () => light_orange_active_TooltipContent,
-  light_orange_alt1: () => light_orange_alt1,
-  light_orange_alt1_Button: () => light_orange_alt1_Button,
-  light_orange_alt1_Card: () => light_orange_alt1_Card,
-  light_orange_alt1_Checkbox: () => light_orange_alt1_Checkbox,
-  light_orange_alt1_DialogOverlay: () => light_orange_alt1_DialogOverlay,
-  light_orange_alt1_DrawerFrame: () => light_orange_alt1_DrawerFrame,
-  light_orange_alt1_Input: () => light_orange_alt1_Input,
-  light_orange_alt1_ListItem: () => light_orange_alt1_ListItem,
-  light_orange_alt1_ModalOverlay: () => light_orange_alt1_ModalOverlay,
-  light_orange_alt1_Progress: () => light_orange_alt1_Progress,
-  light_orange_alt1_ProgressIndicator: () => light_orange_alt1_ProgressIndicator,
-  light_orange_alt1_RadioGroupItem: () => light_orange_alt1_RadioGroupItem,
-  light_orange_alt1_SheetOverlay: () => light_orange_alt1_SheetOverlay,
-  light_orange_alt1_SliderThumb: () => light_orange_alt1_SliderThumb,
-  light_orange_alt1_SliderTrack: () => light_orange_alt1_SliderTrack,
-  light_orange_alt1_SliderTrackActive: () => light_orange_alt1_SliderTrackActive,
-  light_orange_alt1_Switch: () => light_orange_alt1_Switch,
-  light_orange_alt1_SwitchThumb: () => light_orange_alt1_SwitchThumb,
-  light_orange_alt1_TextArea: () => light_orange_alt1_TextArea,
-  light_orange_alt1_Tooltip: () => light_orange_alt1_Tooltip,
-  light_orange_alt1_TooltipArrow: () => light_orange_alt1_TooltipArrow,
-  light_orange_alt1_TooltipContent: () => light_orange_alt1_TooltipContent,
-  light_orange_alt2: () => light_orange_alt2,
-  light_orange_alt2_Button: () => light_orange_alt2_Button,
-  light_orange_alt2_Card: () => light_orange_alt2_Card,
-  light_orange_alt2_Checkbox: () => light_orange_alt2_Checkbox,
-  light_orange_alt2_DialogOverlay: () => light_orange_alt2_DialogOverlay,
-  light_orange_alt2_DrawerFrame: () => light_orange_alt2_DrawerFrame,
-  light_orange_alt2_Input: () => light_orange_alt2_Input,
-  light_orange_alt2_ListItem: () => light_orange_alt2_ListItem,
-  light_orange_alt2_ModalOverlay: () => light_orange_alt2_ModalOverlay,
-  light_orange_alt2_Progress: () => light_orange_alt2_Progress,
-  light_orange_alt2_ProgressIndicator: () => light_orange_alt2_ProgressIndicator,
-  light_orange_alt2_RadioGroupItem: () => light_orange_alt2_RadioGroupItem,
-  light_orange_alt2_SheetOverlay: () => light_orange_alt2_SheetOverlay,
-  light_orange_alt2_SliderThumb: () => light_orange_alt2_SliderThumb,
-  light_orange_alt2_SliderTrack: () => light_orange_alt2_SliderTrack,
-  light_orange_alt2_SliderTrackActive: () => light_orange_alt2_SliderTrackActive,
-  light_orange_alt2_Switch: () => light_orange_alt2_Switch,
-  light_orange_alt2_SwitchThumb: () => light_orange_alt2_SwitchThumb,
-  light_orange_alt2_TextArea: () => light_orange_alt2_TextArea,
-  light_orange_alt2_Tooltip: () => light_orange_alt2_Tooltip,
-  light_orange_alt2_TooltipArrow: () => light_orange_alt2_TooltipArrow,
-  light_orange_alt2_TooltipContent: () => light_orange_alt2_TooltipContent,
-  light_pink: () => light_pink,
-  light_pink_Button: () => light_pink_Button,
-  light_pink_Card: () => light_pink_Card,
-  light_pink_Checkbox: () => light_pink_Checkbox,
-  light_pink_DialogOverlay: () => light_pink_DialogOverlay,
-  light_pink_DrawerFrame: () => light_pink_DrawerFrame,
-  light_pink_Input: () => light_pink_Input,
-  light_pink_ListItem: () => light_pink_ListItem,
-  light_pink_ModalOverlay: () => light_pink_ModalOverlay,
-  light_pink_Progress: () => light_pink_Progress,
-  light_pink_ProgressIndicator: () => light_pink_ProgressIndicator,
-  light_pink_RadioGroupItem: () => light_pink_RadioGroupItem,
-  light_pink_SheetOverlay: () => light_pink_SheetOverlay,
-  light_pink_SliderThumb: () => light_pink_SliderThumb,
-  light_pink_SliderTrack: () => light_pink_SliderTrack,
-  light_pink_SliderTrackActive: () => light_pink_SliderTrackActive,
-  light_pink_Switch: () => light_pink_Switch,
-  light_pink_SwitchThumb: () => light_pink_SwitchThumb,
-  light_pink_TextArea: () => light_pink_TextArea,
-  light_pink_Tooltip: () => light_pink_Tooltip,
-  light_pink_TooltipArrow: () => light_pink_TooltipArrow,
-  light_pink_TooltipContent: () => light_pink_TooltipContent,
-  light_pink_active: () => light_pink_active,
-  light_pink_active_Button: () => light_pink_active_Button,
-  light_pink_active_Card: () => light_pink_active_Card,
-  light_pink_active_Checkbox: () => light_pink_active_Checkbox,
-  light_pink_active_DialogOverlay: () => light_pink_active_DialogOverlay,
-  light_pink_active_DrawerFrame: () => light_pink_active_DrawerFrame,
-  light_pink_active_Input: () => light_pink_active_Input,
-  light_pink_active_ListItem: () => light_pink_active_ListItem,
-  light_pink_active_ModalOverlay: () => light_pink_active_ModalOverlay,
-  light_pink_active_Progress: () => light_pink_active_Progress,
-  light_pink_active_ProgressIndicator: () => light_pink_active_ProgressIndicator,
-  light_pink_active_RadioGroupItem: () => light_pink_active_RadioGroupItem,
-  light_pink_active_SheetOverlay: () => light_pink_active_SheetOverlay,
-  light_pink_active_SliderThumb: () => light_pink_active_SliderThumb,
-  light_pink_active_SliderTrack: () => light_pink_active_SliderTrack,
-  light_pink_active_SliderTrackActive: () => light_pink_active_SliderTrackActive,
-  light_pink_active_Switch: () => light_pink_active_Switch,
-  light_pink_active_SwitchThumb: () => light_pink_active_SwitchThumb,
-  light_pink_active_TextArea: () => light_pink_active_TextArea,
-  light_pink_active_Tooltip: () => light_pink_active_Tooltip,
-  light_pink_active_TooltipArrow: () => light_pink_active_TooltipArrow,
-  light_pink_active_TooltipContent: () => light_pink_active_TooltipContent,
-  light_pink_alt1: () => light_pink_alt1,
-  light_pink_alt1_Button: () => light_pink_alt1_Button,
-  light_pink_alt1_Card: () => light_pink_alt1_Card,
-  light_pink_alt1_Checkbox: () => light_pink_alt1_Checkbox,
-  light_pink_alt1_DialogOverlay: () => light_pink_alt1_DialogOverlay,
-  light_pink_alt1_DrawerFrame: () => light_pink_alt1_DrawerFrame,
-  light_pink_alt1_Input: () => light_pink_alt1_Input,
-  light_pink_alt1_ListItem: () => light_pink_alt1_ListItem,
-  light_pink_alt1_ModalOverlay: () => light_pink_alt1_ModalOverlay,
-  light_pink_alt1_Progress: () => light_pink_alt1_Progress,
-  light_pink_alt1_ProgressIndicator: () => light_pink_alt1_ProgressIndicator,
-  light_pink_alt1_RadioGroupItem: () => light_pink_alt1_RadioGroupItem,
-  light_pink_alt1_SheetOverlay: () => light_pink_alt1_SheetOverlay,
-  light_pink_alt1_SliderThumb: () => light_pink_alt1_SliderThumb,
-  light_pink_alt1_SliderTrack: () => light_pink_alt1_SliderTrack,
-  light_pink_alt1_SliderTrackActive: () => light_pink_alt1_SliderTrackActive,
-  light_pink_alt1_Switch: () => light_pink_alt1_Switch,
-  light_pink_alt1_SwitchThumb: () => light_pink_alt1_SwitchThumb,
-  light_pink_alt1_TextArea: () => light_pink_alt1_TextArea,
-  light_pink_alt1_Tooltip: () => light_pink_alt1_Tooltip,
-  light_pink_alt1_TooltipArrow: () => light_pink_alt1_TooltipArrow,
-  light_pink_alt1_TooltipContent: () => light_pink_alt1_TooltipContent,
-  light_pink_alt2: () => light_pink_alt2,
-  light_pink_alt2_Button: () => light_pink_alt2_Button,
-  light_pink_alt2_Card: () => light_pink_alt2_Card,
-  light_pink_alt2_Checkbox: () => light_pink_alt2_Checkbox,
-  light_pink_alt2_DialogOverlay: () => light_pink_alt2_DialogOverlay,
-  light_pink_alt2_DrawerFrame: () => light_pink_alt2_DrawerFrame,
-  light_pink_alt2_Input: () => light_pink_alt2_Input,
-  light_pink_alt2_ListItem: () => light_pink_alt2_ListItem,
-  light_pink_alt2_ModalOverlay: () => light_pink_alt2_ModalOverlay,
-  light_pink_alt2_Progress: () => light_pink_alt2_Progress,
-  light_pink_alt2_ProgressIndicator: () => light_pink_alt2_ProgressIndicator,
-  light_pink_alt2_RadioGroupItem: () => light_pink_alt2_RadioGroupItem,
-  light_pink_alt2_SheetOverlay: () => light_pink_alt2_SheetOverlay,
-  light_pink_alt2_SliderThumb: () => light_pink_alt2_SliderThumb,
-  light_pink_alt2_SliderTrack: () => light_pink_alt2_SliderTrack,
-  light_pink_alt2_SliderTrackActive: () => light_pink_alt2_SliderTrackActive,
-  light_pink_alt2_Switch: () => light_pink_alt2_Switch,
-  light_pink_alt2_SwitchThumb: () => light_pink_alt2_SwitchThumb,
-  light_pink_alt2_TextArea: () => light_pink_alt2_TextArea,
-  light_pink_alt2_Tooltip: () => light_pink_alt2_Tooltip,
-  light_pink_alt2_TooltipArrow: () => light_pink_alt2_TooltipArrow,
-  light_pink_alt2_TooltipContent: () => light_pink_alt2_TooltipContent,
-  light_purple: () => light_purple,
-  light_purple_Button: () => light_purple_Button,
-  light_purple_Card: () => light_purple_Card,
-  light_purple_Checkbox: () => light_purple_Checkbox,
-  light_purple_DialogOverlay: () => light_purple_DialogOverlay,
-  light_purple_DrawerFrame: () => light_purple_DrawerFrame,
-  light_purple_Input: () => light_purple_Input,
-  light_purple_ListItem: () => light_purple_ListItem,
-  light_purple_ModalOverlay: () => light_purple_ModalOverlay,
-  light_purple_Progress: () => light_purple_Progress,
-  light_purple_ProgressIndicator: () => light_purple_ProgressIndicator,
-  light_purple_RadioGroupItem: () => light_purple_RadioGroupItem,
-  light_purple_SheetOverlay: () => light_purple_SheetOverlay,
-  light_purple_SliderThumb: () => light_purple_SliderThumb,
-  light_purple_SliderTrack: () => light_purple_SliderTrack,
-  light_purple_SliderTrackActive: () => light_purple_SliderTrackActive,
-  light_purple_Switch: () => light_purple_Switch,
-  light_purple_SwitchThumb: () => light_purple_SwitchThumb,
-  light_purple_TextArea: () => light_purple_TextArea,
-  light_purple_Tooltip: () => light_purple_Tooltip,
-  light_purple_TooltipArrow: () => light_purple_TooltipArrow,
-  light_purple_TooltipContent: () => light_purple_TooltipContent,
-  light_purple_active: () => light_purple_active,
-  light_purple_active_Button: () => light_purple_active_Button,
-  light_purple_active_Card: () => light_purple_active_Card,
-  light_purple_active_Checkbox: () => light_purple_active_Checkbox,
-  light_purple_active_DialogOverlay: () => light_purple_active_DialogOverlay,
-  light_purple_active_DrawerFrame: () => light_purple_active_DrawerFrame,
-  light_purple_active_Input: () => light_purple_active_Input,
-  light_purple_active_ListItem: () => light_purple_active_ListItem,
-  light_purple_active_ModalOverlay: () => light_purple_active_ModalOverlay,
-  light_purple_active_Progress: () => light_purple_active_Progress,
-  light_purple_active_ProgressIndicator: () => light_purple_active_ProgressIndicator,
-  light_purple_active_RadioGroupItem: () => light_purple_active_RadioGroupItem,
-  light_purple_active_SheetOverlay: () => light_purple_active_SheetOverlay,
-  light_purple_active_SliderThumb: () => light_purple_active_SliderThumb,
-  light_purple_active_SliderTrack: () => light_purple_active_SliderTrack,
-  light_purple_active_SliderTrackActive: () => light_purple_active_SliderTrackActive,
-  light_purple_active_Switch: () => light_purple_active_Switch,
-  light_purple_active_SwitchThumb: () => light_purple_active_SwitchThumb,
-  light_purple_active_TextArea: () => light_purple_active_TextArea,
-  light_purple_active_Tooltip: () => light_purple_active_Tooltip,
-  light_purple_active_TooltipArrow: () => light_purple_active_TooltipArrow,
-  light_purple_active_TooltipContent: () => light_purple_active_TooltipContent,
-  light_purple_alt1: () => light_purple_alt1,
-  light_purple_alt1_Button: () => light_purple_alt1_Button,
-  light_purple_alt1_Card: () => light_purple_alt1_Card,
-  light_purple_alt1_Checkbox: () => light_purple_alt1_Checkbox,
-  light_purple_alt1_DialogOverlay: () => light_purple_alt1_DialogOverlay,
-  light_purple_alt1_DrawerFrame: () => light_purple_alt1_DrawerFrame,
-  light_purple_alt1_Input: () => light_purple_alt1_Input,
-  light_purple_alt1_ListItem: () => light_purple_alt1_ListItem,
-  light_purple_alt1_ModalOverlay: () => light_purple_alt1_ModalOverlay,
-  light_purple_alt1_Progress: () => light_purple_alt1_Progress,
-  light_purple_alt1_ProgressIndicator: () => light_purple_alt1_ProgressIndicator,
-  light_purple_alt1_RadioGroupItem: () => light_purple_alt1_RadioGroupItem,
-  light_purple_alt1_SheetOverlay: () => light_purple_alt1_SheetOverlay,
-  light_purple_alt1_SliderThumb: () => light_purple_alt1_SliderThumb,
-  light_purple_alt1_SliderTrack: () => light_purple_alt1_SliderTrack,
-  light_purple_alt1_SliderTrackActive: () => light_purple_alt1_SliderTrackActive,
-  light_purple_alt1_Switch: () => light_purple_alt1_Switch,
-  light_purple_alt1_SwitchThumb: () => light_purple_alt1_SwitchThumb,
-  light_purple_alt1_TextArea: () => light_purple_alt1_TextArea,
-  light_purple_alt1_Tooltip: () => light_purple_alt1_Tooltip,
-  light_purple_alt1_TooltipArrow: () => light_purple_alt1_TooltipArrow,
-  light_purple_alt1_TooltipContent: () => light_purple_alt1_TooltipContent,
-  light_purple_alt2: () => light_purple_alt2,
-  light_purple_alt2_Button: () => light_purple_alt2_Button,
-  light_purple_alt2_Card: () => light_purple_alt2_Card,
-  light_purple_alt2_Checkbox: () => light_purple_alt2_Checkbox,
-  light_purple_alt2_DialogOverlay: () => light_purple_alt2_DialogOverlay,
-  light_purple_alt2_DrawerFrame: () => light_purple_alt2_DrawerFrame,
-  light_purple_alt2_Input: () => light_purple_alt2_Input,
-  light_purple_alt2_ListItem: () => light_purple_alt2_ListItem,
-  light_purple_alt2_ModalOverlay: () => light_purple_alt2_ModalOverlay,
-  light_purple_alt2_Progress: () => light_purple_alt2_Progress,
-  light_purple_alt2_ProgressIndicator: () => light_purple_alt2_ProgressIndicator,
-  light_purple_alt2_RadioGroupItem: () => light_purple_alt2_RadioGroupItem,
-  light_purple_alt2_SheetOverlay: () => light_purple_alt2_SheetOverlay,
-  light_purple_alt2_SliderThumb: () => light_purple_alt2_SliderThumb,
-  light_purple_alt2_SliderTrack: () => light_purple_alt2_SliderTrack,
-  light_purple_alt2_SliderTrackActive: () => light_purple_alt2_SliderTrackActive,
-  light_purple_alt2_Switch: () => light_purple_alt2_Switch,
-  light_purple_alt2_SwitchThumb: () => light_purple_alt2_SwitchThumb,
-  light_purple_alt2_TextArea: () => light_purple_alt2_TextArea,
-  light_purple_alt2_Tooltip: () => light_purple_alt2_Tooltip,
-  light_purple_alt2_TooltipArrow: () => light_purple_alt2_TooltipArrow,
-  light_purple_alt2_TooltipContent: () => light_purple_alt2_TooltipContent,
-  light_red: () => light_red,
-  light_red_Button: () => light_red_Button,
-  light_red_Card: () => light_red_Card,
-  light_red_Checkbox: () => light_red_Checkbox,
-  light_red_DialogOverlay: () => light_red_DialogOverlay,
-  light_red_DrawerFrame: () => light_red_DrawerFrame,
-  light_red_Input: () => light_red_Input,
-  light_red_ListItem: () => light_red_ListItem,
-  light_red_ModalOverlay: () => light_red_ModalOverlay,
-  light_red_Progress: () => light_red_Progress,
-  light_red_ProgressIndicator: () => light_red_ProgressIndicator,
-  light_red_RadioGroupItem: () => light_red_RadioGroupItem,
-  light_red_SheetOverlay: () => light_red_SheetOverlay,
-  light_red_SliderThumb: () => light_red_SliderThumb,
-  light_red_SliderTrack: () => light_red_SliderTrack,
-  light_red_SliderTrackActive: () => light_red_SliderTrackActive,
-  light_red_Switch: () => light_red_Switch,
-  light_red_SwitchThumb: () => light_red_SwitchThumb,
-  light_red_TextArea: () => light_red_TextArea,
-  light_red_Tooltip: () => light_red_Tooltip,
-  light_red_TooltipArrow: () => light_red_TooltipArrow,
-  light_red_TooltipContent: () => light_red_TooltipContent,
-  light_red_active: () => light_red_active,
-  light_red_active_Button: () => light_red_active_Button,
-  light_red_active_Card: () => light_red_active_Card,
-  light_red_active_Checkbox: () => light_red_active_Checkbox,
-  light_red_active_DialogOverlay: () => light_red_active_DialogOverlay,
-  light_red_active_DrawerFrame: () => light_red_active_DrawerFrame,
-  light_red_active_Input: () => light_red_active_Input,
-  light_red_active_ListItem: () => light_red_active_ListItem,
-  light_red_active_ModalOverlay: () => light_red_active_ModalOverlay,
-  light_red_active_Progress: () => light_red_active_Progress,
-  light_red_active_ProgressIndicator: () => light_red_active_ProgressIndicator,
-  light_red_active_RadioGroupItem: () => light_red_active_RadioGroupItem,
-  light_red_active_SheetOverlay: () => light_red_active_SheetOverlay,
-  light_red_active_SliderThumb: () => light_red_active_SliderThumb,
-  light_red_active_SliderTrack: () => light_red_active_SliderTrack,
-  light_red_active_SliderTrackActive: () => light_red_active_SliderTrackActive,
-  light_red_active_Switch: () => light_red_active_Switch,
-  light_red_active_SwitchThumb: () => light_red_active_SwitchThumb,
-  light_red_active_TextArea: () => light_red_active_TextArea,
-  light_red_active_Tooltip: () => light_red_active_Tooltip,
-  light_red_active_TooltipArrow: () => light_red_active_TooltipArrow,
-  light_red_active_TooltipContent: () => light_red_active_TooltipContent,
-  light_red_alt1: () => light_red_alt1,
-  light_red_alt1_Button: () => light_red_alt1_Button,
-  light_red_alt1_Card: () => light_red_alt1_Card,
-  light_red_alt1_Checkbox: () => light_red_alt1_Checkbox,
-  light_red_alt1_DialogOverlay: () => light_red_alt1_DialogOverlay,
-  light_red_alt1_DrawerFrame: () => light_red_alt1_DrawerFrame,
-  light_red_alt1_Input: () => light_red_alt1_Input,
-  light_red_alt1_ListItem: () => light_red_alt1_ListItem,
-  light_red_alt1_ModalOverlay: () => light_red_alt1_ModalOverlay,
-  light_red_alt1_Progress: () => light_red_alt1_Progress,
-  light_red_alt1_ProgressIndicator: () => light_red_alt1_ProgressIndicator,
-  light_red_alt1_RadioGroupItem: () => light_red_alt1_RadioGroupItem,
-  light_red_alt1_SheetOverlay: () => light_red_alt1_SheetOverlay,
-  light_red_alt1_SliderThumb: () => light_red_alt1_SliderThumb,
-  light_red_alt1_SliderTrack: () => light_red_alt1_SliderTrack,
-  light_red_alt1_SliderTrackActive: () => light_red_alt1_SliderTrackActive,
-  light_red_alt1_Switch: () => light_red_alt1_Switch,
-  light_red_alt1_SwitchThumb: () => light_red_alt1_SwitchThumb,
-  light_red_alt1_TextArea: () => light_red_alt1_TextArea,
-  light_red_alt1_Tooltip: () => light_red_alt1_Tooltip,
-  light_red_alt1_TooltipArrow: () => light_red_alt1_TooltipArrow,
-  light_red_alt1_TooltipContent: () => light_red_alt1_TooltipContent,
-  light_red_alt2: () => light_red_alt2,
-  light_red_alt2_Button: () => light_red_alt2_Button,
-  light_red_alt2_Card: () => light_red_alt2_Card,
-  light_red_alt2_Checkbox: () => light_red_alt2_Checkbox,
-  light_red_alt2_DialogOverlay: () => light_red_alt2_DialogOverlay,
-  light_red_alt2_DrawerFrame: () => light_red_alt2_DrawerFrame,
-  light_red_alt2_Input: () => light_red_alt2_Input,
-  light_red_alt2_ListItem: () => light_red_alt2_ListItem,
-  light_red_alt2_ModalOverlay: () => light_red_alt2_ModalOverlay,
-  light_red_alt2_Progress: () => light_red_alt2_Progress,
-  light_red_alt2_ProgressIndicator: () => light_red_alt2_ProgressIndicator,
-  light_red_alt2_RadioGroupItem: () => light_red_alt2_RadioGroupItem,
-  light_red_alt2_SheetOverlay: () => light_red_alt2_SheetOverlay,
-  light_red_alt2_SliderThumb: () => light_red_alt2_SliderThumb,
-  light_red_alt2_SliderTrack: () => light_red_alt2_SliderTrack,
-  light_red_alt2_SliderTrackActive: () => light_red_alt2_SliderTrackActive,
-  light_red_alt2_Switch: () => light_red_alt2_Switch,
-  light_red_alt2_SwitchThumb: () => light_red_alt2_SwitchThumb,
-  light_red_alt2_TextArea: () => light_red_alt2_TextArea,
-  light_red_alt2_Tooltip: () => light_red_alt2_Tooltip,
-  light_red_alt2_TooltipArrow: () => light_red_alt2_TooltipArrow,
-  light_red_alt2_TooltipContent: () => light_red_alt2_TooltipContent,
-  light_yellow: () => light_yellow,
-  light_yellow_Button: () => light_yellow_Button,
-  light_yellow_Card: () => light_yellow_Card,
-  light_yellow_Checkbox: () => light_yellow_Checkbox,
-  light_yellow_DialogOverlay: () => light_yellow_DialogOverlay,
-  light_yellow_DrawerFrame: () => light_yellow_DrawerFrame,
-  light_yellow_Input: () => light_yellow_Input,
-  light_yellow_ListItem: () => light_yellow_ListItem,
-  light_yellow_ModalOverlay: () => light_yellow_ModalOverlay,
-  light_yellow_Progress: () => light_yellow_Progress,
-  light_yellow_ProgressIndicator: () => light_yellow_ProgressIndicator,
-  light_yellow_RadioGroupItem: () => light_yellow_RadioGroupItem,
-  light_yellow_SheetOverlay: () => light_yellow_SheetOverlay,
-  light_yellow_SliderThumb: () => light_yellow_SliderThumb,
-  light_yellow_SliderTrack: () => light_yellow_SliderTrack,
-  light_yellow_SliderTrackActive: () => light_yellow_SliderTrackActive,
-  light_yellow_Switch: () => light_yellow_Switch,
-  light_yellow_SwitchThumb: () => light_yellow_SwitchThumb,
-  light_yellow_TextArea: () => light_yellow_TextArea,
-  light_yellow_Tooltip: () => light_yellow_Tooltip,
-  light_yellow_TooltipArrow: () => light_yellow_TooltipArrow,
-  light_yellow_TooltipContent: () => light_yellow_TooltipContent,
-  light_yellow_active: () => light_yellow_active,
-  light_yellow_active_Button: () => light_yellow_active_Button,
-  light_yellow_active_Card: () => light_yellow_active_Card,
-  light_yellow_active_Checkbox: () => light_yellow_active_Checkbox,
-  light_yellow_active_DialogOverlay: () => light_yellow_active_DialogOverlay,
-  light_yellow_active_DrawerFrame: () => light_yellow_active_DrawerFrame,
-  light_yellow_active_Input: () => light_yellow_active_Input,
-  light_yellow_active_ListItem: () => light_yellow_active_ListItem,
-  light_yellow_active_ModalOverlay: () => light_yellow_active_ModalOverlay,
-  light_yellow_active_Progress: () => light_yellow_active_Progress,
-  light_yellow_active_ProgressIndicator: () => light_yellow_active_ProgressIndicator,
-  light_yellow_active_RadioGroupItem: () => light_yellow_active_RadioGroupItem,
-  light_yellow_active_SheetOverlay: () => light_yellow_active_SheetOverlay,
-  light_yellow_active_SliderThumb: () => light_yellow_active_SliderThumb,
-  light_yellow_active_SliderTrack: () => light_yellow_active_SliderTrack,
-  light_yellow_active_SliderTrackActive: () => light_yellow_active_SliderTrackActive,
-  light_yellow_active_Switch: () => light_yellow_active_Switch,
-  light_yellow_active_SwitchThumb: () => light_yellow_active_SwitchThumb,
-  light_yellow_active_TextArea: () => light_yellow_active_TextArea,
-  light_yellow_active_Tooltip: () => light_yellow_active_Tooltip,
-  light_yellow_active_TooltipArrow: () => light_yellow_active_TooltipArrow,
-  light_yellow_active_TooltipContent: () => light_yellow_active_TooltipContent,
-  light_yellow_alt1: () => light_yellow_alt1,
-  light_yellow_alt1_Button: () => light_yellow_alt1_Button,
-  light_yellow_alt1_Card: () => light_yellow_alt1_Card,
-  light_yellow_alt1_Checkbox: () => light_yellow_alt1_Checkbox,
-  light_yellow_alt1_DialogOverlay: () => light_yellow_alt1_DialogOverlay,
-  light_yellow_alt1_DrawerFrame: () => light_yellow_alt1_DrawerFrame,
-  light_yellow_alt1_Input: () => light_yellow_alt1_Input,
-  light_yellow_alt1_ListItem: () => light_yellow_alt1_ListItem,
-  light_yellow_alt1_ModalOverlay: () => light_yellow_alt1_ModalOverlay,
-  light_yellow_alt1_Progress: () => light_yellow_alt1_Progress,
-  light_yellow_alt1_ProgressIndicator: () => light_yellow_alt1_ProgressIndicator,
-  light_yellow_alt1_RadioGroupItem: () => light_yellow_alt1_RadioGroupItem,
-  light_yellow_alt1_SheetOverlay: () => light_yellow_alt1_SheetOverlay,
-  light_yellow_alt1_SliderThumb: () => light_yellow_alt1_SliderThumb,
-  light_yellow_alt1_SliderTrack: () => light_yellow_alt1_SliderTrack,
-  light_yellow_alt1_SliderTrackActive: () => light_yellow_alt1_SliderTrackActive,
-  light_yellow_alt1_Switch: () => light_yellow_alt1_Switch,
-  light_yellow_alt1_SwitchThumb: () => light_yellow_alt1_SwitchThumb,
-  light_yellow_alt1_TextArea: () => light_yellow_alt1_TextArea,
-  light_yellow_alt1_Tooltip: () => light_yellow_alt1_Tooltip,
-  light_yellow_alt1_TooltipArrow: () => light_yellow_alt1_TooltipArrow,
-  light_yellow_alt1_TooltipContent: () => light_yellow_alt1_TooltipContent,
-  light_yellow_alt2: () => light_yellow_alt2,
-  light_yellow_alt2_Button: () => light_yellow_alt2_Button,
-  light_yellow_alt2_Card: () => light_yellow_alt2_Card,
-  light_yellow_alt2_Checkbox: () => light_yellow_alt2_Checkbox,
-  light_yellow_alt2_DialogOverlay: () => light_yellow_alt2_DialogOverlay,
-  light_yellow_alt2_DrawerFrame: () => light_yellow_alt2_DrawerFrame,
-  light_yellow_alt2_Input: () => light_yellow_alt2_Input,
-  light_yellow_alt2_ListItem: () => light_yellow_alt2_ListItem,
-  light_yellow_alt2_ModalOverlay: () => light_yellow_alt2_ModalOverlay,
-  light_yellow_alt2_Progress: () => light_yellow_alt2_Progress,
-  light_yellow_alt2_ProgressIndicator: () => light_yellow_alt2_ProgressIndicator,
-  light_yellow_alt2_RadioGroupItem: () => light_yellow_alt2_RadioGroupItem,
-  light_yellow_alt2_SheetOverlay: () => light_yellow_alt2_SheetOverlay,
-  light_yellow_alt2_SliderThumb: () => light_yellow_alt2_SliderThumb,
-  light_yellow_alt2_SliderTrack: () => light_yellow_alt2_SliderTrack,
-  light_yellow_alt2_SliderTrackActive: () => light_yellow_alt2_SliderTrackActive,
-  light_yellow_alt2_Switch: () => light_yellow_alt2_Switch,
-  light_yellow_alt2_SwitchThumb: () => light_yellow_alt2_SwitchThumb,
-  light_yellow_alt2_TextArea: () => light_yellow_alt2_TextArea,
-  light_yellow_alt2_Tooltip: () => light_yellow_alt2_Tooltip,
-  light_yellow_alt2_TooltipArrow: () => light_yellow_alt2_TooltipArrow,
-  light_yellow_alt2_TooltipContent: () => light_yellow_alt2_TooltipContent
-});
-function t(a) {
-  let res = {};
-  for (const [ki, vi] of a) res[ks[ki]] = vs[vi];
-  return res;
-}
-__name(t, "t");
-var vs = ["#fff", "#f8f8f8", "hsl(0, 0%, 96.3%)", "hsl(0, 0%, 94.1%)", "hsl(0, 0%, 92.0%)", "hsl(0, 0%, 90.0%)", "hsl(0, 0%, 88.5%)", "hsl(0, 0%, 81.0%)", "hsl(0, 0%, 56.1%)", "hsl(0, 0%, 50.3%)", "hsl(0, 0%, 42.5%)", "hsl(0, 0%, 9.0%)", "rgba(255,255,255,0)", "rgba(10,10,10,0)", "hsl(206, 100%, 99.2%)", "hsl(210, 100%, 98.0%)", "hsl(209, 100%, 96.5%)", "hsl(210, 98.8%, 94.0%)", "hsl(209, 95.0%, 90.1%)", "hsl(209, 81.2%, 84.5%)", "hsl(208, 77.5%, 76.9%)", "hsl(206, 81.9%, 65.3%)", "hsl(206, 100%, 50.0%)", "hsl(208, 100%, 47.3%)", "hsl(211, 100%, 43.2%)", "hsl(211, 100%, 15.0%)", "hsl(0, 0%, 99.0%)", "hsl(0, 0%, 97.3%)", "hsl(0, 0%, 95.1%)", "hsl(0, 0%, 93.0%)", "hsl(0, 0%, 90.9%)", "hsl(0, 0%, 88.7%)", "hsl(0, 0%, 85.8%)", "hsl(0, 0%, 78.0%)", "hsl(0, 0%, 52.3%)", "hsl(0, 0%, 43.5%)", "hsl(136, 50.0%, 98.9%)", "hsl(138, 62.5%, 96.9%)", "hsl(139, 55.2%, 94.5%)", "hsl(140, 48.7%, 91.0%)", "hsl(141, 43.7%, 86.0%)", "hsl(143, 40.3%, 79.0%)", "hsl(146, 38.5%, 69.0%)", "hsl(151, 40.2%, 54.1%)", "hsl(151, 55.0%, 41.5%)", "hsl(152, 57.5%, 37.6%)", "hsl(153, 67.0%, 28.5%)", "hsl(155, 40.0%, 14.0%)", "hsl(24, 70.0%, 99.0%)", "hsl(24, 83.3%, 97.6%)", "hsl(24, 100%, 95.3%)", "hsl(25, 100%, 92.2%)", "hsl(25, 100%, 88.2%)", "hsl(25, 100%, 82.8%)", "hsl(24, 100%, 75.3%)", "hsl(24, 94.5%, 64.3%)", "hsl(24, 94.0%, 50.0%)", "hsl(24, 100%, 46.5%)", "hsl(24, 100%, 37.0%)", "hsl(15, 60.0%, 17.0%)", "hsl(322, 100%, 99.4%)", "hsl(323, 100%, 98.4%)", "hsl(323, 86.3%, 96.5%)", "hsl(323, 78.7%, 94.2%)", "hsl(323, 72.2%, 91.1%)", "hsl(323, 66.3%, 86.6%)", "hsl(323, 62.0%, 80.1%)", "hsl(323, 60.3%, 72.4%)", "hsl(322, 65.0%, 54.5%)", "hsl(322, 63.9%, 50.7%)", "hsl(322, 75.0%, 46.0%)", "hsl(320, 70.0%, 13.5%)", "hsl(280, 65.0%, 99.4%)", "hsl(276, 100%, 99.0%)", "hsl(276, 83.1%, 97.0%)", "hsl(275, 76.4%, 94.7%)", "hsl(275, 70.8%, 91.8%)", "hsl(274, 65.4%, 87.8%)", "hsl(273, 61.0%, 81.7%)", "hsl(272, 60.0%, 73.5%)", "hsl(272, 51.0%, 54.0%)", "hsl(272, 46.8%, 50.3%)", "hsl(272, 50.0%, 45.8%)", "hsl(272, 66.0%, 16.0%)", "hsl(359, 100%, 99.4%)", "hsl(359, 100%, 98.6%)", "hsl(360, 100%, 96.8%)", "hsl(360, 97.9%, 94.8%)", "hsl(360, 90.2%, 91.9%)", "hsl(360, 81.7%, 87.8%)", "hsl(359, 74.2%, 81.7%)", "hsl(359, 69.5%, 74.3%)", "hsl(358, 75.0%, 59.0%)", "hsl(358, 69.4%, 55.2%)", "hsl(358, 65.0%, 48.7%)", "hsl(354, 50.0%, 14.6%)", "hsl(60, 54.0%, 98.5%)", "hsl(52, 100%, 95.5%)", "hsl(55, 100%, 90.9%)", "hsl(54, 100%, 86.6%)", "hsl(52, 97.9%, 82.0%)", "hsl(50, 89.4%, 76.1%)", "hsl(47, 80.4%, 68.0%)", "hsl(48, 100%, 46.1%)", "hsl(53, 92.0%, 50.0%)", "hsl(50, 100%, 48.5%)", "hsl(42, 100%, 29.0%)", "hsl(40, 55.0%, 13.5%)", "rgba(0,0,0,0.085)", "rgba(0,0,0,0.04)", "#050505", "#151515", "#191919", "#232323", "#282828", "#323232", "#424242", "#494949", "#545454", "#626262", "#a5a5a5", "hsl(212, 35.0%, 9.2%)", "hsl(216, 50.0%, 11.8%)", "hsl(214, 59.4%, 15.3%)", "hsl(214, 65.8%, 17.9%)", "hsl(213, 71.2%, 20.2%)", "hsl(212, 77.4%, 23.1%)", "hsl(211, 85.1%, 27.4%)", "hsl(211, 89.7%, 34.1%)", "hsl(209, 100%, 60.6%)", "hsl(210, 100%, 66.1%)", "hsl(206, 98.0%, 95.8%)", "hsl(0, 0%, 8.5%)", "hsl(0, 0%, 11.0%)", "hsl(0, 0%, 13.6%)", "hsl(0, 0%, 15.8%)", "hsl(0, 0%, 17.9%)", "hsl(0, 0%, 20.5%)", "hsl(0, 0%, 24.3%)", "hsl(0, 0%, 31.2%)", "hsl(0, 0%, 43.9%)", "hsl(0, 0%, 49.4%)", "hsl(0, 0%, 62.8%)", "hsl(146, 30.0%, 7.4%)", "hsl(155, 44.2%, 8.4%)", "hsl(155, 46.7%, 10.9%)", "hsl(154, 48.4%, 12.9%)", "hsl(154, 49.7%, 14.9%)", "hsl(154, 50.9%, 17.6%)", "hsl(153, 51.8%, 21.8%)", "hsl(151, 51.7%, 28.4%)", "hsl(151, 49.3%, 46.5%)", "hsl(151, 50.0%, 53.2%)", "hsl(137, 72.0%, 94.0%)", "hsl(30, 70.0%, 7.2%)", "hsl(28, 100%, 8.4%)", "hsl(26, 91.1%, 11.6%)", "hsl(25, 88.3%, 14.1%)", "hsl(24, 87.6%, 16.6%)", "hsl(24, 88.6%, 19.8%)", "hsl(24, 92.4%, 24.0%)", "hsl(25, 100%, 29.0%)", "hsl(24, 100%, 58.5%)", "hsl(24, 100%, 62.2%)", "hsl(24, 97.0%, 93.2%)", "hsl(318, 25.0%, 9.6%)", "hsl(319, 32.2%, 11.6%)", "hsl(319, 41.0%, 16.0%)", "hsl(320, 45.4%, 18.7%)", "hsl(320, 49.0%, 21.1%)", "hsl(321, 53.6%, 24.4%)", "hsl(321, 61.1%, 29.7%)", "hsl(322, 74.9%, 37.5%)", "hsl(323, 72.8%, 59.2%)", "hsl(325, 90.0%, 66.4%)", "hsl(322, 90.0%, 95.8%)", "hsl(284, 20.0%, 9.6%)", "hsl(283, 30.0%, 11.8%)", "hsl(281, 37.5%, 16.5%)", "hsl(280, 41.2%, 20.0%)", "hsl(279, 43.8%, 23.3%)", "hsl(277, 46.4%, 27.5%)", "hsl(275, 49.3%, 34.6%)", "hsl(272, 52.1%, 45.9%)", "hsl(273, 57.3%, 59.1%)", "hsl(275, 80.0%, 71.0%)", "hsl(279, 75.0%, 95.7%)", "hsl(353, 23.0%, 9.8%)", "hsl(357, 34.4%, 12.0%)", "hsl(356, 43.4%, 16.4%)", "hsl(356, 47.6%, 19.2%)", "hsl(356, 51.1%, 21.9%)", "hsl(356, 55.2%, 25.9%)", "hsl(357, 60.2%, 31.8%)", "hsl(358, 65.0%, 40.4%)", "hsl(358, 85.3%, 64.0%)", "hsl(358, 100%, 69.5%)", "hsl(351, 89.0%, 96.0%)", "hsl(45, 100%, 5.5%)", "hsl(46, 100%, 6.7%)", "hsl(45, 100%, 8.7%)", "hsl(45, 100%, 10.4%)", "hsl(47, 100%, 12.1%)", "hsl(49, 100%, 14.3%)", "hsl(49, 90.3%, 18.4%)", "hsl(50, 100%, 22.0%)", "hsl(54, 100%, 68.0%)", "hsl(48, 100%, 47.0%)", "hsl(53, 100%, 91.0%)", "rgba(0,0,0,0.3)", "rgba(0,0,0,0.2)", "hsla(24, 70.0%, 99.0%, 0)", "hsla(15, 60.0%, 17.0%, 0)", "hsla(60, 54.0%, 98.5%, 0)", "hsla(40, 55.0%, 13.5%, 0)", "hsla(136, 50.0%, 98.9%, 0)", "hsla(155, 40.0%, 14.0%, 0)", "hsla(206, 100%, 99.2%, 0)", "hsla(211, 100%, 15.0%, 0)", "hsla(280, 65.0%, 99.4%, 0)", "hsla(272, 66.0%, 16.0%, 0)", "hsla(322, 100%, 99.4%, 0)", "hsla(320, 70.0%, 13.5%, 0)", "hsla(359, 100%, 99.4%, 0)", "hsla(354, 50.0%, 14.6%, 0)", "hsla(30, 70.0%, 7.2%, 0)", "hsla(24, 97.0%, 93.2%, 0)", "hsla(45, 100%, 5.5%, 0)", "hsla(53, 100%, 91.0%, 0)", "hsla(146, 30.0%, 7.4%, 0)", "hsla(137, 72.0%, 94.0%, 0)", "hsla(212, 35.0%, 9.2%, 0)", "hsla(206, 98.0%, 95.8%, 0)", "hsla(284, 20.0%, 9.6%, 0)", "hsla(279, 75.0%, 95.7%, 0)", "hsla(318, 25.0%, 9.6%, 0)", "hsla(322, 90.0%, 95.8%, 0)", "hsla(353, 23.0%, 9.8%, 0)", "hsla(351, 89.0%, 96.0%, 0)", "rgba(0,0,0,0.5)", "rgba(0,0,0,0.9)", "transparent"];
-var ks = ["color1", "color2", "color3", "color4", "color5", "color6", "color7", "color8", "color9", "color10", "color11", "color12", "background", "backgroundHover", "backgroundPress", "backgroundFocus", "backgroundStrong", "backgroundTransparent", "color", "colorHover", "colorPress", "colorFocus", "colorTransparent", "borderColor", "borderColorHover", "borderColorFocus", "borderColorPress", "placeholderColor", "blue1", "blue2", "blue3", "blue4", "blue5", "blue6", "blue7", "blue8", "blue9", "blue10", "blue11", "blue12", "gray1", "gray2", "gray3", "gray4", "gray5", "gray6", "gray7", "gray8", "gray9", "gray10", "gray11", "gray12", "green1", "green2", "green3", "green4", "green5", "green6", "green7", "green8", "green9", "green10", "green11", "green12", "orange1", "orange2", "orange3", "orange4", "orange5", "orange6", "orange7", "orange8", "orange9", "orange10", "orange11", "orange12", "pink1", "pink2", "pink3", "pink4", "pink5", "pink6", "pink7", "pink8", "pink9", "pink10", "pink11", "pink12", "purple1", "purple2", "purple3", "purple4", "purple5", "purple6", "purple7", "purple8", "purple9", "purple10", "purple11", "purple12", "red1", "red2", "red3", "red4", "red5", "red6", "red7", "red8", "red9", "red10", "red11", "red12", "yellow1", "yellow2", "yellow3", "yellow4", "yellow5", "yellow6", "yellow7", "yellow8", "yellow9", "yellow10", "yellow11", "yellow12", "shadowColor", "shadowColorHover", "shadowColorPress", "shadowColorFocus"];
-var n1 = t([[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7], [8, 8], [9, 9], [10, 10], [11, 11], [12, 1], [13, 2], [14, 3], [15, 4], [16, 0], [17, 12], [18, 11], [19, 10], [20, 11], [21, 10], [22, 13], [23, 4], [24, 5], [25, 3], [26, 4], [27, 8], [28, 14], [29, 15], [30, 16], [31, 17], [32, 18], [33, 19], [34, 20], [35, 21], [36, 22], [37, 23], [38, 24], [39, 25], [40, 26], [41, 27], [42, 28], [43, 29], [44, 30], [45, 31], [46, 32], [47, 33], [48, 8], [49, 34], [50, 35], [51, 11], [52, 36], [53, 37], [54, 38], [55, 39], [56, 40], [57, 41], [58, 42], [59, 43], [60, 44], [61, 45], [62, 46], [63, 47], [64, 48], [65, 49], [66, 50], [67, 51], [68, 52], [69, 53], [70, 54], [71, 55], [72, 56], [73, 57], [74, 58], [75, 59], [76, 60], [77, 61], [78, 62], [79, 63], [80, 64], [81, 65], [82, 66], [83, 67], [84, 68], [85, 69], [86, 70], [87, 71], [88, 72], [89, 73], [90, 74], [91, 75], [92, 76], [93, 77], [94, 78], [95, 79], [96, 80], [97, 81], [98, 82], [99, 83], [100, 84], [101, 85], [102, 86], [103, 87], [104, 88], [105, 89], [106, 90], [107, 91], [108, 92], [109, 93], [110, 94], [111, 95], [112, 96], [113, 97], [114, 98], [115, 99], [116, 100], [117, 101], [118, 102], [119, 103], [120, 104], [121, 105], [122, 106], [123, 107], [124, 108], [125, 108], [126, 109], [127, 109]]);
-var light = n1;
-var n2 = t([[0, 110], [1, 111], [2, 112], [3, 113], [4, 114], [5, 115], [6, 116], [7, 117], [8, 118], [9, 119], [10, 120], [11, 0], [12, 111], [13, 112], [14, 113], [15, 114], [16, 110], [17, 13], [18, 0], [19, 120], [20, 0], [21, 120], [22, 12], [23, 114], [24, 115], [25, 113], [26, 114], [27, 118], [28, 121], [29, 122], [30, 123], [31, 124], [32, 125], [33, 126], [34, 127], [35, 128], [36, 22], [37, 129], [38, 130], [39, 131], [40, 132], [41, 133], [42, 134], [43, 135], [44, 136], [45, 137], [46, 138], [47, 139], [48, 140], [49, 141], [50, 142], [51, 29], [52, 143], [53, 144], [54, 145], [55, 146], [56, 147], [57, 148], [58, 149], [59, 150], [60, 44], [61, 151], [62, 152], [63, 153], [64, 154], [65, 155], [66, 156], [67, 157], [68, 158], [69, 159], [70, 160], [71, 161], [72, 56], [73, 162], [74, 163], [75, 164], [76, 165], [77, 166], [78, 167], [79, 168], [80, 169], [81, 170], [82, 171], [83, 172], [84, 68], [85, 173], [86, 174], [87, 175], [88, 176], [89, 177], [90, 178], [91, 179], [92, 180], [93, 181], [94, 182], [95, 183], [96, 80], [97, 184], [98, 185], [99, 186], [100, 187], [101, 188], [102, 189], [103, 190], [104, 191], [105, 192], [106, 193], [107, 194], [108, 92], [109, 195], [110, 196], [111, 197], [112, 198], [113, 199], [114, 200], [115, 201], [116, 202], [117, 203], [118, 204], [119, 205], [120, 104], [121, 206], [122, 207], [123, 208], [124, 209], [125, 209], [126, 210], [127, 210]]);
-var dark = n2;
-var n3 = t([[0, 48], [1, 49], [2, 50], [3, 51], [4, 52], [5, 53], [6, 55], [7, 56], [8, 57], [9, 58], [10, 59], [11, 11], [12, 49], [13, 50], [14, 51], [15, 52], [16, 48], [17, 211], [18, 11], [19, 59], [20, 11], [21, 59], [22, 212], [23, 51], [24, 52], [25, 51], [26, 51], [27, 57]]);
-var light_orange = n3;
-var n4 = t([[0, 96], [1, 97], [2, 98], [3, 99], [4, 100], [5, 101], [6, 103], [7, 104], [8, 105], [9, 106], [10, 107], [11, 11], [12, 97], [13, 98], [14, 99], [15, 100], [16, 96], [17, 213], [18, 11], [19, 107], [20, 11], [21, 107], [22, 214], [23, 99], [24, 100], [25, 99], [26, 99], [27, 105]]);
-var light_yellow = n4;
-var n5 = t([[0, 36], [1, 37], [2, 38], [3, 39], [4, 40], [5, 41], [6, 43], [7, 44], [8, 45], [9, 46], [10, 47], [11, 11], [12, 37], [13, 38], [14, 39], [15, 40], [16, 36], [17, 215], [18, 11], [19, 47], [20, 11], [21, 47], [22, 216], [23, 39], [24, 40], [25, 39], [26, 39], [27, 45]]);
-var light_green = n5;
-var n6 = t([[0, 14], [1, 15], [2, 16], [3, 17], [4, 18], [5, 19], [6, 21], [7, 22], [8, 23], [9, 24], [10, 25], [11, 11], [12, 15], [13, 16], [14, 17], [15, 18], [16, 14], [17, 217], [18, 11], [19, 25], [20, 11], [21, 25], [22, 218], [23, 17], [24, 18], [25, 17], [26, 17], [27, 23]]);
-var light_blue = n6;
-var n7 = t([[0, 72], [1, 73], [2, 74], [3, 75], [4, 76], [5, 77], [6, 79], [7, 80], [8, 81], [9, 82], [10, 83], [11, 11], [12, 73], [13, 74], [14, 75], [15, 76], [16, 72], [17, 219], [18, 11], [19, 83], [20, 11], [21, 83], [22, 220], [23, 75], [24, 76], [25, 75], [26, 75], [27, 81]]);
-var light_purple = n7;
-var n8 = t([[0, 60], [1, 61], [2, 62], [3, 63], [4, 64], [5, 65], [6, 67], [7, 68], [8, 69], [9, 70], [10, 71], [11, 11], [12, 61], [13, 62], [14, 63], [15, 64], [16, 60], [17, 221], [18, 11], [19, 71], [20, 11], [21, 71], [22, 222], [23, 63], [24, 64], [25, 63], [26, 63], [27, 69]]);
-var light_pink = n8;
-var n9 = t([[0, 84], [1, 85], [2, 86], [3, 87], [4, 88], [5, 89], [6, 91], [7, 92], [8, 93], [9, 94], [10, 95], [11, 11], [12, 85], [13, 86], [14, 87], [15, 88], [16, 84], [17, 223], [18, 11], [19, 95], [20, 11], [21, 95], [22, 224], [23, 87], [24, 88], [25, 87], [26, 87], [27, 93]]);
-var light_red = n9;
-var n10 = t([[0, 154], [1, 155], [2, 156], [3, 157], [4, 158], [5, 159], [6, 161], [7, 56], [8, 162], [9, 163], [10, 164], [11, 0], [12, 155], [13, 156], [14, 157], [15, 158], [16, 154], [17, 225], [18, 0], [19, 164], [20, 0], [21, 164], [22, 226], [23, 158], [24, 159], [25, 157], [26, 158], [27, 162]]);
-var dark_orange = n10;
-var n11 = t([[0, 198], [1, 199], [2, 200], [3, 201], [4, 202], [5, 203], [6, 205], [7, 104], [8, 206], [9, 207], [10, 208], [11, 0], [12, 199], [13, 200], [14, 201], [15, 202], [16, 198], [17, 227], [18, 0], [19, 208], [20, 0], [21, 208], [22, 228], [23, 202], [24, 203], [25, 201], [26, 202], [27, 206]]);
-var dark_yellow = n11;
-var n12 = t([[0, 143], [1, 144], [2, 145], [3, 146], [4, 147], [5, 148], [6, 150], [7, 44], [8, 151], [9, 152], [10, 153], [11, 0], [12, 144], [13, 145], [14, 146], [15, 147], [16, 143], [17, 229], [18, 0], [19, 153], [20, 0], [21, 153], [22, 230], [23, 147], [24, 148], [25, 146], [26, 147], [27, 151]]);
-var dark_green = n12;
-var n13 = t([[0, 121], [1, 122], [2, 123], [3, 124], [4, 125], [5, 126], [6, 128], [7, 22], [8, 129], [9, 130], [10, 131], [11, 0], [12, 122], [13, 123], [14, 124], [15, 125], [16, 121], [17, 231], [18, 0], [19, 131], [20, 0], [21, 131], [22, 232], [23, 125], [24, 126], [25, 124], [26, 125], [27, 129]]);
-var dark_blue = n13;
-var n14 = t([[0, 176], [1, 177], [2, 178], [3, 179], [4, 180], [5, 181], [6, 183], [7, 80], [8, 184], [9, 185], [10, 186], [11, 0], [12, 177], [13, 178], [14, 179], [15, 180], [16, 176], [17, 233], [18, 0], [19, 186], [20, 0], [21, 186], [22, 234], [23, 180], [24, 181], [25, 179], [26, 180], [27, 184]]);
-var dark_purple = n14;
-var n15 = t([[0, 165], [1, 166], [2, 167], [3, 168], [4, 169], [5, 170], [6, 172], [7, 68], [8, 173], [9, 174], [10, 175], [11, 0], [12, 166], [13, 167], [14, 168], [15, 169], [16, 165], [17, 235], [18, 0], [19, 175], [20, 0], [21, 175], [22, 236], [23, 169], [24, 170], [25, 168], [26, 169], [27, 173]]);
-var dark_pink = n15;
-var n16 = t([[0, 187], [1, 188], [2, 189], [3, 190], [4, 191], [5, 192], [6, 194], [7, 92], [8, 195], [9, 196], [10, 197], [11, 0], [12, 188], [13, 189], [14, 190], [15, 191], [16, 187], [17, 237], [18, 0], [19, 197], [20, 0], [21, 197], [22, 238], [23, 191], [24, 192], [25, 190], [26, 191], [27, 195]]);
-var dark_red = n16;
-var n17 = t([[12, 239]]);
-var light_SheetOverlay = n17;
-var light_DialogOverlay = n17;
-var light_ModalOverlay = n17;
-var light_orange_SheetOverlay = n17;
-var light_orange_DialogOverlay = n17;
-var light_orange_ModalOverlay = n17;
-var light_yellow_SheetOverlay = n17;
-var light_yellow_DialogOverlay = n17;
-var light_yellow_ModalOverlay = n17;
-var light_green_SheetOverlay = n17;
-var light_green_DialogOverlay = n17;
-var light_green_ModalOverlay = n17;
-var light_blue_SheetOverlay = n17;
-var light_blue_DialogOverlay = n17;
-var light_blue_ModalOverlay = n17;
-var light_purple_SheetOverlay = n17;
-var light_purple_DialogOverlay = n17;
-var light_purple_ModalOverlay = n17;
-var light_pink_SheetOverlay = n17;
-var light_pink_DialogOverlay = n17;
-var light_pink_ModalOverlay = n17;
-var light_red_SheetOverlay = n17;
-var light_red_DialogOverlay = n17;
-var light_red_ModalOverlay = n17;
-var light_alt1_SheetOverlay = n17;
-var light_alt1_DialogOverlay = n17;
-var light_alt1_ModalOverlay = n17;
-var light_alt2_SheetOverlay = n17;
-var light_alt2_DialogOverlay = n17;
-var light_alt2_ModalOverlay = n17;
-var light_active_SheetOverlay = n17;
-var light_active_DialogOverlay = n17;
-var light_active_ModalOverlay = n17;
-var light_orange_alt1_SheetOverlay = n17;
-var light_orange_alt1_DialogOverlay = n17;
-var light_orange_alt1_ModalOverlay = n17;
-var light_orange_alt2_SheetOverlay = n17;
-var light_orange_alt2_DialogOverlay = n17;
-var light_orange_alt2_ModalOverlay = n17;
-var light_orange_active_SheetOverlay = n17;
-var light_orange_active_DialogOverlay = n17;
-var light_orange_active_ModalOverlay = n17;
-var light_yellow_alt1_SheetOverlay = n17;
-var light_yellow_alt1_DialogOverlay = n17;
-var light_yellow_alt1_ModalOverlay = n17;
-var light_yellow_alt2_SheetOverlay = n17;
-var light_yellow_alt2_DialogOverlay = n17;
-var light_yellow_alt2_ModalOverlay = n17;
-var light_yellow_active_SheetOverlay = n17;
-var light_yellow_active_DialogOverlay = n17;
-var light_yellow_active_ModalOverlay = n17;
-var light_green_alt1_SheetOverlay = n17;
-var light_green_alt1_DialogOverlay = n17;
-var light_green_alt1_ModalOverlay = n17;
-var light_green_alt2_SheetOverlay = n17;
-var light_green_alt2_DialogOverlay = n17;
-var light_green_alt2_ModalOverlay = n17;
-var light_green_active_SheetOverlay = n17;
-var light_green_active_DialogOverlay = n17;
-var light_green_active_ModalOverlay = n17;
-var light_blue_alt1_SheetOverlay = n17;
-var light_blue_alt1_DialogOverlay = n17;
-var light_blue_alt1_ModalOverlay = n17;
-var light_blue_alt2_SheetOverlay = n17;
-var light_blue_alt2_DialogOverlay = n17;
-var light_blue_alt2_ModalOverlay = n17;
-var light_blue_active_SheetOverlay = n17;
-var light_blue_active_DialogOverlay = n17;
-var light_blue_active_ModalOverlay = n17;
-var light_purple_alt1_SheetOverlay = n17;
-var light_purple_alt1_DialogOverlay = n17;
-var light_purple_alt1_ModalOverlay = n17;
-var light_purple_alt2_SheetOverlay = n17;
-var light_purple_alt2_DialogOverlay = n17;
-var light_purple_alt2_ModalOverlay = n17;
-var light_purple_active_SheetOverlay = n17;
-var light_purple_active_DialogOverlay = n17;
-var light_purple_active_ModalOverlay = n17;
-var light_pink_alt1_SheetOverlay = n17;
-var light_pink_alt1_DialogOverlay = n17;
-var light_pink_alt1_ModalOverlay = n17;
-var light_pink_alt2_SheetOverlay = n17;
-var light_pink_alt2_DialogOverlay = n17;
-var light_pink_alt2_ModalOverlay = n17;
-var light_pink_active_SheetOverlay = n17;
-var light_pink_active_DialogOverlay = n17;
-var light_pink_active_ModalOverlay = n17;
-var light_red_alt1_SheetOverlay = n17;
-var light_red_alt1_DialogOverlay = n17;
-var light_red_alt1_ModalOverlay = n17;
-var light_red_alt2_SheetOverlay = n17;
-var light_red_alt2_DialogOverlay = n17;
-var light_red_alt2_ModalOverlay = n17;
-var light_red_active_SheetOverlay = n17;
-var light_red_active_DialogOverlay = n17;
-var light_red_active_ModalOverlay = n17;
-var n18 = t([[12, 240]]);
-var dark_SheetOverlay = n18;
-var dark_DialogOverlay = n18;
-var dark_ModalOverlay = n18;
-var dark_orange_SheetOverlay = n18;
-var dark_orange_DialogOverlay = n18;
-var dark_orange_ModalOverlay = n18;
-var dark_yellow_SheetOverlay = n18;
-var dark_yellow_DialogOverlay = n18;
-var dark_yellow_ModalOverlay = n18;
-var dark_green_SheetOverlay = n18;
-var dark_green_DialogOverlay = n18;
-var dark_green_ModalOverlay = n18;
-var dark_blue_SheetOverlay = n18;
-var dark_blue_DialogOverlay = n18;
-var dark_blue_ModalOverlay = n18;
-var dark_purple_SheetOverlay = n18;
-var dark_purple_DialogOverlay = n18;
-var dark_purple_ModalOverlay = n18;
-var dark_pink_SheetOverlay = n18;
-var dark_pink_DialogOverlay = n18;
-var dark_pink_ModalOverlay = n18;
-var dark_red_SheetOverlay = n18;
-var dark_red_DialogOverlay = n18;
-var dark_red_ModalOverlay = n18;
-var dark_alt1_SheetOverlay = n18;
-var dark_alt1_DialogOverlay = n18;
-var dark_alt1_ModalOverlay = n18;
-var dark_alt2_SheetOverlay = n18;
-var dark_alt2_DialogOverlay = n18;
-var dark_alt2_ModalOverlay = n18;
-var dark_active_SheetOverlay = n18;
-var dark_active_DialogOverlay = n18;
-var dark_active_ModalOverlay = n18;
-var dark_orange_alt1_SheetOverlay = n18;
-var dark_orange_alt1_DialogOverlay = n18;
-var dark_orange_alt1_ModalOverlay = n18;
-var dark_orange_alt2_SheetOverlay = n18;
-var dark_orange_alt2_DialogOverlay = n18;
-var dark_orange_alt2_ModalOverlay = n18;
-var dark_orange_active_SheetOverlay = n18;
-var dark_orange_active_DialogOverlay = n18;
-var dark_orange_active_ModalOverlay = n18;
-var dark_yellow_alt1_SheetOverlay = n18;
-var dark_yellow_alt1_DialogOverlay = n18;
-var dark_yellow_alt1_ModalOverlay = n18;
-var dark_yellow_alt2_SheetOverlay = n18;
-var dark_yellow_alt2_DialogOverlay = n18;
-var dark_yellow_alt2_ModalOverlay = n18;
-var dark_yellow_active_SheetOverlay = n18;
-var dark_yellow_active_DialogOverlay = n18;
-var dark_yellow_active_ModalOverlay = n18;
-var dark_green_alt1_SheetOverlay = n18;
-var dark_green_alt1_DialogOverlay = n18;
-var dark_green_alt1_ModalOverlay = n18;
-var dark_green_alt2_SheetOverlay = n18;
-var dark_green_alt2_DialogOverlay = n18;
-var dark_green_alt2_ModalOverlay = n18;
-var dark_green_active_SheetOverlay = n18;
-var dark_green_active_DialogOverlay = n18;
-var dark_green_active_ModalOverlay = n18;
-var dark_blue_alt1_SheetOverlay = n18;
-var dark_blue_alt1_DialogOverlay = n18;
-var dark_blue_alt1_ModalOverlay = n18;
-var dark_blue_alt2_SheetOverlay = n18;
-var dark_blue_alt2_DialogOverlay = n18;
-var dark_blue_alt2_ModalOverlay = n18;
-var dark_blue_active_SheetOverlay = n18;
-var dark_blue_active_DialogOverlay = n18;
-var dark_blue_active_ModalOverlay = n18;
-var dark_purple_alt1_SheetOverlay = n18;
-var dark_purple_alt1_DialogOverlay = n18;
-var dark_purple_alt1_ModalOverlay = n18;
-var dark_purple_alt2_SheetOverlay = n18;
-var dark_purple_alt2_DialogOverlay = n18;
-var dark_purple_alt2_ModalOverlay = n18;
-var dark_purple_active_SheetOverlay = n18;
-var dark_purple_active_DialogOverlay = n18;
-var dark_purple_active_ModalOverlay = n18;
-var dark_pink_alt1_SheetOverlay = n18;
-var dark_pink_alt1_DialogOverlay = n18;
-var dark_pink_alt1_ModalOverlay = n18;
-var dark_pink_alt2_SheetOverlay = n18;
-var dark_pink_alt2_DialogOverlay = n18;
-var dark_pink_alt2_ModalOverlay = n18;
-var dark_pink_active_SheetOverlay = n18;
-var dark_pink_active_DialogOverlay = n18;
-var dark_pink_active_ModalOverlay = n18;
-var dark_red_alt1_SheetOverlay = n18;
-var dark_red_alt1_DialogOverlay = n18;
-var dark_red_alt1_ModalOverlay = n18;
-var dark_red_alt2_SheetOverlay = n18;
-var dark_red_alt2_DialogOverlay = n18;
-var dark_red_alt2_ModalOverlay = n18;
-var dark_red_active_SheetOverlay = n18;
-var dark_red_active_DialogOverlay = n18;
-var dark_red_active_ModalOverlay = n18;
-var n19 = t([[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 11], [12, 2], [13, 3], [14, 4], [15, 5], [16, 1], [17, 0], [18, 10], [19, 9], [20, 10], [21, 9], [22, 11], [23, 5], [24, 6], [25, 4], [26, 5], [27, 7]]);
-var light_alt1 = n19;
-var n20 = t([[0, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 7], [6, 8], [7, 9], [8, 10], [9, 11], [10, 11], [11, 11], [12, 3], [13, 4], [14, 5], [15, 6], [16, 2], [17, 1], [18, 9], [19, 8], [20, 9], [21, 8], [22, 10], [23, 6], [24, 7], [25, 5], [26, 6], [27, 6]]);
-var light_alt2 = n20;
-var n21 = t([[0, 3], [1, 4], [2, 5], [3, 6], [4, 7], [5, 8], [6, 9], [7, 10], [8, 11], [9, 13], [10, 13], [11, 13], [12, 4], [13, 5], [14, 6], [15, 7], [16, 3], [17, 2], [19, 7], [20, 8], [21, 7], [22, 9], [23, 7], [24, 8], [25, 6], [26, 7], [27, 5]]);
-var light_active = n21;
-var n22 = t([[0, 111], [1, 112], [2, 113], [3, 114], [4, 115], [5, 116], [6, 117], [7, 118], [8, 119], [9, 120], [10, 0], [11, 0], [12, 112], [13, 113], [14, 114], [15, 115], [16, 111], [17, 110], [18, 120], [19, 119], [20, 120], [21, 119], [22, 0], [23, 115], [24, 116], [25, 114], [26, 115], [27, 117]]);
-var dark_alt1 = n22;
-var n23 = t([[0, 112], [1, 113], [2, 114], [3, 115], [4, 116], [5, 117], [6, 118], [7, 119], [8, 120], [9, 0], [10, 0], [11, 0], [12, 113], [13, 114], [14, 115], [15, 116], [16, 112], [17, 111], [18, 119], [19, 118], [20, 119], [21, 118], [22, 120], [23, 116], [24, 117], [25, 115], [26, 116], [27, 116]]);
-var dark_alt2 = n23;
-var n24 = t([[0, 113], [1, 114], [2, 115], [3, 116], [4, 117], [5, 118], [6, 119], [7, 120], [8, 0], [9, 12], [10, 12], [11, 12], [12, 114], [13, 115], [14, 116], [15, 117], [16, 113], [17, 112], [19, 117], [20, 118], [21, 117], [22, 119], [23, 117], [24, 118], [25, 116], [26, 117], [27, 115]]);
-var dark_active = n24;
-var n25 = t([[0, 49], [1, 50], [2, 51], [3, 52], [4, 53], [5, 55], [6, 56], [7, 57], [8, 58], [9, 59], [10, 11], [11, 11], [12, 50], [13, 51], [14, 52], [15, 53], [16, 49], [17, 48], [18, 59], [19, 58], [20, 59], [21, 58], [22, 11], [23, 52], [24, 53], [25, 52], [26, 52], [27, 56]]);
-var light_orange_alt1 = n25;
-var n26 = t([[0, 50], [1, 51], [2, 52], [3, 53], [4, 55], [5, 56], [6, 57], [7, 58], [8, 59], [9, 11], [10, 11], [11, 11], [12, 51], [13, 52], [14, 53], [15, 55], [16, 50], [17, 49], [18, 58], [19, 57], [20, 58], [21, 57], [22, 59], [23, 53], [24, 55], [25, 53], [26, 53], [27, 55]]);
-var light_orange_alt2 = n26;
-var n27 = t([[0, 51], [1, 52], [2, 53], [3, 55], [4, 56], [5, 57], [6, 58], [7, 59], [8, 11], [9, 212], [10, 212], [11, 212], [12, 52], [13, 53], [14, 55], [15, 56], [16, 51], [17, 50], [19, 56], [20, 57], [21, 56], [22, 58], [23, 55], [24, 56], [25, 55], [26, 55], [27, 53]]);
-var light_orange_active = n27;
-var n28 = t([[0, 97], [1, 98], [2, 99], [3, 100], [4, 101], [5, 103], [6, 104], [7, 105], [8, 106], [9, 107], [10, 11], [11, 11], [12, 98], [13, 99], [14, 100], [15, 101], [16, 97], [17, 96], [18, 107], [19, 106], [20, 107], [21, 106], [22, 11], [23, 100], [24, 101], [25, 100], [26, 100], [27, 104]]);
-var light_yellow_alt1 = n28;
-var n29 = t([[0, 98], [1, 99], [2, 100], [3, 101], [4, 103], [5, 104], [6, 105], [7, 106], [8, 107], [9, 11], [10, 11], [11, 11], [12, 99], [13, 100], [14, 101], [15, 103], [16, 98], [17, 97], [18, 106], [19, 105], [20, 106], [21, 105], [22, 107], [23, 101], [24, 103], [25, 101], [26, 101], [27, 103]]);
-var light_yellow_alt2 = n29;
-var n30 = t([[0, 99], [1, 100], [2, 101], [3, 103], [4, 104], [5, 105], [6, 106], [7, 107], [8, 11], [9, 214], [10, 214], [11, 214], [12, 100], [13, 101], [14, 103], [15, 104], [16, 99], [17, 98], [19, 104], [20, 105], [21, 104], [22, 106], [23, 103], [24, 104], [25, 103], [26, 103], [27, 101]]);
-var light_yellow_active = n30;
-var n31 = t([[0, 37], [1, 38], [2, 39], [3, 40], [4, 41], [5, 43], [6, 44], [7, 45], [8, 46], [9, 47], [10, 11], [11, 11], [12, 38], [13, 39], [14, 40], [15, 41], [16, 37], [17, 36], [18, 47], [19, 46], [20, 47], [21, 46], [22, 11], [23, 40], [24, 41], [25, 40], [26, 40], [27, 44]]);
-var light_green_alt1 = n31;
-var n32 = t([[0, 38], [1, 39], [2, 40], [3, 41], [4, 43], [5, 44], [6, 45], [7, 46], [8, 47], [9, 11], [10, 11], [11, 11], [12, 39], [13, 40], [14, 41], [15, 43], [16, 38], [17, 37], [18, 46], [19, 45], [20, 46], [21, 45], [22, 47], [23, 41], [24, 43], [25, 41], [26, 41], [27, 43]]);
-var light_green_alt2 = n32;
-var n33 = t([[0, 39], [1, 40], [2, 41], [3, 43], [4, 44], [5, 45], [6, 46], [7, 47], [8, 11], [9, 216], [10, 216], [11, 216], [12, 40], [13, 41], [14, 43], [15, 44], [16, 39], [17, 38], [19, 44], [20, 45], [21, 44], [22, 46], [23, 43], [24, 44], [25, 43], [26, 43], [27, 41]]);
-var light_green_active = n33;
-var n34 = t([[0, 15], [1, 16], [2, 17], [3, 18], [4, 19], [5, 21], [6, 22], [7, 23], [8, 24], [9, 25], [10, 11], [11, 11], [12, 16], [13, 17], [14, 18], [15, 19], [16, 15], [17, 14], [18, 25], [19, 24], [20, 25], [21, 24], [22, 11], [23, 18], [24, 19], [25, 18], [26, 18], [27, 22]]);
-var light_blue_alt1 = n34;
-var n35 = t([[0, 16], [1, 17], [2, 18], [3, 19], [4, 21], [5, 22], [6, 23], [7, 24], [8, 25], [9, 11], [10, 11], [11, 11], [12, 17], [13, 18], [14, 19], [15, 21], [16, 16], [17, 15], [18, 24], [19, 23], [20, 24], [21, 23], [22, 25], [23, 19], [24, 21], [25, 19], [26, 19], [27, 21]]);
-var light_blue_alt2 = n35;
-var n36 = t([[0, 17], [1, 18], [2, 19], [3, 21], [4, 22], [5, 23], [6, 24], [7, 25], [8, 11], [9, 218], [10, 218], [11, 218], [12, 18], [13, 19], [14, 21], [15, 22], [16, 17], [17, 16], [19, 22], [20, 23], [21, 22], [22, 24], [23, 21], [24, 22], [25, 21], [26, 21], [27, 19]]);
-var light_blue_active = n36;
-var n37 = t([[0, 73], [1, 74], [2, 75], [3, 76], [4, 77], [5, 79], [6, 80], [7, 81], [8, 82], [9, 83], [10, 11], [11, 11], [12, 74], [13, 75], [14, 76], [15, 77], [16, 73], [17, 72], [18, 83], [19, 82], [20, 83], [21, 82], [22, 11], [23, 76], [24, 77], [25, 76], [26, 76], [27, 80]]);
-var light_purple_alt1 = n37;
-var n38 = t([[0, 74], [1, 75], [2, 76], [3, 77], [4, 79], [5, 80], [6, 81], [7, 82], [8, 83], [9, 11], [10, 11], [11, 11], [12, 75], [13, 76], [14, 77], [15, 79], [16, 74], [17, 73], [18, 82], [19, 81], [20, 82], [21, 81], [22, 83], [23, 77], [24, 79], [25, 77], [26, 77], [27, 79]]);
-var light_purple_alt2 = n38;
-var n39 = t([[0, 75], [1, 76], [2, 77], [3, 79], [4, 80], [5, 81], [6, 82], [7, 83], [8, 11], [9, 220], [10, 220], [11, 220], [12, 76], [13, 77], [14, 79], [15, 80], [16, 75], [17, 74], [19, 80], [20, 81], [21, 80], [22, 82], [23, 79], [24, 80], [25, 79], [26, 79], [27, 77]]);
-var light_purple_active = n39;
-var n40 = t([[0, 61], [1, 62], [2, 63], [3, 64], [4, 65], [5, 67], [6, 68], [7, 69], [8, 70], [9, 71], [10, 11], [11, 11], [12, 62], [13, 63], [14, 64], [15, 65], [16, 61], [17, 60], [18, 71], [19, 70], [20, 71], [21, 70], [22, 11], [23, 64], [24, 65], [25, 64], [26, 64], [27, 68]]);
-var light_pink_alt1 = n40;
-var n41 = t([[0, 62], [1, 63], [2, 64], [3, 65], [4, 67], [5, 68], [6, 69], [7, 70], [8, 71], [9, 11], [10, 11], [11, 11], [12, 63], [13, 64], [14, 65], [15, 67], [16, 62], [17, 61], [18, 70], [19, 69], [20, 70], [21, 69], [22, 71], [23, 65], [24, 67], [25, 65], [26, 65], [27, 67]]);
-var light_pink_alt2 = n41;
-var n42 = t([[0, 63], [1, 64], [2, 65], [3, 67], [4, 68], [5, 69], [6, 70], [7, 71], [8, 11], [9, 222], [10, 222], [11, 222], [12, 64], [13, 65], [14, 67], [15, 68], [16, 63], [17, 62], [19, 68], [20, 69], [21, 68], [22, 70], [23, 67], [24, 68], [25, 67], [26, 67], [27, 65]]);
-var light_pink_active = n42;
-var n43 = t([[0, 85], [1, 86], [2, 87], [3, 88], [4, 89], [5, 91], [6, 92], [7, 93], [8, 94], [9, 95], [10, 11], [11, 11], [12, 86], [13, 87], [14, 88], [15, 89], [16, 85], [17, 84], [18, 95], [19, 94], [20, 95], [21, 94], [22, 11], [23, 88], [24, 89], [25, 88], [26, 88], [27, 92]]);
-var light_red_alt1 = n43;
-var n44 = t([[0, 86], [1, 87], [2, 88], [3, 89], [4, 91], [5, 92], [6, 93], [7, 94], [8, 95], [9, 11], [10, 11], [11, 11], [12, 87], [13, 88], [14, 89], [15, 91], [16, 86], [17, 85], [18, 94], [19, 93], [20, 94], [21, 93], [22, 95], [23, 89], [24, 91], [25, 89], [26, 89], [27, 91]]);
-var light_red_alt2 = n44;
-var n45 = t([[0, 87], [1, 88], [2, 89], [3, 91], [4, 92], [5, 93], [6, 94], [7, 95], [8, 11], [9, 224], [10, 224], [11, 224], [12, 88], [13, 89], [14, 91], [15, 92], [16, 87], [17, 86], [19, 92], [20, 93], [21, 92], [22, 94], [23, 91], [24, 92], [25, 91], [26, 91], [27, 89]]);
-var light_red_active = n45;
-var n46 = t([[0, 155], [1, 156], [2, 157], [3, 158], [4, 159], [5, 161], [6, 56], [7, 162], [8, 163], [9, 164], [10, 0], [11, 0], [12, 156], [13, 157], [14, 158], [15, 159], [16, 155], [17, 154], [18, 164], [19, 163], [20, 164], [21, 163], [22, 0], [23, 159], [24, 161], [25, 158], [26, 159], [27, 56]]);
-var dark_orange_alt1 = n46;
-var n47 = t([[0, 156], [1, 157], [2, 158], [3, 159], [4, 161], [5, 56], [6, 162], [7, 163], [8, 164], [9, 0], [10, 0], [11, 0], [12, 157], [13, 158], [14, 159], [15, 161], [16, 156], [17, 155], [18, 163], [19, 162], [20, 163], [21, 162], [22, 164], [23, 161], [24, 56], [25, 159], [26, 161], [27, 161]]);
-var dark_orange_alt2 = n47;
-var n48 = t([[0, 157], [1, 158], [2, 159], [3, 161], [4, 56], [5, 162], [6, 163], [7, 164], [8, 0], [9, 226], [10, 226], [11, 226], [12, 158], [13, 159], [14, 161], [15, 56], [16, 157], [17, 156], [19, 56], [20, 162], [21, 56], [22, 163], [23, 56], [24, 162], [25, 161], [26, 56], [27, 159]]);
-var dark_orange_active = n48;
-var n49 = t([[0, 199], [1, 200], [2, 201], [3, 202], [4, 203], [5, 205], [6, 104], [7, 206], [8, 207], [9, 208], [10, 0], [11, 0], [12, 200], [13, 201], [14, 202], [15, 203], [16, 199], [17, 198], [18, 208], [19, 207], [20, 208], [21, 207], [22, 0], [23, 203], [24, 205], [25, 202], [26, 203], [27, 104]]);
-var dark_yellow_alt1 = n49;
-var n50 = t([[0, 200], [1, 201], [2, 202], [3, 203], [4, 205], [5, 104], [6, 206], [7, 207], [8, 208], [9, 0], [10, 0], [11, 0], [12, 201], [13, 202], [14, 203], [15, 205], [16, 200], [17, 199], [18, 207], [19, 206], [20, 207], [21, 206], [22, 208], [23, 205], [24, 104], [25, 203], [26, 205], [27, 205]]);
-var dark_yellow_alt2 = n50;
-var n51 = t([[0, 201], [1, 202], [2, 203], [3, 205], [4, 104], [5, 206], [6, 207], [7, 208], [8, 0], [9, 228], [10, 228], [11, 228], [12, 202], [13, 203], [14, 205], [15, 104], [16, 201], [17, 200], [19, 104], [20, 206], [21, 104], [22, 207], [23, 104], [24, 206], [25, 205], [26, 104], [27, 203]]);
-var dark_yellow_active = n51;
-var n52 = t([[0, 144], [1, 145], [2, 146], [3, 147], [4, 148], [5, 150], [6, 44], [7, 151], [8, 152], [9, 153], [10, 0], [11, 0], [12, 145], [13, 146], [14, 147], [15, 148], [16, 144], [17, 143], [18, 153], [19, 152], [20, 153], [21, 152], [22, 0], [23, 148], [24, 150], [25, 147], [26, 148], [27, 44]]);
-var dark_green_alt1 = n52;
-var n53 = t([[0, 145], [1, 146], [2, 147], [3, 148], [4, 150], [5, 44], [6, 151], [7, 152], [8, 153], [9, 0], [10, 0], [11, 0], [12, 146], [13, 147], [14, 148], [15, 150], [16, 145], [17, 144], [18, 152], [19, 151], [20, 152], [21, 151], [22, 153], [23, 150], [24, 44], [25, 148], [26, 150], [27, 150]]);
-var dark_green_alt2 = n53;
-var n54 = t([[0, 146], [1, 147], [2, 148], [3, 150], [4, 44], [5, 151], [6, 152], [7, 153], [8, 0], [9, 230], [10, 230], [11, 230], [12, 147], [13, 148], [14, 150], [15, 44], [16, 146], [17, 145], [19, 44], [20, 151], [21, 44], [22, 152], [23, 44], [24, 151], [25, 150], [26, 44], [27, 148]]);
-var dark_green_active = n54;
-var n55 = t([[0, 122], [1, 123], [2, 124], [3, 125], [4, 126], [5, 128], [6, 22], [7, 129], [8, 130], [9, 131], [10, 0], [11, 0], [12, 123], [13, 124], [14, 125], [15, 126], [16, 122], [17, 121], [18, 131], [19, 130], [20, 131], [21, 130], [22, 0], [23, 126], [24, 128], [25, 125], [26, 126], [27, 22]]);
-var dark_blue_alt1 = n55;
-var n56 = t([[0, 123], [1, 124], [2, 125], [3, 126], [4, 128], [5, 22], [6, 129], [7, 130], [8, 131], [9, 0], [10, 0], [11, 0], [12, 124], [13, 125], [14, 126], [15, 128], [16, 123], [17, 122], [18, 130], [19, 129], [20, 130], [21, 129], [22, 131], [23, 128], [24, 22], [25, 126], [26, 128], [27, 128]]);
-var dark_blue_alt2 = n56;
-var n57 = t([[0, 124], [1, 125], [2, 126], [3, 128], [4, 22], [5, 129], [6, 130], [7, 131], [8, 0], [9, 232], [10, 232], [11, 232], [12, 125], [13, 126], [14, 128], [15, 22], [16, 124], [17, 123], [19, 22], [20, 129], [21, 22], [22, 130], [23, 22], [24, 129], [25, 128], [26, 22], [27, 126]]);
-var dark_blue_active = n57;
-var n58 = t([[0, 177], [1, 178], [2, 179], [3, 180], [4, 181], [5, 183], [6, 80], [7, 184], [8, 185], [9, 186], [10, 0], [11, 0], [12, 178], [13, 179], [14, 180], [15, 181], [16, 177], [17, 176], [18, 186], [19, 185], [20, 186], [21, 185], [22, 0], [23, 181], [24, 183], [25, 180], [26, 181], [27, 80]]);
-var dark_purple_alt1 = n58;
-var n59 = t([[0, 178], [1, 179], [2, 180], [3, 181], [4, 183], [5, 80], [6, 184], [7, 185], [8, 186], [9, 0], [10, 0], [11, 0], [12, 179], [13, 180], [14, 181], [15, 183], [16, 178], [17, 177], [18, 185], [19, 184], [20, 185], [21, 184], [22, 186], [23, 183], [24, 80], [25, 181], [26, 183], [27, 183]]);
-var dark_purple_alt2 = n59;
-var n60 = t([[0, 179], [1, 180], [2, 181], [3, 183], [4, 80], [5, 184], [6, 185], [7, 186], [8, 0], [9, 234], [10, 234], [11, 234], [12, 180], [13, 181], [14, 183], [15, 80], [16, 179], [17, 178], [19, 80], [20, 184], [21, 80], [22, 185], [23, 80], [24, 184], [25, 183], [26, 80], [27, 181]]);
-var dark_purple_active = n60;
-var n61 = t([[0, 166], [1, 167], [2, 168], [3, 169], [4, 170], [5, 172], [6, 68], [7, 173], [8, 174], [9, 175], [10, 0], [11, 0], [12, 167], [13, 168], [14, 169], [15, 170], [16, 166], [17, 165], [18, 175], [19, 174], [20, 175], [21, 174], [22, 0], [23, 170], [24, 172], [25, 169], [26, 170], [27, 68]]);
-var dark_pink_alt1 = n61;
-var n62 = t([[0, 167], [1, 168], [2, 169], [3, 170], [4, 172], [5, 68], [6, 173], [7, 174], [8, 175], [9, 0], [10, 0], [11, 0], [12, 168], [13, 169], [14, 170], [15, 172], [16, 167], [17, 166], [18, 174], [19, 173], [20, 174], [21, 173], [22, 175], [23, 172], [24, 68], [25, 170], [26, 172], [27, 172]]);
-var dark_pink_alt2 = n62;
-var n63 = t([[0, 168], [1, 169], [2, 170], [3, 172], [4, 68], [5, 173], [6, 174], [7, 175], [8, 0], [9, 236], [10, 236], [11, 236], [12, 169], [13, 170], [14, 172], [15, 68], [16, 168], [17, 167], [19, 68], [20, 173], [21, 68], [22, 174], [23, 68], [24, 173], [25, 172], [26, 68], [27, 170]]);
-var dark_pink_active = n63;
-var n64 = t([[0, 188], [1, 189], [2, 190], [3, 191], [4, 192], [5, 194], [6, 92], [7, 195], [8, 196], [9, 197], [10, 0], [11, 0], [12, 189], [13, 190], [14, 191], [15, 192], [16, 188], [17, 187], [18, 197], [19, 196], [20, 197], [21, 196], [22, 0], [23, 192], [24, 194], [25, 191], [26, 192], [27, 92]]);
-var dark_red_alt1 = n64;
-var n65 = t([[0, 189], [1, 190], [2, 191], [3, 192], [4, 194], [5, 92], [6, 195], [7, 196], [8, 197], [9, 0], [10, 0], [11, 0], [12, 190], [13, 191], [14, 192], [15, 194], [16, 189], [17, 188], [18, 196], [19, 195], [20, 196], [21, 195], [22, 197], [23, 194], [24, 92], [25, 192], [26, 194], [27, 194]]);
-var dark_red_alt2 = n65;
-var n66 = t([[0, 190], [1, 191], [2, 192], [3, 194], [4, 92], [5, 195], [6, 196], [7, 197], [8, 0], [9, 238], [10, 238], [11, 238], [12, 191], [13, 192], [14, 194], [15, 92], [16, 190], [17, 189], [19, 92], [20, 195], [21, 92], [22, 196], [23, 92], [24, 195], [25, 194], [26, 92], [27, 192]]);
-var dark_red_active = n66;
-var n67 = t([[12, 0], [13, 1], [14, 2], [15, 3], [16, 0], [17, 0], [18, 11], [19, 10], [20, 11], [21, 10], [22, 11], [23, 3], [24, 4], [25, 2], [26, 3], [27, 9]]);
-var light_ListItem = n67;
-var n68 = t([[12, 2], [13, 3], [14, 4], [15, 5], [16, 1], [17, 0], [18, 11], [19, 10], [20, 11], [21, 10], [22, 11], [23, 5], [24, 6], [25, 4], [26, 5], [27, 7]]);
-var light_Card = n68;
-var light_DrawerFrame = n68;
-var light_Progress = n68;
-var light_TooltipArrow = n68;
-var n69 = t([[12, 3], [13, 4], [14, 5], [15, 6], [16, 2], [17, 1], [18, 11], [19, 10], [20, 11], [21, 10], [22, 10], [23, 241], [24, 241], [25, 5], [26, 6], [27, 6]]);
-var light_Button = n69;
-var n70 = t([[12, 1], [13, 2], [14, 3], [15, 4], [16, 0], [17, 12], [18, 11], [19, 10], [20, 11], [21, 10], [22, 13], [23, 6], [24, 7], [25, 5], [26, 6], [27, 8]]);
-var light_Checkbox = n70;
-var light_RadioGroupItem = n70;
-var light_Input = n70;
-var light_TextArea = n70;
-var n71 = t([[12, 3], [13, 4], [14, 5], [15, 6], [16, 2], [17, 1], [18, 11], [19, 10], [20, 11], [21, 10], [22, 10], [23, 6], [24, 7], [25, 5], [26, 6], [27, 6]]);
-var light_Switch = n71;
-var light_TooltipContent = n71;
-var light_SliderTrack = n71;
-var n72 = t([[12, 11], [13, 11], [14, 10], [15, 9], [16, 11], [17, 11], [18, 0], [19, 1], [20, 0], [21, 1], [22, 0], [23, 9], [24, 8], [25, 10], [26, 9], [27, 1]]);
-var light_SwitchThumb = n72;
-var n73 = t([[12, 8], [13, 7], [14, 6], [15, 5], [16, 9], [17, 10], [18, 0], [19, 1], [20, 0], [21, 1], [22, 1], [23, 5], [24, 4], [25, 6], [26, 5], [27, 5]]);
-var light_SliderTrackActive = n73;
-var n74 = t([[12, 10], [13, 9], [14, 8], [15, 7], [16, 11], [17, 13], [18, 0], [19, 1], [20, 0], [21, 1], [22, 12], [23, 7], [24, 6], [25, 8], [26, 7], [27, 3]]);
-var light_SliderThumb = n74;
-var light_Tooltip = n74;
-var light_ProgressIndicator = n74;
-var n75 = t([[12, 111], [13, 112], [14, 113], [15, 114], [16, 110], [17, 13], [18, 0], [19, 120], [20, 0], [21, 120], [22, 12], [23, 114], [24, 115], [25, 113], [26, 114], [27, 118]]);
-var dark_ListItem = n75;
-var n76 = t([[12, 112], [13, 113], [14, 114], [15, 115], [16, 111], [17, 110], [18, 0], [19, 120], [20, 0], [21, 120], [22, 0], [23, 115], [24, 116], [25, 114], [26, 115], [27, 117]]);
-var dark_Card = n76;
-var dark_DrawerFrame = n76;
-var dark_Progress = n76;
-var dark_TooltipArrow = n76;
-var n77 = t([[12, 113], [13, 114], [14, 115], [15, 116], [16, 112], [17, 111], [18, 0], [19, 120], [20, 0], [21, 120], [22, 120], [23, 241], [24, 241], [25, 115], [26, 116], [27, 116]]);
-var dark_Button = n77;
-var n78 = t([[12, 111], [13, 112], [14, 113], [15, 114], [16, 110], [17, 13], [18, 0], [19, 120], [20, 0], [21, 120], [22, 12], [23, 116], [24, 117], [25, 115], [26, 116], [27, 118]]);
-var dark_Checkbox = n78;
-var dark_RadioGroupItem = n78;
-var dark_Input = n78;
-var dark_TextArea = n78;
-var n79 = t([[12, 113], [13, 114], [14, 115], [15, 116], [16, 112], [17, 111], [18, 0], [19, 120], [20, 0], [21, 120], [22, 120], [23, 116], [24, 117], [25, 115], [26, 116], [27, 116]]);
-var dark_Switch = n79;
-var dark_TooltipContent = n79;
-var dark_SliderTrack = n79;
-var n80 = t([[12, 0], [13, 0], [14, 120], [15, 119], [16, 0], [17, 0], [18, 110], [19, 111], [20, 110], [21, 111], [22, 110], [23, 119], [24, 118], [25, 120], [26, 119], [27, 111]]);
-var dark_SwitchThumb = n80;
-var n81 = t([[12, 118], [13, 117], [14, 116], [15, 115], [16, 119], [17, 120], [18, 110], [19, 111], [20, 110], [21, 111], [22, 111], [23, 115], [24, 114], [25, 116], [26, 115], [27, 115]]);
-var dark_SliderTrackActive = n81;
-var n82 = t([[12, 120], [13, 119], [14, 118], [15, 117], [16, 0], [17, 12], [18, 110], [19, 111], [20, 110], [21, 111], [22, 13], [23, 117], [24, 116], [25, 118], [26, 117], [27, 113]]);
-var dark_SliderThumb = n82;
-var dark_Tooltip = n82;
-var dark_ProgressIndicator = n82;
-var n83 = t([[12, 48], [13, 49], [14, 50], [15, 51], [16, 48], [17, 48], [18, 11], [19, 59], [20, 11], [21, 59], [22, 11], [23, 50], [24, 51], [25, 50], [26, 50], [27, 58]]);
-var light_orange_ListItem = n83;
-var n84 = t([[12, 50], [13, 51], [14, 52], [15, 53], [16, 49], [17, 48], [18, 11], [19, 59], [20, 11], [21, 59], [22, 11], [23, 52], [24, 53], [25, 52], [26, 52], [27, 56]]);
-var light_orange_Card = n84;
-var light_orange_DrawerFrame = n84;
-var light_orange_Progress = n84;
-var light_orange_TooltipArrow = n84;
-var n85 = t([[12, 51], [13, 52], [14, 53], [15, 55], [16, 50], [17, 49], [18, 11], [19, 59], [20, 11], [21, 59], [22, 59], [23, 241], [24, 241], [25, 53], [26, 53], [27, 55]]);
-var light_orange_Button = n85;
-var n86 = t([[12, 49], [13, 50], [14, 51], [15, 52], [16, 48], [17, 211], [18, 11], [19, 59], [20, 11], [21, 59], [22, 212], [23, 53], [24, 55], [25, 53], [26, 53], [27, 57]]);
-var light_orange_Checkbox = n86;
-var light_orange_RadioGroupItem = n86;
-var light_orange_Input = n86;
-var light_orange_TextArea = n86;
-var n87 = t([[12, 51], [13, 52], [14, 53], [15, 55], [16, 50], [17, 49], [18, 11], [19, 59], [20, 11], [21, 59], [22, 59], [23, 53], [24, 55], [25, 53], [26, 53], [27, 55]]);
-var light_orange_Switch = n87;
-var light_orange_TooltipContent = n87;
-var light_orange_SliderTrack = n87;
-var n88 = t([[12, 11], [13, 11], [14, 59], [15, 58], [16, 11], [17, 11], [18, 48], [19, 49], [20, 48], [21, 49], [22, 48], [23, 59], [24, 58], [25, 59], [26, 59], [27, 49]]);
-var light_orange_SwitchThumb = n88;
-var n89 = t([[12, 57], [13, 56], [14, 55], [15, 53], [16, 58], [17, 59], [18, 48], [19, 49], [20, 48], [21, 49], [22, 49], [23, 55], [24, 53], [25, 55], [26, 55], [27, 53]]);
-var light_orange_SliderTrackActive = n89;
-var n90 = t([[12, 59], [13, 58], [14, 57], [15, 56], [16, 11], [17, 212], [18, 48], [19, 49], [20, 48], [21, 49], [22, 211], [23, 57], [24, 56], [25, 57], [26, 57], [27, 51]]);
-var light_orange_SliderThumb = n90;
-var light_orange_Tooltip = n90;
-var light_orange_ProgressIndicator = n90;
-var n91 = t([[12, 96], [13, 97], [14, 98], [15, 99], [16, 96], [17, 96], [18, 11], [19, 107], [20, 11], [21, 107], [22, 11], [23, 98], [24, 99], [25, 98], [26, 98], [27, 106]]);
-var light_yellow_ListItem = n91;
-var n92 = t([[12, 98], [13, 99], [14, 100], [15, 101], [16, 97], [17, 96], [18, 11], [19, 107], [20, 11], [21, 107], [22, 11], [23, 100], [24, 101], [25, 100], [26, 100], [27, 104]]);
-var light_yellow_Card = n92;
-var light_yellow_DrawerFrame = n92;
-var light_yellow_Progress = n92;
-var light_yellow_TooltipArrow = n92;
-var n93 = t([[12, 99], [13, 100], [14, 101], [15, 103], [16, 98], [17, 97], [18, 11], [19, 107], [20, 11], [21, 107], [22, 107], [23, 241], [24, 241], [25, 101], [26, 101], [27, 103]]);
-var light_yellow_Button = n93;
-var n94 = t([[12, 97], [13, 98], [14, 99], [15, 100], [16, 96], [17, 213], [18, 11], [19, 107], [20, 11], [21, 107], [22, 214], [23, 101], [24, 103], [25, 101], [26, 101], [27, 105]]);
-var light_yellow_Checkbox = n94;
-var light_yellow_RadioGroupItem = n94;
-var light_yellow_Input = n94;
-var light_yellow_TextArea = n94;
-var n95 = t([[12, 99], [13, 100], [14, 101], [15, 103], [16, 98], [17, 97], [18, 11], [19, 107], [20, 11], [21, 107], [22, 107], [23, 101], [24, 103], [25, 101], [26, 101], [27, 103]]);
-var light_yellow_Switch = n95;
-var light_yellow_TooltipContent = n95;
-var light_yellow_SliderTrack = n95;
-var n96 = t([[12, 11], [13, 11], [14, 107], [15, 106], [16, 11], [17, 11], [18, 96], [19, 97], [20, 96], [21, 97], [22, 96], [23, 107], [24, 106], [25, 107], [26, 107], [27, 97]]);
-var light_yellow_SwitchThumb = n96;
-var n97 = t([[12, 105], [13, 104], [14, 103], [15, 101], [16, 106], [17, 107], [18, 96], [19, 97], [20, 96], [21, 97], [22, 97], [23, 103], [24, 101], [25, 103], [26, 103], [27, 101]]);
-var light_yellow_SliderTrackActive = n97;
-var n98 = t([[12, 107], [13, 106], [14, 105], [15, 104], [16, 11], [17, 214], [18, 96], [19, 97], [20, 96], [21, 97], [22, 213], [23, 105], [24, 104], [25, 105], [26, 105], [27, 99]]);
-var light_yellow_SliderThumb = n98;
-var light_yellow_Tooltip = n98;
-var light_yellow_ProgressIndicator = n98;
-var n99 = t([[12, 36], [13, 37], [14, 38], [15, 39], [16, 36], [17, 36], [18, 11], [19, 47], [20, 11], [21, 47], [22, 11], [23, 38], [24, 39], [25, 38], [26, 38], [27, 46]]);
-var light_green_ListItem = n99;
-var n100 = t([[12, 38], [13, 39], [14, 40], [15, 41], [16, 37], [17, 36], [18, 11], [19, 47], [20, 11], [21, 47], [22, 11], [23, 40], [24, 41], [25, 40], [26, 40], [27, 44]]);
-var light_green_Card = n100;
-var light_green_DrawerFrame = n100;
-var light_green_Progress = n100;
-var light_green_TooltipArrow = n100;
-var n101 = t([[12, 39], [13, 40], [14, 41], [15, 43], [16, 38], [17, 37], [18, 11], [19, 47], [20, 11], [21, 47], [22, 47], [23, 241], [24, 241], [25, 41], [26, 41], [27, 43]]);
-var light_green_Button = n101;
-var n102 = t([[12, 37], [13, 38], [14, 39], [15, 40], [16, 36], [17, 215], [18, 11], [19, 47], [20, 11], [21, 47], [22, 216], [23, 41], [24, 43], [25, 41], [26, 41], [27, 45]]);
-var light_green_Checkbox = n102;
-var light_green_RadioGroupItem = n102;
-var light_green_Input = n102;
-var light_green_TextArea = n102;
-var n103 = t([[12, 39], [13, 40], [14, 41], [15, 43], [16, 38], [17, 37], [18, 11], [19, 47], [20, 11], [21, 47], [22, 47], [23, 41], [24, 43], [25, 41], [26, 41], [27, 43]]);
-var light_green_Switch = n103;
-var light_green_TooltipContent = n103;
-var light_green_SliderTrack = n103;
-var n104 = t([[12, 11], [13, 11], [14, 47], [15, 46], [16, 11], [17, 11], [18, 36], [19, 37], [20, 36], [21, 37], [22, 36], [23, 47], [24, 46], [25, 47], [26, 47], [27, 37]]);
-var light_green_SwitchThumb = n104;
-var n105 = t([[12, 45], [13, 44], [14, 43], [15, 41], [16, 46], [17, 47], [18, 36], [19, 37], [20, 36], [21, 37], [22, 37], [23, 43], [24, 41], [25, 43], [26, 43], [27, 41]]);
-var light_green_SliderTrackActive = n105;
-var n106 = t([[12, 47], [13, 46], [14, 45], [15, 44], [16, 11], [17, 216], [18, 36], [19, 37], [20, 36], [21, 37], [22, 215], [23, 45], [24, 44], [25, 45], [26, 45], [27, 39]]);
-var light_green_SliderThumb = n106;
-var light_green_Tooltip = n106;
-var light_green_ProgressIndicator = n106;
-var n107 = t([[12, 14], [13, 15], [14, 16], [15, 17], [16, 14], [17, 14], [18, 11], [19, 25], [20, 11], [21, 25], [22, 11], [23, 16], [24, 17], [25, 16], [26, 16], [27, 24]]);
-var light_blue_ListItem = n107;
-var n108 = t([[12, 16], [13, 17], [14, 18], [15, 19], [16, 15], [17, 14], [18, 11], [19, 25], [20, 11], [21, 25], [22, 11], [23, 18], [24, 19], [25, 18], [26, 18], [27, 22]]);
-var light_blue_Card = n108;
-var light_blue_DrawerFrame = n108;
-var light_blue_Progress = n108;
-var light_blue_TooltipArrow = n108;
-var n109 = t([[12, 17], [13, 18], [14, 19], [15, 21], [16, 16], [17, 15], [18, 11], [19, 25], [20, 11], [21, 25], [22, 25], [23, 241], [24, 241], [25, 19], [26, 19], [27, 21]]);
-var light_blue_Button = n109;
-var n110 = t([[12, 15], [13, 16], [14, 17], [15, 18], [16, 14], [17, 217], [18, 11], [19, 25], [20, 11], [21, 25], [22, 218], [23, 19], [24, 21], [25, 19], [26, 19], [27, 23]]);
-var light_blue_Checkbox = n110;
-var light_blue_RadioGroupItem = n110;
-var light_blue_Input = n110;
-var light_blue_TextArea = n110;
-var n111 = t([[12, 17], [13, 18], [14, 19], [15, 21], [16, 16], [17, 15], [18, 11], [19, 25], [20, 11], [21, 25], [22, 25], [23, 19], [24, 21], [25, 19], [26, 19], [27, 21]]);
-var light_blue_Switch = n111;
-var light_blue_TooltipContent = n111;
-var light_blue_SliderTrack = n111;
-var n112 = t([[12, 11], [13, 11], [14, 25], [15, 24], [16, 11], [17, 11], [18, 14], [19, 15], [20, 14], [21, 15], [22, 14], [23, 25], [24, 24], [25, 25], [26, 25], [27, 15]]);
-var light_blue_SwitchThumb = n112;
-var n113 = t([[12, 23], [13, 22], [14, 21], [15, 19], [16, 24], [17, 25], [18, 14], [19, 15], [20, 14], [21, 15], [22, 15], [23, 21], [24, 19], [25, 21], [26, 21], [27, 19]]);
-var light_blue_SliderTrackActive = n113;
-var n114 = t([[12, 25], [13, 24], [14, 23], [15, 22], [16, 11], [17, 218], [18, 14], [19, 15], [20, 14], [21, 15], [22, 217], [23, 23], [24, 22], [25, 23], [26, 23], [27, 17]]);
-var light_blue_SliderThumb = n114;
-var light_blue_Tooltip = n114;
-var light_blue_ProgressIndicator = n114;
-var n115 = t([[12, 72], [13, 73], [14, 74], [15, 75], [16, 72], [17, 72], [18, 11], [19, 83], [20, 11], [21, 83], [22, 11], [23, 74], [24, 75], [25, 74], [26, 74], [27, 82]]);
-var light_purple_ListItem = n115;
-var n116 = t([[12, 74], [13, 75], [14, 76], [15, 77], [16, 73], [17, 72], [18, 11], [19, 83], [20, 11], [21, 83], [22, 11], [23, 76], [24, 77], [25, 76], [26, 76], [27, 80]]);
-var light_purple_Card = n116;
-var light_purple_DrawerFrame = n116;
-var light_purple_Progress = n116;
-var light_purple_TooltipArrow = n116;
-var n117 = t([[12, 75], [13, 76], [14, 77], [15, 79], [16, 74], [17, 73], [18, 11], [19, 83], [20, 11], [21, 83], [22, 83], [23, 241], [24, 241], [25, 77], [26, 77], [27, 79]]);
-var light_purple_Button = n117;
-var n118 = t([[12, 73], [13, 74], [14, 75], [15, 76], [16, 72], [17, 219], [18, 11], [19, 83], [20, 11], [21, 83], [22, 220], [23, 77], [24, 79], [25, 77], [26, 77], [27, 81]]);
-var light_purple_Checkbox = n118;
-var light_purple_RadioGroupItem = n118;
-var light_purple_Input = n118;
-var light_purple_TextArea = n118;
-var n119 = t([[12, 75], [13, 76], [14, 77], [15, 79], [16, 74], [17, 73], [18, 11], [19, 83], [20, 11], [21, 83], [22, 83], [23, 77], [24, 79], [25, 77], [26, 77], [27, 79]]);
-var light_purple_Switch = n119;
-var light_purple_TooltipContent = n119;
-var light_purple_SliderTrack = n119;
-var n120 = t([[12, 11], [13, 11], [14, 83], [15, 82], [16, 11], [17, 11], [18, 72], [19, 73], [20, 72], [21, 73], [22, 72], [23, 83], [24, 82], [25, 83], [26, 83], [27, 73]]);
-var light_purple_SwitchThumb = n120;
-var n121 = t([[12, 81], [13, 80], [14, 79], [15, 77], [16, 82], [17, 83], [18, 72], [19, 73], [20, 72], [21, 73], [22, 73], [23, 79], [24, 77], [25, 79], [26, 79], [27, 77]]);
-var light_purple_SliderTrackActive = n121;
-var n122 = t([[12, 83], [13, 82], [14, 81], [15, 80], [16, 11], [17, 220], [18, 72], [19, 73], [20, 72], [21, 73], [22, 219], [23, 81], [24, 80], [25, 81], [26, 81], [27, 75]]);
-var light_purple_SliderThumb = n122;
-var light_purple_Tooltip = n122;
-var light_purple_ProgressIndicator = n122;
-var n123 = t([[12, 60], [13, 61], [14, 62], [15, 63], [16, 60], [17, 60], [18, 11], [19, 71], [20, 11], [21, 71], [22, 11], [23, 62], [24, 63], [25, 62], [26, 62], [27, 70]]);
-var light_pink_ListItem = n123;
-var n124 = t([[12, 62], [13, 63], [14, 64], [15, 65], [16, 61], [17, 60], [18, 11], [19, 71], [20, 11], [21, 71], [22, 11], [23, 64], [24, 65], [25, 64], [26, 64], [27, 68]]);
-var light_pink_Card = n124;
-var light_pink_DrawerFrame = n124;
-var light_pink_Progress = n124;
-var light_pink_TooltipArrow = n124;
-var n125 = t([[12, 63], [13, 64], [14, 65], [15, 67], [16, 62], [17, 61], [18, 11], [19, 71], [20, 11], [21, 71], [22, 71], [23, 241], [24, 241], [25, 65], [26, 65], [27, 67]]);
-var light_pink_Button = n125;
-var n126 = t([[12, 61], [13, 62], [14, 63], [15, 64], [16, 60], [17, 221], [18, 11], [19, 71], [20, 11], [21, 71], [22, 222], [23, 65], [24, 67], [25, 65], [26, 65], [27, 69]]);
-var light_pink_Checkbox = n126;
-var light_pink_RadioGroupItem = n126;
-var light_pink_Input = n126;
-var light_pink_TextArea = n126;
-var n127 = t([[12, 63], [13, 64], [14, 65], [15, 67], [16, 62], [17, 61], [18, 11], [19, 71], [20, 11], [21, 71], [22, 71], [23, 65], [24, 67], [25, 65], [26, 65], [27, 67]]);
-var light_pink_Switch = n127;
-var light_pink_TooltipContent = n127;
-var light_pink_SliderTrack = n127;
-var n128 = t([[12, 11], [13, 11], [14, 71], [15, 70], [16, 11], [17, 11], [18, 60], [19, 61], [20, 60], [21, 61], [22, 60], [23, 71], [24, 70], [25, 71], [26, 71], [27, 61]]);
-var light_pink_SwitchThumb = n128;
-var n129 = t([[12, 69], [13, 68], [14, 67], [15, 65], [16, 70], [17, 71], [18, 60], [19, 61], [20, 60], [21, 61], [22, 61], [23, 67], [24, 65], [25, 67], [26, 67], [27, 65]]);
-var light_pink_SliderTrackActive = n129;
-var n130 = t([[12, 71], [13, 70], [14, 69], [15, 68], [16, 11], [17, 222], [18, 60], [19, 61], [20, 60], [21, 61], [22, 221], [23, 69], [24, 68], [25, 69], [26, 69], [27, 63]]);
-var light_pink_SliderThumb = n130;
-var light_pink_Tooltip = n130;
-var light_pink_ProgressIndicator = n130;
-var n131 = t([[12, 84], [13, 85], [14, 86], [15, 87], [16, 84], [17, 84], [18, 11], [19, 95], [20, 11], [21, 95], [22, 11], [23, 86], [24, 87], [25, 86], [26, 86], [27, 94]]);
-var light_red_ListItem = n131;
-var n132 = t([[12, 86], [13, 87], [14, 88], [15, 89], [16, 85], [17, 84], [18, 11], [19, 95], [20, 11], [21, 95], [22, 11], [23, 88], [24, 89], [25, 88], [26, 88], [27, 92]]);
-var light_red_Card = n132;
-var light_red_DrawerFrame = n132;
-var light_red_Progress = n132;
-var light_red_TooltipArrow = n132;
-var n133 = t([[12, 87], [13, 88], [14, 89], [15, 91], [16, 86], [17, 85], [18, 11], [19, 95], [20, 11], [21, 95], [22, 95], [23, 241], [24, 241], [25, 89], [26, 89], [27, 91]]);
-var light_red_Button = n133;
-var n134 = t([[12, 85], [13, 86], [14, 87], [15, 88], [16, 84], [17, 223], [18, 11], [19, 95], [20, 11], [21, 95], [22, 224], [23, 89], [24, 91], [25, 89], [26, 89], [27, 93]]);
-var light_red_Checkbox = n134;
-var light_red_RadioGroupItem = n134;
-var light_red_Input = n134;
-var light_red_TextArea = n134;
-var n135 = t([[12, 87], [13, 88], [14, 89], [15, 91], [16, 86], [17, 85], [18, 11], [19, 95], [20, 11], [21, 95], [22, 95], [23, 89], [24, 91], [25, 89], [26, 89], [27, 91]]);
-var light_red_Switch = n135;
-var light_red_TooltipContent = n135;
-var light_red_SliderTrack = n135;
-var n136 = t([[12, 11], [13, 11], [14, 95], [15, 94], [16, 11], [17, 11], [18, 84], [19, 85], [20, 84], [21, 85], [22, 84], [23, 95], [24, 94], [25, 95], [26, 95], [27, 85]]);
-var light_red_SwitchThumb = n136;
-var n137 = t([[12, 93], [13, 92], [14, 91], [15, 89], [16, 94], [17, 95], [18, 84], [19, 85], [20, 84], [21, 85], [22, 85], [23, 91], [24, 89], [25, 91], [26, 91], [27, 89]]);
-var light_red_SliderTrackActive = n137;
-var n138 = t([[12, 95], [13, 94], [14, 93], [15, 92], [16, 11], [17, 224], [18, 84], [19, 85], [20, 84], [21, 85], [22, 223], [23, 93], [24, 92], [25, 93], [26, 93], [27, 87]]);
-var light_red_SliderThumb = n138;
-var light_red_Tooltip = n138;
-var light_red_ProgressIndicator = n138;
-var n139 = t([[12, 155], [13, 156], [14, 157], [15, 158], [16, 154], [17, 225], [18, 0], [19, 164], [20, 0], [21, 164], [22, 226], [23, 158], [24, 159], [25, 157], [26, 158], [27, 162]]);
-var dark_orange_ListItem = n139;
-var n140 = t([[12, 156], [13, 157], [14, 158], [15, 159], [16, 155], [17, 154], [18, 0], [19, 164], [20, 0], [21, 164], [22, 0], [23, 159], [24, 161], [25, 158], [26, 159], [27, 56]]);
-var dark_orange_Card = n140;
-var dark_orange_DrawerFrame = n140;
-var dark_orange_Progress = n140;
-var dark_orange_TooltipArrow = n140;
-var n141 = t([[12, 157], [13, 158], [14, 159], [15, 161], [16, 156], [17, 155], [18, 0], [19, 164], [20, 0], [21, 164], [22, 164], [23, 241], [24, 241], [25, 159], [26, 161], [27, 161]]);
-var dark_orange_Button = n141;
-var n142 = t([[12, 155], [13, 156], [14, 157], [15, 158], [16, 154], [17, 225], [18, 0], [19, 164], [20, 0], [21, 164], [22, 226], [23, 161], [24, 56], [25, 159], [26, 161], [27, 162]]);
-var dark_orange_Checkbox = n142;
-var dark_orange_RadioGroupItem = n142;
-var dark_orange_Input = n142;
-var dark_orange_TextArea = n142;
-var n143 = t([[12, 157], [13, 158], [14, 159], [15, 161], [16, 156], [17, 155], [18, 0], [19, 164], [20, 0], [21, 164], [22, 164], [23, 161], [24, 56], [25, 159], [26, 161], [27, 161]]);
-var dark_orange_Switch = n143;
-var dark_orange_TooltipContent = n143;
-var dark_orange_SliderTrack = n143;
-var n144 = t([[12, 0], [13, 0], [14, 164], [15, 163], [16, 0], [17, 0], [18, 154], [19, 155], [20, 154], [21, 155], [22, 154], [23, 163], [24, 162], [25, 164], [26, 163], [27, 155]]);
-var dark_orange_SwitchThumb = n144;
-var n145 = t([[12, 162], [13, 56], [14, 161], [15, 159], [16, 163], [17, 164], [18, 154], [19, 155], [20, 154], [21, 155], [22, 155], [23, 159], [24, 158], [25, 161], [26, 159], [27, 159]]);
-var dark_orange_SliderTrackActive = n145;
-var n146 = t([[12, 164], [13, 163], [14, 162], [15, 56], [16, 0], [17, 226], [18, 154], [19, 155], [20, 154], [21, 155], [22, 225], [23, 56], [24, 161], [25, 162], [26, 56], [27, 157]]);
-var dark_orange_SliderThumb = n146;
-var dark_orange_Tooltip = n146;
-var dark_orange_ProgressIndicator = n146;
-var n147 = t([[12, 199], [13, 200], [14, 201], [15, 202], [16, 198], [17, 227], [18, 0], [19, 208], [20, 0], [21, 208], [22, 228], [23, 202], [24, 203], [25, 201], [26, 202], [27, 206]]);
-var dark_yellow_ListItem = n147;
-var n148 = t([[12, 200], [13, 201], [14, 202], [15, 203], [16, 199], [17, 198], [18, 0], [19, 208], [20, 0], [21, 208], [22, 0], [23, 203], [24, 205], [25, 202], [26, 203], [27, 104]]);
-var dark_yellow_Card = n148;
-var dark_yellow_DrawerFrame = n148;
-var dark_yellow_Progress = n148;
-var dark_yellow_TooltipArrow = n148;
-var n149 = t([[12, 201], [13, 202], [14, 203], [15, 205], [16, 200], [17, 199], [18, 0], [19, 208], [20, 0], [21, 208], [22, 208], [23, 241], [24, 241], [25, 203], [26, 205], [27, 205]]);
-var dark_yellow_Button = n149;
-var n150 = t([[12, 199], [13, 200], [14, 201], [15, 202], [16, 198], [17, 227], [18, 0], [19, 208], [20, 0], [21, 208], [22, 228], [23, 205], [24, 104], [25, 203], [26, 205], [27, 206]]);
-var dark_yellow_Checkbox = n150;
-var dark_yellow_RadioGroupItem = n150;
-var dark_yellow_Input = n150;
-var dark_yellow_TextArea = n150;
-var n151 = t([[12, 201], [13, 202], [14, 203], [15, 205], [16, 200], [17, 199], [18, 0], [19, 208], [20, 0], [21, 208], [22, 208], [23, 205], [24, 104], [25, 203], [26, 205], [27, 205]]);
-var dark_yellow_Switch = n151;
-var dark_yellow_TooltipContent = n151;
-var dark_yellow_SliderTrack = n151;
-var n152 = t([[12, 0], [13, 0], [14, 208], [15, 207], [16, 0], [17, 0], [18, 198], [19, 199], [20, 198], [21, 199], [22, 198], [23, 207], [24, 206], [25, 208], [26, 207], [27, 199]]);
-var dark_yellow_SwitchThumb = n152;
-var n153 = t([[12, 206], [13, 104], [14, 205], [15, 203], [16, 207], [17, 208], [18, 198], [19, 199], [20, 198], [21, 199], [22, 199], [23, 203], [24, 202], [25, 205], [26, 203], [27, 203]]);
-var dark_yellow_SliderTrackActive = n153;
-var n154 = t([[12, 208], [13, 207], [14, 206], [15, 104], [16, 0], [17, 228], [18, 198], [19, 199], [20, 198], [21, 199], [22, 227], [23, 104], [24, 205], [25, 206], [26, 104], [27, 201]]);
-var dark_yellow_SliderThumb = n154;
-var dark_yellow_Tooltip = n154;
-var dark_yellow_ProgressIndicator = n154;
-var n155 = t([[12, 144], [13, 145], [14, 146], [15, 147], [16, 143], [17, 229], [18, 0], [19, 153], [20, 0], [21, 153], [22, 230], [23, 147], [24, 148], [25, 146], [26, 147], [27, 151]]);
-var dark_green_ListItem = n155;
-var n156 = t([[12, 145], [13, 146], [14, 147], [15, 148], [16, 144], [17, 143], [18, 0], [19, 153], [20, 0], [21, 153], [22, 0], [23, 148], [24, 150], [25, 147], [26, 148], [27, 44]]);
-var dark_green_Card = n156;
-var dark_green_DrawerFrame = n156;
-var dark_green_Progress = n156;
-var dark_green_TooltipArrow = n156;
-var n157 = t([[12, 146], [13, 147], [14, 148], [15, 150], [16, 145], [17, 144], [18, 0], [19, 153], [20, 0], [21, 153], [22, 153], [23, 241], [24, 241], [25, 148], [26, 150], [27, 150]]);
-var dark_green_Button = n157;
-var n158 = t([[12, 144], [13, 145], [14, 146], [15, 147], [16, 143], [17, 229], [18, 0], [19, 153], [20, 0], [21, 153], [22, 230], [23, 150], [24, 44], [25, 148], [26, 150], [27, 151]]);
-var dark_green_Checkbox = n158;
-var dark_green_RadioGroupItem = n158;
-var dark_green_Input = n158;
-var dark_green_TextArea = n158;
-var n159 = t([[12, 146], [13, 147], [14, 148], [15, 150], [16, 145], [17, 144], [18, 0], [19, 153], [20, 0], [21, 153], [22, 153], [23, 150], [24, 44], [25, 148], [26, 150], [27, 150]]);
-var dark_green_Switch = n159;
-var dark_green_TooltipContent = n159;
-var dark_green_SliderTrack = n159;
-var n160 = t([[12, 0], [13, 0], [14, 153], [15, 152], [16, 0], [17, 0], [18, 143], [19, 144], [20, 143], [21, 144], [22, 143], [23, 152], [24, 151], [25, 153], [26, 152], [27, 144]]);
-var dark_green_SwitchThumb = n160;
-var n161 = t([[12, 151], [13, 44], [14, 150], [15, 148], [16, 152], [17, 153], [18, 143], [19, 144], [20, 143], [21, 144], [22, 144], [23, 148], [24, 147], [25, 150], [26, 148], [27, 148]]);
-var dark_green_SliderTrackActive = n161;
-var n162 = t([[12, 153], [13, 152], [14, 151], [15, 44], [16, 0], [17, 230], [18, 143], [19, 144], [20, 143], [21, 144], [22, 229], [23, 44], [24, 150], [25, 151], [26, 44], [27, 146]]);
-var dark_green_SliderThumb = n162;
-var dark_green_Tooltip = n162;
-var dark_green_ProgressIndicator = n162;
-var n163 = t([[12, 122], [13, 123], [14, 124], [15, 125], [16, 121], [17, 231], [18, 0], [19, 131], [20, 0], [21, 131], [22, 232], [23, 125], [24, 126], [25, 124], [26, 125], [27, 129]]);
-var dark_blue_ListItem = n163;
-var n164 = t([[12, 123], [13, 124], [14, 125], [15, 126], [16, 122], [17, 121], [18, 0], [19, 131], [20, 0], [21, 131], [22, 0], [23, 126], [24, 128], [25, 125], [26, 126], [27, 22]]);
-var dark_blue_Card = n164;
-var dark_blue_DrawerFrame = n164;
-var dark_blue_Progress = n164;
-var dark_blue_TooltipArrow = n164;
-var n165 = t([[12, 124], [13, 125], [14, 126], [15, 128], [16, 123], [17, 122], [18, 0], [19, 131], [20, 0], [21, 131], [22, 131], [23, 241], [24, 241], [25, 126], [26, 128], [27, 128]]);
-var dark_blue_Button = n165;
-var n166 = t([[12, 122], [13, 123], [14, 124], [15, 125], [16, 121], [17, 231], [18, 0], [19, 131], [20, 0], [21, 131], [22, 232], [23, 128], [24, 22], [25, 126], [26, 128], [27, 129]]);
-var dark_blue_Checkbox = n166;
-var dark_blue_RadioGroupItem = n166;
-var dark_blue_Input = n166;
-var dark_blue_TextArea = n166;
-var n167 = t([[12, 124], [13, 125], [14, 126], [15, 128], [16, 123], [17, 122], [18, 0], [19, 131], [20, 0], [21, 131], [22, 131], [23, 128], [24, 22], [25, 126], [26, 128], [27, 128]]);
-var dark_blue_Switch = n167;
-var dark_blue_TooltipContent = n167;
-var dark_blue_SliderTrack = n167;
-var n168 = t([[12, 0], [13, 0], [14, 131], [15, 130], [16, 0], [17, 0], [18, 121], [19, 122], [20, 121], [21, 122], [22, 121], [23, 130], [24, 129], [25, 131], [26, 130], [27, 122]]);
-var dark_blue_SwitchThumb = n168;
-var n169 = t([[12, 129], [13, 22], [14, 128], [15, 126], [16, 130], [17, 131], [18, 121], [19, 122], [20, 121], [21, 122], [22, 122], [23, 126], [24, 125], [25, 128], [26, 126], [27, 126]]);
-var dark_blue_SliderTrackActive = n169;
-var n170 = t([[12, 131], [13, 130], [14, 129], [15, 22], [16, 0], [17, 232], [18, 121], [19, 122], [20, 121], [21, 122], [22, 231], [23, 22], [24, 128], [25, 129], [26, 22], [27, 124]]);
-var dark_blue_SliderThumb = n170;
-var dark_blue_Tooltip = n170;
-var dark_blue_ProgressIndicator = n170;
-var n171 = t([[12, 177], [13, 178], [14, 179], [15, 180], [16, 176], [17, 233], [18, 0], [19, 186], [20, 0], [21, 186], [22, 234], [23, 180], [24, 181], [25, 179], [26, 180], [27, 184]]);
-var dark_purple_ListItem = n171;
-var n172 = t([[12, 178], [13, 179], [14, 180], [15, 181], [16, 177], [17, 176], [18, 0], [19, 186], [20, 0], [21, 186], [22, 0], [23, 181], [24, 183], [25, 180], [26, 181], [27, 80]]);
-var dark_purple_Card = n172;
-var dark_purple_DrawerFrame = n172;
-var dark_purple_Progress = n172;
-var dark_purple_TooltipArrow = n172;
-var n173 = t([[12, 179], [13, 180], [14, 181], [15, 183], [16, 178], [17, 177], [18, 0], [19, 186], [20, 0], [21, 186], [22, 186], [23, 241], [24, 241], [25, 181], [26, 183], [27, 183]]);
-var dark_purple_Button = n173;
-var n174 = t([[12, 177], [13, 178], [14, 179], [15, 180], [16, 176], [17, 233], [18, 0], [19, 186], [20, 0], [21, 186], [22, 234], [23, 183], [24, 80], [25, 181], [26, 183], [27, 184]]);
-var dark_purple_Checkbox = n174;
-var dark_purple_RadioGroupItem = n174;
-var dark_purple_Input = n174;
-var dark_purple_TextArea = n174;
-var n175 = t([[12, 179], [13, 180], [14, 181], [15, 183], [16, 178], [17, 177], [18, 0], [19, 186], [20, 0], [21, 186], [22, 186], [23, 183], [24, 80], [25, 181], [26, 183], [27, 183]]);
-var dark_purple_Switch = n175;
-var dark_purple_TooltipContent = n175;
-var dark_purple_SliderTrack = n175;
-var n176 = t([[12, 0], [13, 0], [14, 186], [15, 185], [16, 0], [17, 0], [18, 176], [19, 177], [20, 176], [21, 177], [22, 176], [23, 185], [24, 184], [25, 186], [26, 185], [27, 177]]);
-var dark_purple_SwitchThumb = n176;
-var n177 = t([[12, 184], [13, 80], [14, 183], [15, 181], [16, 185], [17, 186], [18, 176], [19, 177], [20, 176], [21, 177], [22, 177], [23, 181], [24, 180], [25, 183], [26, 181], [27, 181]]);
-var dark_purple_SliderTrackActive = n177;
-var n178 = t([[12, 186], [13, 185], [14, 184], [15, 80], [16, 0], [17, 234], [18, 176], [19, 177], [20, 176], [21, 177], [22, 233], [23, 80], [24, 183], [25, 184], [26, 80], [27, 179]]);
-var dark_purple_SliderThumb = n178;
-var dark_purple_Tooltip = n178;
-var dark_purple_ProgressIndicator = n178;
-var n179 = t([[12, 166], [13, 167], [14, 168], [15, 169], [16, 165], [17, 235], [18, 0], [19, 175], [20, 0], [21, 175], [22, 236], [23, 169], [24, 170], [25, 168], [26, 169], [27, 173]]);
-var dark_pink_ListItem = n179;
-var n180 = t([[12, 167], [13, 168], [14, 169], [15, 170], [16, 166], [17, 165], [18, 0], [19, 175], [20, 0], [21, 175], [22, 0], [23, 170], [24, 172], [25, 169], [26, 170], [27, 68]]);
-var dark_pink_Card = n180;
-var dark_pink_DrawerFrame = n180;
-var dark_pink_Progress = n180;
-var dark_pink_TooltipArrow = n180;
-var n181 = t([[12, 168], [13, 169], [14, 170], [15, 172], [16, 167], [17, 166], [18, 0], [19, 175], [20, 0], [21, 175], [22, 175], [23, 241], [24, 241], [25, 170], [26, 172], [27, 172]]);
-var dark_pink_Button = n181;
-var n182 = t([[12, 166], [13, 167], [14, 168], [15, 169], [16, 165], [17, 235], [18, 0], [19, 175], [20, 0], [21, 175], [22, 236], [23, 172], [24, 68], [25, 170], [26, 172], [27, 173]]);
-var dark_pink_Checkbox = n182;
-var dark_pink_RadioGroupItem = n182;
-var dark_pink_Input = n182;
-var dark_pink_TextArea = n182;
-var n183 = t([[12, 168], [13, 169], [14, 170], [15, 172], [16, 167], [17, 166], [18, 0], [19, 175], [20, 0], [21, 175], [22, 175], [23, 172], [24, 68], [25, 170], [26, 172], [27, 172]]);
-var dark_pink_Switch = n183;
-var dark_pink_TooltipContent = n183;
-var dark_pink_SliderTrack = n183;
-var n184 = t([[12, 0], [13, 0], [14, 175], [15, 174], [16, 0], [17, 0], [18, 165], [19, 166], [20, 165], [21, 166], [22, 165], [23, 174], [24, 173], [25, 175], [26, 174], [27, 166]]);
-var dark_pink_SwitchThumb = n184;
-var n185 = t([[12, 173], [13, 68], [14, 172], [15, 170], [16, 174], [17, 175], [18, 165], [19, 166], [20, 165], [21, 166], [22, 166], [23, 170], [24, 169], [25, 172], [26, 170], [27, 170]]);
-var dark_pink_SliderTrackActive = n185;
-var n186 = t([[12, 175], [13, 174], [14, 173], [15, 68], [16, 0], [17, 236], [18, 165], [19, 166], [20, 165], [21, 166], [22, 235], [23, 68], [24, 172], [25, 173], [26, 68], [27, 168]]);
-var dark_pink_SliderThumb = n186;
-var dark_pink_Tooltip = n186;
-var dark_pink_ProgressIndicator = n186;
-var n187 = t([[12, 188], [13, 189], [14, 190], [15, 191], [16, 187], [17, 237], [18, 0], [19, 197], [20, 0], [21, 197], [22, 238], [23, 191], [24, 192], [25, 190], [26, 191], [27, 195]]);
-var dark_red_ListItem = n187;
-var n188 = t([[12, 189], [13, 190], [14, 191], [15, 192], [16, 188], [17, 187], [18, 0], [19, 197], [20, 0], [21, 197], [22, 0], [23, 192], [24, 194], [25, 191], [26, 192], [27, 92]]);
-var dark_red_Card = n188;
-var dark_red_DrawerFrame = n188;
-var dark_red_Progress = n188;
-var dark_red_TooltipArrow = n188;
-var n189 = t([[12, 190], [13, 191], [14, 192], [15, 194], [16, 189], [17, 188], [18, 0], [19, 197], [20, 0], [21, 197], [22, 197], [23, 241], [24, 241], [25, 192], [26, 194], [27, 194]]);
-var dark_red_Button = n189;
-var n190 = t([[12, 188], [13, 189], [14, 190], [15, 191], [16, 187], [17, 237], [18, 0], [19, 197], [20, 0], [21, 197], [22, 238], [23, 194], [24, 92], [25, 192], [26, 194], [27, 195]]);
-var dark_red_Checkbox = n190;
-var dark_red_RadioGroupItem = n190;
-var dark_red_Input = n190;
-var dark_red_TextArea = n190;
-var n191 = t([[12, 190], [13, 191], [14, 192], [15, 194], [16, 189], [17, 188], [18, 0], [19, 197], [20, 0], [21, 197], [22, 197], [23, 194], [24, 92], [25, 192], [26, 194], [27, 194]]);
-var dark_red_Switch = n191;
-var dark_red_TooltipContent = n191;
-var dark_red_SliderTrack = n191;
-var n192 = t([[12, 0], [13, 0], [14, 197], [15, 196], [16, 0], [17, 0], [18, 187], [19, 188], [20, 187], [21, 188], [22, 187], [23, 196], [24, 195], [25, 197], [26, 196], [27, 188]]);
-var dark_red_SwitchThumb = n192;
-var n193 = t([[12, 195], [13, 92], [14, 194], [15, 192], [16, 196], [17, 197], [18, 187], [19, 188], [20, 187], [21, 188], [22, 188], [23, 192], [24, 191], [25, 194], [26, 192], [27, 192]]);
-var dark_red_SliderTrackActive = n193;
-var n194 = t([[12, 197], [13, 196], [14, 195], [15, 92], [16, 0], [17, 238], [18, 187], [19, 188], [20, 187], [21, 188], [22, 237], [23, 92], [24, 194], [25, 195], [26, 92], [27, 190]]);
-var dark_red_SliderThumb = n194;
-var dark_red_Tooltip = n194;
-var dark_red_ProgressIndicator = n194;
-var n195 = t([[12, 1], [13, 2], [14, 3], [15, 4], [16, 0], [17, 0], [18, 10], [19, 9], [20, 10], [21, 9], [22, 11], [23, 4], [24, 5], [25, 3], [26, 4], [27, 8]]);
-var light_alt1_ListItem = n195;
-var n196 = t([[12, 3], [13, 4], [14, 5], [15, 6], [16, 2], [17, 1], [18, 10], [19, 9], [20, 10], [21, 9], [22, 10], [23, 6], [24, 7], [25, 5], [26, 6], [27, 6]]);
-var light_alt1_Card = n196;
-var light_alt1_DrawerFrame = n196;
-var light_alt1_Progress = n196;
-var light_alt1_TooltipArrow = n196;
-var n197 = t([[12, 4], [13, 5], [14, 6], [15, 7], [16, 3], [17, 2], [18, 10], [19, 9], [20, 10], [21, 9], [22, 9], [23, 241], [24, 241], [25, 6], [26, 7], [27, 5]]);
-var light_alt1_Button = n197;
-var n198 = t([[12, 2], [13, 3], [14, 4], [15, 5], [16, 1], [17, 0], [18, 10], [19, 9], [20, 10], [21, 9], [22, 11], [23, 7], [24, 8], [25, 6], [26, 7], [27, 7]]);
-var light_alt1_Checkbox = n198;
-var light_alt1_RadioGroupItem = n198;
-var light_alt1_Input = n198;
-var light_alt1_TextArea = n198;
-var n199 = t([[12, 4], [13, 5], [14, 6], [15, 7], [16, 3], [17, 2], [18, 10], [19, 9], [20, 10], [21, 9], [22, 9], [23, 7], [24, 8], [25, 6], [26, 7], [27, 5]]);
-var light_alt1_Switch = n199;
-var light_alt1_TooltipContent = n199;
-var light_alt1_SliderTrack = n199;
-var n200 = t([[12, 11], [13, 10], [14, 9], [15, 8], [16, 11], [17, 11], [18, 1], [19, 2], [20, 1], [21, 2], [22, 0], [23, 8], [24, 7], [25, 9], [26, 8], [27, 2]]);
-var light_alt1_SwitchThumb = n200;
-var n201 = t([[12, 7], [13, 6], [14, 5], [15, 4], [16, 8], [17, 9], [18, 1], [19, 2], [20, 1], [21, 2], [22, 2], [23, 4], [24, 3], [25, 5], [26, 4], [27, 6]]);
-var light_alt1_SliderTrackActive = n201;
-var n202 = t([[12, 9], [13, 8], [14, 7], [15, 6], [16, 10], [17, 11], [18, 1], [19, 2], [20, 1], [21, 2], [22, 0], [23, 6], [24, 5], [25, 7], [26, 6], [27, 4]]);
-var light_alt1_SliderThumb = n202;
-var light_alt1_Tooltip = n202;
-var light_alt1_ProgressIndicator = n202;
-var n203 = t([[12, 2], [13, 3], [14, 4], [15, 5], [16, 1], [17, 0], [18, 9], [19, 8], [20, 9], [21, 8], [22, 11], [23, 5], [24, 6], [25, 4], [26, 5], [27, 7]]);
-var light_alt2_ListItem = n203;
-var n204 = t([[12, 4], [13, 5], [14, 6], [15, 7], [16, 3], [17, 2], [18, 9], [19, 8], [20, 9], [21, 8], [22, 9], [23, 7], [24, 8], [25, 6], [26, 7], [27, 5]]);
-var light_alt2_Card = n204;
-var light_alt2_DrawerFrame = n204;
-var light_alt2_Progress = n204;
-var light_alt2_TooltipArrow = n204;
-var n205 = t([[12, 5], [13, 6], [14, 7], [15, 8], [16, 4], [17, 3], [18, 9], [19, 8], [20, 9], [21, 8], [22, 8], [23, 241], [24, 241], [25, 7], [26, 8], [27, 4]]);
-var light_alt2_Button = n205;
-var n206 = t([[12, 3], [13, 4], [14, 5], [15, 6], [16, 2], [17, 1], [18, 9], [19, 8], [20, 9], [21, 8], [22, 10], [23, 8], [24, 9], [25, 7], [26, 8], [27, 6]]);
-var light_alt2_Checkbox = n206;
-var light_alt2_RadioGroupItem = n206;
-var light_alt2_Input = n206;
-var light_alt2_TextArea = n206;
-var n207 = t([[12, 5], [13, 6], [14, 7], [15, 8], [16, 4], [17, 3], [18, 9], [19, 8], [20, 9], [21, 8], [22, 8], [23, 8], [24, 9], [25, 7], [26, 8], [27, 4]]);
-var light_alt2_Switch = n207;
-var light_alt2_TooltipContent = n207;
-var light_alt2_SliderTrack = n207;
-var n208 = t([[12, 10], [13, 9], [14, 8], [15, 7], [16, 11], [17, 11], [18, 2], [19, 3], [20, 2], [21, 3], [22, 0], [23, 7], [24, 6], [25, 8], [26, 7], [27, 3]]);
-var light_alt2_SwitchThumb = n208;
-var n209 = t([[12, 6], [13, 5], [14, 4], [15, 3], [16, 7], [17, 8], [18, 2], [19, 3], [20, 2], [21, 3], [22, 3], [23, 3], [24, 2], [25, 4], [26, 3], [27, 7]]);
-var light_alt2_SliderTrackActive = n209;
-var n210 = t([[12, 8], [13, 7], [14, 6], [15, 5], [16, 9], [17, 10], [18, 2], [19, 3], [20, 2], [21, 3], [22, 1], [23, 5], [24, 4], [25, 6], [26, 5], [27, 5]]);
-var light_alt2_SliderThumb = n210;
-var light_alt2_Tooltip = n210;
-var light_alt2_ProgressIndicator = n210;
-var n211 = t([[12, 3], [13, 4], [14, 5], [15, 6], [16, 2], [17, 1], [19, 7], [20, 8], [21, 7], [22, 10], [23, 6], [24, 7], [25, 5], [26, 6], [27, 6]]);
-var light_active_ListItem = n211;
-var n212 = t([[12, 5], [13, 6], [14, 7], [15, 8], [16, 4], [17, 3], [19, 7], [20, 8], [21, 7], [22, 8], [23, 8], [24, 9], [25, 7], [26, 8], [27, 4]]);
-var light_active_Card = n212;
-var light_active_DrawerFrame = n212;
-var light_active_Progress = n212;
-var light_active_TooltipArrow = n212;
-var n213 = t([[12, 6], [13, 7], [14, 8], [15, 9], [16, 5], [17, 4], [19, 7], [20, 8], [21, 7], [22, 7], [23, 241], [24, 241], [25, 8], [26, 9], [27, 3]]);
-var light_active_Button = n213;
-var n214 = t([[12, 4], [13, 5], [14, 6], [15, 7], [16, 3], [17, 2], [19, 7], [20, 8], [21, 7], [22, 9], [23, 9], [24, 10], [25, 8], [26, 9], [27, 5]]);
-var light_active_Checkbox = n214;
-var light_active_RadioGroupItem = n214;
-var light_active_Input = n214;
-var light_active_TextArea = n214;
-var n215 = t([[12, 6], [13, 7], [14, 8], [15, 9], [16, 5], [17, 4], [19, 7], [20, 8], [21, 7], [22, 7], [23, 9], [24, 10], [25, 8], [26, 9], [27, 3]]);
-var light_active_Switch = n215;
-var light_active_TooltipContent = n215;
-var light_active_SliderTrack = n215;
-var n216 = t([[12, 9], [13, 8], [14, 7], [15, 6], [16, 10], [17, 11], [19, 4], [20, 3], [21, 4], [22, 0], [23, 6], [24, 5], [25, 7], [26, 6], [27, 4]]);
-var light_active_SwitchThumb = n216;
-var n217 = t([[12, 5], [13, 4], [14, 3], [15, 2], [16, 6], [17, 7], [19, 4], [20, 3], [21, 4], [22, 4], [23, 2], [24, 1], [25, 3], [26, 2], [27, 8]]);
-var light_active_SliderTrackActive = n217;
-var n218 = t([[12, 7], [13, 6], [14, 5], [15, 4], [16, 8], [17, 9], [19, 4], [20, 3], [21, 4], [22, 2], [23, 4], [24, 3], [25, 5], [26, 4], [27, 6]]);
-var light_active_SliderThumb = n218;
-var light_active_Tooltip = n218;
-var light_active_ProgressIndicator = n218;
-var n219 = t([[12, 112], [13, 113], [14, 114], [15, 115], [16, 111], [17, 110], [18, 120], [19, 119], [20, 120], [21, 119], [22, 0], [23, 115], [24, 116], [25, 114], [26, 115], [27, 117]]);
-var dark_alt1_ListItem = n219;
-var n220 = t([[12, 113], [13, 114], [14, 115], [15, 116], [16, 112], [17, 111], [18, 120], [19, 119], [20, 120], [21, 119], [22, 120], [23, 116], [24, 117], [25, 115], [26, 116], [27, 116]]);
-var dark_alt1_Card = n220;
-var dark_alt1_DrawerFrame = n220;
-var dark_alt1_Progress = n220;
-var dark_alt1_TooltipArrow = n220;
-var n221 = t([[12, 114], [13, 115], [14, 116], [15, 117], [16, 113], [17, 112], [18, 120], [19, 119], [20, 120], [21, 119], [22, 119], [23, 241], [24, 241], [25, 116], [26, 117], [27, 115]]);
-var dark_alt1_Button = n221;
-var n222 = t([[12, 112], [13, 113], [14, 114], [15, 115], [16, 111], [17, 110], [18, 120], [19, 119], [20, 120], [21, 119], [22, 0], [23, 117], [24, 118], [25, 116], [26, 117], [27, 117]]);
-var dark_alt1_Checkbox = n222;
-var dark_alt1_RadioGroupItem = n222;
-var dark_alt1_Input = n222;
-var dark_alt1_TextArea = n222;
-var n223 = t([[12, 114], [13, 115], [14, 116], [15, 117], [16, 113], [17, 112], [18, 120], [19, 119], [20, 120], [21, 119], [22, 119], [23, 117], [24, 118], [25, 116], [26, 117], [27, 115]]);
-var dark_alt1_Switch = n223;
-var dark_alt1_TooltipContent = n223;
-var dark_alt1_SliderTrack = n223;
-var n224 = t([[12, 0], [13, 120], [14, 119], [15, 118], [16, 0], [17, 0], [18, 111], [19, 112], [20, 111], [21, 112], [22, 110], [23, 118], [24, 117], [25, 119], [26, 118], [27, 112]]);
-var dark_alt1_SwitchThumb = n224;
-var n225 = t([[12, 117], [13, 116], [14, 115], [15, 114], [16, 118], [17, 119], [18, 111], [19, 112], [20, 111], [21, 112], [22, 112], [23, 114], [24, 113], [25, 115], [26, 114], [27, 116]]);
-var dark_alt1_SliderTrackActive = n225;
-var n226 = t([[12, 119], [13, 118], [14, 117], [15, 116], [16, 120], [17, 0], [18, 111], [19, 112], [20, 111], [21, 112], [22, 110], [23, 116], [24, 115], [25, 117], [26, 116], [27, 114]]);
-var dark_alt1_SliderThumb = n226;
-var dark_alt1_Tooltip = n226;
-var dark_alt1_ProgressIndicator = n226;
-var n227 = t([[12, 113], [13, 114], [14, 115], [15, 116], [16, 112], [17, 111], [18, 119], [19, 118], [20, 119], [21, 118], [22, 120], [23, 116], [24, 117], [25, 115], [26, 116], [27, 116]]);
-var dark_alt2_ListItem = n227;
-var n228 = t([[12, 114], [13, 115], [14, 116], [15, 117], [16, 113], [17, 112], [18, 119], [19, 118], [20, 119], [21, 118], [22, 119], [23, 117], [24, 118], [25, 116], [26, 117], [27, 115]]);
-var dark_alt2_Card = n228;
-var dark_alt2_DrawerFrame = n228;
-var dark_alt2_Progress = n228;
-var dark_alt2_TooltipArrow = n228;
-var n229 = t([[12, 115], [13, 116], [14, 117], [15, 118], [16, 114], [17, 113], [18, 119], [19, 118], [20, 119], [21, 118], [22, 118], [23, 241], [24, 241], [25, 117], [26, 118], [27, 114]]);
-var dark_alt2_Button = n229;
-var n230 = t([[12, 113], [13, 114], [14, 115], [15, 116], [16, 112], [17, 111], [18, 119], [19, 118], [20, 119], [21, 118], [22, 120], [23, 118], [24, 119], [25, 117], [26, 118], [27, 116]]);
-var dark_alt2_Checkbox = n230;
-var dark_alt2_RadioGroupItem = n230;
-var dark_alt2_Input = n230;
-var dark_alt2_TextArea = n230;
-var n231 = t([[12, 115], [13, 116], [14, 117], [15, 118], [16, 114], [17, 113], [18, 119], [19, 118], [20, 119], [21, 118], [22, 118], [23, 118], [24, 119], [25, 117], [26, 118], [27, 114]]);
-var dark_alt2_Switch = n231;
-var dark_alt2_TooltipContent = n231;
-var dark_alt2_SliderTrack = n231;
-var n232 = t([[12, 120], [13, 119], [14, 118], [15, 117], [16, 0], [17, 0], [18, 112], [19, 113], [20, 112], [21, 113], [22, 110], [23, 117], [24, 116], [25, 118], [26, 117], [27, 113]]);
-var dark_alt2_SwitchThumb = n232;
-var n233 = t([[12, 116], [13, 115], [14, 114], [15, 113], [16, 117], [17, 118], [18, 112], [19, 113], [20, 112], [21, 113], [22, 113], [23, 113], [24, 112], [25, 114], [26, 113], [27, 117]]);
-var dark_alt2_SliderTrackActive = n233;
-var n234 = t([[12, 118], [13, 117], [14, 116], [15, 115], [16, 119], [17, 120], [18, 112], [19, 113], [20, 112], [21, 113], [22, 111], [23, 115], [24, 114], [25, 116], [26, 115], [27, 115]]);
-var dark_alt2_SliderThumb = n234;
-var dark_alt2_Tooltip = n234;
-var dark_alt2_ProgressIndicator = n234;
-var n235 = t([[12, 114], [13, 115], [14, 116], [15, 117], [16, 113], [17, 112], [19, 117], [20, 118], [21, 117], [22, 119], [23, 117], [24, 118], [25, 116], [26, 117], [27, 115]]);
-var dark_active_ListItem = n235;
-var n236 = t([[12, 115], [13, 116], [14, 117], [15, 118], [16, 114], [17, 113], [19, 117], [20, 118], [21, 117], [22, 118], [23, 118], [24, 119], [25, 117], [26, 118], [27, 114]]);
-var dark_active_Card = n236;
-var dark_active_DrawerFrame = n236;
-var dark_active_Progress = n236;
-var dark_active_TooltipArrow = n236;
-var n237 = t([[12, 116], [13, 117], [14, 118], [15, 119], [16, 115], [17, 114], [19, 117], [20, 118], [21, 117], [22, 117], [23, 241], [24, 241], [25, 118], [26, 119], [27, 113]]);
-var dark_active_Button = n237;
-var n238 = t([[12, 114], [13, 115], [14, 116], [15, 117], [16, 113], [17, 112], [19, 117], [20, 118], [21, 117], [22, 119], [23, 119], [24, 120], [25, 118], [26, 119], [27, 115]]);
-var dark_active_Checkbox = n238;
-var dark_active_RadioGroupItem = n238;
-var dark_active_Input = n238;
-var dark_active_TextArea = n238;
-var n239 = t([[12, 116], [13, 117], [14, 118], [15, 119], [16, 115], [17, 114], [19, 117], [20, 118], [21, 117], [22, 117], [23, 119], [24, 120], [25, 118], [26, 119], [27, 113]]);
-var dark_active_Switch = n239;
-var dark_active_TooltipContent = n239;
-var dark_active_SliderTrack = n239;
-var n240 = t([[12, 119], [13, 118], [14, 117], [15, 116], [16, 120], [17, 0], [19, 114], [20, 113], [21, 114], [22, 110], [23, 116], [24, 115], [25, 117], [26, 116], [27, 114]]);
-var dark_active_SwitchThumb = n240;
-var n241 = t([[12, 115], [13, 114], [14, 113], [15, 112], [16, 116], [17, 117], [19, 114], [20, 113], [21, 114], [22, 114], [23, 112], [24, 111], [25, 113], [26, 112], [27, 118]]);
-var dark_active_SliderTrackActive = n241;
-var n242 = t([[12, 117], [13, 116], [14, 115], [15, 114], [16, 118], [17, 119], [19, 114], [20, 113], [21, 114], [22, 112], [23, 114], [24, 113], [25, 115], [26, 114], [27, 116]]);
-var dark_active_SliderThumb = n242;
-var dark_active_Tooltip = n242;
-var dark_active_ProgressIndicator = n242;
-var n243 = t([[12, 49], [13, 50], [14, 51], [15, 52], [16, 48], [17, 48], [18, 59], [19, 58], [20, 59], [21, 58], [22, 11], [23, 51], [24, 52], [25, 51], [26, 51], [27, 57]]);
-var light_orange_alt1_ListItem = n243;
-var n244 = t([[12, 51], [13, 52], [14, 53], [15, 55], [16, 50], [17, 49], [18, 59], [19, 58], [20, 59], [21, 58], [22, 59], [23, 53], [24, 55], [25, 53], [26, 53], [27, 55]]);
-var light_orange_alt1_Card = n244;
-var light_orange_alt1_DrawerFrame = n244;
-var light_orange_alt1_Progress = n244;
-var light_orange_alt1_TooltipArrow = n244;
-var n245 = t([[12, 52], [13, 53], [14, 55], [15, 56], [16, 51], [17, 50], [18, 59], [19, 58], [20, 59], [21, 58], [22, 58], [23, 241], [24, 241], [25, 55], [26, 55], [27, 53]]);
-var light_orange_alt1_Button = n245;
-var n246 = t([[12, 50], [13, 51], [14, 52], [15, 53], [16, 49], [17, 48], [18, 59], [19, 58], [20, 59], [21, 58], [22, 11], [23, 55], [24, 56], [25, 55], [26, 55], [27, 56]]);
-var light_orange_alt1_Checkbox = n246;
-var light_orange_alt1_RadioGroupItem = n246;
-var light_orange_alt1_Input = n246;
-var light_orange_alt1_TextArea = n246;
-var n247 = t([[12, 52], [13, 53], [14, 55], [15, 56], [16, 51], [17, 50], [18, 59], [19, 58], [20, 59], [21, 58], [22, 58], [23, 55], [24, 56], [25, 55], [26, 55], [27, 53]]);
-var light_orange_alt1_Switch = n247;
-var light_orange_alt1_TooltipContent = n247;
-var light_orange_alt1_SliderTrack = n247;
-var n248 = t([[12, 11], [13, 59], [14, 58], [15, 57], [16, 11], [17, 11], [18, 49], [19, 50], [20, 49], [21, 50], [22, 48], [23, 58], [24, 57], [25, 58], [26, 58], [27, 50]]);
-var light_orange_alt1_SwitchThumb = n248;
-var n249 = t([[12, 56], [13, 55], [14, 53], [15, 52], [16, 57], [17, 58], [18, 49], [19, 50], [20, 49], [21, 50], [22, 50], [23, 53], [24, 52], [25, 53], [26, 53], [27, 55]]);
-var light_orange_alt1_SliderTrackActive = n249;
-var n250 = t([[12, 58], [13, 57], [14, 56], [15, 55], [16, 59], [17, 11], [18, 49], [19, 50], [20, 49], [21, 50], [22, 48], [23, 56], [24, 55], [25, 56], [26, 56], [27, 52]]);
-var light_orange_alt1_SliderThumb = n250;
-var light_orange_alt1_Tooltip = n250;
-var light_orange_alt1_ProgressIndicator = n250;
-var n251 = t([[12, 50], [13, 51], [14, 52], [15, 53], [16, 49], [17, 48], [18, 58], [19, 57], [20, 58], [21, 57], [22, 11], [23, 52], [24, 53], [25, 52], [26, 52], [27, 56]]);
-var light_orange_alt2_ListItem = n251;
-var n252 = t([[12, 52], [13, 53], [14, 55], [15, 56], [16, 51], [17, 50], [18, 58], [19, 57], [20, 58], [21, 57], [22, 58], [23, 55], [24, 56], [25, 55], [26, 55], [27, 53]]);
-var light_orange_alt2_Card = n252;
-var light_orange_alt2_DrawerFrame = n252;
-var light_orange_alt2_Progress = n252;
-var light_orange_alt2_TooltipArrow = n252;
-var n253 = t([[12, 53], [13, 55], [14, 56], [15, 57], [16, 52], [17, 51], [18, 58], [19, 57], [20, 58], [21, 57], [22, 57], [23, 241], [24, 241], [25, 56], [26, 56], [27, 52]]);
-var light_orange_alt2_Button = n253;
-var n254 = t([[12, 51], [13, 52], [14, 53], [15, 55], [16, 50], [17, 49], [18, 58], [19, 57], [20, 58], [21, 57], [22, 59], [23, 56], [24, 57], [25, 56], [26, 56], [27, 55]]);
-var light_orange_alt2_Checkbox = n254;
-var light_orange_alt2_RadioGroupItem = n254;
-var light_orange_alt2_Input = n254;
-var light_orange_alt2_TextArea = n254;
-var n255 = t([[12, 53], [13, 55], [14, 56], [15, 57], [16, 52], [17, 51], [18, 58], [19, 57], [20, 58], [21, 57], [22, 57], [23, 56], [24, 57], [25, 56], [26, 56], [27, 52]]);
-var light_orange_alt2_Switch = n255;
-var light_orange_alt2_TooltipContent = n255;
-var light_orange_alt2_SliderTrack = n255;
-var n256 = t([[12, 59], [13, 58], [14, 57], [15, 56], [16, 11], [17, 11], [18, 50], [19, 51], [20, 50], [21, 51], [22, 48], [23, 57], [24, 56], [25, 57], [26, 57], [27, 51]]);
-var light_orange_alt2_SwitchThumb = n256;
-var n257 = t([[12, 55], [13, 53], [14, 52], [15, 51], [16, 56], [17, 57], [18, 50], [19, 51], [20, 50], [21, 51], [22, 51], [23, 52], [24, 51], [25, 52], [26, 52], [27, 56]]);
-var light_orange_alt2_SliderTrackActive = n257;
-var n258 = t([[12, 57], [13, 56], [14, 55], [15, 53], [16, 58], [17, 59], [18, 50], [19, 51], [20, 50], [21, 51], [22, 49], [23, 55], [24, 53], [25, 55], [26, 55], [27, 53]]);
-var light_orange_alt2_SliderThumb = n258;
-var light_orange_alt2_Tooltip = n258;
-var light_orange_alt2_ProgressIndicator = n258;
-var n259 = t([[12, 51], [13, 52], [14, 53], [15, 55], [16, 50], [17, 49], [19, 56], [20, 57], [21, 56], [22, 59], [23, 53], [24, 55], [25, 53], [26, 53], [27, 55]]);
-var light_orange_active_ListItem = n259;
-var n260 = t([[12, 53], [13, 55], [14, 56], [15, 57], [16, 52], [17, 51], [19, 56], [20, 57], [21, 56], [22, 57], [23, 56], [24, 57], [25, 56], [26, 56], [27, 52]]);
-var light_orange_active_Card = n260;
-var light_orange_active_DrawerFrame = n260;
-var light_orange_active_Progress = n260;
-var light_orange_active_TooltipArrow = n260;
-var n261 = t([[12, 55], [13, 56], [14, 57], [15, 58], [16, 53], [17, 52], [19, 56], [20, 57], [21, 56], [22, 56], [23, 241], [24, 241], [25, 57], [26, 57], [27, 51]]);
-var light_orange_active_Button = n261;
-var n262 = t([[12, 52], [13, 53], [14, 55], [15, 56], [16, 51], [17, 50], [19, 56], [20, 57], [21, 56], [22, 58], [23, 57], [24, 58], [25, 57], [26, 57], [27, 53]]);
-var light_orange_active_Checkbox = n262;
-var light_orange_active_RadioGroupItem = n262;
-var light_orange_active_Input = n262;
-var light_orange_active_TextArea = n262;
-var n263 = t([[12, 55], [13, 56], [14, 57], [15, 58], [16, 53], [17, 52], [19, 56], [20, 57], [21, 56], [22, 56], [23, 57], [24, 58], [25, 57], [26, 57], [27, 51]]);
-var light_orange_active_Switch = n263;
-var light_orange_active_TooltipContent = n263;
-var light_orange_active_SliderTrack = n263;
-var n264 = t([[12, 58], [13, 57], [14, 56], [15, 55], [16, 59], [17, 11], [19, 52], [20, 51], [21, 52], [22, 48], [23, 56], [24, 55], [25, 56], [26, 56], [27, 52]]);
-var light_orange_active_SwitchThumb = n264;
-var n265 = t([[12, 53], [13, 52], [14, 51], [15, 50], [16, 55], [17, 56], [19, 52], [20, 51], [21, 52], [22, 52], [23, 51], [24, 50], [25, 51], [26, 51], [27, 57]]);
-var light_orange_active_SliderTrackActive = n265;
-var n266 = t([[12, 56], [13, 55], [14, 53], [15, 52], [16, 57], [17, 58], [19, 52], [20, 51], [21, 52], [22, 50], [23, 53], [24, 52], [25, 53], [26, 53], [27, 55]]);
-var light_orange_active_SliderThumb = n266;
-var light_orange_active_Tooltip = n266;
-var light_orange_active_ProgressIndicator = n266;
-var n267 = t([[12, 97], [13, 98], [14, 99], [15, 100], [16, 96], [17, 96], [18, 107], [19, 106], [20, 107], [21, 106], [22, 11], [23, 99], [24, 100], [25, 99], [26, 99], [27, 105]]);
-var light_yellow_alt1_ListItem = n267;
-var n268 = t([[12, 99], [13, 100], [14, 101], [15, 103], [16, 98], [17, 97], [18, 107], [19, 106], [20, 107], [21, 106], [22, 107], [23, 101], [24, 103], [25, 101], [26, 101], [27, 103]]);
-var light_yellow_alt1_Card = n268;
-var light_yellow_alt1_DrawerFrame = n268;
-var light_yellow_alt1_Progress = n268;
-var light_yellow_alt1_TooltipArrow = n268;
-var n269 = t([[12, 100], [13, 101], [14, 103], [15, 104], [16, 99], [17, 98], [18, 107], [19, 106], [20, 107], [21, 106], [22, 106], [23, 241], [24, 241], [25, 103], [26, 103], [27, 101]]);
-var light_yellow_alt1_Button = n269;
-var n270 = t([[12, 98], [13, 99], [14, 100], [15, 101], [16, 97], [17, 96], [18, 107], [19, 106], [20, 107], [21, 106], [22, 11], [23, 103], [24, 104], [25, 103], [26, 103], [27, 104]]);
-var light_yellow_alt1_Checkbox = n270;
-var light_yellow_alt1_RadioGroupItem = n270;
-var light_yellow_alt1_Input = n270;
-var light_yellow_alt1_TextArea = n270;
-var n271 = t([[12, 100], [13, 101], [14, 103], [15, 104], [16, 99], [17, 98], [18, 107], [19, 106], [20, 107], [21, 106], [22, 106], [23, 103], [24, 104], [25, 103], [26, 103], [27, 101]]);
-var light_yellow_alt1_Switch = n271;
-var light_yellow_alt1_TooltipContent = n271;
-var light_yellow_alt1_SliderTrack = n271;
-var n272 = t([[12, 11], [13, 107], [14, 106], [15, 105], [16, 11], [17, 11], [18, 97], [19, 98], [20, 97], [21, 98], [22, 96], [23, 106], [24, 105], [25, 106], [26, 106], [27, 98]]);
-var light_yellow_alt1_SwitchThumb = n272;
-var n273 = t([[12, 104], [13, 103], [14, 101], [15, 100], [16, 105], [17, 106], [18, 97], [19, 98], [20, 97], [21, 98], [22, 98], [23, 101], [24, 100], [25, 101], [26, 101], [27, 103]]);
-var light_yellow_alt1_SliderTrackActive = n273;
-var n274 = t([[12, 106], [13, 105], [14, 104], [15, 103], [16, 107], [17, 11], [18, 97], [19, 98], [20, 97], [21, 98], [22, 96], [23, 104], [24, 103], [25, 104], [26, 104], [27, 100]]);
-var light_yellow_alt1_SliderThumb = n274;
-var light_yellow_alt1_Tooltip = n274;
-var light_yellow_alt1_ProgressIndicator = n274;
-var n275 = t([[12, 98], [13, 99], [14, 100], [15, 101], [16, 97], [17, 96], [18, 106], [19, 105], [20, 106], [21, 105], [22, 11], [23, 100], [24, 101], [25, 100], [26, 100], [27, 104]]);
-var light_yellow_alt2_ListItem = n275;
-var n276 = t([[12, 100], [13, 101], [14, 103], [15, 104], [16, 99], [17, 98], [18, 106], [19, 105], [20, 106], [21, 105], [22, 106], [23, 103], [24, 104], [25, 103], [26, 103], [27, 101]]);
-var light_yellow_alt2_Card = n276;
-var light_yellow_alt2_DrawerFrame = n276;
-var light_yellow_alt2_Progress = n276;
-var light_yellow_alt2_TooltipArrow = n276;
-var n277 = t([[12, 101], [13, 103], [14, 104], [15, 105], [16, 100], [17, 99], [18, 106], [19, 105], [20, 106], [21, 105], [22, 105], [23, 241], [24, 241], [25, 104], [26, 104], [27, 100]]);
-var light_yellow_alt2_Button = n277;
-var n278 = t([[12, 99], [13, 100], [14, 101], [15, 103], [16, 98], [17, 97], [18, 106], [19, 105], [20, 106], [21, 105], [22, 107], [23, 104], [24, 105], [25, 104], [26, 104], [27, 103]]);
-var light_yellow_alt2_Checkbox = n278;
-var light_yellow_alt2_RadioGroupItem = n278;
-var light_yellow_alt2_Input = n278;
-var light_yellow_alt2_TextArea = n278;
-var n279 = t([[12, 101], [13, 103], [14, 104], [15, 105], [16, 100], [17, 99], [18, 106], [19, 105], [20, 106], [21, 105], [22, 105], [23, 104], [24, 105], [25, 104], [26, 104], [27, 100]]);
-var light_yellow_alt2_Switch = n279;
-var light_yellow_alt2_TooltipContent = n279;
-var light_yellow_alt2_SliderTrack = n279;
-var n280 = t([[12, 107], [13, 106], [14, 105], [15, 104], [16, 11], [17, 11], [18, 98], [19, 99], [20, 98], [21, 99], [22, 96], [23, 105], [24, 104], [25, 105], [26, 105], [27, 99]]);
-var light_yellow_alt2_SwitchThumb = n280;
-var n281 = t([[12, 103], [13, 101], [14, 100], [15, 99], [16, 104], [17, 105], [18, 98], [19, 99], [20, 98], [21, 99], [22, 99], [23, 100], [24, 99], [25, 100], [26, 100], [27, 104]]);
-var light_yellow_alt2_SliderTrackActive = n281;
-var n282 = t([[12, 105], [13, 104], [14, 103], [15, 101], [16, 106], [17, 107], [18, 98], [19, 99], [20, 98], [21, 99], [22, 97], [23, 103], [24, 101], [25, 103], [26, 103], [27, 101]]);
-var light_yellow_alt2_SliderThumb = n282;
-var light_yellow_alt2_Tooltip = n282;
-var light_yellow_alt2_ProgressIndicator = n282;
-var n283 = t([[12, 99], [13, 100], [14, 101], [15, 103], [16, 98], [17, 97], [19, 104], [20, 105], [21, 104], [22, 107], [23, 101], [24, 103], [25, 101], [26, 101], [27, 103]]);
-var light_yellow_active_ListItem = n283;
-var n284 = t([[12, 101], [13, 103], [14, 104], [15, 105], [16, 100], [17, 99], [19, 104], [20, 105], [21, 104], [22, 105], [23, 104], [24, 105], [25, 104], [26, 104], [27, 100]]);
-var light_yellow_active_Card = n284;
-var light_yellow_active_DrawerFrame = n284;
-var light_yellow_active_Progress = n284;
-var light_yellow_active_TooltipArrow = n284;
-var n285 = t([[12, 103], [13, 104], [14, 105], [15, 106], [16, 101], [17, 100], [19, 104], [20, 105], [21, 104], [22, 104], [23, 241], [24, 241], [25, 105], [26, 105], [27, 99]]);
-var light_yellow_active_Button = n285;
-var n286 = t([[12, 100], [13, 101], [14, 103], [15, 104], [16, 99], [17, 98], [19, 104], [20, 105], [21, 104], [22, 106], [23, 105], [24, 106], [25, 105], [26, 105], [27, 101]]);
-var light_yellow_active_Checkbox = n286;
-var light_yellow_active_RadioGroupItem = n286;
-var light_yellow_active_Input = n286;
-var light_yellow_active_TextArea = n286;
-var n287 = t([[12, 103], [13, 104], [14, 105], [15, 106], [16, 101], [17, 100], [19, 104], [20, 105], [21, 104], [22, 104], [23, 105], [24, 106], [25, 105], [26, 105], [27, 99]]);
-var light_yellow_active_Switch = n287;
-var light_yellow_active_TooltipContent = n287;
-var light_yellow_active_SliderTrack = n287;
-var n288 = t([[12, 106], [13, 105], [14, 104], [15, 103], [16, 107], [17, 11], [19, 100], [20, 99], [21, 100], [22, 96], [23, 104], [24, 103], [25, 104], [26, 104], [27, 100]]);
-var light_yellow_active_SwitchThumb = n288;
-var n289 = t([[12, 101], [13, 100], [14, 99], [15, 98], [16, 103], [17, 104], [19, 100], [20, 99], [21, 100], [22, 100], [23, 99], [24, 98], [25, 99], [26, 99], [27, 105]]);
-var light_yellow_active_SliderTrackActive = n289;
-var n290 = t([[12, 104], [13, 103], [14, 101], [15, 100], [16, 105], [17, 106], [19, 100], [20, 99], [21, 100], [22, 98], [23, 101], [24, 100], [25, 101], [26, 101], [27, 103]]);
-var light_yellow_active_SliderThumb = n290;
-var light_yellow_active_Tooltip = n290;
-var light_yellow_active_ProgressIndicator = n290;
-var n291 = t([[12, 37], [13, 38], [14, 39], [15, 40], [16, 36], [17, 36], [18, 47], [19, 46], [20, 47], [21, 46], [22, 11], [23, 39], [24, 40], [25, 39], [26, 39], [27, 45]]);
-var light_green_alt1_ListItem = n291;
-var n292 = t([[12, 39], [13, 40], [14, 41], [15, 43], [16, 38], [17, 37], [18, 47], [19, 46], [20, 47], [21, 46], [22, 47], [23, 41], [24, 43], [25, 41], [26, 41], [27, 43]]);
-var light_green_alt1_Card = n292;
-var light_green_alt1_DrawerFrame = n292;
-var light_green_alt1_Progress = n292;
-var light_green_alt1_TooltipArrow = n292;
-var n293 = t([[12, 40], [13, 41], [14, 43], [15, 44], [16, 39], [17, 38], [18, 47], [19, 46], [20, 47], [21, 46], [22, 46], [23, 241], [24, 241], [25, 43], [26, 43], [27, 41]]);
-var light_green_alt1_Button = n293;
-var n294 = t([[12, 38], [13, 39], [14, 40], [15, 41], [16, 37], [17, 36], [18, 47], [19, 46], [20, 47], [21, 46], [22, 11], [23, 43], [24, 44], [25, 43], [26, 43], [27, 44]]);
-var light_green_alt1_Checkbox = n294;
-var light_green_alt1_RadioGroupItem = n294;
-var light_green_alt1_Input = n294;
-var light_green_alt1_TextArea = n294;
-var n295 = t([[12, 40], [13, 41], [14, 43], [15, 44], [16, 39], [17, 38], [18, 47], [19, 46], [20, 47], [21, 46], [22, 46], [23, 43], [24, 44], [25, 43], [26, 43], [27, 41]]);
-var light_green_alt1_Switch = n295;
-var light_green_alt1_TooltipContent = n295;
-var light_green_alt1_SliderTrack = n295;
-var n296 = t([[12, 11], [13, 47], [14, 46], [15, 45], [16, 11], [17, 11], [18, 37], [19, 38], [20, 37], [21, 38], [22, 36], [23, 46], [24, 45], [25, 46], [26, 46], [27, 38]]);
-var light_green_alt1_SwitchThumb = n296;
-var n297 = t([[12, 44], [13, 43], [14, 41], [15, 40], [16, 45], [17, 46], [18, 37], [19, 38], [20, 37], [21, 38], [22, 38], [23, 41], [24, 40], [25, 41], [26, 41], [27, 43]]);
-var light_green_alt1_SliderTrackActive = n297;
-var n298 = t([[12, 46], [13, 45], [14, 44], [15, 43], [16, 47], [17, 11], [18, 37], [19, 38], [20, 37], [21, 38], [22, 36], [23, 44], [24, 43], [25, 44], [26, 44], [27, 40]]);
-var light_green_alt1_SliderThumb = n298;
-var light_green_alt1_Tooltip = n298;
-var light_green_alt1_ProgressIndicator = n298;
-var n299 = t([[12, 38], [13, 39], [14, 40], [15, 41], [16, 37], [17, 36], [18, 46], [19, 45], [20, 46], [21, 45], [22, 11], [23, 40], [24, 41], [25, 40], [26, 40], [27, 44]]);
-var light_green_alt2_ListItem = n299;
-var n300 = t([[12, 40], [13, 41], [14, 43], [15, 44], [16, 39], [17, 38], [18, 46], [19, 45], [20, 46], [21, 45], [22, 46], [23, 43], [24, 44], [25, 43], [26, 43], [27, 41]]);
-var light_green_alt2_Card = n300;
-var light_green_alt2_DrawerFrame = n300;
-var light_green_alt2_Progress = n300;
-var light_green_alt2_TooltipArrow = n300;
-var n301 = t([[12, 41], [13, 43], [14, 44], [15, 45], [16, 40], [17, 39], [18, 46], [19, 45], [20, 46], [21, 45], [22, 45], [23, 241], [24, 241], [25, 44], [26, 44], [27, 40]]);
-var light_green_alt2_Button = n301;
-var n302 = t([[12, 39], [13, 40], [14, 41], [15, 43], [16, 38], [17, 37], [18, 46], [19, 45], [20, 46], [21, 45], [22, 47], [23, 44], [24, 45], [25, 44], [26, 44], [27, 43]]);
-var light_green_alt2_Checkbox = n302;
-var light_green_alt2_RadioGroupItem = n302;
-var light_green_alt2_Input = n302;
-var light_green_alt2_TextArea = n302;
-var n303 = t([[12, 41], [13, 43], [14, 44], [15, 45], [16, 40], [17, 39], [18, 46], [19, 45], [20, 46], [21, 45], [22, 45], [23, 44], [24, 45], [25, 44], [26, 44], [27, 40]]);
-var light_green_alt2_Switch = n303;
-var light_green_alt2_TooltipContent = n303;
-var light_green_alt2_SliderTrack = n303;
-var n304 = t([[12, 47], [13, 46], [14, 45], [15, 44], [16, 11], [17, 11], [18, 38], [19, 39], [20, 38], [21, 39], [22, 36], [23, 45], [24, 44], [25, 45], [26, 45], [27, 39]]);
-var light_green_alt2_SwitchThumb = n304;
-var n305 = t([[12, 43], [13, 41], [14, 40], [15, 39], [16, 44], [17, 45], [18, 38], [19, 39], [20, 38], [21, 39], [22, 39], [23, 40], [24, 39], [25, 40], [26, 40], [27, 44]]);
-var light_green_alt2_SliderTrackActive = n305;
-var n306 = t([[12, 45], [13, 44], [14, 43], [15, 41], [16, 46], [17, 47], [18, 38], [19, 39], [20, 38], [21, 39], [22, 37], [23, 43], [24, 41], [25, 43], [26, 43], [27, 41]]);
-var light_green_alt2_SliderThumb = n306;
-var light_green_alt2_Tooltip = n306;
-var light_green_alt2_ProgressIndicator = n306;
-var n307 = t([[12, 39], [13, 40], [14, 41], [15, 43], [16, 38], [17, 37], [19, 44], [20, 45], [21, 44], [22, 47], [23, 41], [24, 43], [25, 41], [26, 41], [27, 43]]);
-var light_green_active_ListItem = n307;
-var n308 = t([[12, 41], [13, 43], [14, 44], [15, 45], [16, 40], [17, 39], [19, 44], [20, 45], [21, 44], [22, 45], [23, 44], [24, 45], [25, 44], [26, 44], [27, 40]]);
-var light_green_active_Card = n308;
-var light_green_active_DrawerFrame = n308;
-var light_green_active_Progress = n308;
-var light_green_active_TooltipArrow = n308;
-var n309 = t([[12, 43], [13, 44], [14, 45], [15, 46], [16, 41], [17, 40], [19, 44], [20, 45], [21, 44], [22, 44], [23, 241], [24, 241], [25, 45], [26, 45], [27, 39]]);
-var light_green_active_Button = n309;
-var n310 = t([[12, 40], [13, 41], [14, 43], [15, 44], [16, 39], [17, 38], [19, 44], [20, 45], [21, 44], [22, 46], [23, 45], [24, 46], [25, 45], [26, 45], [27, 41]]);
-var light_green_active_Checkbox = n310;
-var light_green_active_RadioGroupItem = n310;
-var light_green_active_Input = n310;
-var light_green_active_TextArea = n310;
-var n311 = t([[12, 43], [13, 44], [14, 45], [15, 46], [16, 41], [17, 40], [19, 44], [20, 45], [21, 44], [22, 44], [23, 45], [24, 46], [25, 45], [26, 45], [27, 39]]);
-var light_green_active_Switch = n311;
-var light_green_active_TooltipContent = n311;
-var light_green_active_SliderTrack = n311;
-var n312 = t([[12, 46], [13, 45], [14, 44], [15, 43], [16, 47], [17, 11], [19, 40], [20, 39], [21, 40], [22, 36], [23, 44], [24, 43], [25, 44], [26, 44], [27, 40]]);
-var light_green_active_SwitchThumb = n312;
-var n313 = t([[12, 41], [13, 40], [14, 39], [15, 38], [16, 43], [17, 44], [19, 40], [20, 39], [21, 40], [22, 40], [23, 39], [24, 38], [25, 39], [26, 39], [27, 45]]);
-var light_green_active_SliderTrackActive = n313;
-var n314 = t([[12, 44], [13, 43], [14, 41], [15, 40], [16, 45], [17, 46], [19, 40], [20, 39], [21, 40], [22, 38], [23, 41], [24, 40], [25, 41], [26, 41], [27, 43]]);
-var light_green_active_SliderThumb = n314;
-var light_green_active_Tooltip = n314;
-var light_green_active_ProgressIndicator = n314;
-var n315 = t([[12, 15], [13, 16], [14, 17], [15, 18], [16, 14], [17, 14], [18, 25], [19, 24], [20, 25], [21, 24], [22, 11], [23, 17], [24, 18], [25, 17], [26, 17], [27, 23]]);
-var light_blue_alt1_ListItem = n315;
-var n316 = t([[12, 17], [13, 18], [14, 19], [15, 21], [16, 16], [17, 15], [18, 25], [19, 24], [20, 25], [21, 24], [22, 25], [23, 19], [24, 21], [25, 19], [26, 19], [27, 21]]);
-var light_blue_alt1_Card = n316;
-var light_blue_alt1_DrawerFrame = n316;
-var light_blue_alt1_Progress = n316;
-var light_blue_alt1_TooltipArrow = n316;
-var n317 = t([[12, 18], [13, 19], [14, 21], [15, 22], [16, 17], [17, 16], [18, 25], [19, 24], [20, 25], [21, 24], [22, 24], [23, 241], [24, 241], [25, 21], [26, 21], [27, 19]]);
-var light_blue_alt1_Button = n317;
-var n318 = t([[12, 16], [13, 17], [14, 18], [15, 19], [16, 15], [17, 14], [18, 25], [19, 24], [20, 25], [21, 24], [22, 11], [23, 21], [24, 22], [25, 21], [26, 21], [27, 22]]);
-var light_blue_alt1_Checkbox = n318;
-var light_blue_alt1_RadioGroupItem = n318;
-var light_blue_alt1_Input = n318;
-var light_blue_alt1_TextArea = n318;
-var n319 = t([[12, 18], [13, 19], [14, 21], [15, 22], [16, 17], [17, 16], [18, 25], [19, 24], [20, 25], [21, 24], [22, 24], [23, 21], [24, 22], [25, 21], [26, 21], [27, 19]]);
-var light_blue_alt1_Switch = n319;
-var light_blue_alt1_TooltipContent = n319;
-var light_blue_alt1_SliderTrack = n319;
-var n320 = t([[12, 11], [13, 25], [14, 24], [15, 23], [16, 11], [17, 11], [18, 15], [19, 16], [20, 15], [21, 16], [22, 14], [23, 24], [24, 23], [25, 24], [26, 24], [27, 16]]);
-var light_blue_alt1_SwitchThumb = n320;
-var n321 = t([[12, 22], [13, 21], [14, 19], [15, 18], [16, 23], [17, 24], [18, 15], [19, 16], [20, 15], [21, 16], [22, 16], [23, 19], [24, 18], [25, 19], [26, 19], [27, 21]]);
-var light_blue_alt1_SliderTrackActive = n321;
-var n322 = t([[12, 24], [13, 23], [14, 22], [15, 21], [16, 25], [17, 11], [18, 15], [19, 16], [20, 15], [21, 16], [22, 14], [23, 22], [24, 21], [25, 22], [26, 22], [27, 18]]);
-var light_blue_alt1_SliderThumb = n322;
-var light_blue_alt1_Tooltip = n322;
-var light_blue_alt1_ProgressIndicator = n322;
-var n323 = t([[12, 16], [13, 17], [14, 18], [15, 19], [16, 15], [17, 14], [18, 24], [19, 23], [20, 24], [21, 23], [22, 11], [23, 18], [24, 19], [25, 18], [26, 18], [27, 22]]);
-var light_blue_alt2_ListItem = n323;
-var n324 = t([[12, 18], [13, 19], [14, 21], [15, 22], [16, 17], [17, 16], [18, 24], [19, 23], [20, 24], [21, 23], [22, 24], [23, 21], [24, 22], [25, 21], [26, 21], [27, 19]]);
-var light_blue_alt2_Card = n324;
-var light_blue_alt2_DrawerFrame = n324;
-var light_blue_alt2_Progress = n324;
-var light_blue_alt2_TooltipArrow = n324;
-var n325 = t([[12, 19], [13, 21], [14, 22], [15, 23], [16, 18], [17, 17], [18, 24], [19, 23], [20, 24], [21, 23], [22, 23], [23, 241], [24, 241], [25, 22], [26, 22], [27, 18]]);
-var light_blue_alt2_Button = n325;
-var n326 = t([[12, 17], [13, 18], [14, 19], [15, 21], [16, 16], [17, 15], [18, 24], [19, 23], [20, 24], [21, 23], [22, 25], [23, 22], [24, 23], [25, 22], [26, 22], [27, 21]]);
-var light_blue_alt2_Checkbox = n326;
-var light_blue_alt2_RadioGroupItem = n326;
-var light_blue_alt2_Input = n326;
-var light_blue_alt2_TextArea = n326;
-var n327 = t([[12, 19], [13, 21], [14, 22], [15, 23], [16, 18], [17, 17], [18, 24], [19, 23], [20, 24], [21, 23], [22, 23], [23, 22], [24, 23], [25, 22], [26, 22], [27, 18]]);
-var light_blue_alt2_Switch = n327;
-var light_blue_alt2_TooltipContent = n327;
-var light_blue_alt2_SliderTrack = n327;
-var n328 = t([[12, 25], [13, 24], [14, 23], [15, 22], [16, 11], [17, 11], [18, 16], [19, 17], [20, 16], [21, 17], [22, 14], [23, 23], [24, 22], [25, 23], [26, 23], [27, 17]]);
-var light_blue_alt2_SwitchThumb = n328;
-var n329 = t([[12, 21], [13, 19], [14, 18], [15, 17], [16, 22], [17, 23], [18, 16], [19, 17], [20, 16], [21, 17], [22, 17], [23, 18], [24, 17], [25, 18], [26, 18], [27, 22]]);
-var light_blue_alt2_SliderTrackActive = n329;
-var n330 = t([[12, 23], [13, 22], [14, 21], [15, 19], [16, 24], [17, 25], [18, 16], [19, 17], [20, 16], [21, 17], [22, 15], [23, 21], [24, 19], [25, 21], [26, 21], [27, 19]]);
-var light_blue_alt2_SliderThumb = n330;
-var light_blue_alt2_Tooltip = n330;
-var light_blue_alt2_ProgressIndicator = n330;
-var n331 = t([[12, 17], [13, 18], [14, 19], [15, 21], [16, 16], [17, 15], [19, 22], [20, 23], [21, 22], [22, 25], [23, 19], [24, 21], [25, 19], [26, 19], [27, 21]]);
-var light_blue_active_ListItem = n331;
-var n332 = t([[12, 19], [13, 21], [14, 22], [15, 23], [16, 18], [17, 17], [19, 22], [20, 23], [21, 22], [22, 23], [23, 22], [24, 23], [25, 22], [26, 22], [27, 18]]);
-var light_blue_active_Card = n332;
-var light_blue_active_DrawerFrame = n332;
-var light_blue_active_Progress = n332;
-var light_blue_active_TooltipArrow = n332;
-var n333 = t([[12, 21], [13, 22], [14, 23], [15, 24], [16, 19], [17, 18], [19, 22], [20, 23], [21, 22], [22, 22], [23, 241], [24, 241], [25, 23], [26, 23], [27, 17]]);
-var light_blue_active_Button = n333;
-var n334 = t([[12, 18], [13, 19], [14, 21], [15, 22], [16, 17], [17, 16], [19, 22], [20, 23], [21, 22], [22, 24], [23, 23], [24, 24], [25, 23], [26, 23], [27, 19]]);
-var light_blue_active_Checkbox = n334;
-var light_blue_active_RadioGroupItem = n334;
-var light_blue_active_Input = n334;
-var light_blue_active_TextArea = n334;
-var n335 = t([[12, 21], [13, 22], [14, 23], [15, 24], [16, 19], [17, 18], [19, 22], [20, 23], [21, 22], [22, 22], [23, 23], [24, 24], [25, 23], [26, 23], [27, 17]]);
-var light_blue_active_Switch = n335;
-var light_blue_active_TooltipContent = n335;
-var light_blue_active_SliderTrack = n335;
-var n336 = t([[12, 24], [13, 23], [14, 22], [15, 21], [16, 25], [17, 11], [19, 18], [20, 17], [21, 18], [22, 14], [23, 22], [24, 21], [25, 22], [26, 22], [27, 18]]);
-var light_blue_active_SwitchThumb = n336;
-var n337 = t([[12, 19], [13, 18], [14, 17], [15, 16], [16, 21], [17, 22], [19, 18], [20, 17], [21, 18], [22, 18], [23, 17], [24, 16], [25, 17], [26, 17], [27, 23]]);
-var light_blue_active_SliderTrackActive = n337;
-var n338 = t([[12, 22], [13, 21], [14, 19], [15, 18], [16, 23], [17, 24], [19, 18], [20, 17], [21, 18], [22, 16], [23, 19], [24, 18], [25, 19], [26, 19], [27, 21]]);
-var light_blue_active_SliderThumb = n338;
-var light_blue_active_Tooltip = n338;
-var light_blue_active_ProgressIndicator = n338;
-var n339 = t([[12, 73], [13, 74], [14, 75], [15, 76], [16, 72], [17, 72], [18, 83], [19, 82], [20, 83], [21, 82], [22, 11], [23, 75], [24, 76], [25, 75], [26, 75], [27, 81]]);
-var light_purple_alt1_ListItem = n339;
-var n340 = t([[12, 75], [13, 76], [14, 77], [15, 79], [16, 74], [17, 73], [18, 83], [19, 82], [20, 83], [21, 82], [22, 83], [23, 77], [24, 79], [25, 77], [26, 77], [27, 79]]);
-var light_purple_alt1_Card = n340;
-var light_purple_alt1_DrawerFrame = n340;
-var light_purple_alt1_Progress = n340;
-var light_purple_alt1_TooltipArrow = n340;
-var n341 = t([[12, 76], [13, 77], [14, 79], [15, 80], [16, 75], [17, 74], [18, 83], [19, 82], [20, 83], [21, 82], [22, 82], [23, 241], [24, 241], [25, 79], [26, 79], [27, 77]]);
-var light_purple_alt1_Button = n341;
-var n342 = t([[12, 74], [13, 75], [14, 76], [15, 77], [16, 73], [17, 72], [18, 83], [19, 82], [20, 83], [21, 82], [22, 11], [23, 79], [24, 80], [25, 79], [26, 79], [27, 80]]);
-var light_purple_alt1_Checkbox = n342;
-var light_purple_alt1_RadioGroupItem = n342;
-var light_purple_alt1_Input = n342;
-var light_purple_alt1_TextArea = n342;
-var n343 = t([[12, 76], [13, 77], [14, 79], [15, 80], [16, 75], [17, 74], [18, 83], [19, 82], [20, 83], [21, 82], [22, 82], [23, 79], [24, 80], [25, 79], [26, 79], [27, 77]]);
-var light_purple_alt1_Switch = n343;
-var light_purple_alt1_TooltipContent = n343;
-var light_purple_alt1_SliderTrack = n343;
-var n344 = t([[12, 11], [13, 83], [14, 82], [15, 81], [16, 11], [17, 11], [18, 73], [19, 74], [20, 73], [21, 74], [22, 72], [23, 82], [24, 81], [25, 82], [26, 82], [27, 74]]);
-var light_purple_alt1_SwitchThumb = n344;
-var n345 = t([[12, 80], [13, 79], [14, 77], [15, 76], [16, 81], [17, 82], [18, 73], [19, 74], [20, 73], [21, 74], [22, 74], [23, 77], [24, 76], [25, 77], [26, 77], [27, 79]]);
-var light_purple_alt1_SliderTrackActive = n345;
-var n346 = t([[12, 82], [13, 81], [14, 80], [15, 79], [16, 83], [17, 11], [18, 73], [19, 74], [20, 73], [21, 74], [22, 72], [23, 80], [24, 79], [25, 80], [26, 80], [27, 76]]);
-var light_purple_alt1_SliderThumb = n346;
-var light_purple_alt1_Tooltip = n346;
-var light_purple_alt1_ProgressIndicator = n346;
-var n347 = t([[12, 74], [13, 75], [14, 76], [15, 77], [16, 73], [17, 72], [18, 82], [19, 81], [20, 82], [21, 81], [22, 11], [23, 76], [24, 77], [25, 76], [26, 76], [27, 80]]);
-var light_purple_alt2_ListItem = n347;
-var n348 = t([[12, 76], [13, 77], [14, 79], [15, 80], [16, 75], [17, 74], [18, 82], [19, 81], [20, 82], [21, 81], [22, 82], [23, 79], [24, 80], [25, 79], [26, 79], [27, 77]]);
-var light_purple_alt2_Card = n348;
-var light_purple_alt2_DrawerFrame = n348;
-var light_purple_alt2_Progress = n348;
-var light_purple_alt2_TooltipArrow = n348;
-var n349 = t([[12, 77], [13, 79], [14, 80], [15, 81], [16, 76], [17, 75], [18, 82], [19, 81], [20, 82], [21, 81], [22, 81], [23, 241], [24, 241], [25, 80], [26, 80], [27, 76]]);
-var light_purple_alt2_Button = n349;
-var n350 = t([[12, 75], [13, 76], [14, 77], [15, 79], [16, 74], [17, 73], [18, 82], [19, 81], [20, 82], [21, 81], [22, 83], [23, 80], [24, 81], [25, 80], [26, 80], [27, 79]]);
-var light_purple_alt2_Checkbox = n350;
-var light_purple_alt2_RadioGroupItem = n350;
-var light_purple_alt2_Input = n350;
-var light_purple_alt2_TextArea = n350;
-var n351 = t([[12, 77], [13, 79], [14, 80], [15, 81], [16, 76], [17, 75], [18, 82], [19, 81], [20, 82], [21, 81], [22, 81], [23, 80], [24, 81], [25, 80], [26, 80], [27, 76]]);
-var light_purple_alt2_Switch = n351;
-var light_purple_alt2_TooltipContent = n351;
-var light_purple_alt2_SliderTrack = n351;
-var n352 = t([[12, 83], [13, 82], [14, 81], [15, 80], [16, 11], [17, 11], [18, 74], [19, 75], [20, 74], [21, 75], [22, 72], [23, 81], [24, 80], [25, 81], [26, 81], [27, 75]]);
-var light_purple_alt2_SwitchThumb = n352;
-var n353 = t([[12, 79], [13, 77], [14, 76], [15, 75], [16, 80], [17, 81], [18, 74], [19, 75], [20, 74], [21, 75], [22, 75], [23, 76], [24, 75], [25, 76], [26, 76], [27, 80]]);
-var light_purple_alt2_SliderTrackActive = n353;
-var n354 = t([[12, 81], [13, 80], [14, 79], [15, 77], [16, 82], [17, 83], [18, 74], [19, 75], [20, 74], [21, 75], [22, 73], [23, 79], [24, 77], [25, 79], [26, 79], [27, 77]]);
-var light_purple_alt2_SliderThumb = n354;
-var light_purple_alt2_Tooltip = n354;
-var light_purple_alt2_ProgressIndicator = n354;
-var n355 = t([[12, 75], [13, 76], [14, 77], [15, 79], [16, 74], [17, 73], [19, 80], [20, 81], [21, 80], [22, 83], [23, 77], [24, 79], [25, 77], [26, 77], [27, 79]]);
-var light_purple_active_ListItem = n355;
-var n356 = t([[12, 77], [13, 79], [14, 80], [15, 81], [16, 76], [17, 75], [19, 80], [20, 81], [21, 80], [22, 81], [23, 80], [24, 81], [25, 80], [26, 80], [27, 76]]);
-var light_purple_active_Card = n356;
-var light_purple_active_DrawerFrame = n356;
-var light_purple_active_Progress = n356;
-var light_purple_active_TooltipArrow = n356;
-var n357 = t([[12, 79], [13, 80], [14, 81], [15, 82], [16, 77], [17, 76], [19, 80], [20, 81], [21, 80], [22, 80], [23, 241], [24, 241], [25, 81], [26, 81], [27, 75]]);
-var light_purple_active_Button = n357;
-var n358 = t([[12, 76], [13, 77], [14, 79], [15, 80], [16, 75], [17, 74], [19, 80], [20, 81], [21, 80], [22, 82], [23, 81], [24, 82], [25, 81], [26, 81], [27, 77]]);
-var light_purple_active_Checkbox = n358;
-var light_purple_active_RadioGroupItem = n358;
-var light_purple_active_Input = n358;
-var light_purple_active_TextArea = n358;
-var n359 = t([[12, 79], [13, 80], [14, 81], [15, 82], [16, 77], [17, 76], [19, 80], [20, 81], [21, 80], [22, 80], [23, 81], [24, 82], [25, 81], [26, 81], [27, 75]]);
-var light_purple_active_Switch = n359;
-var light_purple_active_TooltipContent = n359;
-var light_purple_active_SliderTrack = n359;
-var n360 = t([[12, 82], [13, 81], [14, 80], [15, 79], [16, 83], [17, 11], [19, 76], [20, 75], [21, 76], [22, 72], [23, 80], [24, 79], [25, 80], [26, 80], [27, 76]]);
-var light_purple_active_SwitchThumb = n360;
-var n361 = t([[12, 77], [13, 76], [14, 75], [15, 74], [16, 79], [17, 80], [19, 76], [20, 75], [21, 76], [22, 76], [23, 75], [24, 74], [25, 75], [26, 75], [27, 81]]);
-var light_purple_active_SliderTrackActive = n361;
-var n362 = t([[12, 80], [13, 79], [14, 77], [15, 76], [16, 81], [17, 82], [19, 76], [20, 75], [21, 76], [22, 74], [23, 77], [24, 76], [25, 77], [26, 77], [27, 79]]);
-var light_purple_active_SliderThumb = n362;
-var light_purple_active_Tooltip = n362;
-var light_purple_active_ProgressIndicator = n362;
-var n363 = t([[12, 61], [13, 62], [14, 63], [15, 64], [16, 60], [17, 60], [18, 71], [19, 70], [20, 71], [21, 70], [22, 11], [23, 63], [24, 64], [25, 63], [26, 63], [27, 69]]);
-var light_pink_alt1_ListItem = n363;
-var n364 = t([[12, 63], [13, 64], [14, 65], [15, 67], [16, 62], [17, 61], [18, 71], [19, 70], [20, 71], [21, 70], [22, 71], [23, 65], [24, 67], [25, 65], [26, 65], [27, 67]]);
-var light_pink_alt1_Card = n364;
-var light_pink_alt1_DrawerFrame = n364;
-var light_pink_alt1_Progress = n364;
-var light_pink_alt1_TooltipArrow = n364;
-var n365 = t([[12, 64], [13, 65], [14, 67], [15, 68], [16, 63], [17, 62], [18, 71], [19, 70], [20, 71], [21, 70], [22, 70], [23, 241], [24, 241], [25, 67], [26, 67], [27, 65]]);
-var light_pink_alt1_Button = n365;
-var n366 = t([[12, 62], [13, 63], [14, 64], [15, 65], [16, 61], [17, 60], [18, 71], [19, 70], [20, 71], [21, 70], [22, 11], [23, 67], [24, 68], [25, 67], [26, 67], [27, 68]]);
-var light_pink_alt1_Checkbox = n366;
-var light_pink_alt1_RadioGroupItem = n366;
-var light_pink_alt1_Input = n366;
-var light_pink_alt1_TextArea = n366;
-var n367 = t([[12, 64], [13, 65], [14, 67], [15, 68], [16, 63], [17, 62], [18, 71], [19, 70], [20, 71], [21, 70], [22, 70], [23, 67], [24, 68], [25, 67], [26, 67], [27, 65]]);
-var light_pink_alt1_Switch = n367;
-var light_pink_alt1_TooltipContent = n367;
-var light_pink_alt1_SliderTrack = n367;
-var n368 = t([[12, 11], [13, 71], [14, 70], [15, 69], [16, 11], [17, 11], [18, 61], [19, 62], [20, 61], [21, 62], [22, 60], [23, 70], [24, 69], [25, 70], [26, 70], [27, 62]]);
-var light_pink_alt1_SwitchThumb = n368;
-var n369 = t([[12, 68], [13, 67], [14, 65], [15, 64], [16, 69], [17, 70], [18, 61], [19, 62], [20, 61], [21, 62], [22, 62], [23, 65], [24, 64], [25, 65], [26, 65], [27, 67]]);
-var light_pink_alt1_SliderTrackActive = n369;
-var n370 = t([[12, 70], [13, 69], [14, 68], [15, 67], [16, 71], [17, 11], [18, 61], [19, 62], [20, 61], [21, 62], [22, 60], [23, 68], [24, 67], [25, 68], [26, 68], [27, 64]]);
-var light_pink_alt1_SliderThumb = n370;
-var light_pink_alt1_Tooltip = n370;
-var light_pink_alt1_ProgressIndicator = n370;
-var n371 = t([[12, 62], [13, 63], [14, 64], [15, 65], [16, 61], [17, 60], [18, 70], [19, 69], [20, 70], [21, 69], [22, 11], [23, 64], [24, 65], [25, 64], [26, 64], [27, 68]]);
-var light_pink_alt2_ListItem = n371;
-var n372 = t([[12, 64], [13, 65], [14, 67], [15, 68], [16, 63], [17, 62], [18, 70], [19, 69], [20, 70], [21, 69], [22, 70], [23, 67], [24, 68], [25, 67], [26, 67], [27, 65]]);
-var light_pink_alt2_Card = n372;
-var light_pink_alt2_DrawerFrame = n372;
-var light_pink_alt2_Progress = n372;
-var light_pink_alt2_TooltipArrow = n372;
-var n373 = t([[12, 65], [13, 67], [14, 68], [15, 69], [16, 64], [17, 63], [18, 70], [19, 69], [20, 70], [21, 69], [22, 69], [23, 241], [24, 241], [25, 68], [26, 68], [27, 64]]);
-var light_pink_alt2_Button = n373;
-var n374 = t([[12, 63], [13, 64], [14, 65], [15, 67], [16, 62], [17, 61], [18, 70], [19, 69], [20, 70], [21, 69], [22, 71], [23, 68], [24, 69], [25, 68], [26, 68], [27, 67]]);
-var light_pink_alt2_Checkbox = n374;
-var light_pink_alt2_RadioGroupItem = n374;
-var light_pink_alt2_Input = n374;
-var light_pink_alt2_TextArea = n374;
-var n375 = t([[12, 65], [13, 67], [14, 68], [15, 69], [16, 64], [17, 63], [18, 70], [19, 69], [20, 70], [21, 69], [22, 69], [23, 68], [24, 69], [25, 68], [26, 68], [27, 64]]);
-var light_pink_alt2_Switch = n375;
-var light_pink_alt2_TooltipContent = n375;
-var light_pink_alt2_SliderTrack = n375;
-var n376 = t([[12, 71], [13, 70], [14, 69], [15, 68], [16, 11], [17, 11], [18, 62], [19, 63], [20, 62], [21, 63], [22, 60], [23, 69], [24, 68], [25, 69], [26, 69], [27, 63]]);
-var light_pink_alt2_SwitchThumb = n376;
-var n377 = t([[12, 67], [13, 65], [14, 64], [15, 63], [16, 68], [17, 69], [18, 62], [19, 63], [20, 62], [21, 63], [22, 63], [23, 64], [24, 63], [25, 64], [26, 64], [27, 68]]);
-var light_pink_alt2_SliderTrackActive = n377;
-var n378 = t([[12, 69], [13, 68], [14, 67], [15, 65], [16, 70], [17, 71], [18, 62], [19, 63], [20, 62], [21, 63], [22, 61], [23, 67], [24, 65], [25, 67], [26, 67], [27, 65]]);
-var light_pink_alt2_SliderThumb = n378;
-var light_pink_alt2_Tooltip = n378;
-var light_pink_alt2_ProgressIndicator = n378;
-var n379 = t([[12, 63], [13, 64], [14, 65], [15, 67], [16, 62], [17, 61], [19, 68], [20, 69], [21, 68], [22, 71], [23, 65], [24, 67], [25, 65], [26, 65], [27, 67]]);
-var light_pink_active_ListItem = n379;
-var n380 = t([[12, 65], [13, 67], [14, 68], [15, 69], [16, 64], [17, 63], [19, 68], [20, 69], [21, 68], [22, 69], [23, 68], [24, 69], [25, 68], [26, 68], [27, 64]]);
-var light_pink_active_Card = n380;
-var light_pink_active_DrawerFrame = n380;
-var light_pink_active_Progress = n380;
-var light_pink_active_TooltipArrow = n380;
-var n381 = t([[12, 67], [13, 68], [14, 69], [15, 70], [16, 65], [17, 64], [19, 68], [20, 69], [21, 68], [22, 68], [23, 241], [24, 241], [25, 69], [26, 69], [27, 63]]);
-var light_pink_active_Button = n381;
-var n382 = t([[12, 64], [13, 65], [14, 67], [15, 68], [16, 63], [17, 62], [19, 68], [20, 69], [21, 68], [22, 70], [23, 69], [24, 70], [25, 69], [26, 69], [27, 65]]);
-var light_pink_active_Checkbox = n382;
-var light_pink_active_RadioGroupItem = n382;
-var light_pink_active_Input = n382;
-var light_pink_active_TextArea = n382;
-var n383 = t([[12, 67], [13, 68], [14, 69], [15, 70], [16, 65], [17, 64], [19, 68], [20, 69], [21, 68], [22, 68], [23, 69], [24, 70], [25, 69], [26, 69], [27, 63]]);
-var light_pink_active_Switch = n383;
-var light_pink_active_TooltipContent = n383;
-var light_pink_active_SliderTrack = n383;
-var n384 = t([[12, 70], [13, 69], [14, 68], [15, 67], [16, 71], [17, 11], [19, 64], [20, 63], [21, 64], [22, 60], [23, 68], [24, 67], [25, 68], [26, 68], [27, 64]]);
-var light_pink_active_SwitchThumb = n384;
-var n385 = t([[12, 65], [13, 64], [14, 63], [15, 62], [16, 67], [17, 68], [19, 64], [20, 63], [21, 64], [22, 64], [23, 63], [24, 62], [25, 63], [26, 63], [27, 69]]);
-var light_pink_active_SliderTrackActive = n385;
-var n386 = t([[12, 68], [13, 67], [14, 65], [15, 64], [16, 69], [17, 70], [19, 64], [20, 63], [21, 64], [22, 62], [23, 65], [24, 64], [25, 65], [26, 65], [27, 67]]);
-var light_pink_active_SliderThumb = n386;
-var light_pink_active_Tooltip = n386;
-var light_pink_active_ProgressIndicator = n386;
-var n387 = t([[12, 85], [13, 86], [14, 87], [15, 88], [16, 84], [17, 84], [18, 95], [19, 94], [20, 95], [21, 94], [22, 11], [23, 87], [24, 88], [25, 87], [26, 87], [27, 93]]);
-var light_red_alt1_ListItem = n387;
-var n388 = t([[12, 87], [13, 88], [14, 89], [15, 91], [16, 86], [17, 85], [18, 95], [19, 94], [20, 95], [21, 94], [22, 95], [23, 89], [24, 91], [25, 89], [26, 89], [27, 91]]);
-var light_red_alt1_Card = n388;
-var light_red_alt1_DrawerFrame = n388;
-var light_red_alt1_Progress = n388;
-var light_red_alt1_TooltipArrow = n388;
-var n389 = t([[12, 88], [13, 89], [14, 91], [15, 92], [16, 87], [17, 86], [18, 95], [19, 94], [20, 95], [21, 94], [22, 94], [23, 241], [24, 241], [25, 91], [26, 91], [27, 89]]);
-var light_red_alt1_Button = n389;
-var n390 = t([[12, 86], [13, 87], [14, 88], [15, 89], [16, 85], [17, 84], [18, 95], [19, 94], [20, 95], [21, 94], [22, 11], [23, 91], [24, 92], [25, 91], [26, 91], [27, 92]]);
-var light_red_alt1_Checkbox = n390;
-var light_red_alt1_RadioGroupItem = n390;
-var light_red_alt1_Input = n390;
-var light_red_alt1_TextArea = n390;
-var n391 = t([[12, 88], [13, 89], [14, 91], [15, 92], [16, 87], [17, 86], [18, 95], [19, 94], [20, 95], [21, 94], [22, 94], [23, 91], [24, 92], [25, 91], [26, 91], [27, 89]]);
-var light_red_alt1_Switch = n391;
-var light_red_alt1_TooltipContent = n391;
-var light_red_alt1_SliderTrack = n391;
-var n392 = t([[12, 11], [13, 95], [14, 94], [15, 93], [16, 11], [17, 11], [18, 85], [19, 86], [20, 85], [21, 86], [22, 84], [23, 94], [24, 93], [25, 94], [26, 94], [27, 86]]);
-var light_red_alt1_SwitchThumb = n392;
-var n393 = t([[12, 92], [13, 91], [14, 89], [15, 88], [16, 93], [17, 94], [18, 85], [19, 86], [20, 85], [21, 86], [22, 86], [23, 89], [24, 88], [25, 89], [26, 89], [27, 91]]);
-var light_red_alt1_SliderTrackActive = n393;
-var n394 = t([[12, 94], [13, 93], [14, 92], [15, 91], [16, 95], [17, 11], [18, 85], [19, 86], [20, 85], [21, 86], [22, 84], [23, 92], [24, 91], [25, 92], [26, 92], [27, 88]]);
-var light_red_alt1_SliderThumb = n394;
-var light_red_alt1_Tooltip = n394;
-var light_red_alt1_ProgressIndicator = n394;
-var n395 = t([[12, 86], [13, 87], [14, 88], [15, 89], [16, 85], [17, 84], [18, 94], [19, 93], [20, 94], [21, 93], [22, 11], [23, 88], [24, 89], [25, 88], [26, 88], [27, 92]]);
-var light_red_alt2_ListItem = n395;
-var n396 = t([[12, 88], [13, 89], [14, 91], [15, 92], [16, 87], [17, 86], [18, 94], [19, 93], [20, 94], [21, 93], [22, 94], [23, 91], [24, 92], [25, 91], [26, 91], [27, 89]]);
-var light_red_alt2_Card = n396;
-var light_red_alt2_DrawerFrame = n396;
-var light_red_alt2_Progress = n396;
-var light_red_alt2_TooltipArrow = n396;
-var n397 = t([[12, 89], [13, 91], [14, 92], [15, 93], [16, 88], [17, 87], [18, 94], [19, 93], [20, 94], [21, 93], [22, 93], [23, 241], [24, 241], [25, 92], [26, 92], [27, 88]]);
-var light_red_alt2_Button = n397;
-var n398 = t([[12, 87], [13, 88], [14, 89], [15, 91], [16, 86], [17, 85], [18, 94], [19, 93], [20, 94], [21, 93], [22, 95], [23, 92], [24, 93], [25, 92], [26, 92], [27, 91]]);
-var light_red_alt2_Checkbox = n398;
-var light_red_alt2_RadioGroupItem = n398;
-var light_red_alt2_Input = n398;
-var light_red_alt2_TextArea = n398;
-var n399 = t([[12, 89], [13, 91], [14, 92], [15, 93], [16, 88], [17, 87], [18, 94], [19, 93], [20, 94], [21, 93], [22, 93], [23, 92], [24, 93], [25, 92], [26, 92], [27, 88]]);
-var light_red_alt2_Switch = n399;
-var light_red_alt2_TooltipContent = n399;
-var light_red_alt2_SliderTrack = n399;
-var n400 = t([[12, 95], [13, 94], [14, 93], [15, 92], [16, 11], [17, 11], [18, 86], [19, 87], [20, 86], [21, 87], [22, 84], [23, 93], [24, 92], [25, 93], [26, 93], [27, 87]]);
-var light_red_alt2_SwitchThumb = n400;
-var n401 = t([[12, 91], [13, 89], [14, 88], [15, 87], [16, 92], [17, 93], [18, 86], [19, 87], [20, 86], [21, 87], [22, 87], [23, 88], [24, 87], [25, 88], [26, 88], [27, 92]]);
-var light_red_alt2_SliderTrackActive = n401;
-var n402 = t([[12, 93], [13, 92], [14, 91], [15, 89], [16, 94], [17, 95], [18, 86], [19, 87], [20, 86], [21, 87], [22, 85], [23, 91], [24, 89], [25, 91], [26, 91], [27, 89]]);
-var light_red_alt2_SliderThumb = n402;
-var light_red_alt2_Tooltip = n402;
-var light_red_alt2_ProgressIndicator = n402;
-var n403 = t([[12, 87], [13, 88], [14, 89], [15, 91], [16, 86], [17, 85], [19, 92], [20, 93], [21, 92], [22, 95], [23, 89], [24, 91], [25, 89], [26, 89], [27, 91]]);
-var light_red_active_ListItem = n403;
-var n404 = t([[12, 89], [13, 91], [14, 92], [15, 93], [16, 88], [17, 87], [19, 92], [20, 93], [21, 92], [22, 93], [23, 92], [24, 93], [25, 92], [26, 92], [27, 88]]);
-var light_red_active_Card = n404;
-var light_red_active_DrawerFrame = n404;
-var light_red_active_Progress = n404;
-var light_red_active_TooltipArrow = n404;
-var n405 = t([[12, 91], [13, 92], [14, 93], [15, 94], [16, 89], [17, 88], [19, 92], [20, 93], [21, 92], [22, 92], [23, 241], [24, 241], [25, 93], [26, 93], [27, 87]]);
-var light_red_active_Button = n405;
-var n406 = t([[12, 88], [13, 89], [14, 91], [15, 92], [16, 87], [17, 86], [19, 92], [20, 93], [21, 92], [22, 94], [23, 93], [24, 94], [25, 93], [26, 93], [27, 89]]);
-var light_red_active_Checkbox = n406;
-var light_red_active_RadioGroupItem = n406;
-var light_red_active_Input = n406;
-var light_red_active_TextArea = n406;
-var n407 = t([[12, 91], [13, 92], [14, 93], [15, 94], [16, 89], [17, 88], [19, 92], [20, 93], [21, 92], [22, 92], [23, 93], [24, 94], [25, 93], [26, 93], [27, 87]]);
-var light_red_active_Switch = n407;
-var light_red_active_TooltipContent = n407;
-var light_red_active_SliderTrack = n407;
-var n408 = t([[12, 94], [13, 93], [14, 92], [15, 91], [16, 95], [17, 11], [19, 88], [20, 87], [21, 88], [22, 84], [23, 92], [24, 91], [25, 92], [26, 92], [27, 88]]);
-var light_red_active_SwitchThumb = n408;
-var n409 = t([[12, 89], [13, 88], [14, 87], [15, 86], [16, 91], [17, 92], [19, 88], [20, 87], [21, 88], [22, 88], [23, 87], [24, 86], [25, 87], [26, 87], [27, 93]]);
-var light_red_active_SliderTrackActive = n409;
-var n410 = t([[12, 92], [13, 91], [14, 89], [15, 88], [16, 93], [17, 94], [19, 88], [20, 87], [21, 88], [22, 86], [23, 89], [24, 88], [25, 89], [26, 89], [27, 91]]);
-var light_red_active_SliderThumb = n410;
-var light_red_active_Tooltip = n410;
-var light_red_active_ProgressIndicator = n410;
-var n411 = t([[12, 156], [13, 157], [14, 158], [15, 159], [16, 155], [17, 154], [18, 164], [19, 163], [20, 164], [21, 163], [22, 0], [23, 159], [24, 161], [25, 158], [26, 159], [27, 56]]);
-var dark_orange_alt1_ListItem = n411;
-var n412 = t([[12, 157], [13, 158], [14, 159], [15, 161], [16, 156], [17, 155], [18, 164], [19, 163], [20, 164], [21, 163], [22, 164], [23, 161], [24, 56], [25, 159], [26, 161], [27, 161]]);
-var dark_orange_alt1_Card = n412;
-var dark_orange_alt1_DrawerFrame = n412;
-var dark_orange_alt1_Progress = n412;
-var dark_orange_alt1_TooltipArrow = n412;
-var n413 = t([[12, 158], [13, 159], [14, 161], [15, 56], [16, 157], [17, 156], [18, 164], [19, 163], [20, 164], [21, 163], [22, 163], [23, 241], [24, 241], [25, 161], [26, 56], [27, 159]]);
-var dark_orange_alt1_Button = n413;
-var n414 = t([[12, 156], [13, 157], [14, 158], [15, 159], [16, 155], [17, 154], [18, 164], [19, 163], [20, 164], [21, 163], [22, 0], [23, 56], [24, 162], [25, 161], [26, 56], [27, 56]]);
-var dark_orange_alt1_Checkbox = n414;
-var dark_orange_alt1_RadioGroupItem = n414;
-var dark_orange_alt1_Input = n414;
-var dark_orange_alt1_TextArea = n414;
-var n415 = t([[12, 158], [13, 159], [14, 161], [15, 56], [16, 157], [17, 156], [18, 164], [19, 163], [20, 164], [21, 163], [22, 163], [23, 56], [24, 162], [25, 161], [26, 56], [27, 159]]);
-var dark_orange_alt1_Switch = n415;
-var dark_orange_alt1_TooltipContent = n415;
-var dark_orange_alt1_SliderTrack = n415;
-var n416 = t([[12, 0], [13, 164], [14, 163], [15, 162], [16, 0], [17, 0], [18, 155], [19, 156], [20, 155], [21, 156], [22, 154], [23, 162], [24, 56], [25, 163], [26, 162], [27, 156]]);
-var dark_orange_alt1_SwitchThumb = n416;
-var n417 = t([[12, 56], [13, 161], [14, 159], [15, 158], [16, 162], [17, 163], [18, 155], [19, 156], [20, 155], [21, 156], [22, 156], [23, 158], [24, 157], [25, 159], [26, 158], [27, 161]]);
-var dark_orange_alt1_SliderTrackActive = n417;
-var n418 = t([[12, 163], [13, 162], [14, 56], [15, 161], [16, 164], [17, 0], [18, 155], [19, 156], [20, 155], [21, 156], [22, 154], [23, 161], [24, 159], [25, 56], [26, 161], [27, 158]]);
-var dark_orange_alt1_SliderThumb = n418;
-var dark_orange_alt1_Tooltip = n418;
-var dark_orange_alt1_ProgressIndicator = n418;
-var n419 = t([[12, 157], [13, 158], [14, 159], [15, 161], [16, 156], [17, 155], [18, 163], [19, 162], [20, 163], [21, 162], [22, 164], [23, 161], [24, 56], [25, 159], [26, 161], [27, 161]]);
-var dark_orange_alt2_ListItem = n419;
-var n420 = t([[12, 158], [13, 159], [14, 161], [15, 56], [16, 157], [17, 156], [18, 163], [19, 162], [20, 163], [21, 162], [22, 163], [23, 56], [24, 162], [25, 161], [26, 56], [27, 159]]);
-var dark_orange_alt2_Card = n420;
-var dark_orange_alt2_DrawerFrame = n420;
-var dark_orange_alt2_Progress = n420;
-var dark_orange_alt2_TooltipArrow = n420;
-var n421 = t([[12, 159], [13, 161], [14, 56], [15, 162], [16, 158], [17, 157], [18, 163], [19, 162], [20, 163], [21, 162], [22, 162], [23, 241], [24, 241], [25, 56], [26, 162], [27, 158]]);
-var dark_orange_alt2_Button = n421;
-var n422 = t([[12, 157], [13, 158], [14, 159], [15, 161], [16, 156], [17, 155], [18, 163], [19, 162], [20, 163], [21, 162], [22, 164], [23, 162], [24, 163], [25, 56], [26, 162], [27, 161]]);
-var dark_orange_alt2_Checkbox = n422;
-var dark_orange_alt2_RadioGroupItem = n422;
-var dark_orange_alt2_Input = n422;
-var dark_orange_alt2_TextArea = n422;
-var n423 = t([[12, 159], [13, 161], [14, 56], [15, 162], [16, 158], [17, 157], [18, 163], [19, 162], [20, 163], [21, 162], [22, 162], [23, 162], [24, 163], [25, 56], [26, 162], [27, 158]]);
-var dark_orange_alt2_Switch = n423;
-var dark_orange_alt2_TooltipContent = n423;
-var dark_orange_alt2_SliderTrack = n423;
-var n424 = t([[12, 164], [13, 163], [14, 162], [15, 56], [16, 0], [17, 0], [18, 156], [19, 157], [20, 156], [21, 157], [22, 154], [23, 56], [24, 161], [25, 162], [26, 56], [27, 157]]);
-var dark_orange_alt2_SwitchThumb = n424;
-var n425 = t([[12, 161], [13, 159], [14, 158], [15, 157], [16, 56], [17, 162], [18, 156], [19, 157], [20, 156], [21, 157], [22, 157], [23, 157], [24, 156], [25, 158], [26, 157], [27, 56]]);
-var dark_orange_alt2_SliderTrackActive = n425;
-var n426 = t([[12, 162], [13, 56], [14, 161], [15, 159], [16, 163], [17, 164], [18, 156], [19, 157], [20, 156], [21, 157], [22, 155], [23, 159], [24, 158], [25, 161], [26, 159], [27, 159]]);
-var dark_orange_alt2_SliderThumb = n426;
-var dark_orange_alt2_Tooltip = n426;
-var dark_orange_alt2_ProgressIndicator = n426;
-var n427 = t([[12, 158], [13, 159], [14, 161], [15, 56], [16, 157], [17, 156], [19, 56], [20, 162], [21, 56], [22, 163], [23, 56], [24, 162], [25, 161], [26, 56], [27, 159]]);
-var dark_orange_active_ListItem = n427;
-var n428 = t([[12, 159], [13, 161], [14, 56], [15, 162], [16, 158], [17, 157], [19, 56], [20, 162], [21, 56], [22, 162], [23, 162], [24, 163], [25, 56], [26, 162], [27, 158]]);
-var dark_orange_active_Card = n428;
-var dark_orange_active_DrawerFrame = n428;
-var dark_orange_active_Progress = n428;
-var dark_orange_active_TooltipArrow = n428;
-var n429 = t([[12, 161], [13, 56], [14, 162], [15, 163], [16, 159], [17, 158], [19, 56], [20, 162], [21, 56], [22, 56], [23, 241], [24, 241], [25, 162], [26, 163], [27, 157]]);
-var dark_orange_active_Button = n429;
-var n430 = t([[12, 158], [13, 159], [14, 161], [15, 56], [16, 157], [17, 156], [19, 56], [20, 162], [21, 56], [22, 163], [23, 163], [24, 164], [25, 162], [26, 163], [27, 159]]);
-var dark_orange_active_Checkbox = n430;
-var dark_orange_active_RadioGroupItem = n430;
-var dark_orange_active_Input = n430;
-var dark_orange_active_TextArea = n430;
-var n431 = t([[12, 161], [13, 56], [14, 162], [15, 163], [16, 159], [17, 158], [19, 56], [20, 162], [21, 56], [22, 56], [23, 163], [24, 164], [25, 162], [26, 163], [27, 157]]);
-var dark_orange_active_Switch = n431;
-var dark_orange_active_TooltipContent = n431;
-var dark_orange_active_SliderTrack = n431;
-var n432 = t([[12, 163], [13, 162], [14, 56], [15, 161], [16, 164], [17, 0], [19, 158], [20, 157], [21, 158], [22, 154], [23, 161], [24, 159], [25, 56], [26, 161], [27, 158]]);
-var dark_orange_active_SwitchThumb = n432;
-var n433 = t([[12, 159], [13, 158], [14, 157], [15, 156], [16, 161], [17, 56], [19, 158], [20, 157], [21, 158], [22, 158], [23, 156], [24, 155], [25, 157], [26, 156], [27, 162]]);
-var dark_orange_active_SliderTrackActive = n433;
-var n434 = t([[12, 56], [13, 161], [14, 159], [15, 158], [16, 162], [17, 163], [19, 158], [20, 157], [21, 158], [22, 156], [23, 158], [24, 157], [25, 159], [26, 158], [27, 161]]);
-var dark_orange_active_SliderThumb = n434;
-var dark_orange_active_Tooltip = n434;
-var dark_orange_active_ProgressIndicator = n434;
-var n435 = t([[12, 200], [13, 201], [14, 202], [15, 203], [16, 199], [17, 198], [18, 208], [19, 207], [20, 208], [21, 207], [22, 0], [23, 203], [24, 205], [25, 202], [26, 203], [27, 104]]);
-var dark_yellow_alt1_ListItem = n435;
-var n436 = t([[12, 201], [13, 202], [14, 203], [15, 205], [16, 200], [17, 199], [18, 208], [19, 207], [20, 208], [21, 207], [22, 208], [23, 205], [24, 104], [25, 203], [26, 205], [27, 205]]);
-var dark_yellow_alt1_Card = n436;
-var dark_yellow_alt1_DrawerFrame = n436;
-var dark_yellow_alt1_Progress = n436;
-var dark_yellow_alt1_TooltipArrow = n436;
-var n437 = t([[12, 202], [13, 203], [14, 205], [15, 104], [16, 201], [17, 200], [18, 208], [19, 207], [20, 208], [21, 207], [22, 207], [23, 241], [24, 241], [25, 205], [26, 104], [27, 203]]);
-var dark_yellow_alt1_Button = n437;
-var n438 = t([[12, 200], [13, 201], [14, 202], [15, 203], [16, 199], [17, 198], [18, 208], [19, 207], [20, 208], [21, 207], [22, 0], [23, 104], [24, 206], [25, 205], [26, 104], [27, 104]]);
-var dark_yellow_alt1_Checkbox = n438;
-var dark_yellow_alt1_RadioGroupItem = n438;
-var dark_yellow_alt1_Input = n438;
-var dark_yellow_alt1_TextArea = n438;
-var n439 = t([[12, 202], [13, 203], [14, 205], [15, 104], [16, 201], [17, 200], [18, 208], [19, 207], [20, 208], [21, 207], [22, 207], [23, 104], [24, 206], [25, 205], [26, 104], [27, 203]]);
-var dark_yellow_alt1_Switch = n439;
-var dark_yellow_alt1_TooltipContent = n439;
-var dark_yellow_alt1_SliderTrack = n439;
-var n440 = t([[12, 0], [13, 208], [14, 207], [15, 206], [16, 0], [17, 0], [18, 199], [19, 200], [20, 199], [21, 200], [22, 198], [23, 206], [24, 104], [25, 207], [26, 206], [27, 200]]);
-var dark_yellow_alt1_SwitchThumb = n440;
-var n441 = t([[12, 104], [13, 205], [14, 203], [15, 202], [16, 206], [17, 207], [18, 199], [19, 200], [20, 199], [21, 200], [22, 200], [23, 202], [24, 201], [25, 203], [26, 202], [27, 205]]);
-var dark_yellow_alt1_SliderTrackActive = n441;
-var n442 = t([[12, 207], [13, 206], [14, 104], [15, 205], [16, 208], [17, 0], [18, 199], [19, 200], [20, 199], [21, 200], [22, 198], [23, 205], [24, 203], [25, 104], [26, 205], [27, 202]]);
-var dark_yellow_alt1_SliderThumb = n442;
-var dark_yellow_alt1_Tooltip = n442;
-var dark_yellow_alt1_ProgressIndicator = n442;
-var n443 = t([[12, 201], [13, 202], [14, 203], [15, 205], [16, 200], [17, 199], [18, 207], [19, 206], [20, 207], [21, 206], [22, 208], [23, 205], [24, 104], [25, 203], [26, 205], [27, 205]]);
-var dark_yellow_alt2_ListItem = n443;
-var n444 = t([[12, 202], [13, 203], [14, 205], [15, 104], [16, 201], [17, 200], [18, 207], [19, 206], [20, 207], [21, 206], [22, 207], [23, 104], [24, 206], [25, 205], [26, 104], [27, 203]]);
-var dark_yellow_alt2_Card = n444;
-var dark_yellow_alt2_DrawerFrame = n444;
-var dark_yellow_alt2_Progress = n444;
-var dark_yellow_alt2_TooltipArrow = n444;
-var n445 = t([[12, 203], [13, 205], [14, 104], [15, 206], [16, 202], [17, 201], [18, 207], [19, 206], [20, 207], [21, 206], [22, 206], [23, 241], [24, 241], [25, 104], [26, 206], [27, 202]]);
-var dark_yellow_alt2_Button = n445;
-var n446 = t([[12, 201], [13, 202], [14, 203], [15, 205], [16, 200], [17, 199], [18, 207], [19, 206], [20, 207], [21, 206], [22, 208], [23, 206], [24, 207], [25, 104], [26, 206], [27, 205]]);
-var dark_yellow_alt2_Checkbox = n446;
-var dark_yellow_alt2_RadioGroupItem = n446;
-var dark_yellow_alt2_Input = n446;
-var dark_yellow_alt2_TextArea = n446;
-var n447 = t([[12, 203], [13, 205], [14, 104], [15, 206], [16, 202], [17, 201], [18, 207], [19, 206], [20, 207], [21, 206], [22, 206], [23, 206], [24, 207], [25, 104], [26, 206], [27, 202]]);
-var dark_yellow_alt2_Switch = n447;
-var dark_yellow_alt2_TooltipContent = n447;
-var dark_yellow_alt2_SliderTrack = n447;
-var n448 = t([[12, 208], [13, 207], [14, 206], [15, 104], [16, 0], [17, 0], [18, 200], [19, 201], [20, 200], [21, 201], [22, 198], [23, 104], [24, 205], [25, 206], [26, 104], [27, 201]]);
-var dark_yellow_alt2_SwitchThumb = n448;
-var n449 = t([[12, 205], [13, 203], [14, 202], [15, 201], [16, 104], [17, 206], [18, 200], [19, 201], [20, 200], [21, 201], [22, 201], [23, 201], [24, 200], [25, 202], [26, 201], [27, 104]]);
-var dark_yellow_alt2_SliderTrackActive = n449;
-var n450 = t([[12, 206], [13, 104], [14, 205], [15, 203], [16, 207], [17, 208], [18, 200], [19, 201], [20, 200], [21, 201], [22, 199], [23, 203], [24, 202], [25, 205], [26, 203], [27, 203]]);
-var dark_yellow_alt2_SliderThumb = n450;
-var dark_yellow_alt2_Tooltip = n450;
-var dark_yellow_alt2_ProgressIndicator = n450;
-var n451 = t([[12, 202], [13, 203], [14, 205], [15, 104], [16, 201], [17, 200], [19, 104], [20, 206], [21, 104], [22, 207], [23, 104], [24, 206], [25, 205], [26, 104], [27, 203]]);
-var dark_yellow_active_ListItem = n451;
-var n452 = t([[12, 203], [13, 205], [14, 104], [15, 206], [16, 202], [17, 201], [19, 104], [20, 206], [21, 104], [22, 206], [23, 206], [24, 207], [25, 104], [26, 206], [27, 202]]);
-var dark_yellow_active_Card = n452;
-var dark_yellow_active_DrawerFrame = n452;
-var dark_yellow_active_Progress = n452;
-var dark_yellow_active_TooltipArrow = n452;
-var n453 = t([[12, 205], [13, 104], [14, 206], [15, 207], [16, 203], [17, 202], [19, 104], [20, 206], [21, 104], [22, 104], [23, 241], [24, 241], [25, 206], [26, 207], [27, 201]]);
-var dark_yellow_active_Button = n453;
-var n454 = t([[12, 202], [13, 203], [14, 205], [15, 104], [16, 201], [17, 200], [19, 104], [20, 206], [21, 104], [22, 207], [23, 207], [24, 208], [25, 206], [26, 207], [27, 203]]);
-var dark_yellow_active_Checkbox = n454;
-var dark_yellow_active_RadioGroupItem = n454;
-var dark_yellow_active_Input = n454;
-var dark_yellow_active_TextArea = n454;
-var n455 = t([[12, 205], [13, 104], [14, 206], [15, 207], [16, 203], [17, 202], [19, 104], [20, 206], [21, 104], [22, 104], [23, 207], [24, 208], [25, 206], [26, 207], [27, 201]]);
-var dark_yellow_active_Switch = n455;
-var dark_yellow_active_TooltipContent = n455;
-var dark_yellow_active_SliderTrack = n455;
-var n456 = t([[12, 207], [13, 206], [14, 104], [15, 205], [16, 208], [17, 0], [19, 202], [20, 201], [21, 202], [22, 198], [23, 205], [24, 203], [25, 104], [26, 205], [27, 202]]);
-var dark_yellow_active_SwitchThumb = n456;
-var n457 = t([[12, 203], [13, 202], [14, 201], [15, 200], [16, 205], [17, 104], [19, 202], [20, 201], [21, 202], [22, 202], [23, 200], [24, 199], [25, 201], [26, 200], [27, 206]]);
-var dark_yellow_active_SliderTrackActive = n457;
-var n458 = t([[12, 104], [13, 205], [14, 203], [15, 202], [16, 206], [17, 207], [19, 202], [20, 201], [21, 202], [22, 200], [23, 202], [24, 201], [25, 203], [26, 202], [27, 205]]);
-var dark_yellow_active_SliderThumb = n458;
-var dark_yellow_active_Tooltip = n458;
-var dark_yellow_active_ProgressIndicator = n458;
-var n459 = t([[12, 145], [13, 146], [14, 147], [15, 148], [16, 144], [17, 143], [18, 153], [19, 152], [20, 153], [21, 152], [22, 0], [23, 148], [24, 150], [25, 147], [26, 148], [27, 44]]);
-var dark_green_alt1_ListItem = n459;
-var n460 = t([[12, 146], [13, 147], [14, 148], [15, 150], [16, 145], [17, 144], [18, 153], [19, 152], [20, 153], [21, 152], [22, 153], [23, 150], [24, 44], [25, 148], [26, 150], [27, 150]]);
-var dark_green_alt1_Card = n460;
-var dark_green_alt1_DrawerFrame = n460;
-var dark_green_alt1_Progress = n460;
-var dark_green_alt1_TooltipArrow = n460;
-var n461 = t([[12, 147], [13, 148], [14, 150], [15, 44], [16, 146], [17, 145], [18, 153], [19, 152], [20, 153], [21, 152], [22, 152], [23, 241], [24, 241], [25, 150], [26, 44], [27, 148]]);
-var dark_green_alt1_Button = n461;
-var n462 = t([[12, 145], [13, 146], [14, 147], [15, 148], [16, 144], [17, 143], [18, 153], [19, 152], [20, 153], [21, 152], [22, 0], [23, 44], [24, 151], [25, 150], [26, 44], [27, 44]]);
-var dark_green_alt1_Checkbox = n462;
-var dark_green_alt1_RadioGroupItem = n462;
-var dark_green_alt1_Input = n462;
-var dark_green_alt1_TextArea = n462;
-var n463 = t([[12, 147], [13, 148], [14, 150], [15, 44], [16, 146], [17, 145], [18, 153], [19, 152], [20, 153], [21, 152], [22, 152], [23, 44], [24, 151], [25, 150], [26, 44], [27, 148]]);
-var dark_green_alt1_Switch = n463;
-var dark_green_alt1_TooltipContent = n463;
-var dark_green_alt1_SliderTrack = n463;
-var n464 = t([[12, 0], [13, 153], [14, 152], [15, 151], [16, 0], [17, 0], [18, 144], [19, 145], [20, 144], [21, 145], [22, 143], [23, 151], [24, 44], [25, 152], [26, 151], [27, 145]]);
-var dark_green_alt1_SwitchThumb = n464;
-var n465 = t([[12, 44], [13, 150], [14, 148], [15, 147], [16, 151], [17, 152], [18, 144], [19, 145], [20, 144], [21, 145], [22, 145], [23, 147], [24, 146], [25, 148], [26, 147], [27, 150]]);
-var dark_green_alt1_SliderTrackActive = n465;
-var n466 = t([[12, 152], [13, 151], [14, 44], [15, 150], [16, 153], [17, 0], [18, 144], [19, 145], [20, 144], [21, 145], [22, 143], [23, 150], [24, 148], [25, 44], [26, 150], [27, 147]]);
-var dark_green_alt1_SliderThumb = n466;
-var dark_green_alt1_Tooltip = n466;
-var dark_green_alt1_ProgressIndicator = n466;
-var n467 = t([[12, 146], [13, 147], [14, 148], [15, 150], [16, 145], [17, 144], [18, 152], [19, 151], [20, 152], [21, 151], [22, 153], [23, 150], [24, 44], [25, 148], [26, 150], [27, 150]]);
-var dark_green_alt2_ListItem = n467;
-var n468 = t([[12, 147], [13, 148], [14, 150], [15, 44], [16, 146], [17, 145], [18, 152], [19, 151], [20, 152], [21, 151], [22, 152], [23, 44], [24, 151], [25, 150], [26, 44], [27, 148]]);
-var dark_green_alt2_Card = n468;
-var dark_green_alt2_DrawerFrame = n468;
-var dark_green_alt2_Progress = n468;
-var dark_green_alt2_TooltipArrow = n468;
-var n469 = t([[12, 148], [13, 150], [14, 44], [15, 151], [16, 147], [17, 146], [18, 152], [19, 151], [20, 152], [21, 151], [22, 151], [23, 241], [24, 241], [25, 44], [26, 151], [27, 147]]);
-var dark_green_alt2_Button = n469;
-var n470 = t([[12, 146], [13, 147], [14, 148], [15, 150], [16, 145], [17, 144], [18, 152], [19, 151], [20, 152], [21, 151], [22, 153], [23, 151], [24, 152], [25, 44], [26, 151], [27, 150]]);
-var dark_green_alt2_Checkbox = n470;
-var dark_green_alt2_RadioGroupItem = n470;
-var dark_green_alt2_Input = n470;
-var dark_green_alt2_TextArea = n470;
-var n471 = t([[12, 148], [13, 150], [14, 44], [15, 151], [16, 147], [17, 146], [18, 152], [19, 151], [20, 152], [21, 151], [22, 151], [23, 151], [24, 152], [25, 44], [26, 151], [27, 147]]);
-var dark_green_alt2_Switch = n471;
-var dark_green_alt2_TooltipContent = n471;
-var dark_green_alt2_SliderTrack = n471;
-var n472 = t([[12, 153], [13, 152], [14, 151], [15, 44], [16, 0], [17, 0], [18, 145], [19, 146], [20, 145], [21, 146], [22, 143], [23, 44], [24, 150], [25, 151], [26, 44], [27, 146]]);
-var dark_green_alt2_SwitchThumb = n472;
-var n473 = t([[12, 150], [13, 148], [14, 147], [15, 146], [16, 44], [17, 151], [18, 145], [19, 146], [20, 145], [21, 146], [22, 146], [23, 146], [24, 145], [25, 147], [26, 146], [27, 44]]);
-var dark_green_alt2_SliderTrackActive = n473;
-var n474 = t([[12, 151], [13, 44], [14, 150], [15, 148], [16, 152], [17, 153], [18, 145], [19, 146], [20, 145], [21, 146], [22, 144], [23, 148], [24, 147], [25, 150], [26, 148], [27, 148]]);
-var dark_green_alt2_SliderThumb = n474;
-var dark_green_alt2_Tooltip = n474;
-var dark_green_alt2_ProgressIndicator = n474;
-var n475 = t([[12, 147], [13, 148], [14, 150], [15, 44], [16, 146], [17, 145], [19, 44], [20, 151], [21, 44], [22, 152], [23, 44], [24, 151], [25, 150], [26, 44], [27, 148]]);
-var dark_green_active_ListItem = n475;
-var n476 = t([[12, 148], [13, 150], [14, 44], [15, 151], [16, 147], [17, 146], [19, 44], [20, 151], [21, 44], [22, 151], [23, 151], [24, 152], [25, 44], [26, 151], [27, 147]]);
-var dark_green_active_Card = n476;
-var dark_green_active_DrawerFrame = n476;
-var dark_green_active_Progress = n476;
-var dark_green_active_TooltipArrow = n476;
-var n477 = t([[12, 150], [13, 44], [14, 151], [15, 152], [16, 148], [17, 147], [19, 44], [20, 151], [21, 44], [22, 44], [23, 241], [24, 241], [25, 151], [26, 152], [27, 146]]);
-var dark_green_active_Button = n477;
-var n478 = t([[12, 147], [13, 148], [14, 150], [15, 44], [16, 146], [17, 145], [19, 44], [20, 151], [21, 44], [22, 152], [23, 152], [24, 153], [25, 151], [26, 152], [27, 148]]);
-var dark_green_active_Checkbox = n478;
-var dark_green_active_RadioGroupItem = n478;
-var dark_green_active_Input = n478;
-var dark_green_active_TextArea = n478;
-var n479 = t([[12, 150], [13, 44], [14, 151], [15, 152], [16, 148], [17, 147], [19, 44], [20, 151], [21, 44], [22, 44], [23, 152], [24, 153], [25, 151], [26, 152], [27, 146]]);
-var dark_green_active_Switch = n479;
-var dark_green_active_TooltipContent = n479;
-var dark_green_active_SliderTrack = n479;
-var n480 = t([[12, 152], [13, 151], [14, 44], [15, 150], [16, 153], [17, 0], [19, 147], [20, 146], [21, 147], [22, 143], [23, 150], [24, 148], [25, 44], [26, 150], [27, 147]]);
-var dark_green_active_SwitchThumb = n480;
-var n481 = t([[12, 148], [13, 147], [14, 146], [15, 145], [16, 150], [17, 44], [19, 147], [20, 146], [21, 147], [22, 147], [23, 145], [24, 144], [25, 146], [26, 145], [27, 151]]);
-var dark_green_active_SliderTrackActive = n481;
-var n482 = t([[12, 44], [13, 150], [14, 148], [15, 147], [16, 151], [17, 152], [19, 147], [20, 146], [21, 147], [22, 145], [23, 147], [24, 146], [25, 148], [26, 147], [27, 150]]);
-var dark_green_active_SliderThumb = n482;
-var dark_green_active_Tooltip = n482;
-var dark_green_active_ProgressIndicator = n482;
-var n483 = t([[12, 123], [13, 124], [14, 125], [15, 126], [16, 122], [17, 121], [18, 131], [19, 130], [20, 131], [21, 130], [22, 0], [23, 126], [24, 128], [25, 125], [26, 126], [27, 22]]);
-var dark_blue_alt1_ListItem = n483;
-var n484 = t([[12, 124], [13, 125], [14, 126], [15, 128], [16, 123], [17, 122], [18, 131], [19, 130], [20, 131], [21, 130], [22, 131], [23, 128], [24, 22], [25, 126], [26, 128], [27, 128]]);
-var dark_blue_alt1_Card = n484;
-var dark_blue_alt1_DrawerFrame = n484;
-var dark_blue_alt1_Progress = n484;
-var dark_blue_alt1_TooltipArrow = n484;
-var n485 = t([[12, 125], [13, 126], [14, 128], [15, 22], [16, 124], [17, 123], [18, 131], [19, 130], [20, 131], [21, 130], [22, 130], [23, 241], [24, 241], [25, 128], [26, 22], [27, 126]]);
-var dark_blue_alt1_Button = n485;
-var n486 = t([[12, 123], [13, 124], [14, 125], [15, 126], [16, 122], [17, 121], [18, 131], [19, 130], [20, 131], [21, 130], [22, 0], [23, 22], [24, 129], [25, 128], [26, 22], [27, 22]]);
-var dark_blue_alt1_Checkbox = n486;
-var dark_blue_alt1_RadioGroupItem = n486;
-var dark_blue_alt1_Input = n486;
-var dark_blue_alt1_TextArea = n486;
-var n487 = t([[12, 125], [13, 126], [14, 128], [15, 22], [16, 124], [17, 123], [18, 131], [19, 130], [20, 131], [21, 130], [22, 130], [23, 22], [24, 129], [25, 128], [26, 22], [27, 126]]);
-var dark_blue_alt1_Switch = n487;
-var dark_blue_alt1_TooltipContent = n487;
-var dark_blue_alt1_SliderTrack = n487;
-var n488 = t([[12, 0], [13, 131], [14, 130], [15, 129], [16, 0], [17, 0], [18, 122], [19, 123], [20, 122], [21, 123], [22, 121], [23, 129], [24, 22], [25, 130], [26, 129], [27, 123]]);
-var dark_blue_alt1_SwitchThumb = n488;
-var n489 = t([[12, 22], [13, 128], [14, 126], [15, 125], [16, 129], [17, 130], [18, 122], [19, 123], [20, 122], [21, 123], [22, 123], [23, 125], [24, 124], [25, 126], [26, 125], [27, 128]]);
-var dark_blue_alt1_SliderTrackActive = n489;
-var n490 = t([[12, 130], [13, 129], [14, 22], [15, 128], [16, 131], [17, 0], [18, 122], [19, 123], [20, 122], [21, 123], [22, 121], [23, 128], [24, 126], [25, 22], [26, 128], [27, 125]]);
-var dark_blue_alt1_SliderThumb = n490;
-var dark_blue_alt1_Tooltip = n490;
-var dark_blue_alt1_ProgressIndicator = n490;
-var n491 = t([[12, 124], [13, 125], [14, 126], [15, 128], [16, 123], [17, 122], [18, 130], [19, 129], [20, 130], [21, 129], [22, 131], [23, 128], [24, 22], [25, 126], [26, 128], [27, 128]]);
-var dark_blue_alt2_ListItem = n491;
-var n492 = t([[12, 125], [13, 126], [14, 128], [15, 22], [16, 124], [17, 123], [18, 130], [19, 129], [20, 130], [21, 129], [22, 130], [23, 22], [24, 129], [25, 128], [26, 22], [27, 126]]);
-var dark_blue_alt2_Card = n492;
-var dark_blue_alt2_DrawerFrame = n492;
-var dark_blue_alt2_Progress = n492;
-var dark_blue_alt2_TooltipArrow = n492;
-var n493 = t([[12, 126], [13, 128], [14, 22], [15, 129], [16, 125], [17, 124], [18, 130], [19, 129], [20, 130], [21, 129], [22, 129], [23, 241], [24, 241], [25, 22], [26, 129], [27, 125]]);
-var dark_blue_alt2_Button = n493;
-var n494 = t([[12, 124], [13, 125], [14, 126], [15, 128], [16, 123], [17, 122], [18, 130], [19, 129], [20, 130], [21, 129], [22, 131], [23, 129], [24, 130], [25, 22], [26, 129], [27, 128]]);
-var dark_blue_alt2_Checkbox = n494;
-var dark_blue_alt2_RadioGroupItem = n494;
-var dark_blue_alt2_Input = n494;
-var dark_blue_alt2_TextArea = n494;
-var n495 = t([[12, 126], [13, 128], [14, 22], [15, 129], [16, 125], [17, 124], [18, 130], [19, 129], [20, 130], [21, 129], [22, 129], [23, 129], [24, 130], [25, 22], [26, 129], [27, 125]]);
-var dark_blue_alt2_Switch = n495;
-var dark_blue_alt2_TooltipContent = n495;
-var dark_blue_alt2_SliderTrack = n495;
-var n496 = t([[12, 131], [13, 130], [14, 129], [15, 22], [16, 0], [17, 0], [18, 123], [19, 124], [20, 123], [21, 124], [22, 121], [23, 22], [24, 128], [25, 129], [26, 22], [27, 124]]);
-var dark_blue_alt2_SwitchThumb = n496;
-var n497 = t([[12, 128], [13, 126], [14, 125], [15, 124], [16, 22], [17, 129], [18, 123], [19, 124], [20, 123], [21, 124], [22, 124], [23, 124], [24, 123], [25, 125], [26, 124], [27, 22]]);
-var dark_blue_alt2_SliderTrackActive = n497;
-var n498 = t([[12, 129], [13, 22], [14, 128], [15, 126], [16, 130], [17, 131], [18, 123], [19, 124], [20, 123], [21, 124], [22, 122], [23, 126], [24, 125], [25, 128], [26, 126], [27, 126]]);
-var dark_blue_alt2_SliderThumb = n498;
-var dark_blue_alt2_Tooltip = n498;
-var dark_blue_alt2_ProgressIndicator = n498;
-var n499 = t([[12, 125], [13, 126], [14, 128], [15, 22], [16, 124], [17, 123], [19, 22], [20, 129], [21, 22], [22, 130], [23, 22], [24, 129], [25, 128], [26, 22], [27, 126]]);
-var dark_blue_active_ListItem = n499;
-var n500 = t([[12, 126], [13, 128], [14, 22], [15, 129], [16, 125], [17, 124], [19, 22], [20, 129], [21, 22], [22, 129], [23, 129], [24, 130], [25, 22], [26, 129], [27, 125]]);
-var dark_blue_active_Card = n500;
-var dark_blue_active_DrawerFrame = n500;
-var dark_blue_active_Progress = n500;
-var dark_blue_active_TooltipArrow = n500;
-var n501 = t([[12, 128], [13, 22], [14, 129], [15, 130], [16, 126], [17, 125], [19, 22], [20, 129], [21, 22], [22, 22], [23, 241], [24, 241], [25, 129], [26, 130], [27, 124]]);
-var dark_blue_active_Button = n501;
-var n502 = t([[12, 125], [13, 126], [14, 128], [15, 22], [16, 124], [17, 123], [19, 22], [20, 129], [21, 22], [22, 130], [23, 130], [24, 131], [25, 129], [26, 130], [27, 126]]);
-var dark_blue_active_Checkbox = n502;
-var dark_blue_active_RadioGroupItem = n502;
-var dark_blue_active_Input = n502;
-var dark_blue_active_TextArea = n502;
-var n503 = t([[12, 128], [13, 22], [14, 129], [15, 130], [16, 126], [17, 125], [19, 22], [20, 129], [21, 22], [22, 22], [23, 130], [24, 131], [25, 129], [26, 130], [27, 124]]);
-var dark_blue_active_Switch = n503;
-var dark_blue_active_TooltipContent = n503;
-var dark_blue_active_SliderTrack = n503;
-var n504 = t([[12, 130], [13, 129], [14, 22], [15, 128], [16, 131], [17, 0], [19, 125], [20, 124], [21, 125], [22, 121], [23, 128], [24, 126], [25, 22], [26, 128], [27, 125]]);
-var dark_blue_active_SwitchThumb = n504;
-var n505 = t([[12, 126], [13, 125], [14, 124], [15, 123], [16, 128], [17, 22], [19, 125], [20, 124], [21, 125], [22, 125], [23, 123], [24, 122], [25, 124], [26, 123], [27, 129]]);
-var dark_blue_active_SliderTrackActive = n505;
-var n506 = t([[12, 22], [13, 128], [14, 126], [15, 125], [16, 129], [17, 130], [19, 125], [20, 124], [21, 125], [22, 123], [23, 125], [24, 124], [25, 126], [26, 125], [27, 128]]);
-var dark_blue_active_SliderThumb = n506;
-var dark_blue_active_Tooltip = n506;
-var dark_blue_active_ProgressIndicator = n506;
-var n507 = t([[12, 178], [13, 179], [14, 180], [15, 181], [16, 177], [17, 176], [18, 186], [19, 185], [20, 186], [21, 185], [22, 0], [23, 181], [24, 183], [25, 180], [26, 181], [27, 80]]);
-var dark_purple_alt1_ListItem = n507;
-var n508 = t([[12, 179], [13, 180], [14, 181], [15, 183], [16, 178], [17, 177], [18, 186], [19, 185], [20, 186], [21, 185], [22, 186], [23, 183], [24, 80], [25, 181], [26, 183], [27, 183]]);
-var dark_purple_alt1_Card = n508;
-var dark_purple_alt1_DrawerFrame = n508;
-var dark_purple_alt1_Progress = n508;
-var dark_purple_alt1_TooltipArrow = n508;
-var n509 = t([[12, 180], [13, 181], [14, 183], [15, 80], [16, 179], [17, 178], [18, 186], [19, 185], [20, 186], [21, 185], [22, 185], [23, 241], [24, 241], [25, 183], [26, 80], [27, 181]]);
-var dark_purple_alt1_Button = n509;
-var n510 = t([[12, 178], [13, 179], [14, 180], [15, 181], [16, 177], [17, 176], [18, 186], [19, 185], [20, 186], [21, 185], [22, 0], [23, 80], [24, 184], [25, 183], [26, 80], [27, 80]]);
-var dark_purple_alt1_Checkbox = n510;
-var dark_purple_alt1_RadioGroupItem = n510;
-var dark_purple_alt1_Input = n510;
-var dark_purple_alt1_TextArea = n510;
-var n511 = t([[12, 180], [13, 181], [14, 183], [15, 80], [16, 179], [17, 178], [18, 186], [19, 185], [20, 186], [21, 185], [22, 185], [23, 80], [24, 184], [25, 183], [26, 80], [27, 181]]);
-var dark_purple_alt1_Switch = n511;
-var dark_purple_alt1_TooltipContent = n511;
-var dark_purple_alt1_SliderTrack = n511;
-var n512 = t([[12, 0], [13, 186], [14, 185], [15, 184], [16, 0], [17, 0], [18, 177], [19, 178], [20, 177], [21, 178], [22, 176], [23, 184], [24, 80], [25, 185], [26, 184], [27, 178]]);
-var dark_purple_alt1_SwitchThumb = n512;
-var n513 = t([[12, 80], [13, 183], [14, 181], [15, 180], [16, 184], [17, 185], [18, 177], [19, 178], [20, 177], [21, 178], [22, 178], [23, 180], [24, 179], [25, 181], [26, 180], [27, 183]]);
-var dark_purple_alt1_SliderTrackActive = n513;
-var n514 = t([[12, 185], [13, 184], [14, 80], [15, 183], [16, 186], [17, 0], [18, 177], [19, 178], [20, 177], [21, 178], [22, 176], [23, 183], [24, 181], [25, 80], [26, 183], [27, 180]]);
-var dark_purple_alt1_SliderThumb = n514;
-var dark_purple_alt1_Tooltip = n514;
-var dark_purple_alt1_ProgressIndicator = n514;
-var n515 = t([[12, 179], [13, 180], [14, 181], [15, 183], [16, 178], [17, 177], [18, 185], [19, 184], [20, 185], [21, 184], [22, 186], [23, 183], [24, 80], [25, 181], [26, 183], [27, 183]]);
-var dark_purple_alt2_ListItem = n515;
-var n516 = t([[12, 180], [13, 181], [14, 183], [15, 80], [16, 179], [17, 178], [18, 185], [19, 184], [20, 185], [21, 184], [22, 185], [23, 80], [24, 184], [25, 183], [26, 80], [27, 181]]);
-var dark_purple_alt2_Card = n516;
-var dark_purple_alt2_DrawerFrame = n516;
-var dark_purple_alt2_Progress = n516;
-var dark_purple_alt2_TooltipArrow = n516;
-var n517 = t([[12, 181], [13, 183], [14, 80], [15, 184], [16, 180], [17, 179], [18, 185], [19, 184], [20, 185], [21, 184], [22, 184], [23, 241], [24, 241], [25, 80], [26, 184], [27, 180]]);
-var dark_purple_alt2_Button = n517;
-var n518 = t([[12, 179], [13, 180], [14, 181], [15, 183], [16, 178], [17, 177], [18, 185], [19, 184], [20, 185], [21, 184], [22, 186], [23, 184], [24, 185], [25, 80], [26, 184], [27, 183]]);
-var dark_purple_alt2_Checkbox = n518;
-var dark_purple_alt2_RadioGroupItem = n518;
-var dark_purple_alt2_Input = n518;
-var dark_purple_alt2_TextArea = n518;
-var n519 = t([[12, 181], [13, 183], [14, 80], [15, 184], [16, 180], [17, 179], [18, 185], [19, 184], [20, 185], [21, 184], [22, 184], [23, 184], [24, 185], [25, 80], [26, 184], [27, 180]]);
-var dark_purple_alt2_Switch = n519;
-var dark_purple_alt2_TooltipContent = n519;
-var dark_purple_alt2_SliderTrack = n519;
-var n520 = t([[12, 186], [13, 185], [14, 184], [15, 80], [16, 0], [17, 0], [18, 178], [19, 179], [20, 178], [21, 179], [22, 176], [23, 80], [24, 183], [25, 184], [26, 80], [27, 179]]);
-var dark_purple_alt2_SwitchThumb = n520;
-var n521 = t([[12, 183], [13, 181], [14, 180], [15, 179], [16, 80], [17, 184], [18, 178], [19, 179], [20, 178], [21, 179], [22, 179], [23, 179], [24, 178], [25, 180], [26, 179], [27, 80]]);
-var dark_purple_alt2_SliderTrackActive = n521;
-var n522 = t([[12, 184], [13, 80], [14, 183], [15, 181], [16, 185], [17, 186], [18, 178], [19, 179], [20, 178], [21, 179], [22, 177], [23, 181], [24, 180], [25, 183], [26, 181], [27, 181]]);
-var dark_purple_alt2_SliderThumb = n522;
-var dark_purple_alt2_Tooltip = n522;
-var dark_purple_alt2_ProgressIndicator = n522;
-var n523 = t([[12, 180], [13, 181], [14, 183], [15, 80], [16, 179], [17, 178], [19, 80], [20, 184], [21, 80], [22, 185], [23, 80], [24, 184], [25, 183], [26, 80], [27, 181]]);
-var dark_purple_active_ListItem = n523;
-var n524 = t([[12, 181], [13, 183], [14, 80], [15, 184], [16, 180], [17, 179], [19, 80], [20, 184], [21, 80], [22, 184], [23, 184], [24, 185], [25, 80], [26, 184], [27, 180]]);
-var dark_purple_active_Card = n524;
-var dark_purple_active_DrawerFrame = n524;
-var dark_purple_active_Progress = n524;
-var dark_purple_active_TooltipArrow = n524;
-var n525 = t([[12, 183], [13, 80], [14, 184], [15, 185], [16, 181], [17, 180], [19, 80], [20, 184], [21, 80], [22, 80], [23, 241], [24, 241], [25, 184], [26, 185], [27, 179]]);
-var dark_purple_active_Button = n525;
-var n526 = t([[12, 180], [13, 181], [14, 183], [15, 80], [16, 179], [17, 178], [19, 80], [20, 184], [21, 80], [22, 185], [23, 185], [24, 186], [25, 184], [26, 185], [27, 181]]);
-var dark_purple_active_Checkbox = n526;
-var dark_purple_active_RadioGroupItem = n526;
-var dark_purple_active_Input = n526;
-var dark_purple_active_TextArea = n526;
-var n527 = t([[12, 183], [13, 80], [14, 184], [15, 185], [16, 181], [17, 180], [19, 80], [20, 184], [21, 80], [22, 80], [23, 185], [24, 186], [25, 184], [26, 185], [27, 179]]);
-var dark_purple_active_Switch = n527;
-var dark_purple_active_TooltipContent = n527;
-var dark_purple_active_SliderTrack = n527;
-var n528 = t([[12, 185], [13, 184], [14, 80], [15, 183], [16, 186], [17, 0], [19, 180], [20, 179], [21, 180], [22, 176], [23, 183], [24, 181], [25, 80], [26, 183], [27, 180]]);
-var dark_purple_active_SwitchThumb = n528;
-var n529 = t([[12, 181], [13, 180], [14, 179], [15, 178], [16, 183], [17, 80], [19, 180], [20, 179], [21, 180], [22, 180], [23, 178], [24, 177], [25, 179], [26, 178], [27, 184]]);
-var dark_purple_active_SliderTrackActive = n529;
-var n530 = t([[12, 80], [13, 183], [14, 181], [15, 180], [16, 184], [17, 185], [19, 180], [20, 179], [21, 180], [22, 178], [23, 180], [24, 179], [25, 181], [26, 180], [27, 183]]);
-var dark_purple_active_SliderThumb = n530;
-var dark_purple_active_Tooltip = n530;
-var dark_purple_active_ProgressIndicator = n530;
-var n531 = t([[12, 167], [13, 168], [14, 169], [15, 170], [16, 166], [17, 165], [18, 175], [19, 174], [20, 175], [21, 174], [22, 0], [23, 170], [24, 172], [25, 169], [26, 170], [27, 68]]);
-var dark_pink_alt1_ListItem = n531;
-var n532 = t([[12, 168], [13, 169], [14, 170], [15, 172], [16, 167], [17, 166], [18, 175], [19, 174], [20, 175], [21, 174], [22, 175], [23, 172], [24, 68], [25, 170], [26, 172], [27, 172]]);
-var dark_pink_alt1_Card = n532;
-var dark_pink_alt1_DrawerFrame = n532;
-var dark_pink_alt1_Progress = n532;
-var dark_pink_alt1_TooltipArrow = n532;
-var n533 = t([[12, 169], [13, 170], [14, 172], [15, 68], [16, 168], [17, 167], [18, 175], [19, 174], [20, 175], [21, 174], [22, 174], [23, 241], [24, 241], [25, 172], [26, 68], [27, 170]]);
-var dark_pink_alt1_Button = n533;
-var n534 = t([[12, 167], [13, 168], [14, 169], [15, 170], [16, 166], [17, 165], [18, 175], [19, 174], [20, 175], [21, 174], [22, 0], [23, 68], [24, 173], [25, 172], [26, 68], [27, 68]]);
-var dark_pink_alt1_Checkbox = n534;
-var dark_pink_alt1_RadioGroupItem = n534;
-var dark_pink_alt1_Input = n534;
-var dark_pink_alt1_TextArea = n534;
-var n535 = t([[12, 169], [13, 170], [14, 172], [15, 68], [16, 168], [17, 167], [18, 175], [19, 174], [20, 175], [21, 174], [22, 174], [23, 68], [24, 173], [25, 172], [26, 68], [27, 170]]);
-var dark_pink_alt1_Switch = n535;
-var dark_pink_alt1_TooltipContent = n535;
-var dark_pink_alt1_SliderTrack = n535;
-var n536 = t([[12, 0], [13, 175], [14, 174], [15, 173], [16, 0], [17, 0], [18, 166], [19, 167], [20, 166], [21, 167], [22, 165], [23, 173], [24, 68], [25, 174], [26, 173], [27, 167]]);
-var dark_pink_alt1_SwitchThumb = n536;
-var n537 = t([[12, 68], [13, 172], [14, 170], [15, 169], [16, 173], [17, 174], [18, 166], [19, 167], [20, 166], [21, 167], [22, 167], [23, 169], [24, 168], [25, 170], [26, 169], [27, 172]]);
-var dark_pink_alt1_SliderTrackActive = n537;
-var n538 = t([[12, 174], [13, 173], [14, 68], [15, 172], [16, 175], [17, 0], [18, 166], [19, 167], [20, 166], [21, 167], [22, 165], [23, 172], [24, 170], [25, 68], [26, 172], [27, 169]]);
-var dark_pink_alt1_SliderThumb = n538;
-var dark_pink_alt1_Tooltip = n538;
-var dark_pink_alt1_ProgressIndicator = n538;
-var n539 = t([[12, 168], [13, 169], [14, 170], [15, 172], [16, 167], [17, 166], [18, 174], [19, 173], [20, 174], [21, 173], [22, 175], [23, 172], [24, 68], [25, 170], [26, 172], [27, 172]]);
-var dark_pink_alt2_ListItem = n539;
-var n540 = t([[12, 169], [13, 170], [14, 172], [15, 68], [16, 168], [17, 167], [18, 174], [19, 173], [20, 174], [21, 173], [22, 174], [23, 68], [24, 173], [25, 172], [26, 68], [27, 170]]);
-var dark_pink_alt2_Card = n540;
-var dark_pink_alt2_DrawerFrame = n540;
-var dark_pink_alt2_Progress = n540;
-var dark_pink_alt2_TooltipArrow = n540;
-var n541 = t([[12, 170], [13, 172], [14, 68], [15, 173], [16, 169], [17, 168], [18, 174], [19, 173], [20, 174], [21, 173], [22, 173], [23, 241], [24, 241], [25, 68], [26, 173], [27, 169]]);
-var dark_pink_alt2_Button = n541;
-var n542 = t([[12, 168], [13, 169], [14, 170], [15, 172], [16, 167], [17, 166], [18, 174], [19, 173], [20, 174], [21, 173], [22, 175], [23, 173], [24, 174], [25, 68], [26, 173], [27, 172]]);
-var dark_pink_alt2_Checkbox = n542;
-var dark_pink_alt2_RadioGroupItem = n542;
-var dark_pink_alt2_Input = n542;
-var dark_pink_alt2_TextArea = n542;
-var n543 = t([[12, 170], [13, 172], [14, 68], [15, 173], [16, 169], [17, 168], [18, 174], [19, 173], [20, 174], [21, 173], [22, 173], [23, 173], [24, 174], [25, 68], [26, 173], [27, 169]]);
-var dark_pink_alt2_Switch = n543;
-var dark_pink_alt2_TooltipContent = n543;
-var dark_pink_alt2_SliderTrack = n543;
-var n544 = t([[12, 175], [13, 174], [14, 173], [15, 68], [16, 0], [17, 0], [18, 167], [19, 168], [20, 167], [21, 168], [22, 165], [23, 68], [24, 172], [25, 173], [26, 68], [27, 168]]);
-var dark_pink_alt2_SwitchThumb = n544;
-var n545 = t([[12, 172], [13, 170], [14, 169], [15, 168], [16, 68], [17, 173], [18, 167], [19, 168], [20, 167], [21, 168], [22, 168], [23, 168], [24, 167], [25, 169], [26, 168], [27, 68]]);
-var dark_pink_alt2_SliderTrackActive = n545;
-var n546 = t([[12, 173], [13, 68], [14, 172], [15, 170], [16, 174], [17, 175], [18, 167], [19, 168], [20, 167], [21, 168], [22, 166], [23, 170], [24, 169], [25, 172], [26, 170], [27, 170]]);
-var dark_pink_alt2_SliderThumb = n546;
-var dark_pink_alt2_Tooltip = n546;
-var dark_pink_alt2_ProgressIndicator = n546;
-var n547 = t([[12, 169], [13, 170], [14, 172], [15, 68], [16, 168], [17, 167], [19, 68], [20, 173], [21, 68], [22, 174], [23, 68], [24, 173], [25, 172], [26, 68], [27, 170]]);
-var dark_pink_active_ListItem = n547;
-var n548 = t([[12, 170], [13, 172], [14, 68], [15, 173], [16, 169], [17, 168], [19, 68], [20, 173], [21, 68], [22, 173], [23, 173], [24, 174], [25, 68], [26, 173], [27, 169]]);
-var dark_pink_active_Card = n548;
-var dark_pink_active_DrawerFrame = n548;
-var dark_pink_active_Progress = n548;
-var dark_pink_active_TooltipArrow = n548;
-var n549 = t([[12, 172], [13, 68], [14, 173], [15, 174], [16, 170], [17, 169], [19, 68], [20, 173], [21, 68], [22, 68], [23, 241], [24, 241], [25, 173], [26, 174], [27, 168]]);
-var dark_pink_active_Button = n549;
-var n550 = t([[12, 169], [13, 170], [14, 172], [15, 68], [16, 168], [17, 167], [19, 68], [20, 173], [21, 68], [22, 174], [23, 174], [24, 175], [25, 173], [26, 174], [27, 170]]);
-var dark_pink_active_Checkbox = n550;
-var dark_pink_active_RadioGroupItem = n550;
-var dark_pink_active_Input = n550;
-var dark_pink_active_TextArea = n550;
-var n551 = t([[12, 172], [13, 68], [14, 173], [15, 174], [16, 170], [17, 169], [19, 68], [20, 173], [21, 68], [22, 68], [23, 174], [24, 175], [25, 173], [26, 174], [27, 168]]);
-var dark_pink_active_Switch = n551;
-var dark_pink_active_TooltipContent = n551;
-var dark_pink_active_SliderTrack = n551;
-var n552 = t([[12, 174], [13, 173], [14, 68], [15, 172], [16, 175], [17, 0], [19, 169], [20, 168], [21, 169], [22, 165], [23, 172], [24, 170], [25, 68], [26, 172], [27, 169]]);
-var dark_pink_active_SwitchThumb = n552;
-var n553 = t([[12, 170], [13, 169], [14, 168], [15, 167], [16, 172], [17, 68], [19, 169], [20, 168], [21, 169], [22, 169], [23, 167], [24, 166], [25, 168], [26, 167], [27, 173]]);
-var dark_pink_active_SliderTrackActive = n553;
-var n554 = t([[12, 68], [13, 172], [14, 170], [15, 169], [16, 173], [17, 174], [19, 169], [20, 168], [21, 169], [22, 167], [23, 169], [24, 168], [25, 170], [26, 169], [27, 172]]);
-var dark_pink_active_SliderThumb = n554;
-var dark_pink_active_Tooltip = n554;
-var dark_pink_active_ProgressIndicator = n554;
-var n555 = t([[12, 189], [13, 190], [14, 191], [15, 192], [16, 188], [17, 187], [18, 197], [19, 196], [20, 197], [21, 196], [22, 0], [23, 192], [24, 194], [25, 191], [26, 192], [27, 92]]);
-var dark_red_alt1_ListItem = n555;
-var n556 = t([[12, 190], [13, 191], [14, 192], [15, 194], [16, 189], [17, 188], [18, 197], [19, 196], [20, 197], [21, 196], [22, 197], [23, 194], [24, 92], [25, 192], [26, 194], [27, 194]]);
-var dark_red_alt1_Card = n556;
-var dark_red_alt1_DrawerFrame = n556;
-var dark_red_alt1_Progress = n556;
-var dark_red_alt1_TooltipArrow = n556;
-var n557 = t([[12, 191], [13, 192], [14, 194], [15, 92], [16, 190], [17, 189], [18, 197], [19, 196], [20, 197], [21, 196], [22, 196], [23, 241], [24, 241], [25, 194], [26, 92], [27, 192]]);
-var dark_red_alt1_Button = n557;
-var n558 = t([[12, 189], [13, 190], [14, 191], [15, 192], [16, 188], [17, 187], [18, 197], [19, 196], [20, 197], [21, 196], [22, 0], [23, 92], [24, 195], [25, 194], [26, 92], [27, 92]]);
-var dark_red_alt1_Checkbox = n558;
-var dark_red_alt1_RadioGroupItem = n558;
-var dark_red_alt1_Input = n558;
-var dark_red_alt1_TextArea = n558;
-var n559 = t([[12, 191], [13, 192], [14, 194], [15, 92], [16, 190], [17, 189], [18, 197], [19, 196], [20, 197], [21, 196], [22, 196], [23, 92], [24, 195], [25, 194], [26, 92], [27, 192]]);
-var dark_red_alt1_Switch = n559;
-var dark_red_alt1_TooltipContent = n559;
-var dark_red_alt1_SliderTrack = n559;
-var n560 = t([[12, 0], [13, 197], [14, 196], [15, 195], [16, 0], [17, 0], [18, 188], [19, 189], [20, 188], [21, 189], [22, 187], [23, 195], [24, 92], [25, 196], [26, 195], [27, 189]]);
-var dark_red_alt1_SwitchThumb = n560;
-var n561 = t([[12, 92], [13, 194], [14, 192], [15, 191], [16, 195], [17, 196], [18, 188], [19, 189], [20, 188], [21, 189], [22, 189], [23, 191], [24, 190], [25, 192], [26, 191], [27, 194]]);
-var dark_red_alt1_SliderTrackActive = n561;
-var n562 = t([[12, 196], [13, 195], [14, 92], [15, 194], [16, 197], [17, 0], [18, 188], [19, 189], [20, 188], [21, 189], [22, 187], [23, 194], [24, 192], [25, 92], [26, 194], [27, 191]]);
-var dark_red_alt1_SliderThumb = n562;
-var dark_red_alt1_Tooltip = n562;
-var dark_red_alt1_ProgressIndicator = n562;
-var n563 = t([[12, 190], [13, 191], [14, 192], [15, 194], [16, 189], [17, 188], [18, 196], [19, 195], [20, 196], [21, 195], [22, 197], [23, 194], [24, 92], [25, 192], [26, 194], [27, 194]]);
-var dark_red_alt2_ListItem = n563;
-var n564 = t([[12, 191], [13, 192], [14, 194], [15, 92], [16, 190], [17, 189], [18, 196], [19, 195], [20, 196], [21, 195], [22, 196], [23, 92], [24, 195], [25, 194], [26, 92], [27, 192]]);
-var dark_red_alt2_Card = n564;
-var dark_red_alt2_DrawerFrame = n564;
-var dark_red_alt2_Progress = n564;
-var dark_red_alt2_TooltipArrow = n564;
-var n565 = t([[12, 192], [13, 194], [14, 92], [15, 195], [16, 191], [17, 190], [18, 196], [19, 195], [20, 196], [21, 195], [22, 195], [23, 241], [24, 241], [25, 92], [26, 195], [27, 191]]);
-var dark_red_alt2_Button = n565;
-var n566 = t([[12, 190], [13, 191], [14, 192], [15, 194], [16, 189], [17, 188], [18, 196], [19, 195], [20, 196], [21, 195], [22, 197], [23, 195], [24, 196], [25, 92], [26, 195], [27, 194]]);
-var dark_red_alt2_Checkbox = n566;
-var dark_red_alt2_RadioGroupItem = n566;
-var dark_red_alt2_Input = n566;
-var dark_red_alt2_TextArea = n566;
-var n567 = t([[12, 192], [13, 194], [14, 92], [15, 195], [16, 191], [17, 190], [18, 196], [19, 195], [20, 196], [21, 195], [22, 195], [23, 195], [24, 196], [25, 92], [26, 195], [27, 191]]);
-var dark_red_alt2_Switch = n567;
-var dark_red_alt2_TooltipContent = n567;
-var dark_red_alt2_SliderTrack = n567;
-var n568 = t([[12, 197], [13, 196], [14, 195], [15, 92], [16, 0], [17, 0], [18, 189], [19, 190], [20, 189], [21, 190], [22, 187], [23, 92], [24, 194], [25, 195], [26, 92], [27, 190]]);
-var dark_red_alt2_SwitchThumb = n568;
-var n569 = t([[12, 194], [13, 192], [14, 191], [15, 190], [16, 92], [17, 195], [18, 189], [19, 190], [20, 189], [21, 190], [22, 190], [23, 190], [24, 189], [25, 191], [26, 190], [27, 92]]);
-var dark_red_alt2_SliderTrackActive = n569;
-var n570 = t([[12, 195], [13, 92], [14, 194], [15, 192], [16, 196], [17, 197], [18, 189], [19, 190], [20, 189], [21, 190], [22, 188], [23, 192], [24, 191], [25, 194], [26, 192], [27, 192]]);
-var dark_red_alt2_SliderThumb = n570;
-var dark_red_alt2_Tooltip = n570;
-var dark_red_alt2_ProgressIndicator = n570;
-var n571 = t([[12, 191], [13, 192], [14, 194], [15, 92], [16, 190], [17, 189], [19, 92], [20, 195], [21, 92], [22, 196], [23, 92], [24, 195], [25, 194], [26, 92], [27, 192]]);
-var dark_red_active_ListItem = n571;
-var n572 = t([[12, 192], [13, 194], [14, 92], [15, 195], [16, 191], [17, 190], [19, 92], [20, 195], [21, 92], [22, 195], [23, 195], [24, 196], [25, 92], [26, 195], [27, 191]]);
-var dark_red_active_Card = n572;
-var dark_red_active_DrawerFrame = n572;
-var dark_red_active_Progress = n572;
-var dark_red_active_TooltipArrow = n572;
-var n573 = t([[12, 194], [13, 92], [14, 195], [15, 196], [16, 192], [17, 191], [19, 92], [20, 195], [21, 92], [22, 92], [23, 241], [24, 241], [25, 195], [26, 196], [27, 190]]);
-var dark_red_active_Button = n573;
-var n574 = t([[12, 191], [13, 192], [14, 194], [15, 92], [16, 190], [17, 189], [19, 92], [20, 195], [21, 92], [22, 196], [23, 196], [24, 197], [25, 195], [26, 196], [27, 192]]);
-var dark_red_active_Checkbox = n574;
-var dark_red_active_RadioGroupItem = n574;
-var dark_red_active_Input = n574;
-var dark_red_active_TextArea = n574;
-var n575 = t([[12, 194], [13, 92], [14, 195], [15, 196], [16, 192], [17, 191], [19, 92], [20, 195], [21, 92], [22, 92], [23, 196], [24, 197], [25, 195], [26, 196], [27, 190]]);
-var dark_red_active_Switch = n575;
-var dark_red_active_TooltipContent = n575;
-var dark_red_active_SliderTrack = n575;
-var n576 = t([[12, 196], [13, 195], [14, 92], [15, 194], [16, 197], [17, 0], [19, 191], [20, 190], [21, 191], [22, 187], [23, 194], [24, 192], [25, 92], [26, 194], [27, 191]]);
-var dark_red_active_SwitchThumb = n576;
-var n577 = t([[12, 192], [13, 191], [14, 190], [15, 189], [16, 194], [17, 92], [19, 191], [20, 190], [21, 191], [22, 191], [23, 189], [24, 188], [25, 190], [26, 189], [27, 195]]);
-var dark_red_active_SliderTrackActive = n577;
-var n578 = t([[12, 92], [13, 194], [14, 192], [15, 191], [16, 195], [17, 196], [19, 191], [20, 190], [21, 191], [22, 189], [23, 191], [24, 190], [25, 192], [26, 191], [27, 194]]);
-var dark_red_active_SliderThumb = n578;
-var dark_red_active_Tooltip = n578;
-var dark_red_active_ProgressIndicator = n578;
-
-// node_modules/@tamagui/colors/dist/esm/dark/blue.mjs
-var blue = {
-  blue1: "hsl(212, 35.0%, 9.2%)",
-  blue2: "hsl(216, 50.0%, 11.8%)",
-  blue3: "hsl(214, 59.4%, 15.3%)",
-  blue4: "hsl(214, 65.8%, 17.9%)",
-  blue5: "hsl(213, 71.2%, 20.2%)",
-  blue6: "hsl(212, 77.4%, 23.1%)",
-  blue7: "hsl(211, 85.1%, 27.4%)",
-  blue8: "hsl(211, 89.7%, 34.1%)",
-  blue9: "hsl(206, 100%, 50.0%)",
-  blue10: "hsl(209, 100%, 60.6%)",
-  blue11: "hsl(210, 100%, 66.1%)",
-  blue12: "hsl(206, 98.0%, 95.8%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/dark/gray.mjs
-var gray = {
-  gray1: "hsl(0, 0%, 8.5%)",
-  gray2: "hsl(0, 0%, 11.0%)",
-  gray3: "hsl(0, 0%, 13.6%)",
-  gray4: "hsl(0, 0%, 15.8%)",
-  gray5: "hsl(0, 0%, 17.9%)",
-  gray6: "hsl(0, 0%, 20.5%)",
-  gray7: "hsl(0, 0%, 24.3%)",
-  gray8: "hsl(0, 0%, 31.2%)",
-  gray9: "hsl(0, 0%, 43.9%)",
-  gray10: "hsl(0, 0%, 49.4%)",
-  gray11: "hsl(0, 0%, 62.8%)",
-  gray12: "hsl(0, 0%, 93.0%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/dark/green.mjs
-var green = {
-  green1: "hsl(146, 30.0%, 7.4%)",
-  green2: "hsl(155, 44.2%, 8.4%)",
-  green3: "hsl(155, 46.7%, 10.9%)",
-  green4: "hsl(154, 48.4%, 12.9%)",
-  green5: "hsl(154, 49.7%, 14.9%)",
-  green6: "hsl(154, 50.9%, 17.6%)",
-  green7: "hsl(153, 51.8%, 21.8%)",
-  green8: "hsl(151, 51.7%, 28.4%)",
-  green9: "hsl(151, 55.0%, 41.5%)",
-  green10: "hsl(151, 49.3%, 46.5%)",
-  green11: "hsl(151, 50.0%, 53.2%)",
-  green12: "hsl(137, 72.0%, 94.0%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/dark/orange.mjs
-var orange = {
-  orange1: "hsl(30, 70.0%, 7.2%)",
-  orange2: "hsl(28, 100%, 8.4%)",
-  orange3: "hsl(26, 91.1%, 11.6%)",
-  orange4: "hsl(25, 88.3%, 14.1%)",
-  orange5: "hsl(24, 87.6%, 16.6%)",
-  orange6: "hsl(24, 88.6%, 19.8%)",
-  orange7: "hsl(24, 92.4%, 24.0%)",
-  orange8: "hsl(25, 100%, 29.0%)",
-  orange9: "hsl(24, 94.0%, 50.0%)",
-  orange10: "hsl(24, 100%, 58.5%)",
-  orange11: "hsl(24, 100%, 62.2%)",
-  orange12: "hsl(24, 97.0%, 93.2%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/dark/pink.mjs
-var pink = {
-  pink1: "hsl(318, 25.0%, 9.6%)",
-  pink2: "hsl(319, 32.2%, 11.6%)",
-  pink3: "hsl(319, 41.0%, 16.0%)",
-  pink4: "hsl(320, 45.4%, 18.7%)",
-  pink5: "hsl(320, 49.0%, 21.1%)",
-  pink6: "hsl(321, 53.6%, 24.4%)",
-  pink7: "hsl(321, 61.1%, 29.7%)",
-  pink8: "hsl(322, 74.9%, 37.5%)",
-  pink9: "hsl(322, 65.0%, 54.5%)",
-  pink10: "hsl(323, 72.8%, 59.2%)",
-  pink11: "hsl(325, 90.0%, 66.4%)",
-  pink12: "hsl(322, 90.0%, 95.8%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/dark/purple.mjs
-var purple = {
-  purple1: "hsl(284, 20.0%, 9.6%)",
-  purple2: "hsl(283, 30.0%, 11.8%)",
-  purple3: "hsl(281, 37.5%, 16.5%)",
-  purple4: "hsl(280, 41.2%, 20.0%)",
-  purple5: "hsl(279, 43.8%, 23.3%)",
-  purple6: "hsl(277, 46.4%, 27.5%)",
-  purple7: "hsl(275, 49.3%, 34.6%)",
-  purple8: "hsl(272, 52.1%, 45.9%)",
-  purple9: "hsl(272, 51.0%, 54.0%)",
-  purple10: "hsl(273, 57.3%, 59.1%)",
-  purple11: "hsl(275, 80.0%, 71.0%)",
-  purple12: "hsl(279, 75.0%, 95.7%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/dark/red.mjs
-var red = {
-  red1: "hsl(353, 23.0%, 9.8%)",
-  red2: "hsl(357, 34.4%, 12.0%)",
-  red3: "hsl(356, 43.4%, 16.4%)",
-  red4: "hsl(356, 47.6%, 19.2%)",
-  red5: "hsl(356, 51.1%, 21.9%)",
-  red6: "hsl(356, 55.2%, 25.9%)",
-  red7: "hsl(357, 60.2%, 31.8%)",
-  red8: "hsl(358, 65.0%, 40.4%)",
-  red9: "hsl(358, 75.0%, 59.0%)",
-  red10: "hsl(358, 85.3%, 64.0%)",
-  red11: "hsl(358, 100%, 69.5%)",
-  red12: "hsl(351, 89.0%, 96.0%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/dark/yellow.mjs
-var yellow = {
-  yellow1: "hsl(45, 100%, 5.5%)",
-  yellow2: "hsl(46, 100%, 6.7%)",
-  yellow3: "hsl(45, 100%, 8.7%)",
-  yellow4: "hsl(45, 100%, 10.4%)",
-  yellow5: "hsl(47, 100%, 12.1%)",
-  yellow6: "hsl(49, 100%, 14.3%)",
-  yellow7: "hsl(49, 90.3%, 18.4%)",
-  yellow8: "hsl(50, 100%, 22.0%)",
-  yellow9: "hsl(53, 92.0%, 50.0%)",
-  yellow10: "hsl(54, 100%, 68.0%)",
-  yellow11: "hsl(48, 100%, 47.0%)",
-  yellow12: "hsl(53, 100%, 91.0%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/light/blue.mjs
-var blue2 = {
-  blue1: "hsl(206, 100%, 99.2%)",
-  blue2: "hsl(210, 100%, 98.0%)",
-  blue3: "hsl(209, 100%, 96.5%)",
-  blue4: "hsl(210, 98.8%, 94.0%)",
-  blue5: "hsl(209, 95.0%, 90.1%)",
-  blue6: "hsl(209, 81.2%, 84.5%)",
-  blue7: "hsl(208, 77.5%, 76.9%)",
-  blue8: "hsl(206, 81.9%, 65.3%)",
-  blue9: "hsl(206, 100%, 50.0%)",
-  blue10: "hsl(208, 100%, 47.3%)",
-  blue11: "hsl(211, 100%, 43.2%)",
-  blue12: "hsl(211, 100%, 15.0%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/light/gray.mjs
-var gray2 = {
-  gray1: "hsl(0, 0%, 99.0%)",
-  gray2: "hsl(0, 0%, 97.3%)",
-  gray3: "hsl(0, 0%, 95.1%)",
-  gray4: "hsl(0, 0%, 93.0%)",
-  gray5: "hsl(0, 0%, 90.9%)",
-  gray6: "hsl(0, 0%, 88.7%)",
-  gray7: "hsl(0, 0%, 85.8%)",
-  gray8: "hsl(0, 0%, 78.0%)",
-  gray9: "hsl(0, 0%, 56.1%)",
-  gray10: "hsl(0, 0%, 52.3%)",
-  gray11: "hsl(0, 0%, 43.5%)",
-  gray12: "hsl(0, 0%, 9.0%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/light/green.mjs
-var green2 = {
-  green1: "hsl(136, 50.0%, 98.9%)",
-  green2: "hsl(138, 62.5%, 96.9%)",
-  green3: "hsl(139, 55.2%, 94.5%)",
-  green4: "hsl(140, 48.7%, 91.0%)",
-  green5: "hsl(141, 43.7%, 86.0%)",
-  green6: "hsl(143, 40.3%, 79.0%)",
-  green7: "hsl(146, 38.5%, 69.0%)",
-  green8: "hsl(151, 40.2%, 54.1%)",
-  green9: "hsl(151, 55.0%, 41.5%)",
-  green10: "hsl(152, 57.5%, 37.6%)",
-  green11: "hsl(153, 67.0%, 28.5%)",
-  green12: "hsl(155, 40.0%, 14.0%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/light/orange.mjs
-var orange2 = {
-  orange1: "hsl(24, 70.0%, 99.0%)",
-  orange2: "hsl(24, 83.3%, 97.6%)",
-  orange3: "hsl(24, 100%, 95.3%)",
-  orange4: "hsl(25, 100%, 92.2%)",
-  orange5: "hsl(25, 100%, 88.2%)",
-  orange6: "hsl(25, 100%, 82.8%)",
-  orange7: "hsl(24, 100%, 75.3%)",
-  orange8: "hsl(24, 94.5%, 64.3%)",
-  orange9: "hsl(24, 94.0%, 50.0%)",
-  orange10: "hsl(24, 100%, 46.5%)",
-  orange11: "hsl(24, 100%, 37.0%)",
-  orange12: "hsl(15, 60.0%, 17.0%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/light/pink.mjs
-var pink2 = {
-  pink1: "hsl(322, 100%, 99.4%)",
-  pink2: "hsl(323, 100%, 98.4%)",
-  pink3: "hsl(323, 86.3%, 96.5%)",
-  pink4: "hsl(323, 78.7%, 94.2%)",
-  pink5: "hsl(323, 72.2%, 91.1%)",
-  pink6: "hsl(323, 66.3%, 86.6%)",
-  pink7: "hsl(323, 62.0%, 80.1%)",
-  pink8: "hsl(323, 60.3%, 72.4%)",
-  pink9: "hsl(322, 65.0%, 54.5%)",
-  pink10: "hsl(322, 63.9%, 50.7%)",
-  pink11: "hsl(322, 75.0%, 46.0%)",
-  pink12: "hsl(320, 70.0%, 13.5%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/light/purple.mjs
-var purple2 = {
-  purple1: "hsl(280, 65.0%, 99.4%)",
-  purple2: "hsl(276, 100%, 99.0%)",
-  purple3: "hsl(276, 83.1%, 97.0%)",
-  purple4: "hsl(275, 76.4%, 94.7%)",
-  purple5: "hsl(275, 70.8%, 91.8%)",
-  purple6: "hsl(274, 65.4%, 87.8%)",
-  purple7: "hsl(273, 61.0%, 81.7%)",
-  purple8: "hsl(272, 60.0%, 73.5%)",
-  purple9: "hsl(272, 51.0%, 54.0%)",
-  purple10: "hsl(272, 46.8%, 50.3%)",
-  purple11: "hsl(272, 50.0%, 45.8%)",
-  purple12: "hsl(272, 66.0%, 16.0%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/light/red.mjs
-var red2 = {
-  red1: "hsl(359, 100%, 99.4%)",
-  red2: "hsl(359, 100%, 98.6%)",
-  red3: "hsl(360, 100%, 96.8%)",
-  red4: "hsl(360, 97.9%, 94.8%)",
-  red5: "hsl(360, 90.2%, 91.9%)",
-  red6: "hsl(360, 81.7%, 87.8%)",
-  red7: "hsl(359, 74.2%, 81.7%)",
-  red8: "hsl(359, 69.5%, 74.3%)",
-  red9: "hsl(358, 75.0%, 59.0%)",
-  red10: "hsl(358, 69.4%, 55.2%)",
-  red11: "hsl(358, 65.0%, 48.7%)",
-  red12: "hsl(354, 50.0%, 14.6%)"
-};
-
-// node_modules/@tamagui/colors/dist/esm/light/yellow.mjs
-var yellow2 = {
-  yellow1: "hsl(60, 54.0%, 98.5%)",
-  yellow2: "hsl(52, 100%, 95.5%)",
-  yellow3: "hsl(55, 100%, 90.9%)",
-  yellow4: "hsl(54, 100%, 86.6%)",
-  yellow5: "hsl(52, 97.9%, 82.0%)",
-  yellow6: "hsl(50, 89.4%, 76.1%)",
-  yellow7: "hsl(47, 80.4%, 68.0%)",
-  yellow8: "hsl(48, 100%, 46.1%)",
-  yellow9: "hsl(53, 92.0%, 50.0%)",
-  yellow10: "hsl(50, 100%, 48.5%)",
-  yellow11: "hsl(42, 100%, 29.0%)",
-  yellow12: "hsl(40, 55.0%, 13.5%)"
-};
-
-// node_modules/@tamagui/themes/dist/esm/tokens.mjs
+// node_modules/@tamagui/animations-react-native/dist/esm/createAnimations.mjs
+var import_react55 = __toESM(require("react"), 1);
 var import_web20 = require("@tamagui/core");
-var size5 = {
-  $0: 0,
-  "$0.25": 2,
-  "$0.5": 4,
-  "$0.75": 8,
-  $1: 20,
-  "$1.5": 24,
-  $2: 28,
-  "$2.5": 32,
-  $3: 36,
-  "$3.5": 40,
-  $4: 44,
-  $true: 44,
-  "$4.5": 48,
-  $5: 52,
-  $6: 64,
-  $7: 74,
-  $8: 84,
-  $9: 94,
-  $10: 104,
-  $11: 124,
-  $12: 144,
-  $13: 164,
-  $14: 184,
-  $15: 204,
-  $16: 224,
-  $17: 224,
-  $18: 244,
-  $19: 264,
-  $20: 284
+var import_react_native_web13 = __toESM(require_cjs21(), 1);
+var animatedStyleKey = {
+  transform: true,
+  opacity: true
 };
-var spaces = Object.entries(size5).map(([k, v]) => [k, sizeToSpace(v)]);
-function sizeToSpace(v) {
-  return v === 0 ? 0 : v === 2 ? 0.5 : v === 4 ? 1 : v === 8 ? 1.5 : v <= 16 ? Math.round(v * 0.333) : Math.floor(v * 0.7 - 12);
+var colorStyleKey = {
+  backgroundColor: true,
+  color: true,
+  borderColor: true,
+  borderLeftColor: true,
+  borderRightColor: true,
+  borderTopColor: true,
+  borderBottomColor: true
+};
+var costlyToAnimateStyleKey = {
+  borderRadius: true,
+  borderTopLeftRadius: true,
+  borderTopRightRadius: true,
+  borderBottomLeftRadius: true,
+  borderBottomRightRadius: true,
+  borderWidth: true,
+  borderLeftWidth: true,
+  borderRightWidth: true,
+  borderTopWidth: true,
+  borderBottomWidth: true,
+  ...colorStyleKey
+  // TODO for other keys like height or width, it's better to not add them here till layout animations are ready
+};
+var AnimatedView = import_react_native_web13.Animated.View;
+var AnimatedText = import_react_native_web13.Animated.Text;
+function useAnimatedNumber(initial) {
+  const state = import_react55.default.useRef(null);
+  return state.current || (state.current = {
+    composite: null,
+    val: new import_react_native_web13.Animated.Value(initial),
+    strategy: {
+      type: "spring"
+    }
+  }), {
+    getInstance() {
+      return state.current.val;
+    },
+    getValue() {
+      return state.current.val._value;
+    },
+    stop() {
+      var _a;
+      (_a = state.current.composite) == null ? void 0 : _a.stop(), state.current.composite = null;
+    },
+    setValue(next, {
+      type,
+      ...config2
+    } = {
+      type: "spring"
+    }, onFinish) {
+      var _a, _b;
+      const val = state.current.val, handleFinish = onFinish ? ({
+        finished
+      }) => finished ? onFinish() : null : void 0;
+      if (type === "direct") val.setValue(next);
+      else if (type === "spring") {
+        (_a = state.current.composite) == null ? void 0 : _a.stop();
+        const composite = import_react_native_web13.Animated.spring(val, {
+          ...config2,
+          toValue: next,
+          useNativeDriver: !isWeb
+        });
+        composite.start(handleFinish), state.current.composite = composite;
+      } else {
+        (_b = state.current.composite) == null ? void 0 : _b.stop();
+        const composite = import_react_native_web13.Animated.timing(val, {
+          ...config2,
+          toValue: next,
+          useNativeDriver: !isWeb
+        });
+        composite.start(handleFinish), state.current.composite = composite;
+      }
+    }
+  };
 }
-__name(sizeToSpace, "sizeToSpace");
-var spacesNegative = spaces.slice(1).map(([k, v]) => [`-${k.slice(1)}`, -v]);
-var space = {
-  ...Object.fromEntries(spaces),
-  ...Object.fromEntries(spacesNegative)
-};
-var zIndex = {
-  0: 0,
-  1: 100,
-  2: 200,
-  3: 300,
-  4: 400,
-  5: 500
-};
-var colorTokens = {
-  light: {
-    blue: blue2,
-    gray: gray2,
-    green: green2,
-    orange: orange2,
-    pink: pink2,
-    purple: purple2,
-    red: red2,
-    yellow: yellow2
-  },
-  dark: {
-    blue,
-    gray,
-    green,
-    orange,
-    pink,
-    purple,
-    red,
-    yellow
+__name(useAnimatedNumber, "useAnimatedNumber");
+function useAnimatedNumberReaction({
+  value
+}, onValue) {
+  const onChange = (0, import_web20.useEvent)((current) => {
+    onValue(current.value);
+  });
+  import_react55.default.useEffect(() => {
+    const id = value.getInstance().addListener(onChange);
+    return () => {
+      value.getInstance().removeListener(id);
+    };
+  }, [value, onChange]);
+}
+__name(useAnimatedNumberReaction, "useAnimatedNumberReaction");
+function useAnimatedNumberStyle(value, getStyle) {
+  return getStyle(value.getInstance());
+}
+__name(useAnimatedNumberStyle, "useAnimatedNumberStyle");
+function createAnimations(animations2) {
+  return {
+    isReactNative: true,
+    animations: animations2,
+    View: AnimatedView,
+    Text: AnimatedText,
+    useAnimatedNumber,
+    useAnimatedNumberReaction,
+    useAnimatedNumberStyle,
+    usePresence,
+    ResetPresence,
+    useAnimations: /* @__PURE__ */ __name(({
+      props,
+      onDidAnimate,
+      style,
+      componentState,
+      presence
+    }) => {
+      const isDisabled2 = isWeb && componentState.unmounted === true, isExiting = (presence == null ? void 0 : presence[0]) === false, sendExitComplete = presence == null ? void 0 : presence[1], animateStyles = import_react55.default.useRef({}), animatedTranforms = import_react55.default.useRef([]), animationsState = import_react55.default.useRef(/* @__PURE__ */ new WeakMap()), animateOnly = props.animateOnly || [], hasAnimateOnly = !!props.animateOnly, args = [JSON.stringify(style), componentState, isExiting, !!onDidAnimate], isThereNoNativeStyleKeys = import_react55.default.useMemo(() => isWeb ? true : Object.keys(style).some((key) => animateOnly.length ? !animatedStyleKey[key] && animateOnly.indexOf(key) === -1 : !animatedStyleKey[key]), args), res = import_react55.default.useMemo(() => {
+        var _a;
+        const runners = [], completions = [], nonAnimatedStyle = {};
+        for (const key in style) {
+          const val = style[key];
+          if (!isDisabled2) {
+            if (animatedStyleKey[key] == null && !costlyToAnimateStyleKey[key]) {
+              nonAnimatedStyle[key] = val;
+              continue;
+            }
+            if (hasAnimateOnly && !animateOnly.includes(key)) {
+              nonAnimatedStyle[key] = val;
+              continue;
+            }
+            if (key !== "transform") {
+              animateStyles.current[key] = update(key, animateStyles.current[key], val);
+              continue;
+            }
+            if (val) {
+              if (typeof val == "string") {
+                console.warn("Warning: Tamagui can't animate string transforms yet!");
+                continue;
+              }
+              for (const [index8, transform] of val.entries()) {
+                if (!transform) continue;
+                const tkey = Object.keys(transform)[0], currentTransform = (_a = animatedTranforms.current[index8]) == null ? void 0 : _a[tkey];
+                animatedTranforms.current[index8] = {
+                  [tkey]: update(tkey, currentTransform, transform[tkey])
+                }, animatedTranforms.current = [...animatedTranforms.current];
+              }
+            }
+          }
+        }
+        const animatedStyle = {
+          ...Object.fromEntries(Object.entries(animateStyles.current).map(([k, v]) => {
+            var _a2;
+            return [k, ((_a2 = animationsState.current.get(v)) == null ? void 0 : _a2.interpolation) || v];
+          })),
+          transform: animatedTranforms.current.map((r) => {
+            var _a2;
+            const key = Object.keys(r)[0], val = ((_a2 = animationsState.current.get(r[key])) == null ? void 0 : _a2.interpolation) || r[key];
+            return {
+              [key]: val
+            };
+          })
+        };
+        return {
+          runners,
+          completions,
+          style: [nonAnimatedStyle, animatedStyle]
+        };
+        function update(key, animated, valIn) {
+          const isColorStyleKey = colorStyleKey[key], [val, type] = isColorStyleKey ? [0, void 0] : getValue(valIn);
+          let animateToValue = val;
+          const value = animated || new import_react_native_web13.Animated.Value(val), curInterpolation = animationsState.current.get(value);
+          let interpolateArgs;
+          if (type && (interpolateArgs = getInterpolated((curInterpolation == null ? void 0 : curInterpolation.current) ?? value._value, val, type), animationsState.current.set(value, {
+            interpolation: value.interpolate(interpolateArgs),
+            current: val
+          })), isColorStyleKey && (animateToValue = (curInterpolation == null ? void 0 : curInterpolation.animateToValue) ? 0 : 1, interpolateArgs = getColorInterpolated(
+            curInterpolation == null ? void 0 : curInterpolation.current,
+            // valIn is the next color
+            valIn,
+            animateToValue
+          ), animationsState.current.set(value, {
+            current: valIn,
+            interpolation: value.interpolate(interpolateArgs),
+            animateToValue: (curInterpolation == null ? void 0 : curInterpolation.animateToValue) ? 0 : 1
+          })), value) {
+            const animationConfig = getAnimationConfig(key, animations2, props.animation);
+            let resolve;
+            const promise = new Promise((res2) => {
+              resolve = res2;
+            });
+            completions.push(promise), runners.push(() => {
+              value.stopAnimation();
+              function getAnimation() {
+                return import_react_native_web13.Animated[animationConfig.type || "spring"](value, {
+                  toValue: animateToValue,
+                  useNativeDriver: !isWeb && !isThereNoNativeStyleKeys,
+                  ...animationConfig
+                });
+              }
+              __name(getAnimation, "getAnimation");
+              (animationConfig.delay ? import_react_native_web13.Animated.sequence([import_react_native_web13.Animated.delay(animationConfig.delay), getAnimation()]) : getAnimation()).start(({
+                finished
+              }) => {
+                finished && resolve();
+              });
+            });
+          }
+          return process.env.NODE_ENV === "development" && props.debug === "verbose" && console.info(" \u{1F4A0} animate", key, `from (${value._value}) to`, valIn, `(${val})`, "type", type, "interpolate", interpolateArgs), value;
+        }
+        __name(update, "update");
+      }, args);
+      return useIsomorphicLayoutEffect(() => {
+        res.runners.forEach((r) => r());
+        let cancel = false;
+        return Promise.all(res.completions).then(() => {
+          cancel || (onDidAnimate == null ? void 0 : onDidAnimate(), isExiting && (sendExitComplete == null ? void 0 : sendExitComplete()));
+        }), () => {
+          cancel = true;
+        };
+      }, args), process.env.NODE_ENV === "development" && props.debug === "verbose" && console.info("Animated", {
+        response: res,
+        inputStyle: style,
+        isExiting
+      }), res;
+    }, "useAnimations")
+  };
+}
+__name(createAnimations, "createAnimations");
+function getColorInterpolated(currentColor, nextColor, animateToValue) {
+  const inputRange = [0, 1], outputRange = [currentColor || nextColor, nextColor];
+  return animateToValue === 0 && outputRange.reverse(), {
+    inputRange,
+    outputRange
+  };
+}
+__name(getColorInterpolated, "getColorInterpolated");
+function getInterpolated(current, next, postfix = "deg") {
+  next === current && (current = next - 1e-9);
+  const inputRange = [current, next], outputRange = [`${current}${postfix}`, `${next}${postfix}`];
+  return next < current && (inputRange.reverse(), outputRange.reverse()), {
+    inputRange,
+    outputRange
+  };
+}
+__name(getInterpolated, "getInterpolated");
+function getAnimationConfig(key, animations2, animation) {
+  var _a, _b;
+  if (typeof animation == "string") return animations2[animation];
+  let type = "", extraConf;
+  const shortKey = transformShorthands[key];
+  if (Array.isArray(animation)) {
+    type = animation[0];
+    const conf = ((_a = animation[1]) == null ? void 0 : _a[key]) ?? ((_b = animation[1]) == null ? void 0 : _b[shortKey]);
+    conf && (typeof conf == "string" ? type = conf : (type = conf.type || type, extraConf = conf));
+  } else {
+    const val = (animation == null ? void 0 : animation[key]) ?? (animation == null ? void 0 : animation[shortKey]);
+    type = val == null ? void 0 : val.type, extraConf = val;
   }
-};
-var darkColors = {
-  ...colorTokens.dark.blue,
-  ...colorTokens.dark.gray,
-  ...colorTokens.dark.green,
-  ...colorTokens.dark.orange,
-  ...colorTokens.dark.pink,
-  ...colorTokens.dark.purple,
-  ...colorTokens.dark.red,
-  ...colorTokens.dark.yellow
-};
-var lightColors = {
-  ...colorTokens.light.blue,
-  ...colorTokens.light.gray,
-  ...colorTokens.light.green,
-  ...colorTokens.light.orange,
-  ...colorTokens.light.pink,
-  ...colorTokens.light.purple,
-  ...colorTokens.light.red,
-  ...colorTokens.light.yellow
-};
-var color = {
-  ...postfixObjKeys(lightColors, "Light"),
-  ...postfixObjKeys(darkColors, "Dark")
-};
-function postfixObjKeys(obj, postfix) {
-  return Object.fromEntries(Object.entries(obj).map(([k, v]) => [`${k}${postfix}`, v]));
+  return {
+    ...animations2[type],
+    ...extraConf
+  };
 }
-__name(postfixObjKeys, "postfixObjKeys");
-var radius = {
-  0: 0,
-  1: 3,
-  2: 5,
-  3: 7,
-  4: 9,
-  true: 9,
-  5: 10,
-  6: 16,
-  7: 19,
-  8: 22,
-  9: 26,
-  10: 34,
-  11: 42,
-  12: 50
+__name(getAnimationConfig, "getAnimationConfig");
+var transformShorthands = {
+  x: "translateX",
+  y: "translateY",
+  translateX: "x",
+  translateY: "y"
 };
-var tokens = (0, import_web20.createTokens)({
-  color,
-  radius,
-  zIndex,
-  space,
-  size: size5
-});
+function getValue(input, isColor = false) {
+  if (typeof input != "string") return [input];
+  const [_, number, after] = input.match(/([-0-9]+)(deg|%|px)/) ?? [];
+  return [+number, after];
+}
+__name(getValue, "getValue");
 
 // tamagui.config.js
-var appConfig = createTamagui({
-  fonts: {
-    body: createInterFont(),
-    heading: createInterFont()
+var animations = createAnimations({
+  bouncy: {
+    type: "spring",
+    damping: 10,
+    mass: 0.9,
+    stiffness: 100
   },
-  themes: generated_new_exports,
-  tokens,
-  shorthands
+  lazy: {
+    type: "spring",
+    damping: 20,
+    stiffness: 60
+  },
+  quick: {
+    type: "spring",
+    damping: 20,
+    mass: 1.2,
+    stiffness: 250
+  }
 });
-var tamagui_config_default = appConfig;
+var interFont = (0, import_core55.createFont)({
+  family: "Inter",
+  size: {
+    1: 12,
+    2: 14,
+    3: 16,
+    4: 20,
+    5: 24,
+    6: 32,
+    true: 16
+  },
+  lineHeight: {
+    1: 18,
+    2: 20,
+    3: 24,
+    4: 28,
+    5: 32,
+    6: 40,
+    true: 24
+  },
+  weight: {
+    4: "300",
+    5: "400",
+    6: "600",
+    true: "400"
+  },
+  letterSpacing: {
+    4: 0,
+    5: 0,
+    6: -1,
+    true: 0
+  }
+});
+var config = createTamagui({
+  defaultFont: "body",
+  animations,
+  fonts: {
+    body: interFont,
+    heading: interFont
+  },
+  tokens: {
+    size: {
+      0: 0,
+      1: 4,
+      2: 8,
+      3: 16,
+      4: 24,
+      5: 32,
+      6: 40,
+      7: 48,
+      8: 56,
+      9: 64,
+      10: 72,
+      11: 80,
+      12: 88,
+      13: 96,
+      14: 104,
+      15: 112,
+      true: 16
+    },
+    space: {
+      0: 0,
+      1: 4,
+      2: 8,
+      3: 16,
+      4: 24,
+      5: 32,
+      6: 40,
+      7: 48,
+      8: 56,
+      9: 64,
+      10: 72,
+      11: 80,
+      12: 88,
+      13: 96,
+      14: 104,
+      15: 112,
+      true: 16
+    },
+    radius: {
+      0: 0,
+      1: 4,
+      2: 8,
+      true: 4
+    },
+    zIndex: {
+      0: 0,
+      1: 100,
+      2: 200,
+      true: 0
+    },
+    color: {
+      white: "#ffffff",
+      black: "#000000",
+      gray: "#888888",
+      primary: "#1e90ff",
+      secondary: "#ff6347"
+    }
+  },
+  themes: {
+    light: {
+      background: "#ffffff",
+      color: "#000000"
+    },
+    dark: {
+      background: "#000000",
+      color: "#ffffff"
+    }
+  },
+  media: createMedia({
+    sm: { maxWidth: 640 },
+    md: { maxWidth: 768 },
+    lg: { maxWidth: 1024 },
+    xl: { minWidth: 1024 }
+  }),
+  shorthands: {
+    p: "padding",
+    pt: "paddingTop",
+    pb: "paddingBottom",
+    pl: "paddingLeft",
+    pr: "paddingRight",
+    m: "margin",
+    mt: "marginTop",
+    mb: "marginBottom",
+    ml: "marginLeft",
+    mr: "marginRight",
+    w: "width",
+    h: "height",
+    bg: "backgroundColor",
+    rounded: "borderRadius",
+    jc: "justifyContent",
+    ai: "alignItems",
+    ta: "textAlign"
+  }
+});
+var tamagui_config_default = config;
 /*! Bundled license information:
 
 tabbable/dist/index.js:
