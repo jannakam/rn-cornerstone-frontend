@@ -1,24 +1,26 @@
-import React from 'react';
-import { StyleSheet, Dimensions, View } from 'react-native';
-import { YStack, XStack, Text, Button, H2, Card, ScrollView } from 'tamagui';
-import MapView, { Marker, UrlTile, Callout } from 'react-native-maps';
-import { Footprints, MapPin, ChevronLeft } from '@tamagui/lucide-icons';
-import Header from '../components/Header';
+import React from "react";
+import { StyleSheet, Dimensions, View } from "react-native";
+import { YStack, XStack, Text, Button, H2, Card, ScrollView } from "tamagui";
+import MapView, { Marker, UrlTile, Callout } from "react-native-maps";
+import { Footprints, MapPin, ChevronLeft } from "@tamagui/lucide-icons";
+import Header from "../components/Header";
 
 const EventDetail = ({ route, navigation }) => {
   const { location } = route.params;
 
   return (
     <YStack f={1} bg="$background">
-        <Header navigation={navigation} />
-        <XStack>
-          <Button
-            icon={ChevronLeft}
-            onPress={() => navigation.goBack()}
-            backgroundColor="transparent"
-          />
-          <Text fontSize={20} fontWeight="bold">{location.name}</Text>
-        </XStack>
+      <Header navigation={navigation} />
+      <XStack>
+        <Button
+          icon={ChevronLeft}
+          onPress={() => navigation.goBack()}
+          backgroundColor="transparent"
+        />
+        <Text fontSize={20} fontWeight="bold">
+          {location.name}
+        </Text>
+      </XStack>
 
       {/* Map */}
       <View style={styles.mapContainer}>
@@ -34,7 +36,9 @@ const EventDetail = ({ route, navigation }) => {
           }}
         >
           <UrlTile
-            urlTemplate={'https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'}
+            urlTemplate={
+              "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
+            }
             shouldReplaceMapContent={true}
             maximumZ={19}
             flipY={false}
@@ -50,7 +54,9 @@ const EventDetail = ({ route, navigation }) => {
               <Card bordered size="$2" bg="$background">
                 <Card.Header padded>
                   <YStack space="$2">
-                    <Text color="$color" fontWeight="bold">{location.name}</Text>
+                    <Text color="$color" fontWeight="bold">
+                      {location.name}
+                    </Text>
                     <XStack space="$2">
                       <Footprints size={16} color="$color" />
                       <Text color="$color">{location.steps}</Text>
@@ -76,13 +82,17 @@ const EventDetail = ({ route, navigation }) => {
                 <Card bordered size="$2" bg="$background">
                   <Card.Header padded>
                     <YStack space="$2">
-                      <Text color="$color" fontWeight="bold">{checkpoint.name}</Text>
+                      <Text color="$color" fontWeight="bold">
+                        {checkpoint.name}
+                      </Text>
                       <XStack space="$2">
                         <Text color="$color">{checkpoint.points} points</Text>
                         <Text color="$color">•</Text>
                         <Text color="$color">{checkpoint.steps} steps</Text>
                       </XStack>
-                      <Text color="$color">Distance: {checkpoint.approx_distance} km</Text>
+                      <Text color="$color">
+                        Distance: {checkpoint.approx_distance} km
+                      </Text>
                     </YStack>
                   </Card.Header>
                 </Card>
@@ -128,13 +138,17 @@ const EventDetail = ({ route, navigation }) => {
                         </Text>
                         <XStack space="$4" jc="space-between">
                           <XStack space="$2" ai="center">
-                            <Text color="$color">{checkpoint.points} points</Text>
+                            <Text color="$color">
+                              {checkpoint.points} points
+                            </Text>
                           </XStack>
                           <XStack space="$2" ai="center">
                             <Footprints size={16} color="$color" />
                             <Text color="$color">{checkpoint.steps}</Text>
                             <MapPin size={16} color="$color" />
-                            <Text color="$color">{checkpoint.approx_distance} km</Text>
+                            <Text color="$color">
+                              {checkpoint.approx_distance} km
+                            </Text>
                           </XStack>
                         </XStack>
                       </YStack>
@@ -152,13 +166,13 @@ const EventDetail = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   mapContainer: {
-    height: Dimensions.get('window').height * 0.4,
-    width: '100%',
+    height: Dimensions.get("window").height * 0.4,
+    width: "100%",
   },
   map: {
-    width: '100%',
-    height: '100%',
-  }
+    width: "100%",
+    height: "100%",
+  },
 });
 
 export default EventDetail;

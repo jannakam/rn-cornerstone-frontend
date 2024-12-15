@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { XStack, Image, YStack, Avatar } from 'tamagui';
 
 const Header = ({navigation}) => {
-    const { openDrawer } = navigation;
+  const { openDrawer } = navigation;
 
   return (
     <XStack ai="center" jc="space-between" p="$4" pt="$11">
@@ -14,10 +14,12 @@ const Header = ({navigation}) => {
               <Menu size={24} color="$color" />
         </TouchableOpacity>
         <YStack>
-          <Image source={require('../../assets/stepwise_logo.png')} style={{ width: 30, height:50 }} />
+          <Image source={require('../../assets/stepwise_logo.png')} style={{ width: 25, height:40 }} />
         </YStack>
         <TouchableOpacity >
-          <Avatar rounded size={24} bg="$color" />
+          <Avatar circular size={36} bg="$color">
+          <Avatar.Image source={ { uri: 'https://github.com/tamagui.png' } } />
+          </Avatar>
         </TouchableOpacity>
     </XStack>
   )
