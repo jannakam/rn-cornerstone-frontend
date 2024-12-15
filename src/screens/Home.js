@@ -26,9 +26,7 @@ const Home = () => {
 
         <YStack f={1} space="$4" margin="$2">
           <DailyChallengeCard />
-
           <FriendsList /> 
-
           <EventsCard />
         </YStack>
       </YStack>

@@ -59,42 +59,42 @@ const FriendsList = () => {
     {
       id: 1,
       name: "Sarah Chen",
-      avatar: "https://github.com/tamagui.png",
+      avatar: "https://github.com/hello-world.png",
       progress: 0.8,
       colorIndex: 0,
     },
     {
       id: 2,
       name: "Mike Johnson",
-      avatar: "https://github.com/tamagui.png",
+      avatar: "https://github.com/hello-world.png",
       progress: 0.6,
       colorIndex: 1,
     },
     {
       id: 3,
       name: "Emma Wilson",
-      avatar: "https://github.com/tamagui.png",
+      avatar: "https://github.com/hello-world.png",
       progress: 0.4,
       colorIndex: 2,
     },
     {
       id: 4,
       name: "James Smith",
-      avatar: "https://github.com/tamagui.png",
+      avatar: "https://github.com/hello-world.png",
       progress: 0.7,
       colorIndex: 0,
     },
     {
       id: 5,
       name: "Alex Brown",
-      avatar: "https://github.com/tamagui.png",
+      avatar: "https://github.com/hello-world.png",
       progress: 0.3,
       colorIndex: 1,
     },
     {
       id: 6,
       name: "Lisa Wang",
-      avatar: "https://github.com/tamagui.png",
+      avatar: "https://github.com/hello-world.png",
       progress: 0.5,
       colorIndex: 2,
     },
@@ -111,6 +111,8 @@ const FriendsList = () => {
       scale={0.9}
       hoverStyle={{ scale: 0.925 }}
       color="$background"
+      borderColor="$color4"
+      bw={1}
     >
       <Card.Header padded>
         <H6>Friends</H6>
@@ -120,7 +122,7 @@ const FriendsList = () => {
           <XStack gap="$5" ai="center" jc="center">
             {/* Add Friend Avatar */}
             <YStack ai="center">
-              <Avatar circular size="$5" borderWidth={1} borderColor="$color">
+              <Avatar circular size="$5" borderWidth={1} borderColor="$color7">
                 <Avatar.Fallback
                   backgroundColor="transparent"
                   jc="center"

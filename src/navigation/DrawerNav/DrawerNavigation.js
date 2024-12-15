@@ -19,6 +19,7 @@ import Steps from "../../screens/Steps";
 import Profile from "../../screens/Profile";
 import Store from "../../screens/Store";
 import EventDetail from "../../screens/EventDetail";
+import ActiveEvent from "../../screens/ActiveEvent";
 import { useTheme } from "../../context/ThemeContext";
 
 const Drawer = createDrawerNavigator();
@@ -131,6 +132,7 @@ const EventsStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="EventsScreen" component={Events} />
       <Stack.Screen name="EventDetail" component={EventDetail} />
+      <Stack.Screen name="ActiveEvent" component={ActiveEvent} />
     </Stack.Navigator>
   );
 };
@@ -140,6 +142,7 @@ const HomeStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeScreen" component={Home} />
       <Stack.Screen name="EventDetail" component={EventDetail} />
+      <Stack.Screen name="ActiveEvent" component={ActiveEvent} />
     </Stack.Navigator>
   );
 };

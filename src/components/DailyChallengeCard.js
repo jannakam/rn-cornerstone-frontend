@@ -113,10 +113,12 @@ const DailyChallengeCard = () => {
       scale={0.9}
       hoverStyle={{ scale: 0.925 }}
       color="$background"
+      borderColor="$color4"
+      bw={1}
     >
       <Card.Header padded>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <XStack space="$2">
+          <XStack space="$2.5">
             {achievements.map((achievement) => (
               <Card
                 key={achievement.id}

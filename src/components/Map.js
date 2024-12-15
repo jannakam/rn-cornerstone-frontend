@@ -12,86 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Card, YStack, XStack, useTheme } from "tamagui";
 import { Footprints, MapPin } from "@tamagui/lucide-icons";
 import locations from "../data/locations";
-
-const sponsors = [
-  {
-    id: "nino",
-    name: "Nino",
-    latitude: 29.672365700662176,
-    longitude: 48.01301012758003,
-    logo: require("../../assets/sponsors/nino.png"),
-  },
-  {
-    id: "johnny-rockets",
-    name: "Johnny Rockets",
-    latitude: 29.324108373805114,
-    longitude: 48.01570752907756,
-    logo: require("../../assets/sponsors/johnny-rockets.png"),
-  },
-  {
-    id: "athletes-foot",
-    name: "The Athletes Foot",
-    latitude: 29.313038374226238,
-    longitude: 47.93779784810193,
-    logo: require("../../assets/sponsors/athletes-foot.png"),
-  },
-  {
-    id: "north-face",
-    name: "The North Face",
-    latitude: 29.313137492553466,
-    longitude: 47.9357377510658,
-    logo: require("../../assets/sponsors/north-face.png"),
-  },
-  {
-    id: "zo-bakery",
-    name: "Zo Bakery",
-    latitude: 29.317610856941958,
-    longitude: 47.971801749408534,
-    logo: require("../../assets/sponsors/zo-bakery.png"),
-  },
-  {
-    id: "nail-station",
-    name: "Nail Station",
-    latitude: 29.327176950567274,
-    longitude: 48.01660532797893,
-    logo: require("../../assets/sponsors/nail-station.png"),
-  },
-  {
-    id: "chicster",
-    name: "Chicster",
-    latitude: 29.32147704031317,
-    longitude: 48.01712027616785,
-    logo: require("../../assets/sponsors/chicster.png"),
-  },
-  {
-    id: "hbr",
-    name: "HBR",
-    latitude: 29.319855619555202,
-    longitude: 48.01801895761049,
-    logo: require("../../assets/sponsors/hbr.png"),
-  },
-  {
-    id: "miss-platinium",
-    name: "Miss Platinium",
-    latitude: 29.362514527861467,
-    longitude: 48.02021575190674,
-    logo: require("../../assets/sponsors/miss-platinium.png"),
-  },
-  {
-    id: "diet-care",
-    name: "Diet Care",
-    latitude: 29.34644554522579,
-    longitude: 48.07875892427339,
-    logo: require("../../assets/sponsors/diet-care.png"),
-  },
-  {
-    id: "intersport",
-    name: "Intersport",
-    latitude: 29.33086556834453,
-    longitude: 47.93052554656595,
-    logo: require("../../assets/sponsors/intersport.png"),
-  },
-];
+import sponsors from "../data/sponsors";
 
 const Map = forwardRef((props, ref) => {
   const [error, setError] = useState(null);
@@ -144,104 +65,34 @@ const Map = forwardRef((props, ref) => {
         />
         {/* Event Locations */}
         {locations.map((location) => (
-          <React.Fragment key={location.id}>
-            {/* Main location marker */}
-            <Marker
-              coordinate={{
-                latitude: location.latitude,
-                longitude: location.longitude,
-              }}
-              pinColor={theme.magenta7.val}
-            >
-              <Callout onPress={() => handleCalloutPress(location)} tooltip>
-                <Card bordered size="$2" bg="$background">
-                  <Card.Header padded>
-                    <YStack space="$2">
-                      <Text
-                        style={[
-                          styles.calloutTitle,
-                          { color: theme.color.val },
-                        ]}
-                      >
-                        {location.name}
-                      </Text>
-                      <XStack space="$4" ai="center">
-                        <XStack space="$2" ai="center">
-                          <Footprints size={16} color={theme.magenta7.val} />
-                          <Text
-                            style={[
-                              styles.calloutText,
-                              { color: theme.color.val },
-                            ]}
-                          >
-                            {location.steps} steps
-                          </Text>
-                        </XStack>
-                        <XStack space="$2" ai="center">
-                          <MapPin size={16} color={theme.lime7.val} />
-                          <Text
-                            style={[
-                              styles.calloutText,
-                              { color: theme.color.val },
-                            ]}
-                          >
-                            {location.approx_distance}km
-                          </Text>
-                        </XStack>
-                      </XStack>
-                    </YStack>
-                  </Card.Header>
-                </Card>
-              </Callout>
-            </Marker>
-            {/* Checkpoint markers */}
-            {location.checkpoints.map((checkpoint) => (
-              <Marker
-                key={checkpoint.id}
-                coordinate={{
-                  latitude: checkpoint.latitude,
-                  longitude: checkpoint.longitude,
-                }}
-                pinColor={theme.lime7.val}
-              >
-                <Callout tooltip>
-                  <Card bordered size="$2" bg="$background">
-                    <Card.Header padded>
-                      <YStack space="$2">
-                        <Text
-                          style={[
-                            styles.calloutTitle,
-                            { color: theme.color.val },
-                          ]}
-                        >
-                          {checkpoint.name}
-                        </Text>
-                        <XStack space="$2">
-                          <Text
-                            style={[
-                              styles.calloutText,
-                              { color: theme.color.val },
-                            ]}
-                          >
-                            {checkpoint.points} points • {checkpoint.steps}{" "}
-                            steps
-                          </Text>
-                        </XStack>
-                        <Text
-                          style={[
-                            styles.calloutText,
-                            { color: theme.color.val },
-                          ]}
-                        >
-                          Distance: {checkpoint.approx_distance} km
-                        </Text>
-                      </YStack>
-                    </Card.Header>
-                  </Card>
-                </Callout>
-              </Marker>
-            ))}
-          </React.Fragment>
+          <Marker
+            key={location.id}
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+            pinColor={theme.magenta7.val}
+            title={location.name}
+            description={`${location.steps} steps • ${location.approx_distance}km`}
+          >
+            <Callout onPress={() => handleCalloutPress(location)}>
+              <View style={styles.calloutContainer}>
+                <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+                  {location.name}
+                </Text>
+                <XStack space="$2" ai="center">
+                  <Footprints size={16} color={theme.magenta7.val} />
+                  <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                    {location.steps} steps
+                  </Text>
+                  <MapPin size={16} color={theme.lime7.val} />
+                  <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                    {location.approx_distance}km
+                  </Text>
+                </XStack>
+              </View>
+            </Callout>
+          </Marker>
         ))}
 
         {/* Sponsor Locations */}
@@ -252,6 +103,8 @@ const Map = forwardRef((props, ref) => {
               latitude: sponsor.latitude,
               longitude: sponsor.longitude,
             }}
+            title={sponsor.name}
+            description={sponsor.discount}
           >
             <View style={styles.sponsorMarker}>
               <Image
@@ -260,21 +113,15 @@ const Map = forwardRef((props, ref) => {
                 resizeMode="contain"
               />
             </View>
-            <Callout tooltip>
-              <Card bordered size="$2" bg="$background">
-                <Card.Header padded>
-                  <Text
-                    style={[styles.calloutTitle, { color: theme.color.val }]}
-                  >
-                    {sponsor.name}
-                  </Text>
-                  <Text
-                    style={[styles.calloutText, { color: theme.color.val }]}
-                  >
-                    Sponsor Location
-                  </Text>
-                </Card.Header>
-              </Card>
+            <Callout>
+              <View style={styles.calloutContainer}>
+                <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+                  {sponsor.name}
+                </Text>
+                <Text style={[styles.calloutText, { color: theme.cyan8.val }]}>
+                  {sponsor.discount}
+                </Text>
+              </View>
             </Callout>
           </Marker>
         ))}
@@ -289,8 +136,8 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height,
   },
   sponsorMarker: {
-    backgroundColor: "white",
-    borderRadius: 15,
+    backgroundColor: "transparent",
+    borderRadius: 30,
     padding: 5,
     borderWidth: 2,
     borderColor: "#fff",
@@ -304,8 +151,13 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   sponsorLogo: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
+    borderRadius: 40,
+  },
+  calloutContainer: {
+    padding: 10,
+    minWidth: 200,
   },
   calloutTitle: {
     fontSize: 16,
