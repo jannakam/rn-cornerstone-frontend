@@ -11,7 +11,7 @@ const EventDetail = ({ route, navigation }) => {
   return (
     <YStack f={1} bg="$background">
         <Header navigation={navigation} />
-        <XStack p="$4" ai="center" space="$2">
+        <XStack>
           <Button
             icon={ChevronLeft}
             onPress={() => navigation.goBack()}
