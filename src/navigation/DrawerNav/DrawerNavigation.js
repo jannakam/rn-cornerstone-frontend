@@ -1,86 +1,228 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SideMenu } from '../../components/SideMenu';
 import Home from '../../screens/Home';
 import Events from '../../screens/Events';
 import Steps from '../../screens/Steps';
 import Profile from '../../screens/Profile';
 import Store from '../../screens/Store';
-import { Home as HomeIcon, MapPinned, Footprints, User, Store as StoreIcon } from '@tamagui/lucide-icons';
-import { Platform } from 'react-native';
-import { Text } from 'tamagui';
+import EventDetail from '../../screens/EventDetail';
+import { Home as HomeIcon, MapPinned, Footprints, User, Store as StoreIcon, Moon, Sun } from '@tamagui/lucide-icons';
+import { Platform, View } from 'react-native';
+import { Text, YStack, XStack, Switch, Label, Theme } from 'tamagui';
+import { ThemeContext } from '../../../App';
 
 const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
+
+const CustomDrawerContent = (props) => {
+  const { isDark, setIsDark } = useContext(ThemeContext);
+
+  return (
+    <Theme name={isDark ? "dark" : "light"}>
+      <YStack f={1} bg="$background" pt={Platform.OS === 'ios' ? '$8' : '$6'}>
+        
+
+        {/* Navigation Items */}
+        <YStack f={1} space="$3" pt="$4">
+          <XStack
+            pressStyle={{ opacity: 0.7 }}
+            px="$8"
+            py="$2"
+            ai="center"
+            jc="space-between"
+            space="$2"
+            hoverStyle={{ bg: "$backgroundHover" }}
+            onPress={() => props.navigation.navigate('Home')}
+          >
+            <Text color="$color">Home</Text>
+            <HomeIcon size={18} color="$color" />
+          </XStack>
+
+          <XStack
+            pressStyle={{ opacity: 0.7 }}
+            px="$8"
+            py="$2"
+            ai="center"
+            jc="space-between"
+            space="$2"
+            hoverStyle={{ bg: "$backgroundHover" }}
+            onPress={() => props.navigation.navigate('Events')}
+          >
+            <Text color="$color">Events</Text>
+            <MapPinned size={18} color="$color" />
+
+          </XStack>
+
+          <XStack
+            pressStyle={{ opacity: 0.7 }}
+            px="$8"
+            py="$2"
+            ai="center"
+            jc="space-between"
+            space="$2"
+            hoverStyle={{ bg: "$backgroundHover" }}
+            onPress={() => props.navigation.navigate('Steps')}
+          >
+            <Text color="$color">Steps</Text>
+            <Footprints size={18} color="$color" />
+
+          </XStack>
+
+          <XStack
+            pressStyle={{ opacity: 0.7 }}
+            px="$8"
+            py="$2"
+            ai="center"
+            jc="space-between"
+            space="$2"
+            hoverStyle={{ bg: "$backgroundHover" }}
+            onPress={() => props.navigation.navigate('Profile')}
+          >
+            <Text color="$color">Profile</Text>
+            <User size={18} color="$color" />
+
+          </XStack>
+
+          <XStack
+            pressStyle={{ opacity: 0.7 }}
+            px="$8"
+            py="$2"
+            ai="center"
+            jc="space-between"
+            space="$2"
+            hoverStyle={{ bg: "$backgroundHover" }}
+            onPress={() => props.navigation.navigate('Store')}
+          >
+            <Text color="$color">Store</Text>
+            <StoreIcon size={18} color="$color" />
+
+          </XStack>
+
+          {/* Theme Toggle */}
+        <XStack py="$4" ai="center" jc="space-between" px="$8">
+        <Switch
+            id="dark-mode"
+            size="$3"
+            checked={isDark}
+            onCheckedChange={setIsDark}
+          >
+            <Switch.Thumb animation="quick" />
+          </Switch>
+          <XStack space="$2" ai="center">
+            {isDark ? <Moon size={16} color="$color" /> : <Sun size={16} color="$color" />}
+          </XStack>
+        </XStack>
+        </YStack>
+      </YStack>
+    </Theme>
+  );
+};
+
+const EventsStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="EventsScreen" component={Events} />
+      <Stack.Screen name="EventDetail" component={EventDetail} />
+    </Stack.Navigator>
+  );
+};
+
+const HomeStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="HomeScreen" component={Home} />
+      <Stack.Screen name="EventDetail" component={EventDetail} />
+    </Stack.Navigator>
+  );
+};
+
+const StepsStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="StepsScreen" component={Steps} />
+    </Stack.Navigator>
+  );
+};
+
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ProfileScreen" component={Profile} />
+    </Stack.Navigator>
+  );
+};
+
+const StoreStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="StoreScreen" component={Store} />
+    </Stack.Navigator>
+  );
+};
 
 const DrawerNavigation = () => {
+  const { isDark } = useContext(ThemeContext);
+
   return (
     <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       drawerType="slide"
       screenOptions={{
         headerShown: false,
-        drawerActiveBackgroundColor: "$background",
-        drawerInactiveBackgroundColor: "$background",
-        drawerActiveTintColor: "$color",
-        drawerInactiveTintColor: "$color",
+        drawerActiveBackgroundColor: 'transparent',
+        drawerInactiveBackgroundColor: 'transparent',
+        drawerActiveTintColor: isDark ? '#fff' : '#000',
+        drawerInactiveTintColor: isDark ? '#eee' : '#666',
         drawerHideStatusBarOnOpen: Platform.OS === 'ios' ? true : false,
-        overlayColor: "$background",
+        overlayColor: 'transparent',
         drawerStyle: {
-          backgroundColor: "$background",
+          backgroundColor: isDark ? 'black' : 'white',
           width: '60%',
         },
         sceneContainerStyle: {
-          backgroundColor: "$background",
+          backgroundColor: isDark ? 'black' : 'white',
         },
       }}>
       <Drawer.Screen 
         name="Home" 
-        component={Home}
-        options={{
-          drawerIcon: () => <HomeIcon color="$color" size="$4" />,
-          drawerLabel: () => <Text color="$color">Home</Text>,
+        component={HomeStack} 
+        options={{ 
+          drawerIcon: ({color}) => <HomeIcon size={18} color={color} />
         }}
       />
       <Drawer.Screen 
         name="Events" 
-        component={Events}
+        component={EventsStack} 
         options={{
-          drawerIcon: () => <MapPinned color="$color" size="$4" />,
-          drawerLabel: () => <Text color="$color">Events</Text>,
+          drawerIcon: ({color}) => <MapPinned size={18} color={color} />
         }}
       />
       <Drawer.Screen 
         name="Steps" 
-        component={Steps}
+        component={StepsStack} 
         options={{
-          drawerIcon: () => <Footprints color="$color" size="$4" />,
-          drawerLabel: () => <Text color="$color">Steps</Text>,
+          drawerIcon: ({color}) => <Footprints size={18} color={color} />
         }}
       />
       <Drawer.Screen 
         name="Profile" 
-        component={Profile}
+        component={ProfileStack} 
         options={{
-          drawerIcon: () => <User color="$color" size="$4" />,
-          drawerLabel: () => <Text color="$color">Profile</Text>,
+          drawerIcon: ({color}) => <User size={18} color={color} />
         }}
       />
       <Drawer.Screen 
         name="Store" 
-        component={Store}
+        component={StoreStack} 
         options={{
-          drawerIcon: () => <StoreIcon color="$color" size="$4" />,
-          drawerLabel: () => <Text color="$color">Store</Text>,
+          drawerIcon: ({color}) => <StoreIcon size={18} color={color} />
         }}
       />
     </Drawer.Navigator>
   );
 };
 
-export default DrawerNavigation; 
+export default DrawerNavigation;
 
-const Colors = {
-    bg: '#009688',
-    active: '#fff',
-    inactive: '#eee',
-    transparent: 'transparent',
-  };
