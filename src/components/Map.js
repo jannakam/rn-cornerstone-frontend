@@ -1,13 +1,23 @@
 import React, { useState, forwardRef, useImperativeHandle } from "react";
-import { View, StyleSheet, Dimensions, Text } from "react-native";
-import MapView, { UrlTile } from "react-native-maps";
+import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from "react-native";
+import MapView, { UrlTile, Marker, Callout } from "react-native-maps";
+import { useNavigation } from "@react-navigation/native";
+import locations from "../data/locations";
 
 const Map = forwardRef((props, ref) => {
   const [error, setError] = useState(null);
+  const navigation = useNavigation();
 
   useImperativeHandle(ref, () => ({
     // Add any methods you want to expose to the parent component here
   }));
+
+  const handleCalloutPress = (location) => {
+    navigation.navigate('Events', {
+      screen: 'EventDetail',
+      params: { location }
+    });
+  };
 
   if (error) {
     return (
@@ -30,26 +40,35 @@ const Map = forwardRef((props, ref) => {
           longitudeDelta: 0.0421,
         }}
         onError={(error) => setError(error.nativeEvent.error)}
-        
       >
         <UrlTile
-          /**
-           * The url template of the tile server. The patterns {x} {y} {z} will be replaced at runtime
-           * For example, http://c.tile.openstreetmap.org/{z}/{x}/{y}.png
-           */
           urlTemplate={'https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'}
           shouldReplaceMapContent={true}
-          /**
-           * The maximum zoom level for this tile overlay. Corresponds to the maximumZ setting in
-           * MKTileOverlay. iOS only.
-           */
           maximumZ={19}
-          /**
-           * flipY allows tiles with inverted y coordinates (origin at bottom left of map)
-           * to be used. Its default value is false.
-           */
           flipY={false}
         />
+        {locations.map((location) => (
+          <Marker
+            key={location.id}
+            coordinate={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+            }}
+          >
+            <Callout
+              onPress={() => handleCalloutPress(location)}
+              tooltip
+            >
+              <TouchableOpacity style={styles.calloutContainer}>
+                <Text style={styles.calloutTitle}>{location.name}</Text>
+                <Text style={styles.calloutDescription}>
+                  {location.steps} steps • {location.approx_distance} km
+                </Text>
+                <Text style={styles.calloutHint}>Tap for details</Text>
+              </TouchableOpacity>
+            </Callout>
+          </Marker>
+        ))}
       </MapView>
     </View>
   );
@@ -59,6 +78,28 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+  },
+  calloutContainer: {
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    borderRadius: 8,
+    padding: 12,
+    maxWidth: 200,
+  },
+  calloutTitle: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  calloutDescription: {
+    color: 'white',
+    fontSize: 14,
+    marginBottom: 4,
+  },
+  calloutHint: {
+    color: '#aaa',
+    fontSize: 12,
+    fontStyle: 'italic',
   },
 });
 

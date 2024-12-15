@@ -1,31 +1,28 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { X } from "lucide-react-native";
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { Menu } from '@tamagui/lucide-icons'
+import { TouchableOpacity } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+import { XStack, Image, YStack, Avatar } from 'tamagui';
 
-export function Header({ title, onClose }) {
+const Header = ({navigation}) => {
+    const { openDrawer } = navigation;
+
   return (
-    <View style={styles.header}>
-      <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-        <X color="#fff" size={24} />
-      </TouchableOpacity>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
+    <XStack ai="center" jc="space-between" p="$4" pt="$11">
+        <TouchableOpacity onPress={openDrawer}>
+              <Menu size={24} color="$color" />
+        </TouchableOpacity>
+        <YStack>
+          <Image source={require('../../assets/stepwise_logo.png')} style={{ width: 30, height:50 }} />
+        </YStack>
+        <TouchableOpacity >
+          <Avatar rounded size={24} bg="$color" />
+        </TouchableOpacity>
+    </XStack>
+  )
 }
 
-const styles = StyleSheet.create({
-  header: {
-    width: "100%",
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
-  },
-  closeButton: {
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#fff",
-  },
-});
+export default Header
+
+const styles = StyleSheet.create({})

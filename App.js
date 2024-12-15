@@ -14,12 +14,26 @@ import GetStartedScreen from "./src/screens/GetStartedScreen";
 
 // Create a client
 const queryClient = new QueryClient();
+import { Platform, useColorScheme } from 'react-native';
+import React, { createContext, useEffect } from 'react';
+
+export const ThemeContext = createContext({
+  isDark: true,
+  setIsDark: () => {},
+});
 
 export default function App() {
   const [loaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
   });
+
+  const [isDark, setIsDark] = React.useState(true);
+  const systemTheme = useColorScheme();
+
+  useEffect(() => {
+    setIsDark(systemTheme);
+  }, [systemTheme]);
 
   if (!loaded) {
     return null;
@@ -28,15 +42,22 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TamaguiProvider config={config}>
-        <Theme name="light">
-          <SafeAreaProvider>
-            {/* <Navigation /> */}
+      <ThemeContext.Provider value={{ isDark, setIsDark }}>
+          <Theme name={isDark ? "light" : "light"}>
+            <SafeAreaProvider backgroundColor={isDark ? "$color_dark" : "$color"}>
+              <Navigation />
             {/* <AuthNavigation /> */}
             {/* <RegisterScreen /> */}
-            <GetStartedScreen />
-          </SafeAreaProvider>
-          <StatusBar style="auto" />
-        </Theme>
+            {/* <GetStartedScreen /> */}
+            
+            </SafeAreaProvider>
+            <StatusBar 
+              style={isDark ? "light" : "dark"}
+              backgroundColor="transparent"
+              translucent={Platform.OS === 'android'}
+            />
+            </Theme>
+      </ThemeContext.Provider>
       </TamaguiProvider>
     </QueryClientProvider>
   );
