@@ -1,6 +1,8 @@
 import { createMedia } from '@tamagui/react-native-media-driver';
 import { createFont, createTamagui } from 'tamagui';
 import { createAnimations } from '@tamagui/animations-react-native';
+import { tokens, themes, lightColors, darkColors } from '@tamagui/themes';
+import { shorthands } from '@tamagui/shorthands';
 
 const animations = createAnimations({
   bouncy: {
@@ -59,104 +61,31 @@ const interFont = createFont({
 const config = createTamagui({
   defaultFont: 'body',
   animations,
+  shouldAddPrefersColorThemes: true, 
+  themeClassNameOnRoot: true,
+  tokens,
+  themes, 
   fonts: {
     body: interFont,
-    heading: interFont,
-  },
-  tokens: {
-    size: {
-      0: 0,
-      1: 4,
-      2: 8,
-      3: 16,
-      4: 24,
-      5: 32,
-      6: 40,
-      7: 48,
-      8: 56,
-      9: 64,
-      10: 72,
-      11: 80,
-      12: 88,
-      13: 96,
-      14: 104,
-      15: 112,
-      true: 16,
-    },
-    space: {
-      0: 0,
-      1: 4,
-      2: 8,
-      3: 16,
-      4: 24,
-      5: 32,
-      6: 40,
-      7: 48,
-      8: 56,
-      9: 64,
-      10: 72,
-      11: 80,
-      12: 88,
-      13: 96,
-      14: 104,
-      15: 112,
-      true: 16,
-    },
-    radius: {
-      0: 0,
-      1: 4,
-      2: 8,
-      true: 4,
-    },
-    zIndex: {
-      0: 0,
-      1: 100,
-      2: 200,
-      true: 0,
-    },
-    color: {
-      white: '#ffffff',
-      black: '#000000',
-      gray: '#888888',
-      primary: '#1e90ff',
-      secondary: '#ff6347',
-    },
-  },
-  themes: {
-    light: {
-      background: '#ffffff',
-      color: '#000000',
-    },
-    dark: {
-      background: '#000000',
-      color: '#ffffff',
-    },
+    heading: interFont, 
   },
   media: createMedia({
-    sm: { maxWidth: 640 },
-    md: { maxWidth: 768 },
-    lg: { maxWidth: 1024 },
-    xl: { minWidth: 1024 },
+    xs: { maxWidth: 660 },
+    sm: { maxWidth: 800 },
+    md: { maxWidth: 1020 },
+    lg: { maxWidth: 1280 },
+    xl: { maxWidth: 1420 },
+    xxl: { maxWidth: 1600 },
+    gtXs: { minWidth: 661 },
+    gtSm: { minWidth: 801 },
+    gtMd: { minWidth: 1021 },
+    gtLg: { minWidth: 1281 },
+    short: { maxHeight: 820 },
+    tall: { minHeight: 821 },
+    hoverNone: { hover: 'none' },
+    pointerCoarse: { pointer: 'coarse' },
   }),
-  shorthands: {
-    p: 'padding',
-    pt: 'paddingTop',
-    pb: 'paddingBottom',
-    pl: 'paddingLeft',
-    pr: 'paddingRight',
-    m: 'margin',
-    mt: 'marginTop',
-    mb: 'marginBottom',
-    ml: 'marginLeft',
-    mr: 'marginRight',
-    w: 'width',
-    h: 'height',
-    bg: 'backgroundColor',
-    rounded: 'borderRadius',
-    jc: 'justifyContent',
-    ai: 'alignItems',
-    ta: 'textAlign',
-  },
+  shorthands, // Adds support for shorthand properties
 });
 
 export default config;
