@@ -19,14 +19,13 @@ const Profile = ({navigation}) => {
             <Menu size={20} color="$color" />
           </TouchableOpacity>
         </XStack> */}
-        {/* here should be the content  */}
-        <Signup/>
+       
     {/* </SafeAreaView> */}
 //         <YStack f={1} bg="$background">
 //           <Header navigation={navigation} />
 //           <YStack f={1} p="$4">
-//             <Text color="$color">Profile</Text>
-//           </YStack>
+ {/* here should be the content  */}
+ <Signup/>//           </YStack>
 //         </YStack>
     </DrawerSceneWrapper>
   )
