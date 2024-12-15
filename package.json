@@ -27,6 +27,7 @@
     "expo-location": "^18.0.4",
     "expo-sensors": "~14.0.1",
     "expo-status-bar": "~2.0.0",
+    "lucide-react-native": "^0.468.0",
     "query-string": "^9.1.1",
     "react": "18.3.1",
     "react-native": "0.76.5",
@@ -39,7 +40,8 @@
     "react-native-screens": "~4.1.0",
     "split-on-first": "^3.0.0",
     "tamagui": "^1.120.1",
-    "use-latest-callback": "^0.2.3"
+    "use-latest-callback": "^0.2.3",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
