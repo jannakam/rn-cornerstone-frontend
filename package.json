@@ -19,6 +19,7 @@
     "@tamagui/lucide-icons": "^1.120.1",
     "@tamagui/metro-plugin": "^1.120.1",
     "@tamagui/select": "^1.120.1",
+    "@tanstack/react-query": "^5.62.7",
     "expo": "~52.0.18",
     "expo-font": "~13.0.1",
     "expo-location": "^18.0.4",
