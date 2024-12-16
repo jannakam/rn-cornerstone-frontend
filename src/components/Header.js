@@ -4,6 +4,7 @@ import { Menu } from "@tamagui/lucide-icons";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { XStack, Image, YStack, Avatar } from "tamagui";
+import Profile from "../screens/Profile";
 
 const Header = ({ navigation }) => {
   const { openDrawer } = navigation;
@@ -19,7 +20,7 @@ const Header = ({ navigation }) => {
           style={{ width: 25, height: 40 }}
         />
       </YStack>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("ProfileScreen")}>
         <Avatar circular size={36} bg="$color">
           <Avatar.Image source={{ uri: "https://github.com/tamagui.png" }} />
         </Avatar>

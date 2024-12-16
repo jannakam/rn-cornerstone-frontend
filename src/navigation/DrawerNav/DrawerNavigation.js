@@ -143,6 +143,7 @@ const HomeStack = () => {
       <Stack.Screen name="HomeScreen" component={Home} />
       <Stack.Screen name="EventDetail" component={EventDetail} />
       <Stack.Screen name="ActiveEvent" component={ActiveEvent} />
+      <Stack.Screen name="ProfileScreen" component={Profile} />
     </Stack.Navigator>
   );
 };
