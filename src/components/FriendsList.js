@@ -119,7 +119,7 @@ const FriendsList = () => {
       <Card.Header padded>
         <H6>Friends</H6>
       </Card.Header>
-      <Card.Footer padded>
+      <Card.Footer padded pt="$0">
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <XStack gap="$4">
             <AddFriendButton />

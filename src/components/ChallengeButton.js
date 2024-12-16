@@ -4,7 +4,6 @@ import {
   Avatar,
   Text,
   Sheet,
-  H2,
   Label,
   Select,
   Button,
@@ -14,7 +13,7 @@ import {
   LinearGradient,
   Adapt,
 } from "tamagui";
-import { Trophy, ChevronDown, ChevronUp, Check } from "@tamagui/lucide-icons";
+import { ChevronDown, ChevronUp, Check } from "@tamagui/lucide-icons";
 
 const ChallengeButton = ({ friends }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +21,7 @@ const ChallengeButton = ({ friends }) => {
   const [challengeSteps, setChallengeSteps] = useState(null);
 
   return (
-    <YStack ai="center">
+    <YStack ai="center" space="$2">
       <Avatar
         circular
         size="$6"
@@ -31,12 +30,13 @@ const ChallengeButton = ({ friends }) => {
         onPress={() => setIsOpen(true)}
       >
         <Avatar.Fallback backgroundColor="transparent" jc="center" ai="center">
-          <Trophy size={24} color="$color" />
+          <YStack ai="center" jc="center">
+            <Button unstyled fontSize={8} color="$color">
+              Challenge
+            </Button>
+          </YStack>
         </Avatar.Fallback>
       </Avatar>
-      <Text color="$color" fontSize={12} marginTop="$1">
-        Challenge
-      </Text>
 
       <Sheet
         modal
@@ -50,11 +50,11 @@ const ChallengeButton = ({ friends }) => {
         <Sheet.Frame>
           <Sheet.Handle />
           <YStack padding="$4" space="$4">
-            <H2>Create Challenge</H2>
+            <Text fontSize={11}>Challenge</Text>
 
             {/* Steps Selection */}
             <YStack space="$2">
-              <Label>Set Challenge Steps</Label>
+              <Label fontSize={14}>Set Challenge Steps</Label>
               <Select
                 value={String(challengeSteps)}
                 onValueChange={(val) => setChallengeSteps(Number(val))}
@@ -63,13 +63,14 @@ const ChallengeButton = ({ friends }) => {
                 <Select.Trigger
                   width="100%"
                   backgroundColor="$background"
-                  borderColor="#333"
+                  borderColor="$color4"
                   padding="$3"
                   iconAfter={ChevronDown}
                 >
                   <Select.Value
                     placeholder="Select target steps"
                     color="$color"
+                    fontSize={16}
                   />
                 </Select.Trigger>
 
@@ -92,7 +93,7 @@ const ChallengeButton = ({ friends }) => {
                   zIndex={200000}
                   backgroundColor="$background"
                   borderWidth={1}
-                  borderColor="#333"
+                  borderColor="$color4"
                   overflow="hidden"
                 >
                   <Select.ScrollUpButton
@@ -104,13 +105,13 @@ const ChallengeButton = ({ friends }) => {
                     backgroundColor="$background"
                   >
                     <YStack zIndex={10}>
-                      <ChevronUp size={20} color="white" />
+                      <ChevronUp size={20} color="$color" />
                     </YStack>
                     <LinearGradient
                       start={[0, 0]}
                       end={[0, 1]}
                       fullscreen
-                      colors={["#2A2A2A", "transparent"]}
+                      colors={["$background", "transparent"]}
                       borderRadius="$4"
                     />
                   </Select.ScrollUpButton>
@@ -124,17 +125,17 @@ const ChallengeButton = ({ friends }) => {
                           value={String(steps)}
                           backgroundColor="$background"
                           hoverStyle={{
-                            backgroundColor: "#333",
+                            backgroundColor: "$color4",
                           }}
                           pressStyle={{
-                            backgroundColor: "#404040",
+                            backgroundColor: "$color5",
                           }}
                         >
                           <Select.ItemText color="$color" fontSize={16}>
                             {steps.toLocaleString()} steps
                           </Select.ItemText>
                           <Select.ItemIndicator marginLeft="auto">
-                            <Check size={16} color="white" />
+                            <Check size={16} color="$color" />
                           </Select.ItemIndicator>
                         </Select.Item>
                       ))}
@@ -147,16 +148,16 @@ const ChallengeButton = ({ friends }) => {
                     position="relative"
                     width="100%"
                     height="$3"
-                    backgroundColor="#2A2A2A"
+                    backgroundColor="$background"
                   >
                     <YStack zIndex={10}>
-                      <ChevronDown size={20} color="white" />
+                      <ChevronDown size={20} color="$color" />
                     </YStack>
                     <LinearGradient
                       start={[0, 0]}
                       end={[0, 1]}
                       fullscreen
-                      colors={["transparent", "#2A2A2A"]}
+                      colors={["transparent", "$background"]}
                       borderRadius="$4"
                     />
                   </Select.ScrollDownButton>
@@ -165,13 +166,13 @@ const ChallengeButton = ({ friends }) => {
             </YStack>
 
             {/* Friends Selection */}
-            <H2>Select up to 4 friends</H2>
+            <Text fontSize={14} fontWeight="600">Select up to 4 friends</Text>
             <ScrollView>
               {friends.map((friend) => (
                 <XStack
                   key={friend.id}
                   space="$4"
-                  padding="$2"
+                  padding="$3"
                   alignItems="center"
                 >
                   <Checkbox
@@ -201,7 +202,7 @@ const ChallengeButton = ({ friends }) => {
                     <Avatar.Fallback backgroundColor="$blue10" />
                   </Avatar>
 
-                  <Text>{friend.name}</Text>
+                  <Text fontSize={16}>{friend.name}</Text>
                 </XStack>
               ))}
             </ScrollView>
@@ -210,6 +211,7 @@ const ChallengeButton = ({ friends }) => {
               onPress={() => setIsOpen(false)}
               theme="active"
               disabled={!challengeSteps || selectedFriends.length === 0}
+              fontSize={14}
             >
               Create Challenge
             </Button>

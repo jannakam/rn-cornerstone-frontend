@@ -10,7 +10,7 @@ import {
   Image,
   Button,
   Label,
-  H5,
+  H6,
   useTheme,
 } from "tamagui";
 import { Footprints, MapPin, ChevronRight, Store } from "@tamagui/lucide-icons";
@@ -61,7 +61,7 @@ const EventsCard = () => {
     >
       <Card.Header padded>
         <XStack jc="space-between" ai="center">
-          <H5 color="$color">Featured Events</H5>
+          <H6 color="$color">Featured Events</H6>
           <Button
             size="$3"
             variant="outlined"
@@ -86,7 +86,7 @@ const EventsCard = () => {
               >
                 <Card bordered size="$4" f={1}>
                   <YStack f={1} space="$2" p="$4">
-                    <H5 color="$color">{event.name}</H5>
+                    <H6 color="$color">{event.name}</H6>
 
                     <XStack space="$4" ai="center">
                       <XStack space="$2" ai="center">

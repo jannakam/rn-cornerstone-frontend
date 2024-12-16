@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { YStack, Avatar, Text, Sheet, H2, Label, Input, Button } from "tamagui";
-import { Plus } from "@tamagui/lucide-icons";
+import React, { useState, useEffect } from "react";
+import { Keyboard, Platform, KeyboardAvoidingView, Dimensions } from "react-native";
+import { YStack, Avatar, Text, Sheet, Label, Input, Button } from "tamagui";
 
 const AddFriendButton = () => {
   const [isAddFriendOpen, setIsAddFriendOpen] = useState(false);
   const [friendUsername, setFriendUsername] = useState("");
 
   return (
-    <YStack ai="center">
+    <YStack ai="center" space="$2">
       <Avatar
         circular
         size="$6"
@@ -16,52 +16,65 @@ const AddFriendButton = () => {
         onPress={() => setIsAddFriendOpen(true)}
       >
         <Avatar.Fallback backgroundColor="transparent" jc="center" ai="center">
-          <Plus size={24} color="$color" />
+          <YStack ai="center" jc="center">
+            <Button unstyled fontSize={8} color="$color">
+              Add
+            </Button>
+          </YStack>
         </Avatar.Fallback>
       </Avatar>
-      <Text color="$color" fontSize={12} marginTop="$1">
-        Add Friend
-      </Text>
       
       <Sheet
         modal
         open={isAddFriendOpen}
         onOpenChange={setIsAddFriendOpen}
-        snapPoints={[40]}
+        snapPoints={[45]}
         position={0}
         dismissOnSnapToBottom
       >
         <Sheet.Overlay />
         <Sheet.Frame>
           <Sheet.Handle />
-          <YStack padding="$4" space="$4">
-            <H2>Add Friend</H2>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "position" : "padding"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+            style={{ flex: 1 }}
+          >
+            <YStack p="$4" space="$4">
+              <Text fontSize={16} fontWeight="bold">Add a friend!</Text>
 
-            <YStack space="$2">
-              <Label htmlFor="username">Friend Username</Label>
-              <Input
-                id="username"
-                placeholder="Enter username"
-                value={friendUsername}
-                onChangeText={setFriendUsername}
-                backgroundColor="$background"
-                borderColor="#333"
-                padding="$3"
-                color="$color"
-              />
+              <YStack space="$2">
+                <Label htmlFor="username" fontSize={14}>Friend Username</Label>
+                <Input
+                  id="username"
+                  placeholder="Enter username"
+                  value={friendUsername}
+                  onChangeText={setFriendUsername}
+                  backgroundColor="$background"
+                  borderColor="$color4"
+                  padding="$3"
+                  color="$color"
+                  fontSize={16}
+                  autoCapitalize="none"
+                  autoComplete="off"
+                  autoCorrect={false}
+                />
+              </YStack>
+
+              <Button
+                theme="active"
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setIsAddFriendOpen(false);
+                  setFriendUsername("");
+                }}
+                disabled={!friendUsername.trim()}
+                fontSize={14}
+              >
+                Add Friend
+              </Button>
             </YStack>
-
-            <Button
-              theme="active"
-              onPress={() => {
-                setIsAddFriendOpen(false);
-                setFriendUsername("");
-              }}
-              disabled={!friendUsername.trim()}
-            >
-              Add Friend
-            </Button>
-          </YStack>
+          </KeyboardAvoidingView>
         </Sheet.Frame>
       </Sheet>
     </YStack>

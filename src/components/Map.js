@@ -76,7 +76,7 @@ const Map = forwardRef((props, ref) => {
             description={`${location.steps} steps • ${location.approx_distance}km`}
           >
             <Callout onPress={() => handleCalloutPress(location)}>
-              <View style={styles.calloutContainer} >
+              <View style={styles.calloutContainer}>
                 <Text style={[styles.calloutTitle, { color: 'black' }]}>
                   {location.name}
                 </Text>

@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Dimensions, View } from "react-native";
+import React, { useState, useRef } from "react";
+import { StyleSheet, Dimensions, View, Animated, TouchableOpacity, TouchableWithoutFeedback, Platform } from "react-native";
 import {
   YStack,
   XStack,
@@ -18,14 +18,22 @@ import {
   ChevronLeft,
   Store,
   ChevronRight,
+  X,
+  Maximize2
 } from "@tamagui/lucide-icons";
 import Header from "../components/Header";
 import DrawerSceneWrapper from "../components/DrawerSceneWrapper";
 import sponsors from "../data/sponsors";
-import { TouchableOpacity } from "react-native";
+
 const EventDetail = ({ route, navigation }) => {
   const { location } = route.params;
   const theme = useTheme();
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
+  const mapAnimation = useRef(new Animated.Value(0)).current;
+  const modalAnimation = useRef(new Animated.Value(0)).current;
+  const mapRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const lastTap = useRef(0);
 
   // Create route coordinates including checkpoints
   const mainRouteCoordinates = [
@@ -96,11 +104,79 @@ const EventDetail = ({ route, navigation }) => {
     return now >= eventDate;
   };
 
+  const toggleMap = () => {
+    const toValue = isMapExpanded ? 0 : 1;
+    setIsMapExpanded(!isMapExpanded);
+    
+    Animated.parallel([
+      Animated.spring(mapAnimation, {
+        toValue,
+        useNativeDriver: true,
+        friction: 8,
+        tension: 50
+      }),
+      Animated.spring(modalAnimation, {
+        toValue,
+        useNativeDriver: true,
+        friction: 8,
+        tension: 50
+      })
+    ]).start();
+  };
+
+  const modalStyle = {
+    transform: [
+      {
+        scale: modalAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [1, 1.1]
+        })
+      }
+    ],
+    opacity: modalAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 1]
+    })
+  };
+
+  const expandedMapStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: theme.background.val,
+    zIndex: isMapExpanded ? 1000 : -1,
+    opacity: mapAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1]
+    }),
+    transform: [
+      {
+        scale: mapAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0.5, 1]
+        })
+      }
+    ]
+  };
+
+  const handleMapPress = () => {
+    const now = Date.now();
+    const DOUBLE_TAP_DELAY = 300;
+    
+    if (now - lastTap.current < DOUBLE_TAP_DELAY) {
+      // Double tap detected
+      toggleMap();
+    }
+    lastTap.current = now;
+  };
+
   return (
     <DrawerSceneWrapper>
       <YStack f={1} bg="$background">
         <Header navigation={navigation} />
-        <ScrollView>
+        <ScrollView scrollEnabled={!isMapExpanded}>
           <YStack p="$3" space="$3">
             {/* Header Section */}
             <XStack ai="center" space="$2">
@@ -270,6 +346,7 @@ const EventDetail = ({ route, navigation }) => {
               <Card.Footer padded f={1} p="$3" width="100%">
                 <View style={styles.mapContainer}>
                   <MapView
+                    ref={mapRef}
                     style={styles.map}
                     mapType="mutedStandard"
                     userInterfaceStyle={theme.isDark ? "dark" : "light"}
@@ -279,6 +356,9 @@ const EventDetail = ({ route, navigation }) => {
                       latitudeDelta: 0.02,
                       longitudeDelta: 0.02,
                     }}
+                    onTouchStart={() => setIsDragging(false)}
+                    onPanDrag={() => setIsDragging(true)}
+                    onPress={() => !isDragging && handleMapPress()}
                   >
                     <UrlTile
                       urlTemplate={
@@ -461,6 +541,11 @@ const EventDetail = ({ route, navigation }) => {
                       </View>
                     </Marker>
                   </MapView>
+                  <TouchableWithoutFeedback onPress={toggleMap}>
+                    <View style={styles.expandButton}>
+                      <Maximize2 size={20} color={theme.background.val} />
+                    </View>
+                  </TouchableWithoutFeedback>
                 </View>
               </Card.Footer>
             </Card>
@@ -554,6 +639,161 @@ const EventDetail = ({ route, navigation }) => {
             </Card>
           </YStack>
         </ScrollView>
+
+        {/* Expanded Map Modal */}
+        <Animated.View style={expandedMapStyle}>
+          <YStack f={1}>
+          <XStack ai="center" p="$3" space="$2" h="15%" alignItems="flex-end">
+            <TouchableOpacity onPress={() => navigation.goBack()} backgroundColor="transparent">
+              <ChevronLeft size="$2" color={'$color'}/>
+            </TouchableOpacity>
+            <H5>
+              Upcoming Events
+            </H5>
+            </XStack>
+            <MapView
+              style={styles.expandedMap}
+              mapType="mutedStandard"
+              userInterfaceStyle={theme.isDark ? "dark" : "light"}
+              initialRegion={{
+                latitude: location.latitude,
+                longitude: location.longitude,
+                latitudeDelta: 0.02,
+                longitudeDelta: 0.02,
+              }}
+            >
+              <UrlTile
+                urlTemplate={
+                  theme.isDark
+                    ? "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
+                    : "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+                }
+                shouldReplaceMapContent={true}
+                maximumZ={19}
+                flipY={false}
+              />
+
+              {/* Main Route Polyline */}
+              <Polyline
+                coordinates={mainRouteCoordinates}
+                strokeColor={theme.magenta7.val}
+                strokeWidth={3}
+                geodesic={true}
+                lineDashPattern={[1]}
+                lineCap="round"
+                lineJoin="round"
+              />
+
+              {/* Challenge Route Polyline */}
+              {challengeRouteCoordinates.length > 0 && (
+                <Polyline
+                  coordinates={challengeRouteCoordinates}
+                  strokeColor={theme.cyan8.val}
+                  strokeWidth={3}
+                  geodesic={true}
+                  lineDashPattern={[1]}
+                  lineCap="round"
+                  lineJoin="round"
+                />
+              )}
+
+              {/* Main location marker */}
+              <Marker
+                coordinate={{
+                  latitude: location.latitude,
+                  longitude: location.longitude,
+                }}
+                pinColor={theme.magenta7.val}
+              >
+                <Callout>
+                  <View style={styles.calloutContainer}>
+                    <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+                      {location.name}
+                    </Text>
+                    <XStack space="$2" ai="center">
+                      <Footprints size={16} color={theme.magenta7.val} />
+                      <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                        {location.steps} steps
+                      </Text>
+                      <MapPin size={16} color={theme.lime7.val} />
+                      <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                        {location.approx_distance}km
+                      </Text>
+                    </XStack>
+                  </View>
+                </Callout>
+              </Marker>
+
+              {/* Checkpoint markers */}
+              {location.checkpoints.map((checkpoint) => (
+                <Marker
+                  key={checkpoint.id}
+                  coordinate={{
+                    latitude: checkpoint.latitude,
+                    longitude: checkpoint.longitude,
+                  }}
+                  pinColor={theme.lime7.val}
+                >
+                  <Callout>
+                    <View style={styles.calloutContainer}>
+                      <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+                        {checkpoint.name}
+                      </Text>
+                      <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                        {checkpoint.points} points • {checkpoint.steps} steps
+                      </Text>
+                      <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                        Distance: {checkpoint.approx_distance} km
+                      </Text>
+                    </View>
+                  </Callout>
+                </Marker>
+              ))}
+
+              {/* Nearby Sponsor markers */}
+              {nearbySponsors.map((sponsor) => (
+                <Marker
+                  key={sponsor.id}
+                  coordinate={{
+                    latitude: sponsor.latitude,
+                    longitude: sponsor.longitude,
+                  }}
+                >
+                  <View style={styles.sponsorMarker}>
+                    <Image
+                      source={sponsor.logo}
+                      style={styles.sponsorLogo}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  <Callout>
+                    <View style={styles.calloutContainer}>
+                      <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+                        {sponsor.name}
+                      </Text>
+                      <Text style={[styles.calloutText, { color: theme.cyan8.val }]}>
+                        {sponsor.discount} • +50 points
+                      </Text>
+                    </View>
+                  </Callout>
+                </Marker>
+              ))}
+
+              {/* Circle markers for start/end point */}
+              <Marker
+                coordinate={{
+                  latitude: location.latitude,
+                  longitude: location.longitude,
+                }}
+                anchor={{ x: 0.5, y: 0.5 }}
+              >
+                <View style={[styles.startEndMarker, { borderColor: theme.magenta7.val }]}>
+                  <View style={[styles.startEndMarkerInner, { backgroundColor: theme.magenta7.val }]} />
+                </View>
+              </Marker>
+            </MapView>
+          </YStack>
+        </Animated.View>
       </YStack>
     </DrawerSceneWrapper>
   );
@@ -563,8 +803,14 @@ const styles = StyleSheet.create({
   mapContainer: {
     height: Dimensions.get("window").height * 0.25,
     width: "100%",
+    overflow: "hidden",
   },
   map: {
+    width: "100%",
+    height: "100%",
+  },
+  expandedMap: {
+    flex: 1,
     width: "100%",
     height: "100%",
   },
@@ -622,6 +868,22 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
+  },
+  expandButton: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    top: 10,
+    right: 10,
+    borderRadius: 8,
+    padding: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
 
