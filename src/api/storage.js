@@ -1,13 +1,25 @@
 import { deleteItemAsync, getItemAsync, setItemAsync } from "expo-secure-store";
 
 const setToken = async (token) => {
-  await setItemAsync("token", token);
-};
+    try {
+      await setItemAsync("token", token);
+      console.log("Token stored successfully ");
+      console.log("Token :", token);
+    } catch (error) {
+      console.error("Error storing the token:", error);
+    }
+  };
 
-const getToken = async () => {
-  return await getItemAsync("token");
-  return token;
-};
+  const getToken = async () => {
+    try {
+      const token = await getItemAsync("token");
+      return token;
+    } catch (error) {
+      console.error("Error retrieving the token:", error);
+    }
+  };
+
+  
 const deleteToken = async () => {
   await deleteItemAsync("token");
 };

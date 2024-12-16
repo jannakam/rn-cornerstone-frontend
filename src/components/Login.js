@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import { Alert } from "react-native";
 import { XStack, YStack, Text, Input, Button } from "tamagui";
+import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../api/Auth";
 
 const Login = () => {
+  const navigation = useNavigation();
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    password: "",
+  });
+  const { mutate } = useMutation({
+    mutationFn: () => login(userInfo),
+    onSuccess: () => {
+      Alert.alert("LogIn successful");
+    },
+    onError: (error) => {
+      console.log(error);
+      Alert.alert("LogIn failed");
+    },
+  });
+
+  const handleLogin = () => {
+    mutate();
+  };
+
   return (
     <YStack
       flex={1}
@@ -37,8 +61,13 @@ const Login = () => {
               backgroundColor="#2A2A2A"
               borderColor="#333"
               borderWidth={1}
-              padding="$4"
+              padding="$1"
               color="white"
+              placeholderTextColor="gray"
+              value={userInfo.username}
+              onChangeText={(text) =>
+                setUserInfo({ ...userInfo, username: text })
+              }
             />
           </YStack>
 
@@ -50,9 +79,14 @@ const Login = () => {
               backgroundColor="#2A2A2A"
               borderColor="#333"
               borderWidth={1}
-              padding="$4"
+              padding="$1"
               color="white"
+              placeholderTextColor="gray"
               secureTextEntry
+              value={userInfo.password}
+              onChangeText={(text) =>
+                setUserInfo({ ...userInfo, password: text })
+              }
             />
           </YStack>
         </YStack>
@@ -60,8 +94,9 @@ const Login = () => {
         <Button
           backgroundColor="#333"
           color="white"
-          size="$7"
+          size="$4"
           marginTop="$4"
+          onPress={() => handleLogin()}
         >
           Login
         </Button>
@@ -70,7 +105,12 @@ const Login = () => {
           <Text color="gray" fontSize={14}>
             Don't have an account?{" "}
           </Text>
-          <Text color="white" fontSize={14} fontWeight="bold">
+          <Text
+            color="white"
+            fontSize={14}
+            fontWeight="bold"
+            onPress={() => navigation.navigate("Register")}
+          >
             Register
           </Text>
         </XStack>

@@ -1,13 +1,45 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import { ChevronDown, ChevronUp } from "@tamagui/lucide-icons";
-import { XStack, YStack, Text, Button, Select, Switch, Sheet, Adapt, LinearGradient } from "tamagui";
+import { useMutation } from "@tanstack/react-query";
+import { updateUser } from "../api/Auth";
+import { Alert } from "react-native";
+import {
+  XStack,
+  YStack,
+  Text,
+  Button,
+  Select,
+  Switch,
+  Sheet,
+  Adapt,
+  LinearGradient,
+} from "tamagui";
 
 const GetStarted = () => {
   const [isMetric, setIsMetric] = useState(false);
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [age, setAge] = useState("");
+  const [userInfo, setUserInfo] = useState({
+    height: "",
+    weight: "",
+    age: "",
+  });
+  const { mutate } = useMutation({
+    mutationFn: () => updateUser(userInfo),
+    onSuccess: () => {
+      Alert.alert("User updated successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+      Alert.alert("User update failed");
+    },
+  });
+
+  const handleSubmit = () => {
+    mutate();
+  };
+  // const [height, setHeight] = useState("");
+  // const [weight, setWeight] = useState("");
+  // const [age, setAge] = useState("");
 
   // Generate height options (4ft/120cm to 7ft/215cm)
   const heightOptions = isMetric
@@ -32,10 +64,10 @@ const GetStarted = () => {
       }));
 
   // Generate age options (16-100 years)
-  const ageOptions = Array.from({length: 85}, (_, i) => ({
+  const ageOptions = Array.from({ length: 85 }, (_, i) => ({
     value: `${i + 16}`,
-    label: `${i + 16} years`
-  }))
+    label: `${i + 16} years`,
+  }));
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#1A1A1A" }}>
@@ -64,11 +96,21 @@ const GetStarted = () => {
 
           <YStack space="$4" marginTop="$4">
             <Select
-              value={height}
-              onValueChange={setHeight}
+              value={userInfo.height}
+              onValueChange={(item) =>
+                setUserInfo({ ...userInfo, height: parseInt(item) })
+              }
               disablePreventBodyScroll
             >
-              <Select.Trigger width="100%" backgroundColor="#2A2A2A" borderColor="#333" padding="$3" iconAfter={ChevronDown}>
+              {/* <Select.Trigger width="100%" backgroundColor="#2A2A2A" borderColor="#333" padding="$3" iconAfter={ChevronDown}>
+                <Select.Value placeholder="Height" color="white" />
+              </Select.Trigger> */}
+              <Select.Trigger
+                width="100%"
+                backgroundColor="#2A2A2A"
+                borderColor="#333"
+                padding="$3"
+              >
                 <Select.Value placeholder="Height" color="white" />
               </Select.Trigger>
 
@@ -79,7 +121,7 @@ const GetStarted = () => {
                       <Adapt.Contents />
                     </Sheet.ScrollView>
                   </Sheet.Frame>
-                  <Sheet.Overlay 
+                  <Sheet.Overlay
                     animation="lazy"
                     enterStyle={{ opacity: 0 }}
                     exitStyle={{ opacity: 0 }}
@@ -95,16 +137,14 @@ const GetStarted = () => {
                   width="100%"
                   height="$3"
                 >
-                  <YStack zIndex={10}>
-                    <ChevronUp size={20} />
-                  </YStack>
-                  <LinearGradient
+                  {/* <YStack zIndex={10}><ChevronUp size={20} /></YStack> */}
+                  {/* <LinearGradient
                     start={[0, 0]}
                     end={[0, 1]}
                     fullscreen
-                    colors={['$background', 'transparent']}
+                    colors={["$background", "transparent"]}
                     borderRadius="$4"
-                  />
+                  /> */}
                 </Select.ScrollUpButton>
 
                 <Select.Viewport minWidth={200}>
@@ -115,7 +155,9 @@ const GetStarted = () => {
                         key={item.value}
                         value={item.value}
                       >
-                        <Select.ItemText color="white">{item.label}</Select.ItemText>
+                        <Select.ItemText color="white">
+                          {item.label}
+                        </Select.ItemText>
                       </Select.Item>
                     ))}
                   </Select.Group>
@@ -128,26 +170,34 @@ const GetStarted = () => {
                   width="100%"
                   height="$3"
                 >
-                  <YStack zIndex={10}>
-                    <ChevronDown size={20} />
-                  </YStack>
-                  <LinearGradient
+                  {/* <YStack zIndex={10}><ChevronDown size={20} /></YStack> */}
+                  {/* <LinearGradient
                     start={[0, 0]}
                     end={[0, 1]}
                     fullscreen
-                    colors={['transparent', '$background']}
+                    colors={["transparent", "$background"]}
                     borderRadius="$4"
-                  />
+                  /> */}
                 </Select.ScrollDownButton>
               </Select.Content>
             </Select>
 
             <Select
-              value={weight}
-              onValueChange={setWeight}
+              value={userInfo.weight}
+              onValueChange={(item) =>
+                setUserInfo({ ...userInfo, weight: parseInt(item) })
+              }
               disablePreventBodyScroll
             >
-              <Select.Trigger width="100%" backgroundColor="#2A2A2A" borderColor="#333" padding="$3" iconAfter={ChevronDown}>
+              {/* <Select.Trigger width="100%" backgroundColor="#2A2A2A" borderColor="#333" padding="$3" iconAfter={ChevronDown}>
+                <Select.Value placeholder="Weight" color="white" />
+              </Select.Trigger> */}
+              <Select.Trigger
+                width="100%"
+                backgroundColor="#2A2A2A"
+                borderColor="#333"
+                padding="$3"
+              >
                 <Select.Value placeholder="Weight" color="white" />
               </Select.Trigger>
 
@@ -158,7 +208,7 @@ const GetStarted = () => {
                       <Adapt.Contents />
                     </Sheet.ScrollView>
                   </Sheet.Frame>
-                  <Sheet.Overlay 
+                  <Sheet.Overlay
                     animation="lazy"
                     enterStyle={{ opacity: 0 }}
                     exitStyle={{ opacity: 0 }}
@@ -174,16 +224,14 @@ const GetStarted = () => {
                   width="100%"
                   height="$3"
                 >
-                  <YStack zIndex={10}>
-                    <ChevronUp size={20} />
-                  </YStack>
-                  <LinearGradient
+                  {/* <YStack zIndex={10}><ChevronUp size={20} /></YStack> */}
+                  {/* <LinearGradient
                     start={[0, 0]}
                     end={[0, 1]}
                     fullscreen
-                    colors={['$background', 'transparent']}
+                    colors={["$background", "transparent"]}
                     borderRadius="$4"
-                  />
+                  /> */}
                 </Select.ScrollUpButton>
 
                 <Select.Viewport minWidth={200}>
@@ -194,7 +242,9 @@ const GetStarted = () => {
                         key={item.value}
                         value={item.value}
                       >
-                        <Select.ItemText color="white">{item.label}</Select.ItemText>
+                        <Select.ItemText color="white">
+                          {item.label}
+                        </Select.ItemText>
                       </Select.Item>
                     ))}
                   </Select.Group>
@@ -207,26 +257,35 @@ const GetStarted = () => {
                   width="100%"
                   height="$3"
                 >
-                  <YStack zIndex={10}>
-                    <ChevronDown size={20} />
-                  </YStack>
-                  <LinearGradient
+                  {/* <YStack zIndex={10}><ChevronDown size={20} /></YStack> */}
+                  {/* <LinearGradient
                     start={[0, 0]}
                     end={[0, 1]}
                     fullscreen
-                    colors={['transparent', '$background']}
+                    colors={["transparent", "$background"]}
                     borderRadius="$4"
-                  />
+                  /> */}
                 </Select.ScrollDownButton>
               </Select.Content>
             </Select>
 
             <Select
-              value={age}
-              onValueChange={setAge}
+              value={userInfo.age}
+              onValueChange={(item) => {
+                console.log(item);
+                setUserInfo({ ...userInfo, age: parseInt(item) });
+              }}
               disablePreventBodyScroll
             >
-              <Select.Trigger width="100%" backgroundColor="#2A2A2A" borderColor="#333" padding="$3" iconAfter={ChevronDown}>
+              {/* <Select.Trigger width="100%" backgroundColor="#2A2A2A" borderColor="#333" padding="$3" iconAfter={ChevronDown}>
+                <Select.Value placeholder="Age" color="white" />
+              </Select.Trigger> */}
+              <Select.Trigger
+                width="100%"
+                backgroundColor="#2A2A2A"
+                borderColor="#333"
+                padding="$3"
+              >
                 <Select.Value placeholder="Age" color="white" />
               </Select.Trigger>
 
@@ -237,7 +296,7 @@ const GetStarted = () => {
                       <Adapt.Contents />
                     </Sheet.ScrollView>
                   </Sheet.Frame>
-                  <Sheet.Overlay 
+                  <Sheet.Overlay
                     animation="lazy"
                     enterStyle={{ opacity: 0 }}
                     exitStyle={{ opacity: 0 }}
@@ -253,16 +312,14 @@ const GetStarted = () => {
                   width="100%"
                   height="$3"
                 >
-                  <YStack zIndex={10}>
-                    <ChevronUp size={20} />
-                  </YStack>
-                  <LinearGradient
+                  {/* <YStack zIndex={10}><ChevronUp size={20} /></YStack> */}
+                  {/* <LinearGradient
                     start={[0, 0]}
                     end={[0, 1]}
                     fullscreen
-                    colors={['$background', 'transparent']}
+                    colors={["$background", "transparent"]}
                     borderRadius="$4"
-                  />
+                  /> */}
                 </Select.ScrollUpButton>
 
                 <Select.Viewport minWidth={200}>
@@ -273,7 +330,9 @@ const GetStarted = () => {
                         key={item.value}
                         value={item.value}
                       >
-                        <Select.ItemText color="white">{item.label}</Select.ItemText>
+                        <Select.ItemText color="white">
+                          {item.label}
+                        </Select.ItemText>
                       </Select.Item>
                     ))}
                   </Select.Group>
@@ -286,48 +345,53 @@ const GetStarted = () => {
                   width="100%"
                   height="$3"
                 >
-                  <YStack zIndex={10}>
-                    <ChevronDown size={20} />
-                  </YStack>
-                  <LinearGradient
+                  {/* <YStack zIndex={10}><ChevronDown size={20} /></YStack> */}
+                  {/* <LinearGradient
                     start={[0, 0]}
                     end={[0, 1]}
                     fullscreen
-                    colors={['transparent', '$background']}
+                    colors={["transparent", "$background"]}
                     borderRadius="$4"
-                  />
+                  /> */}
                 </Select.ScrollDownButton>
               </Select.Content>
             </Select>
 
-            <XStack alignItems="center" justifyContent="space-between" paddingVertical="$2">
-              <Text color="gray" fontSize={14}>ft/lb</Text>
+            <XStack
+              alignItems="center"
+              justifyContent="space-between"
+              paddingVertical="$2"
+            >
+              <Text color="gray" fontSize={14}>
+                ft/lb
+              </Text>
               <Switch
                 backgroundColor="#333"
                 size="$3"
                 checked={isMetric}
                 onCheckedChange={(checked) => {
-                  setIsMetric(checked)
-                  setHeight('')
-                  setWeight('')
+                  setIsMetric(checked);
+                  setHeight("");
+                  setWeight("");
                 }}
               >
                 <Switch.Thumb animation="quick" />
               </Switch>
             </XStack>
 
-            <Button 
+            <Button
               backgroundColor="#333"
               color="white"
               size="$4"
               marginTop="$6"
+              onPress={handleSubmit}
             >
               Start Earning!
             </Button>
 
-            <Text 
-              color="gray" 
-              fontSize={12} 
+            <Text
+              color="gray"
+              fontSize={12}
               textAlign="center"
               marginTop="$4"
               marginBottom="$4"

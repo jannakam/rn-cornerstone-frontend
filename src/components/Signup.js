@@ -1,8 +1,43 @@
-import React from "react";
-import { ScrollView } from "react-native";
+import React, { useState } from "react";
+import { ScrollView, Alert } from "react-native";
 import { XStack, YStack, Text, Input, Button } from "tamagui";
+import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@tanstack/react-query";
+import { register } from "../api/Auth";
 
 const Signup = () => {
+  const navigation = useNavigation();
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    password: "",
+    age: null,
+    city: "",
+    phoneNumber: "",
+    weight: null,
+    height: null,
+    totalSteps: null,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: () => register(userInfo),
+    onSuccess: () => {
+      Alert.alert("Signup successful");
+      navigation.navigate("GetStarted");
+    },
+    onError: (error) => {
+      console.log(error);
+      Alert.alert("Signup failed");
+    },
+  });
+
+  const handleSignup = () => {
+    // if(!userInfo.username || !userInfo.password || !userInfo.phoneNumber || !userInfo.city){
+    //   Alert.alert("Please fill all fields");
+    //   return;
+    // }
+    mutate();
+  };
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#1A1A1A" }}>
       <YStack padding="$4" space="$4" width="100%" minHeight="100%">
@@ -36,8 +71,13 @@ const Signup = () => {
                 backgroundColor="#2A2A2A"
                 borderColor="#333"
                 borderWidth={1}
-                padding="$4"
+                padding="$1"
                 color="white"
+                placeholderTextColor="gray"
+                value={userInfo.username}
+                onChangeText={(text) =>
+                  setUserInfo({ ...userInfo, username: text })
+                }
               />
             </YStack>
 
@@ -49,9 +89,14 @@ const Signup = () => {
                 backgroundColor="#2A2A2A"
                 borderColor="#333"
                 borderWidth={1}
-                padding="$4"
+                padding="$1"
                 color="white"
+                placeholderTextColor="gray"
                 keyboardType="phone-pad"
+                value={userInfo.phoneNumber}
+                onChangeText={(text) =>
+                  setUserInfo({ ...userInfo, phoneNumber: text })
+                }
               />
             </YStack>
 
@@ -63,9 +108,14 @@ const Signup = () => {
                 backgroundColor="#2A2A2A"
                 borderColor="#333"
                 borderWidth={1}
-                padding="$4"
+                padding="$1"
                 color="white"
+                placeholderTextColor="gray"
                 secureTextEntry
+                value={userInfo.password}
+                onChangeText={(text) =>
+                  setUserInfo({ ...userInfo, password: text })
+                }
               />
             </YStack>
 
@@ -77,21 +127,44 @@ const Signup = () => {
                 backgroundColor="#2A2A2A"
                 borderColor="#333"
                 borderWidth={1}
-                padding="$4"
+                padding="$1"
                 color="white"
+                placeholderTextColor="gray"
+                value={userInfo.city}
+                onChangeText={(text) =>
+                  setUserInfo({ ...userInfo, city: text })
+                }
               />
             </YStack>
+
+            {mutate.isError ? (
+              <Text color="red" fontSize={14} textAlign="center">
+                {mutate.error?.response?.data?.message || "Registration failed"}
+              </Text>
+            ) : null}
           </YStack>
 
-          <Button backgroundColor="#333" color="white" size="$7" marginTop="$4">
-            Register
+          <Button
+            backgroundColor="#333"
+            color="white"
+            size="$4"
+            marginTop="$4"
+            onPress={() => handleSignup()}
+            disabled={mutate.isPending}
+          >
+            {mutate.isPending ? "Signing up..." : "Sign Up"}
           </Button>
 
           <XStack justifyContent="center" marginTop="$4" marginBottom="$4">
             <Text color="gray" fontSize={14}>
               Already have an account?{" "}
             </Text>
-            <Text color="white" fontSize={14} fontWeight="bold">
+            <Text
+              color="white"
+              fontSize={14}
+              fontWeight="bold"
+              onPress={() => navigation.navigate("Login")}
+            >
               Login
             </Text>
           </XStack>

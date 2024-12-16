@@ -14,8 +14,8 @@ import GetStartedScreen from "./src/screens/GetStartedScreen";
 
 // Create a client
 const queryClient = new QueryClient();
-import { Platform, useColorScheme } from 'react-native';
-import React, { createContext, useEffect } from 'react';
+import { Platform, useColorScheme } from "react-native";
+import React, { createContext, useEffect } from "react";
 
 export const ThemeContext = createContext({
   isDark: true,
@@ -42,22 +42,27 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TamaguiProvider config={config}>
-      <ThemeContext.Provider value={{ isDark, setIsDark }}>
+        <ThemeContext.Provider value={{ isDark, setIsDark }}>
           <Theme name={isDark ? "dark" : "light"}>
-            <SafeAreaProvider backgroundColor={isDark ? "$color_dark" : "$color"}>
-              <Navigation />
-            {/* <AuthNavigation /> */}
-            {/* <RegisterScreen /> */}
-            {/* <GetStartedScreen /> */}
-            
+            <SafeAreaProvider
+              backgroundColor={isDark ? "$color_dark" : "$color"}
+            >
+              <NavigationContainer>
+              {/* <Navigation /> */}
+              {/* <AuthNavigation /> */}
+              {/* <RegisterScreen /> */}
+              {/* <GetStartedScreen /> */}
+              
+                <AuthNavigation />
+              </NavigationContainer>
             </SafeAreaProvider>
-            <StatusBar 
+            <StatusBar
               style={isDark ? "light" : "dark"}
               backgroundColor="transparent"
               translucent={Platform.OS === "android"}
             />
-            </Theme>
-      </ThemeContext.Provider>
+          </Theme>
+        </ThemeContext.Provider>
       </TamaguiProvider>
     </QueryClientProvider>
   );
