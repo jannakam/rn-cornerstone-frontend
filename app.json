@@ -40,7 +40,8 @@
         }
       ],
       "expo-font",
-      "expo-location"
+      "expo-location",
+      "expo-secure-store"
     ]
     
   }

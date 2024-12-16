@@ -6,7 +6,7 @@ import DrawerSceneWrapper from '../components/DrawerSceneWrapper'
 import Header from '../components/Header';
 import Map from '../components/Map';
 
-const Events = ({navigation}) => {
+const Events = ({ navigation }) => {
   const { openDrawer } = navigation;
   return (
     <DrawerSceneWrapper>
@@ -26,8 +26,7 @@ const Events = ({navigation}) => {
           </YStack>
         </YStack>
     </DrawerSceneWrapper>
-  )
-}
+  );
+};
 
-export default Events
-
+export default Events;
