@@ -13,6 +13,7 @@ import { Platform } from "react-native";
 import React from "react";
 import { UserProvider, useUser } from "./src/context/UserContext";
 import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
+import { ChallengeProvider } from "./src/context/ChallengeContext";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -48,7 +49,9 @@ export default function App() {
       <TamaguiProvider config={tamaguiConfig}>
         <ThemeProvider>
           <UserProvider>
-            <MainApp />
+            <ChallengeProvider>
+              <MainApp />
+            </ChallengeProvider>
           </UserProvider>
         </ThemeProvider>
       </TamaguiProvider>

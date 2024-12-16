@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, YStack, XStack, Text, Button, Sheet, Tabs, Separator, SizableText, useTheme } from 'tamagui';
 import { ChevronRight, ChevronDown, X, History } from '@tamagui/lucide-icons';
 import { ScrollView, Dimensions } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 
 const HistoryCard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const theme = useTheme();
   const windowHeight = Dimensions.get('window').height;
-
-  const historyData = {
+  const route = useRoute();
+  const [historyData, setHistoryData] = useState({
     daily: [
       { id: 1, date: '2024-01-20', title: 'Daily Goal', points: '+500', description: 'Completed 10,000 steps' },
       { id: 2, date: '2024-01-19', title: 'Daily Goal', points: '+450', description: 'Completed 9,000 steps' },
@@ -27,7 +28,16 @@ const HistoryCard = () => {
       { id: 3, date: '2024-01-15', title: 'Team Challenge', points: '+500', description: 'Led team to victory' },
       { id: 4, date: '2024-01-14', title: 'Global Challenge', points: '+1000', description: 'Top 10% globally' },
     ],
-  };
+  });
+
+  useEffect(() => {
+    if (route.params?.newChallenge) {
+      setHistoryData(prev => ({
+        ...prev,
+        challenges: [route.params.newChallenge, ...prev.challenges]
+      }));
+    }
+  }, [route.params?.newChallenge]);
 
   const TabContent = ({ data, expanded = false }) => (
     <ScrollView 
@@ -166,12 +176,14 @@ const HistoryCard = () => {
         modal={true}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
-        snapPoints={[85]}
+        snapPoints={[75]}
         dismissOnSnapToBottom={true}
         zIndex={100000}
         animation="medium"
       >
-        <Sheet.Overlay />
+        <Sheet.Overlay animation="lazy" 
+          enterStyle={{ opacity: 0 }}
+          exitStyle={{ opacity: 0 }}/>
         <Sheet.Frame 
           backgroundColor="$background"
           f={1}

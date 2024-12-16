@@ -39,6 +39,13 @@
           "recordAudioAndroid": true
         }
       ],
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
+      ],
       "expo-font",
       "expo-location",
       "expo-secure-store"

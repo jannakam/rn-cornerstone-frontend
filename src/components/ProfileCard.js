@@ -1,36 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { Card, YStack, XStack, Text, Avatar, Button, Sheet, useTheme } from "tamagui";
-import { History, ChevronRight, Store, Footprints, Flame, Edit2, Check, X } from "@tamagui/lucide-icons";
+import { History, ChevronRight, Store, Footprints, Flame, Edit2, X } from "@tamagui/lucide-icons";
 import { useNavigation } from '@react-navigation/native';
-import { Platform, DeviceEventEmitter, ScrollView } from 'react-native';
+import { Platform, DeviceEventEmitter, ScrollView, Animated } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Predefined list of avatars
 const avatarOptions = [
-  { id: 1, url: "https://api.dicebear.com/7.x/avataaars/png?seed=Felix" },
-  { id: 2, url: "https://api.dicebear.com/7.x/avataaars/png?seed=Aneka" },
-  { id: 3, url: "https://api.dicebear.com/7.x/avataaars/png?seed=Bailey" },
-  { id: 4, url: "https://api.dicebear.com/7.x/avataaars/png?seed=Charlie" },
-  { id: 5, url: "https://api.dicebear.com/7.x/avataaars/png?seed=David" },
-  { id: 6, url: "https://api.dicebear.com/7.x/avataaars/png?seed=Eva" },
-  { id: 7, url: "https://api.dicebear.com/7.x/avataaars/png?seed=Finn" },
-  { id: 8, url: "https://api.dicebear.com/7.x/avataaars/png?seed=Grace" },
-  { id: 9, url: "https://api.dicebear.com/7.x/avataaars/png?seed=Henry" },
+  { id: 1, url: require("../../assets/avatars/avatar1.png") },
+  { id: 2, url: require("../../assets/avatars/avatar2.png") },
+  { id: 3, url: require("../../assets/avatars/avatar3.png") },
+  { id: 4, url: require("../../assets/avatars/avatar4.png") },
+  { id: 5, url: require("../../assets/avatars/avatar5.png") },
+  { id: 6, url: require("../../assets/avatars/avatar6.png") },
+  { id: 7, url: require("../../assets/avatars/avatar7.png") },
+  { id: 9, url: require("../../assets/avatars/avatar9.png") },
 ];
 
 const ProfileCard = () => {
   const navigation = useNavigation();
   const theme = useTheme();
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] = useState(avatarOptions[0].url);
+  const [selectedAvatar, setSelectedAvatar] = useState(avatarOptions[0]);
+  const [hoveredAvatar, setHoveredAvatar] = useState(null);
 
   useEffect(() => {
     // Load saved avatar on component mount
     const loadSavedAvatar = async () => {
       try {
-        const savedAvatar = await AsyncStorage.getItem('userAvatar');
-        if (savedAvatar) {
-          setSelectedAvatar(savedAvatar);
+        const savedAvatarId = await AsyncStorage.getItem('userAvatarId');
+        if (savedAvatarId) {
+          const avatar = avatarOptions.find(a => a.id === parseInt(savedAvatarId));
+          if (avatar) {
+            setSelectedAvatar(avatar);
+          }
         }
       } catch (error) {
         console.log('Error loading avatar:', error);
@@ -39,16 +42,15 @@ const ProfileCard = () => {
     loadSavedAvatar();
   }, []);
 
-  const handleAvatarSelect = async (avatarUrl) => {
-    setSelectedAvatar(avatarUrl);
+  const handleAvatarSelect = async (avatar) => {
+    setSelectedAvatar(avatar);
     try {
-      await AsyncStorage.setItem('userAvatar', avatarUrl);
+      await AsyncStorage.setItem('userAvatarId', avatar.id.toString());
       // Emit event for avatar change
-      DeviceEventEmitter.emit('avatarChanged', { avatarUrl });
+      DeviceEventEmitter.emit('avatarChanged', { avatarId: avatar.id });
     } catch (error) {
       console.log('Error saving avatar:', error);
     }
-    setIsAvatarModalOpen(false);
   };
 
   const navigateToStore = () => {
@@ -159,7 +161,8 @@ const ProfileCard = () => {
             <YStack ai="center" space="$4">
               <Avatar circular size="$10" backgroundColor={theme.cyan10.val}>
                 <Avatar.Image
-                  source={{ uri: selectedAvatar }}
+                  source={selectedAvatar.url}
+                  resizeMode="contain"
                 />
                 <Avatar.Fallback backgroundColor={theme.cyan10.val} />
               </Avatar>
@@ -193,20 +196,23 @@ const ProfileCard = () => {
         modal={true}
         open={isAvatarModalOpen}
         onOpenChange={setIsAvatarModalOpen}
-        snapPoints={[85]}
+        snapPoints={[40]}
         dismissOnSnapToBottom={true}
         zIndex={100000}
         animation="medium"
       >
-        <Sheet.Overlay />
+        <Sheet.Overlay 
+          animation="lazy" 
+          enterStyle={{ opacity: 0 }}
+          exitStyle={{ opacity: 0 }}
+        />
         <Sheet.Frame 
           backgroundColor="$background"
-          f={1}
           padding="$4"
           space="$4"
         >
           <Sheet.Handle />
-          <YStack f={1} space="$4">
+          <YStack space="$6">
             <XStack justifyContent="space-between" alignItems="center">
               <XStack space="$2" ai="center">
                 <Text color="$color" fontSize="$6" fontWeight="bold">
@@ -226,39 +232,38 @@ const ProfileCard = () => {
               />
             </XStack>
             
-            <YStack f={1} jc="center">
-              <XStack flexWrap="wrap" gap="$4" jc="center">
-                {avatarOptions.map((avatar) => (
-                  <Button
-                    key={avatar.id}
-                    size="$6"
-                    circular
-                    backgroundColor="$background"
-                    borderColor={selectedAvatar === avatar.url ? theme.cyan8.val : theme.color4.val}
-                    borderWidth={2}
-                    pressStyle={{ scale: 0.95 }}
-                    onPress={() => handleAvatarSelect(avatar.url)}
+            <XStack flexWrap="wrap" gap="$6" jc="center" pb="$4">
+              {avatarOptions.map((avatar) => (
+                <Button
+                  key={avatar.id}
+                  size="$7"
+                  circular
+                  backgroundColor="$background"
+                  pressStyle={{ scale: 0.95 }}
+                  onPress={() => handleAvatarSelect(avatar)}
+                  animation="bouncy"
+                  scale={selectedAvatar.id === avatar.id ? 1.15 : 1}
+                  opacity={selectedAvatar.id === avatar.id ? 1 : 0.5}
+                  hoverStyle={{ 
+                    scale: selectedAvatar.id === avatar.id ? 1.15 : 1.05,
+                    opacity: 1 
+                  }}
+                >
+                  <Avatar 
+                    circular 
+                    size="$7" 
+                    backgroundColor={theme.cyan10.val}
+                    animation="bouncy"
                   >
-                    <Avatar circular size="$6" backgroundColor={theme.cyan10.val}>
-                      <Avatar.Image source={{ uri: avatar.url }} />
-                      <Avatar.Fallback backgroundColor={theme.cyan10.val} />
-                    </Avatar>
-                    {selectedAvatar === avatar.url && (
-                      <XStack
-                        position="absolute"
-                        right={-2}
-                        bottom={-2}
-                        backgroundColor={theme.cyan8.val}
-                        borderRadius="$round"
-                        padding="$1"
-                      >
-                        <Check size={12} color="white" />
-                      </XStack>
-                    )}
-                  </Button>
-                ))}
-              </XStack>
-            </YStack>
+                    <Avatar.Image 
+                      source={avatar.url}
+                      resizeMode="contain"
+                    />
+                    <Avatar.Fallback backgroundColor={theme.cyan10.val} />
+                  </Avatar>
+                </Button>
+              ))}
+            </XStack>
           </YStack>
         </Sheet.Frame>
       </Sheet>

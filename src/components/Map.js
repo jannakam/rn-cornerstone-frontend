@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import MapView, { UrlTile, Marker, Callout } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
-import { Card, YStack, XStack, useTheme } from "tamagui";
-import { Footprints, MapPin } from "@tamagui/lucide-icons";
+import { Card, YStack, XStack, useTheme, Button } from "tamagui";
+import { Footprints, MapPin, ChevronRight } from "@tamagui/lucide-icons";
 import locations from "../data/locations";
 import sponsors from "../data/sponsors";
 
@@ -19,6 +19,9 @@ const Map = forwardRef((props, ref) => {
   const navigation = useNavigation();
   const theme = useTheme();
   const { isDark } = theme;
+  const urlTemplate = isDark
+    ? "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png" 
+    : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png";
 
   useImperativeHandle(ref, () => ({
     // Add any methods you want to expose to the parent component here
@@ -30,6 +33,44 @@ const Map = forwardRef((props, ref) => {
       params: { location },
     });
   };
+
+  const CustomCallout = ({ location }) => (
+    <Card
+      backgroundColor="$background"
+      borderRadius="$4"
+      padding="$4"
+      elevation={4}
+    >
+      <YStack space="$2">
+        <Text color="$color" fontWeight="bold" fontSize="$5">
+          {location.name}
+        </Text>
+        <XStack space="$3" ai="center">
+          <XStack space="$2" ai="center">
+            <Footprints size={16} color={theme.magenta7.val} />
+            <Text color="$color">
+              {location.steps} steps
+            </Text>
+          </XStack>
+          <XStack space="$2" ai="center">
+            <MapPin size={16} color={theme.lime7.val} />
+            <Text color="$color">
+              {location.approx_distance}km
+            </Text>
+          </XStack>
+        </XStack>
+        <Button
+          size="$3"
+          backgroundColor={theme.cyan8.val}
+          color="white"
+          onPress={() => handleCalloutPress(location)}
+          icon={ChevronRight}
+        >
+          View Details
+        </Button>
+      </YStack>
+    </Card>
+  );
 
   if (error) {
     return (
@@ -54,11 +95,7 @@ const Map = forwardRef((props, ref) => {
         onError={(error) => setError(error.nativeEvent.error)}
       >
         <UrlTile
-          urlTemplate={
-            isDark
-            ? "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png" 
-            : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-          }
+          urlTemplate={urlTemplate}
           shouldReplaceMapContent={true}
           maximumZ={19}
           flipY={false}
@@ -72,29 +109,9 @@ const Map = forwardRef((props, ref) => {
               longitude: location.longitude,
             }}
             pinColor={theme.magenta7.val}
-            title={location.name}
-            description={`${location.steps} steps • ${location.approx_distance}km`}
           >
-            <Callout onPress={() => handleCalloutPress(location)}>
-              <View style={styles.calloutContainer}>
-                <Text style={[styles.calloutTitle, { color: 'black' }]}>
-                  {location.name}
-                </Text>
-                <XStack space="$2" ai="center">
-                  <Footprints size={16} color={theme.magenta7.val} />
-                  <Text
-                    style={[styles.calloutText, { color: 'black' }]}
-                  >
-                    {location.steps} steps
-                  </Text>
-                  <MapPin size={16} color={theme.lime7.val} />
-                  <Text
-                    style={[styles.calloutText, { color: 'black' }]}
-                  >
-                    {location.approx_distance}km
-                  </Text>
-                </XStack>
-              </View>
+            <Callout tooltip>
+              <CustomCallout location={location} />
             </Callout>
           </Marker>
         ))}
@@ -107,25 +124,33 @@ const Map = forwardRef((props, ref) => {
               latitude: sponsor.latitude,
               longitude: sponsor.longitude,
             }}
-            title={sponsor.name}
-            description={sponsor.discount}
           >
-            <View style={[styles.sponsorMarker, { borderColor: theme.cyan7.val }]}>
+            <View style={[styles.sponsorMarker, { 
+              backgroundColor: 'white',
+              borderColor: theme.cyan7.val 
+            }]}>
               <Image
                 source={sponsor.logo}
                 style={styles.sponsorLogo}
                 resizeMode="contain"
               />
             </View>
-            <Callout>
-              <View style={styles.calloutContainer}>
-                <Text style={[styles.calloutTitle, { color: 'black' }]}>
-                  {sponsor.name}
-                </Text>
-                <Text style={[styles.calloutText, { color: theme.cyan8.val }]}>
-                  {sponsor.discount}
-                </Text>
-              </View>
+            <Callout tooltip>
+              <Card
+                backgroundColor="$background"
+                borderRadius="$4"
+                padding="$4"
+                elevation={4}
+              >
+                <YStack space="$2">
+                  <Text color="$color" fontWeight="bold" fontSize="$5">
+                    {sponsor.name}
+                  </Text>
+                  <Text color={theme.cyan8.val} fontWeight="bold">
+                    {sponsor.discount}
+                  </Text>
+                </YStack>
+              </Card>
             </Callout>
           </Marker>
         ))}

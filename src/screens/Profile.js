@@ -9,7 +9,6 @@ import HistoryCard from '../components/HistoryCard';
 const Profile = ({navigation}) => {
   return (
     <DrawerSceneWrapper>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '$background' }}>
         <YStack f={1} bg="$background">
           <Header navigation={navigation} />
           <ScrollView 
@@ -25,7 +24,6 @@ const Profile = ({navigation}) => {
             </YStack>
           </ScrollView>
         </YStack>
-      </SafeAreaView>
     </DrawerSceneWrapper>
   )
 }

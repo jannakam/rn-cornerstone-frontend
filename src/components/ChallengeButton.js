@@ -12,13 +12,63 @@ import {
   Checkbox,
   LinearGradient,
   Adapt,
+  useTheme,
 } from "tamagui";
-import { ChevronDown, ChevronUp, Check } from "@tamagui/lucide-icons";
+import { ChevronDown, ChevronUp, Check, Play } from "@tamagui/lucide-icons";
+import { useNavigation } from "@react-navigation/native";
+import { useChallenge } from "../context/ChallengeContext";
 
 const ChallengeButton = ({ friends }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [challengeSteps, setChallengeSteps] = useState(null);
+  const navigation = useNavigation();
+  const theme = useTheme();
+  const { activeChallenge, startChallenge } = useChallenge();
+
+  const handleCreateChallenge = () => {
+    if (!challengeSteps || !selectedFriends.length) return;
+    
+    const selectedFriend = friends.find(f => f.id === selectedFriends[0]);
+    setIsOpen(false);
+    
+    startChallenge(selectedFriend, Number(challengeSteps));
+    
+    navigation.navigate('Friend Challenge');
+  };
+
+  if (activeChallenge) {
+    return (
+      <YStack ai="center" space="$2">
+        <Avatar
+          circular
+          size="$6"
+          borderWidth={2}
+          borderColor={theme.cyan8.val}
+          onPress={() => navigation.navigate('Friend Challenge')}
+        >
+          <Avatar.Fallback 
+            backgroundColor={theme.cyan10.val}
+            jc="center" 
+            ai="center"
+          >
+            <YStack ai="center" jc="center">
+              <Button 
+                fontSize={8} 
+                color={theme.color.val}
+                icon={Play}
+                backgroundColor={theme.cyan8.val}
+                circular
+                size="$6"
+                onPress={() => navigation.navigate('Friend Challenge')}
+              >
+              </Button>
+            </YStack>
+          </Avatar.Fallback>
+        </Avatar>
+      </YStack>
+    );
+  }
 
   return (
     <YStack ai="center" space="$2">
@@ -50,11 +100,10 @@ const ChallengeButton = ({ friends }) => {
         <Sheet.Frame>
           <Sheet.Handle />
           <YStack padding="$4" space="$4">
-            <Text fontSize={11}>Challenge</Text>
 
             {/* Steps Selection */}
             <YStack space="$2">
-              <Label fontSize={14}>Set Challenge Steps</Label>
+              <Label fontSize={16} fontWeight="bold">Set Challenge Steps</Label>
               <Select
                 value={String(challengeSteps)}
                 onValueChange={(val) => setChallengeSteps(Number(val))}
@@ -75,7 +124,7 @@ const ChallengeButton = ({ friends }) => {
                 </Select.Trigger>
 
                 <Adapt when="sm" platform="touch">
-                  <Sheet modal dismissOnSnapToBottom>
+                  <Sheet modal dismissOnSnapToBottom >
                     <Sheet.Frame>
                       <Sheet.ScrollView>
                         <Adapt.Contents />
@@ -118,7 +167,7 @@ const ChallengeButton = ({ friends }) => {
 
                   <Select.Viewport minWidth={200} backgroundColor="$background">
                     <Select.Group>
-                      {[5000, 10000, 15000, 20000, 25000].map((steps, i) => (
+                      {[100, 1000, 5000, 10000, 15000, 20000, 25000].map((steps, i) => (
                         <Select.Item
                           index={i}
                           key={steps}
@@ -166,7 +215,7 @@ const ChallengeButton = ({ friends }) => {
             </YStack>
 
             {/* Friends Selection */}
-            <Text fontSize={14} fontWeight="600">Select up to 4 friends</Text>
+            <Text fontSize={14} fontWeight="600">Select a friend to challenge</Text>
             <ScrollView>
               {friends.map((friend) => (
                 <XStack
@@ -180,15 +229,14 @@ const ChallengeButton = ({ friends }) => {
                     onCheckedChange={(checked) => {
                       setSelectedFriends((prev) => {
                         if (checked) {
-                          if (prev.length >= 4) return prev;
-                          return [...prev, friend.id];
+                          return [friend.id];
                         } else {
                           return prev.filter((id) => id !== friend.id);
                         }
                       });
                     }}
                     disabled={
-                      selectedFriends.length >= 4 &&
+                      selectedFriends.length >= 1 &&
                       !selectedFriends.includes(friend.id)
                     }
                   >
@@ -208,12 +256,15 @@ const ChallengeButton = ({ friends }) => {
             </ScrollView>
 
             <Button
-              onPress={() => setIsOpen(false)}
+              onPress={handleCreateChallenge}
               theme="active"
               disabled={!challengeSteps || selectedFriends.length === 0}
               fontSize={14}
+              backgroundColor={theme.background.val}
+              borderColor={theme.color6.val}
+              color={theme.color.val}
             >
-              Create Challenge
+              Start Challenge
             </Button>
           </YStack>
         </Sheet.Frame>
