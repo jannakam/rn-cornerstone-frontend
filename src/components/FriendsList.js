@@ -15,6 +15,8 @@ import {
 } from "tamagui";
 import { Plus } from "@tamagui/lucide-icons";
 import ActivityRings from "react-native-activity-rings";
+import AddFriendButton from './AddFriendButton';
+import ChallengeButton from './ChallengeButton';
 
 const FriendsList = () => {
   const theme = useTheme();
@@ -117,22 +119,12 @@ const FriendsList = () => {
       <Card.Header padded>
         <H6>Friends</H6>
       </Card.Header>
-      <Card.Footer padded pt="0">
+      <Card.Footer padded>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <XStack gap="$5" ai="center" jc="center">
-            {/* Add Friend Avatar */}
-            <YStack ai="center">
-              <Avatar circular size="$5" borderWidth={1} borderColor="$color7">
-                <Avatar.Fallback
-                  backgroundColor="transparent"
-                  jc="center"
-                  ai="center"
-                >
-                  <Plus size={24} color="$color" />
-                </Avatar.Fallback>
-              </Avatar>
-            </YStack>
-
+          <XStack gap="$4">
+            <AddFriendButton />
+            <ChallengeButton friends={friends} />
+            
             {/* Friend Avatars */}
             {friends.map((friend) => (
               <YStack key={friend.id} ai="center">
