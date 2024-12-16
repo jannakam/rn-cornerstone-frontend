@@ -1,32 +1,28 @@
 import React from 'react'
-import { YStack, XStack, Text } from 'tamagui'
+import { YStack } from 'tamagui'
+import { SafeAreaView, ScrollView } from 'react-native';
 import DrawerSceneWrapper from '../components/DrawerSceneWrapper'
-import { useNavigation } from '@react-navigation/native';
-import { Menu } from '@tamagui/lucide-icons';
-import { TouchableOpacity, View, SafeAreaView } from 'react-native';
-import Login from '../components/Login';
-import Signup from '../components/Signup';
-import GetStarted from '../components/GetStarted';
 import Header from '../components/Header';
+import ProfileCard from '../components/ProfileCard';
+import HistoryCard from '../components/HistoryCard';
 
 const Profile = ({navigation}) => {
-  const { openDrawer } = navigation;
   return (
     <DrawerSceneWrapper>
-      {/* <SafeAreaView bg="$background" ai="center" jc="center"> */}
-        {/* <XStack ai="center" jc="space-between" p="$4" pt="$8" bg="$background">
-          <TouchableOpacity bg="$background" onPress={openDrawer}>
-            <Menu size={20} color="$color" />
-          </TouchableOpacity>
-        </XStack> */}
-       
-    {/* </SafeAreaView> */}
-//         <YStack f={1} bg="$background">
-//           <Header navigation={navigation} />
-//           <YStack f={1} p="$4">
- {/* here should be the content  */}
- <Signup/>//           </YStack>
-//         </YStack>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '$background' }}>
+        <YStack f={1} bg="$background">
+          <Header navigation={navigation} />
+          <ScrollView 
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ padding: 16 }}
+          >
+            <YStack space="$4">
+              <ProfileCard />
+              <HistoryCard />
+            </YStack>
+          </ScrollView>
+        </YStack>
+      </SafeAreaView>
     </DrawerSceneWrapper>
   )
 }
