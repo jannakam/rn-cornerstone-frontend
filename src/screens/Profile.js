@@ -14,9 +14,12 @@ const Profile = ({navigation}) => {
           <Header navigation={navigation} />
           <ScrollView 
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ padding: 16 }}
+            contentContainerStyle={{ 
+              padding: '$4',
+              margin: 10,
+            }}
           >
-            <YStack space="$4">
+            <YStack space="$4" flex={1} >
               <ProfileCard />
               <HistoryCard />
             </YStack>
