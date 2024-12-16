@@ -14,11 +14,30 @@ import {
   Adapt,
 } from "tamagui";
 import { ChevronDown, ChevronUp, Check } from "@tamagui/lucide-icons";
+import { participateInFriendChallenge } from "../api/Auth";
 
 const ChallengeButton = ({ friends }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [challengeSteps, setChallengeSteps] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleCreateChallenge = async () => {
+    try {
+      setIsLoading(true);
+      // You might need to adjust the challengeId based on your API requirements
+      const challengeId = 1; // This should come from your API or be generated
+      await participateInFriendChallenge(challengeId, selectedFriends);
+      setIsOpen(false);
+      // Reset selections
+      setSelectedFriends([]);
+      setChallengeSteps(null);
+    } catch (error) {
+      console.error("Error creating challenge:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <YStack ai="center" space="$2">
@@ -50,7 +69,9 @@ const ChallengeButton = ({ friends }) => {
         <Sheet.Frame>
           <Sheet.Handle />
           <YStack padding="$4" space="$4">
-            <Text fontSize={11}>Challenge</Text>
+            <Text fontSize={20} fontWeight="bold">
+              Create Challenge
+            </Text>
 
             {/* Steps Selection */}
             <YStack space="$2">
@@ -89,131 +110,108 @@ const ChallengeButton = ({ friends }) => {
                   </Sheet>
                 </Adapt>
 
-                <Select.Content
-                  zIndex={200000}
-                  backgroundColor="$background"
-                  borderWidth={1}
-                  borderColor="$color4"
-                  overflow="hidden"
-                >
-                  <Select.ScrollUpButton
-                    alignItems="center"
-                    justifyContent="center"
-                    position="relative"
-                    width="100%"
-                    height="$3"
-                    backgroundColor="$background"
-                  >
-                    <YStack zIndex={10}>
-                      <ChevronUp size={20} color="$color" />
-                    </YStack>
-                    <LinearGradient
-                      start={[0, 0]}
-                      end={[0, 1]}
-                      fullscreen
-                      colors={["$background", "transparent"]}
-                      borderRadius="$4"
-                    />
+                <Select.Content>
+                  <Select.ScrollUpButton>
+                    <ChevronUp size={20} />
                   </Select.ScrollUpButton>
 
-                  <Select.Viewport minWidth={200} backgroundColor="$background">
+                  <Select.Viewport>
                     <Select.Group>
                       {[5000, 10000, 15000, 20000, 25000].map((steps, i) => (
                         <Select.Item
                           index={i}
                           key={steps}
                           value={String(steps)}
-                          backgroundColor="$background"
-                          hoverStyle={{
-                            backgroundColor: "$color4",
-                          }}
-                          pressStyle={{
-                            backgroundColor: "$color5",
-                          }}
                         >
-                          <Select.ItemText color="$color" fontSize={16}>
+                          <Select.ItemText>
                             {steps.toLocaleString()} steps
                           </Select.ItemText>
-                          <Select.ItemIndicator marginLeft="auto">
-                            <Check size={16} color="$color" />
+                          <Select.ItemIndicator>
+                            <Check size={16} />
                           </Select.ItemIndicator>
                         </Select.Item>
                       ))}
                     </Select.Group>
                   </Select.Viewport>
 
-                  <Select.ScrollDownButton
-                    alignItems="center"
-                    justifyContent="center"
-                    position="relative"
-                    width="100%"
-                    height="$3"
-                    backgroundColor="$background"
-                  >
-                    <YStack zIndex={10}>
-                      <ChevronDown size={20} color="$color" />
-                    </YStack>
-                    <LinearGradient
-                      start={[0, 0]}
-                      end={[0, 1]}
-                      fullscreen
-                      colors={["transparent", "$background"]}
-                      borderRadius="$4"
-                    />
+                  <Select.ScrollDownButton>
+                    <ChevronDown size={20} />
                   </Select.ScrollDownButton>
                 </Select.Content>
               </Select>
             </YStack>
 
             {/* Friends Selection */}
-            <Text fontSize={14} fontWeight="600">Select up to 4 friends</Text>
-            <ScrollView>
-              {friends.map((friend) => (
-                <XStack
-                  key={friend.id}
-                  space="$4"
-                  padding="$3"
-                  alignItems="center"
-                >
-                  <Checkbox
-                    checked={selectedFriends.includes(friend.id)}
-                    onCheckedChange={(checked) => {
-                      setSelectedFriends((prev) => {
-                        if (checked) {
-                          if (prev.length >= 4) return prev;
-                          return [...prev, friend.id];
-                        } else {
-                          return prev.filter((id) => id !== friend.id);
-                        }
-                      });
-                    }}
-                    disabled={
-                      selectedFriends.length >= 4 &&
-                      !selectedFriends.includes(friend.id)
-                    }
+            <YStack space="$2">
+              <Text fontSize={14} fontWeight="600">
+                Select up to 4 friends ({selectedFriends.length}/4)
+              </Text>
+              <ScrollView maxHeight={300}>
+                {friends?.map((friend) => (
+                  <XStack
+                    key={friend.id}
+                    space="$4"
+                    padding="$3"
+                    alignItems="center"
+                    backgroundColor="$background"
+                    borderRadius="$4"
+                    marginVertical="$1"
                   >
-                    <Checkbox.Indicator>
-                      <Check />
-                    </Checkbox.Indicator>
-                  </Checkbox>
+                    <Checkbox
+                      checked={selectedFriends.includes(friend.id)}
+                      onCheckedChange={(checked) => {
+                        setSelectedFriends((prev) => {
+                          if (checked) {
+                            if (prev.length >= 4) return prev;
+                            return [...prev, friend.id];
+                          } else {
+                            return prev.filter((id) => id !== friend.id);
+                          }
+                        });
+                      }}
+                      disabled={
+                        selectedFriends.length >= 4 &&
+                        !selectedFriends.includes(friend.id)
+                      }
+                    >
+                      <Checkbox.Indicator>
+                        <Check />
+                      </Checkbox.Indicator>
+                    </Checkbox>
 
-                  <Avatar circular size="$4">
-                    <Avatar.Image source={{ uri: friend.avatar }} />
-                    <Avatar.Fallback backgroundColor="$blue10" />
-                  </Avatar>
+                    <Avatar circular size="$4">
+                      <Avatar.Image
+                        source={{
+                          uri: "https://github.com/hello-world.png",
+                        }}
+                      />
+                      <Avatar.Fallback backgroundColor="$blue10" />
+                    </Avatar>
 
-                  <Text fontSize={16}>{friend.name}</Text>
-                </XStack>
-              ))}
-            </ScrollView>
+                    <YStack>
+                      <Text fontSize={16} fontWeight="500">
+                        {friend.username}
+                      </Text>
+                      {friend.city && (
+                        <Text fontSize={12} color="$gray10">
+                          {friend.city}
+                        </Text>
+                      )}
+                    </YStack>
+                  </XStack>
+                ))}
+              </ScrollView>
+            </YStack>
 
             <Button
-              onPress={() => setIsOpen(false)}
+              onPress={handleCreateChallenge}
               theme="active"
-              disabled={!challengeSteps || selectedFriends.length === 0}
+              disabled={
+                !challengeSteps || selectedFriends.length === 0 || isLoading
+              }
               fontSize={14}
             >
-              Create Challenge
+              {isLoading ? "Creating..." : "Create Challenge"}
             </Button>
           </YStack>
         </Sheet.Frame>

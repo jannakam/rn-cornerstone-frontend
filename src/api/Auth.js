@@ -1,15 +1,49 @@
 import instance from "./index";
-import { setToken } from "./storage";
+import { setToken, setUserData, getToken, getUserData } from "./storage";
 
 const login = async (userInfo) => {
   try {
-    console.log(3);
+    console.log("USER INFO: ", userInfo);
     const { data } = await instance.post("/v1/auth/login", userInfo);
-    console.log(4);
-    setToken(data.token);
+
+    if (!data) {
+      throw new Error("No data received from server");
+    }
+
+    console.log("Received login response:", data);
+
+    if (!data.token) {
+      throw new Error("No token received from server");
+    }
+
+    try {
+      // Remove "Bearer " prefix before storing
+      const cleanToken = data.token.replace("Bearer ", "");
+      await setToken(cleanToken);
+      console.log("Token storage successful");
+
+      // Then store user data
+      const userToStore = {
+        id: data.id,
+        username: data.username,
+        role: data.role,
+      };
+      await setUserData(userToStore);
+      console.log("User data storage successful");
+
+      // Verify storage
+      const storedToken = await getToken();
+      const storedUser = await getUserData();
+      console.log("Storage verification - Token exists:", !!storedToken);
+      console.log("Storage verification - User exists:", !!storedUser);
+    } catch (storageError) {
+      console.error("Storage error:", storageError);
+      throw storageError;
+    }
+
     return data;
   } catch (error) {
-    console.log(error);
+    console.error("Login error:", error);
     throw error;
   }
 };
@@ -41,4 +75,110 @@ const updateUser = async (userInfo) => {
   }
 };
 
-export { login, register, updateUser };
+const getUserProfile = async () => {
+  try {
+    const { data } = await instance.get("/v1/user/me");
+    return data;
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    throw error;
+  }
+};
+const addFriend = async (friendId) => {
+  try {
+    await instance.post(`/v1/user/friends/${friendId}`);
+  } catch (error) {
+    console.error("Error adding friend:", error);
+    throw error;
+  }
+};
+
+const getAllFriends = async () => {
+  try {
+    const token = await getToken();
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
+    const { data } = await instance.get("/v1/user/friends");
+    console.log("Friends data received:", data);
+    return data;
+  } catch (error) {
+    console.error(
+      "Error fetching friends:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+const participateInDailyChallenge = async (dailyChallengeId) => {
+  try {
+    await instance.post(`/v1/user/participate/daily/${dailyChallengeId}`);
+  } catch (error) {
+    console.error("Error participating in daily challenge:", error);
+    throw error;
+  }
+};
+
+const participateInFriendChallenge = async (friendChallengeId, friendIds) => {
+  try {
+    await instance.post(
+      `/v1/user/participate/friend/${friendChallengeId}`,
+      friendIds
+    );
+  } catch (error) {
+    console.error("Error participating in friend challenge:", error);
+    throw error;
+  }
+};
+
+const participateInEvent = async (eventId) => {
+  try {
+    await instance.post(`/v1/user/participate/event/${eventId}`);
+  } catch (error) {
+    console.error("Error participating in event:", error);
+    throw error;
+  }
+};
+const updateStepsForDailyChallenge = async (dailyChallengeId, steps) => {
+  try {
+    await instance.post(`/v1/user/steps/daily/${dailyChallengeId}`, { steps });
+  } catch (error) {
+    console.error("Error updating steps for daily challenge:", error);
+    throw error;
+  }
+};
+const updateStepsForFriendChallenge = async (friendChallengeId, steps) => {
+  try {
+    await instance.post(`/v1/user/steps/friend/${friendChallengeId}`, {
+      steps,
+    });
+  } catch (error) {
+    console.error("Error updating steps for friend challenge:", error);
+    throw error;
+  }
+};
+const updateStepsForEvent = async (eventId, steps) => {
+  try {
+    await instance.post(`/v1/user/steps/event/${eventId}`, { steps });
+  } catch (error) {
+    console.error("Error updating steps for event:", error);
+    throw error;
+  }
+};
+
+export {
+  login,
+  register,
+  updateUser,
+  getUserProfile,
+  addFriend,
+  getAllFriends,
+  participateInDailyChallenge,
+  participateInFriendChallenge,
+  participateInEvent,
+  updateStepsForDailyChallenge,
+  updateStepsForFriendChallenge,
+  updateStepsForEvent,
+};

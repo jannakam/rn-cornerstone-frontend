@@ -1,21 +1,41 @@
 import React from "react";
-import { Card, YStack, XStack, Text, Avatar, Button, useTheme } from "tamagui";
+import {
+  Card,
+  YStack,
+  XStack,
+  Text,
+  Avatar,
+  Button,
+  useTheme,
+  Spinner,
+} from "tamagui";
 import { History } from "@tamagui/lucide-icons";
-import { useNavigation } from '@react-navigation/native';
-import { Platform } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import { Platform } from "react-native";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from "../api/Auth";
 
 const ProfileCard = () => {
   const navigation = useNavigation();
 
+  const {
+    data: profile,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: getUserProfile,
+  });
+
   const navigateToStore = () => {
-    navigation.navigate('Store', {
-      animation: 'slide_from_right',
+    navigation.navigate("Store", {
+      animation: "slide_from_right",
       ...Platform.select({
         ios: {
           options: {
             transitionSpec: {
               open: {
-                animation: 'spring',
+                animation: "spring",
                 config: {
                   stiffness: 1000,
                   damping: 500,
@@ -23,28 +43,76 @@ const ProfileCard = () => {
                   overshootClamping: true,
                   restDisplacementThreshold: 0.01,
                   restSpeedThreshold: 0.01,
-                }
+                },
               },
               close: {
-                animation: 'spring',
+                animation: "spring",
                 config: {
                   stiffness: 1000,
                   damping: 500,
                   mass: 3,
-                }
-              }
-            }
-          }
+                },
+              },
+            },
+          },
         },
         android: {
           options: {
-            animation: 'slide_from_right',
+            animation: "slide_from_right",
             animationDuration: 300,
-          }
-        }
-      })
+          },
+        },
+      }),
     });
   };
+
+  if (isLoading) {
+    return (
+      <Card
+        elevate
+        bordered
+        animation="bouncy"
+        backgroundColor="$background"
+        padding="$4"
+        width="100%"
+      >
+        <YStack
+          space="$4"
+          alignItems="center"
+          justifyContent="center"
+          height={300}
+        >
+          <Spinner size="large" color="$color" />
+          <Text>Loading profile...</Text>
+        </YStack>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card
+        elevate
+        bordered
+        animation="bouncy"
+        backgroundColor="$background"
+        padding="$4"
+        width="100%"
+      >
+        <YStack
+          space="$4"
+          alignItems="center"
+          justifyContent="center"
+          height={300}
+        >
+          <Text color="$red10">Error loading profile</Text>
+          <Text color="$red10" fontSize="$2">
+            {error.message}
+          </Text>
+        </YStack>
+      </Card>
+    );
+  }
 
   return (
     <Card
@@ -58,7 +126,7 @@ const ProfileCard = () => {
       <YStack space="$4">
         {/* Name at top left */}
         <Text color="$color" fontSize="$6" fontWeight="bold">
-          Fulan Al-Fulani
+          {profile?.username || "Loading..."}
         </Text>
 
         {/* Centered Avatar */}
@@ -75,21 +143,39 @@ const ProfileCard = () => {
           </Avatar>
         </XStack>
 
+        {/* Profile Details */}
+        <YStack space="$2">
+          <Text color="$color" fontSize="$3">
+            {profile?.city && `📍 ${profile.city}`}
+          </Text>
+          {profile?.age && (
+            <Text color="$color" fontSize="$3">
+              Age: {profile.age}
+            </Text>
+          )}
+          {(profile?.height || profile?.weight) && (
+            <Text color="$color" fontSize="$3">
+              {profile.height && `Height: ${profile.height}cm`}{" "}
+              {profile.weight && `Weight: ${profile.weight}kg`}
+            </Text>
+          )}
+        </YStack>
+
         {/* Points Section */}
         <YStack space="$2">
-          <Text color="theme.lime10.val" fontSize="$3">
+          <Text color="$lime10" fontSize="$3">
             Total points:
           </Text>
           <XStack space="$2" alignItems="baseline">
             <Text color="$color" fontSize="$9" fontWeight="bold">
-              7632
+              {profile?.totalSteps || 0}
             </Text>
             <Text color="$green10" fontSize="$3">
-              26537 Kcal burned!
+              {(profile?.totalSteps * 0.04).toFixed(2)} Kcal burned!
             </Text>
           </XStack>
           <Text color="$green10" fontSize="$3">
-            99999 KM walked
+            {((profile?.totalSteps || 0) * 0.0008).toFixed(2)} KM walked
           </Text>
         </YStack>
 
@@ -107,7 +193,6 @@ const ProfileCard = () => {
           >
             Redeem
           </Button>
-         
         </XStack>
       </YStack>
     </Card>

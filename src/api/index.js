@@ -2,21 +2,27 @@ import axios from "axios";
 import { getToken } from "./storage";
 
 const instance = axios.create({
-  baseURL: "http://10.0.2.2:8083/api",
+  baseURL: "http://192.168.8.172:8083/api",
 });
 
-instance.interceptors.request.use(async (config) => {
-  const token = await getToken();
-  if (token) {
-    console.log("HEADERS: ", token);
-    config.headers.Authorization = `Bearer ${token}`;
+// Add request interceptor to automatically add token to all requests
+instance.interceptors.request.use(
+  async (config) => {
+    const token = await getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-});
+);
 
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.error("API Error Response:", error.response?.data);
     return Promise.reject(error);
   }
 );

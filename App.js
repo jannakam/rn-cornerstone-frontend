@@ -9,42 +9,30 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import DrawerNavigation from "./src/navigation/DrawerNav/DrawerNavigation";
 import Navigation from "./src/navigation/DrawerNav/index";
 import AuthNavigation from "./src/navigation/AuthNav/AuthNavigation";
-import { Platform, useColorScheme } from "react-native";
-import React, { createContext, useEffect } from "react";
+import { Platform } from "react-native";
+import React from "react";
 import { UserProvider, useUser } from "./src/context/UserContext";
+import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
 
-export const ThemeContext = createContext({
-  isDark: true,
-  setIsDark: () => {},
-});
-
-// Create a client
 const queryClient = new QueryClient();
 
 const MainApp = () => {
   const { isAuthenticated } = useUser();
-  const [isDark, setIsDark] = React.useState(true);
-  const systemTheme = useColorScheme();
-
-  useEffect(() => {
-    setIsDark(systemTheme);
-  }, [systemTheme]);
+  const { isDark } = useTheme();
 
   return (
-    <ThemeContext.Provider value={{ isDark, setIsDark }}>
-      <Theme name={isDark ? "dark" : "light"}>
-        <SafeAreaProvider backgroundColor={isDark ? "$color_dark" : "$color"}>
-          <NavigationContainer>
-            {isAuthenticated ? <DrawerNavigation /> : <AuthNavigation />}
-          </NavigationContainer>
-        </SafeAreaProvider>
-        <StatusBar
-          style={isDark ? "light" : "dark"}
-          backgroundColor="transparent"
-          translucent={Platform.OS === "android"}
-        />
-      </Theme>
-    </ThemeContext.Provider>
+    <Theme name={isDark ? "dark" : "light"}>
+      <SafeAreaProvider backgroundColor={isDark ? "$color_dark" : "$color"}>
+        <NavigationContainer>
+          {isAuthenticated ? <DrawerNavigation /> : <AuthNavigation />}
+        </NavigationContainer>
+      </SafeAreaProvider>
+      <StatusBar
+        style={isDark ? "light" : "dark"}
+        backgroundColor="transparent"
+        translucent={Platform.OS === "android"}
+      />
+    </Theme>
   );
 };
 
@@ -62,7 +50,9 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <TamaguiProvider config={config}>
         <UserProvider>
-          <MainApp />
+          <ThemeProvider>
+            <MainApp />
+          </ThemeProvider>
         </UserProvider>
       </TamaguiProvider>
     </QueryClientProvider>

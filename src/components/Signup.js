@@ -29,7 +29,11 @@ const Signup = () => {
     <ScrollView style={{ flex: 1, backgroundColor: "#1A1A1A" }}>
       <YStack padding="$4" space="$4" width="100%" minHeight="100%">
         <XStack padding="$4">
-          <Text color="#333" fontSize={50}>
+          <Text
+            color="#333"
+            fontSize={50}
+            onPress={() => navigation.navigate("Login")}
+          >
             ×
           </Text>
         </XStack>
