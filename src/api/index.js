@@ -2,12 +2,13 @@ import axios from "axios";
 import { getToken } from "./storage";
 
 const instance = axios.create({
-  baseURL: "http://10.2.2:8082/api",
+  baseURL: "http://10.0.2.2:8083/api",
 });
 
 instance.interceptors.request.use(async (config) => {
   const token = await getToken();
   if (token) {
+    console.log("HEADERS: ", token);
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
