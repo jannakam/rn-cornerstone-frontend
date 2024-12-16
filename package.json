@@ -33,6 +33,7 @@
     "expo-gl": "~15.0.2",
     "expo-gl-cpp": "^11.4.0",
     "expo-location": "^18.0.4",
+    "expo-secure-store": "^14.0.0",
     "expo-sensors": "~14.0.1",
     "expo-status-bar": "~2.0.0",
     "lucide-react-native": "^0.468.0",

@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Register } from "../components/Register";
+import Signup from "../components/Signup";
 
 const RegisterScreen = () => {
   return (
     <View>
       {/* <Text>AuthNavigation</Text> */}
-      <Register />
+      <Signup />
     </View>
   );
 };
