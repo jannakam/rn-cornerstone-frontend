@@ -17,8 +17,8 @@ import sponsors from "../data/sponsors";
 const Map = forwardRef((props, ref) => {
   const [error, setError] = useState(null);
   const navigation = useNavigation();
-  const { isDark } = useTheme();
   const theme = useTheme();
+  const { isDark } = theme;
 
   useImperativeHandle(ref, () => ({
     // Add any methods you want to expose to the parent component here
@@ -56,8 +56,8 @@ const Map = forwardRef((props, ref) => {
         <UrlTile
           urlTemplate={
             isDark
-              ? "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
-              : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+            ? "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png" 
+            : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
           }
           shouldReplaceMapContent={true}
           maximumZ={19}
@@ -76,17 +76,21 @@ const Map = forwardRef((props, ref) => {
             description={`${location.steps} steps • ${location.approx_distance}km`}
           >
             <Callout onPress={() => handleCalloutPress(location)}>
-              <View style={styles.calloutContainer}>
-                <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+              <View style={styles.calloutContainer} >
+                <Text style={[styles.calloutTitle, { color: 'black' }]}>
                   {location.name}
                 </Text>
                 <XStack space="$2" ai="center">
                   <Footprints size={16} color={theme.magenta7.val} />
-                  <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                  <Text
+                    style={[styles.calloutText, { color: 'black' }]}
+                  >
                     {location.steps} steps
                   </Text>
                   <MapPin size={16} color={theme.lime7.val} />
-                  <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                  <Text
+                    style={[styles.calloutText, { color: 'black' }]}
+                  >
                     {location.approx_distance}km
                   </Text>
                 </XStack>
@@ -106,7 +110,7 @@ const Map = forwardRef((props, ref) => {
             title={sponsor.name}
             description={sponsor.discount}
           >
-            <View style={styles.sponsorMarker}>
+            <View style={[styles.sponsorMarker, { borderColor: theme.cyan7.val }]}>
               <Image
                 source={sponsor.logo}
                 style={styles.sponsorLogo}
@@ -115,7 +119,7 @@ const Map = forwardRef((props, ref) => {
             </View>
             <Callout>
               <View style={styles.calloutContainer}>
-                <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+                <Text style={[styles.calloutTitle, { color: 'black' }]}>
                   {sponsor.name}
                 </Text>
                 <Text style={[styles.calloutText, { color: theme.cyan8.val }]}>
@@ -158,6 +162,7 @@ const styles = StyleSheet.create({
   calloutContainer: {
     padding: 10,
     minWidth: 200,
+
   },
   calloutTitle: {
     fontSize: 16,

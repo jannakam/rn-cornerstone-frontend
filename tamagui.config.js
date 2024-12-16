@@ -1,7 +1,7 @@
 import { createTamagui, createFont, createTokens } from "tamagui";
 import { config } from "@tamagui/config/v2";
-import { shorthands } from '@tamagui/shorthands'
-import { themes, tokens } from '@tamagui/themes'
+import { shorthands } from "@tamagui/shorthands";
+import { themes, tokens } from "@tamagui/themes";
 
 const interFont = createFont({
   family: "Inter",
@@ -11,47 +11,47 @@ const interFont = createFont({
 // Custom color scales
 const customColors = {
   magenta: {
-    1: '#FAF2FB',
-    2: '#F5E5F7',
-    3: '#EED4F2',
-    4: '#E6C2ED',
-    5: '#DFB1E8',
-    6: '#D894E3',
-    7: '#D27CE0', // Your provided color
-    8: '#C65ADB',
-    9: '#B840D2',
-    10: '#A428C3',
-    11: '#8B1BA6',
-    12: '#6F1485'
+    1: "#FAF2FB",
+    2: "#F5E5F7",
+    3: "#EED4F2",
+    4: "#E6C2ED",
+    5: "#DFB1E8",
+    6: "#D894E3",
+    7: "#D27CE0", // Your provided color
+    8: "#C65ADB",
+    9: "#B840D2",
+    10: "#A428C3",
+    11: "#8B1BA6",
+    12: "#6F1485",
   },
   lime: {
-    1: '#F8FDF4',
-    2: '#F1FCE9',
-    3: '#E8F9DD',
-    4: '#DFF6D1',
-    5: '#D5F3C4',
-    6: '#CCF0B7',
-    7: '#C8ED8C', // Your provided color
-    8: '#B9E97A',
-    9: '#A9E468',
-    10: '#98DE55',
-    11: '#82D438',
-    12: '#6BC21E'
+    1: "#F8FDF4",
+    2: "#F1FCE9",
+    3: "#E8F9DD",
+    4: "#DFF6D1",
+    5: "#D5F3C4",
+    6: "#CCF0B7",
+    7: "#C8ED8C", // Your provided color
+    8: "#B9E97A",
+    9: "#A9E468",
+    10: "#98DE55",
+    11: "#82D438",
+    12: "#6BC21E",
   },
   cyan: {
-    1: '#EDFAFA',
-    2: '#DBF5F5',
-    3: '#C7EFEF',
-    4: '#B2E9E9',
-    5: '#9CE3E3',
-    6: '#85DDDD',
-    7: '#37C8C3', // Your provided color
-    8: '#2BB4AF',
-    9: '#1F9E99',
-    10: '#148783',
-    11: '#0A706C',
-    12: '#005753'
-  }
+    1: "#EDFAFA",
+    2: "#DBF5F5",
+    3: "#C7EFEF",
+    4: "#B2E9E9",
+    5: "#9CE3E3",
+    6: "#85DDDD",
+    7: "#37C8C3", // Your provided color
+    8: "#2BB4AF",
+    9: "#1F9E99",
+    10: "#148783",
+    11: "#0A706C",
+    12: "#005753",
+  },
 };
 
 const customTokens = createTokens({
@@ -59,7 +59,7 @@ const customTokens = createTokens({
   color: {
     ...tokens.color,
     ...customColors,
-  }
+  },
 });
 
 // Create theme colors

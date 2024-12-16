@@ -1,38 +1,50 @@
-import { View } from 'react-native'
-import React from 'react'
-import { Card, ScrollView, XStack, YStack, Text, Avatar, Image, Button, Label, H5, useTheme } from 'tamagui'
-import { Footprints, MapPin, ChevronRight, Store } from '@tamagui/lucide-icons'
-import { TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native';
+import { View } from "react-native";
+import React from "react";
+import {
+  Card,
+  ScrollView,
+  XStack,
+  YStack,
+  Text,
+  Avatar,
+  Image,
+  Button,
+  Label,
+  H5,
+  useTheme,
+} from "tamagui";
+import { Footprints, MapPin, ChevronRight, Store } from "@tamagui/lucide-icons";
+import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import locations from "../data/locations";
 import sponsors from "../data/sponsors";
 
 const EventsCard = () => {
-    const theme = useTheme();
-    const navigation = useNavigation();
-    
-    // Find nearest sponsor for each event using the same distance calculation as EventDetail
-    const events = locations.map(location => {
-      const nearbySponsors = sponsors.filter(sponsor => {
-        const distance = Math.sqrt(
-          Math.pow(sponsor.latitude - location.latitude, 2) + 
+  const theme = useTheme();
+  const navigation = useNavigation();
+
+  // Find nearest sponsor for each event using the same distance calculation as EventDetail
+  const events = locations.map((location) => {
+    const nearbySponsors = sponsors.filter((sponsor) => {
+      const distance = Math.sqrt(
+        Math.pow(sponsor.latitude - location.latitude, 2) +
           Math.pow(sponsor.longitude - location.longitude, 2)
-        );
-        return distance < 0.05; // Same 5km radius as EventDetail
-      });
-      return {
-        ...location,
-        sponsor: nearbySponsors.length > 0 ? nearbySponsors[0] : null
-      };
+      );
+      return distance < 0.05; // Same 5km radius as EventDetail
     });
-
-    const handleEventPress = (event) => {
-        navigation.navigate("EventDetail", { location: event });
+    return {
+      ...location,
+      sponsor: nearbySponsors.length > 0 ? nearbySponsors[0] : null,
     };
+  });
 
-    const handleViewAllPress = () => {
-        navigation.navigate("Events");
-    };
+  const handleEventPress = (event) => {
+    navigation.navigate("EventDetail", { location: event });
+  };
+
+  const handleViewAllPress = () => {
+    navigation.navigate("Events");
+  };
 
   return (
     <Card
@@ -75,7 +87,7 @@ const EventsCard = () => {
                 <Card bordered size="$4" f={1}>
                   <YStack f={1} space="$2" p="$4">
                     <H5 color="$color">{event.name}</H5>
-                    
+
                     <XStack space="$4" ai="center">
                       <XStack space="$2" ai="center">
                         <Footprints size={16} color={theme.magenta7.val} />
@@ -94,7 +106,7 @@ const EventsCard = () => {
                     {event.sponsor && (
                       <YStack mt="$3" space="$2">
                         <XStack space="$2" ai="center">
-                          <Image 
+                          <Image
                             source={event.sponsor.logo}
                             style={{
                               width: 30,
@@ -103,7 +115,9 @@ const EventsCard = () => {
                             }}
                           />
                           <YStack>
-                            <Text color="$color" fontWeight="bold">{event.sponsor.name}</Text>
+                            <Text color="$color" fontWeight="bold">
+                              {event.sponsor.name}
+                            </Text>
                             <Text color={theme.cyan8.val} fontWeight="bold">
                               {event.sponsor.discount}
                             </Text>
@@ -119,8 +133,7 @@ const EventsCard = () => {
         </ScrollView>
       </Card.Footer>
     </Card>
-  )
-}
+  );
+};
 
-export default EventsCard
-
+export default EventsCard;

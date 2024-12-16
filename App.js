@@ -10,26 +10,22 @@ import Navigation from "./src/navigation/DrawerNav/index";
 import AuthNavigation from "./src/navigation/AuthNav/AuthNavigation";
 import { RegisterScreen } from "./src/screens/RegisterScreen";
 import GetStartedScreen from "./src/screens/GetStartedScreen";
-import { Platform, useColorScheme } from 'react-native';
-import React, { createContext, useEffect } from 'react';
+import { Platform, useColorScheme } from "react-native";
+import React, { createContext, useEffect } from "react";
 import tamaguiConfig from "./tamagui.config";
 import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
 
-
-
 // Create a client
 const queryClient = new QueryClient();
-
 
 export const ThemeContext = createContext({
   isDark: true,
   setIsDark: () => {},
 });
 
-
 const ThemedApp = () => {
   const { isDark } = useTheme();
-  
+
   return (
     <Theme name={isDark ? "dark" : "light"}>
       <StatusBar style={isDark ? "light" : "dark"} />

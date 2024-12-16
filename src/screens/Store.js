@@ -1,18 +1,32 @@
-import React from "react";
-import { ScrollView, Pressable } from "react-native";
-import { YStack, XStack, Text, Button, Popover, Card, H2 } from "tamagui";
+import React, { useState } from "react";
+import { ScrollView, Pressable, View, Alert } from "react-native";
+import {
+  YStack,
+  XStack,
+  Text,
+  Button,
+  Popover,
+  Card,
+  H2,
+  H5,
+  H6,
+  useTheme,
+} from "tamagui";
 import DrawerSceneWrapper from "../components/DrawerSceneWrapper";
 import Header from "../components/Header";
+import { Store as StoreIcon, ChevronRight } from "@tamagui/lucide-icons";
 
 const Store = ({ navigation }) => {
   const { openDrawer } = navigation;
+  const theme = useTheme();
+  const [openStoreId, setOpenStoreId] = useState(null);
 
   const eStores = [
     {
       id: 1,
       letter: "N",
       name: "Nike",
-      color: "#00B8B9",
+      color: theme.cyan7.val,
       description: "Get points for every purchase at Nike",
       pointsRate: "1 point = $1",
     },
@@ -20,7 +34,7 @@ const Store = ({ navigation }) => {
       id: 2,
       letter: "L",
       name: "Leila",
-      color: "#FFB800",
+      color: theme.magenta7.val,
       description: "only redeemable in restaurant",
       pointsRate: "100 point = $1",
     },
@@ -28,7 +42,7 @@ const Store = ({ navigation }) => {
       id: 3,
       letter: "D",
       name: "Dabdoob",
-      color: "#B85FF6",
+      color: theme.lime7.val,
       description: "not applicable for lego sets",
       pointsRate: "100 point = $1",
     },
@@ -36,7 +50,7 @@ const Store = ({ navigation }) => {
       id: 4,
       letter: "R",
       name: "Reebok",
-      color: "#FF8A00",
+      color: theme.cyan7.val,
       description: "Discount on all clothing, only redeemable in store",
       pointsRate: "100 point = %10",
     },
@@ -44,7 +58,7 @@ const Store = ({ navigation }) => {
       id: 5,
       letter: "A",
       name: "The Athlete's Foot",
-      color: "#FF5FA5",
+      color: theme.magenta7.val,
       description: "Discount on all clothing, only redeemable in store",
       pointsRate: "100 point = %10",
     },
@@ -52,7 +66,7 @@ const Store = ({ navigation }) => {
       id: 6,
       letter: "N",
       name: "NorthFace",
-      color: "#00B8B9",
+      color: theme.lime7.val,
       description: "Discount on all clothing, only redeemable in store",
       pointsRate: "100 point = %10",
     },
@@ -63,7 +77,7 @@ const Store = ({ navigation }) => {
       id: 1,
       letter: "Z",
       name: "Zain",
-      color: "#B85FF6",
+      color: theme.lime7.val,
       description: "Pay your Zain bills",
       pointsRate: "1000 point = 1 KD",
     },
@@ -71,7 +85,7 @@ const Store = ({ navigation }) => {
       id: 2,
       letter: "O",
       name: "Ooredoo",
-      color: "#FFB800",
+      color: theme.magenta7.val,
       description: "Pay your Ooredoo bills",
       pointsRate: "1000 point = 1 KD",
     },
@@ -79,9 +93,44 @@ const Store = ({ navigation }) => {
       id: 3,
       letter: "S",
       name: "STC",
-      color: "#00B8B9",
+      color: theme.cyan7.val,
       description: "Pay your STC bills",
       pointsRate: "1000 point = 1 KD",
+    },
+  ];
+
+  const rewards = [
+    {
+      id: 1,
+      name: "Nike Gift Card",
+      points: 5000,
+      value: "50 KWD",
+      color: theme.cyan7.val,
+      description: "Redeem for a 50 KWD Nike gift card",
+    },
+    {
+      id: 2,
+      name: "Leila Restaurant Voucher",
+      points: 3000,
+      value: "30 KWD",
+      color: theme.magenta7.val,
+      description: "Enjoy a meal at Leila Restaurant",
+    },
+    {
+      id: 3,
+      name: "Reebok Discount",
+      points: 2000,
+      value: "20 KWD",
+      color: theme.lime7.val,
+      description: "Get 20% off your next purchase",
+    },
+    {
+      id: 4,
+      name: "Free Coffee",
+      points: 1000,
+      value: "5 KWD",
+      color: theme.cyan7.val,
+      description: "Redeem for a free coffee at any partner cafe",
     },
   ];
 
@@ -90,32 +139,31 @@ const Store = ({ navigation }) => {
       <YStack f={1} bg="$background">
         <Header navigation={navigation} />
         <ScrollView>
-          <YStack f={1} space="$4" alignItems="center" margin="$2">
-            {/* Points Circle */}
+          <YStack f={1} space="$3" p="$3">
+            {/* Points Card */}
             <Card
               elevate
-              size="$4"
+              size="$2"
               bordered
+              padded
               animation="bouncy"
               scale={0.9}
               hoverStyle={{ scale: 0.925 }}
               pressStyle={{ scale: 0.95 }}
               color="$background"
-              width="100%"
-              alignItems="center"
+              borderColor="$color4"
+              bw={1}
             >
-              <Card.Header padded width="100%">
-                <H2>Your Points</H2>
-              </Card.Header>
-              <Card.Footer padded>
+              <Card.Footer padded p="$3" jc="center">
                 <YStack
                   width={200}
                   height={200}
                   borderRadius={100}
                   borderWidth={4}
-                  borderColor="#00B8B9"
+                  borderColor={theme.cyan7.val}
                   alignItems="center"
                   justifyContent="center"
+                  alignSelf="center"
                 >
                   <Text color="$color" fontSize={40} fontWeight="bold">
                     4567
@@ -127,34 +175,48 @@ const Store = ({ navigation }) => {
               </Card.Footer>
             </Card>
 
-            {/* E-stores Section */}
+            {/* E-stores Card */}
             <Card
               elevate
-              size="$4"
+              size="$2"
               bordered
               animation="bouncy"
               scale={0.9}
               hoverStyle={{ scale: 0.925 }}
               color="$background"
-              alignItems="center"
-              width="100%"
+              borderColor="$color4"
+              bw={1}
             >
-              <Card.Header padded width="100%">
-                <H2>E-stores</H2>
+              <Card.Header padded p="$3">
+                <H5 color="$color">E-stores</H5>
               </Card.Header>
-              <Card.Footer padded>
+              <Card.Footer padded p="$3">
                 <XStack flexWrap="wrap" justifyContent="space-between">
                   {eStores.map((store) => (
-                    <YStack key={store.id} width="30%" marginBottom="$4" alignItems="center">
-                      <Popover placement="top">
+                    <YStack
+                      key={store.id}
+                      width="30%"
+                      marginBottom="$4"
+                      alignItems="center"
+                    >
+                      <Popover 
+                        size="$5" 
+                        allowFlip 
+                        placement="top"
+                        open={openStoreId === store.id}
+                        onOpenChange={(open) => {
+                          setOpenStoreId(open ? store.id : null);
+                        }}
+                      >
                         <Popover.Trigger asChild>
                           <Button
                             width={60}
                             height={60}
                             borderRadius={16}
                             backgroundColor="$background"
-                            borderColor="$borderColor"
+                            borderColor="$color4"
                             marginBottom="$2"
+                            pressStyle={{ scale: 0.95 }}
                           >
                             <Text color={store.color} fontSize={24}>
                               {store.letter}
@@ -162,35 +224,55 @@ const Store = ({ navigation }) => {
                           </Button>
                         </Popover.Trigger>
 
-                        <Popover.Content
-                          borderWidth={1}
-                          borderColor="$borderColor"
-                          enterStyle={{ y: -10, opacity: 0 }}
-                          exitStyle={{ y: -10, opacity: 0 }}
-                          elevate
-                          animation="quick"
-                          backgroundColor="$background"
-                          padding="$4"
-                          zIndex={1000}
-                        >
-                          <YStack space="$3">
-                            <Text
-                              color="$color"
-                              fontSize={18}
-                              fontWeight="bold"
-                            >
-                              {store.name}
-                            </Text>
-                            <Text color="$color" opacity={0.6} fontSize={14}>
-                              {store.description}
-                            </Text>
-                            <Text color={store.color} fontSize={14}>
-                              {store.pointsRate}
-                            </Text>
-                          </YStack>
-                        </Popover.Content>
+                        {openStoreId === store.id && (
+                          <Popover.Content
+                            borderWidth={1}
+                            borderColor="$color4"
+                            enterStyle={{ opacity: 0 }}
+                            exitStyle={{ opacity: 0 }}
+                            elevate
+                            animation="lazy"
+                            backgroundColor="$background"
+                            padding="$4"
+                            zIndex={1000}
+                          >
+                            <YStack space="$3" width={250}>
+                              <XStack space="$3" ai="center" jc="space-between">
+                                <YStack>
+                                  <Text
+                                    color="$color"
+                                    fontSize={18}
+                                    fontWeight="bold"
+                                  >
+                                    {store.name}
+                                  </Text>
+                                  <Text
+                                    color="$color"
+                                    opacity={0.6}
+                                    fontSize={14}
+                                  >
+                                    {store.description}
+                                  </Text>
+                                </YStack>
+                                <ChevronRight size={20} color={theme.color.val} />
+                              </XStack>
+                              <Text
+                                color={store.color}
+                                fontSize={16}
+                                fontWeight="bold"
+                              >
+                                {store.pointsRate}
+                              </Text>
+                            </YStack>
+                          </Popover.Content>
+                        )}
                       </Popover>
-                      <Text color="$color" opacity={0.6} fontSize={12} textAlign="center">
+                      <Text
+                        color="$color"
+                        opacity={0.6}
+                        fontSize={12}
+                        textAlign="center"
+                      >
                         {store.name}
                       </Text>
                     </YStack>
@@ -199,35 +281,48 @@ const Store = ({ navigation }) => {
               </Card.Footer>
             </Card>
 
-            {/* Bills Section */}
+            {/* Bills Card */}
             <Card
               elevate
-              size="$3"
+              size="$2"
               bordered
               animation="bouncy"
               scale={0.9}
               hoverStyle={{ scale: 0.925 }}
               color="$background"
-              alignItems="center"
-              width="100%"
-              marginBottom="$8"
+              borderColor="$color4"
+              bw={1}
             >
-              <Card.Header padded width="100%">
-                <H2>Bills</H2>
+              <Card.Header padded p="$3">
+                <H5 color="$color">Bills</H5>
               </Card.Header>
-              <Card.Footer padded>
-                <XStack justifyContent="space-between">
+              <Card.Footer padded p="$3">
+                <XStack
+                  justifyContent="space-between"
+                  flexWrap="wrap"
+                  ai="center"
+                  width="100%"
+                >
                   {bills.map((bill) => (
                     <YStack key={bill.id} width="30%" alignItems="center">
-                      <Popover placement="top">
+                      <Popover 
+                        size="$5" 
+                        allowFlip 
+                        placement="top"
+                        open={openStoreId === `bill-${bill.id}`}
+                        onOpenChange={(open) => {
+                          setOpenStoreId(open ? `bill-${bill.id}` : null);
+                        }}
+                      >
                         <Popover.Trigger asChild>
                           <Button
                             width={60}
                             height={60}
                             borderRadius={16}
                             backgroundColor="$background"
-                            borderColor="$borderColor"
+                            borderColor="$color4"
                             marginBottom="$2"
+                            pressStyle={{ scale: 0.95 }}
                           >
                             <Text color={bill.color} fontSize={24}>
                               {bill.letter}
@@ -235,33 +330,48 @@ const Store = ({ navigation }) => {
                           </Button>
                         </Popover.Trigger>
 
-                        <Popover.Content
-                          borderWidth={1}
-                          borderColor="$borderColor"
-                          enterStyle={{ y: -10, opacity: 0 }}
-                          exitStyle={{ y: -10, opacity: 0 }}
-                          elevate
-                          animation="quick"
-                          backgroundColor="$background"
-                          padding="$4"
-                          zIndex={1000}
-                        >
-                          <YStack space="$3">
-                            <Text
-                              color="$color"
-                              fontSize={18}
-                              fontWeight="bold"
-                            >
-                              {bill.name}
-                            </Text>
-                            <Text color="$color" opacity={0.6} fontSize={14}>
-                              {bill.description}
-                            </Text>
-                            <Text color={bill.color} fontSize={14}>
-                              {bill.pointsRate}
-                            </Text>
-                          </YStack>
-                        </Popover.Content>
+                        {openStoreId === `bill-${bill.id}` && (
+                          <Popover.Content
+                            borderWidth={1}
+                            borderColor="$color4"
+                            enterStyle={{ opacity: 0 }}
+                            exitStyle={{ opacity: 0 }}
+                            elevate
+                            animation="lazy"
+                            backgroundColor="$background"
+                            padding="$4"
+                            zIndex={1000}
+                          >
+                            <YStack space="$3" width={250}>
+                              <XStack space="$3" ai="center" jc="space-between">
+                                <YStack>
+                                  <Text
+                                    color="$color"
+                                    fontSize={18}
+                                    fontWeight="bold"
+                                  >
+                                    {bill.name}
+                                  </Text>
+                                  <Text
+                                    color="$color"
+                                    opacity={0.6}
+                                    fontSize={14}
+                                  >
+                                    {bill.description}
+                                  </Text>
+                                </YStack>
+                                <ChevronRight size={20} color={theme.color.val} />
+                              </XStack>
+                              <Text
+                                color={bill.color}
+                                fontSize={16}
+                                fontWeight="bold"
+                              >
+                                {bill.pointsRate}
+                              </Text>
+                            </YStack>
+                          </Popover.Content>
+                        )}
                       </Popover>
                       <Text color="$color" opacity={0.6} fontSize={12}>
                         {bill.name}
@@ -269,6 +379,109 @@ const Store = ({ navigation }) => {
                     </YStack>
                   ))}
                 </XStack>
+              </Card.Footer>
+            </Card>
+
+            {/* Rewards Card */}
+            <Card
+              elevate
+              size="$2"
+              bordered
+              animation="bouncy"
+              scale={0.9}
+              hoverStyle={{ scale: 0.925 }}
+              color="$background"
+              borderColor="$color4"
+              bw={1}
+              marginBottom="$4"
+            >
+              <Card.Header padded p="$3">
+                <H5 color="$color">Rewards</H5>
+              </Card.Header>
+              <Card.Footer padded p="$3">
+                <YStack space="$3" width="100%">
+                  {rewards.map((reward) => (
+                    <Card
+                      key={reward.id}
+                      bordered
+                      size="$2"
+                      animation="bouncy"
+                      backgroundColor="$background"
+                      borderColor="$color4"
+                      f={1}
+                      padded
+                    >
+                      <Card.Header padded p="$2">
+                        <XStack
+                          justifyContent="space-between"
+                          alignItems="center"
+                        >
+                          <YStack f={1} mr="$3">
+                            <Text
+                              color="$color"
+                              fontSize={16}
+                              fontWeight="bold"
+                            >
+                              {reward.name}
+                            </Text>
+                            <Text color="$color" opacity={0.6} fontSize={14}>
+                              {reward.description}
+                            </Text>
+                          </YStack>
+                          <Text
+                            color={reward.color}
+                            fontSize={18}
+                            fontWeight="bold"
+                          >
+                            {reward.value}
+                          </Text>
+                        </XStack>
+                      </Card.Header>
+                      <Card.Footer padded p="$2">
+                        <XStack
+                          justifyContent="space-between"
+                          alignItems="center"
+                          width="100%"
+                        >
+                          <Text color="$color" fontSize={16}>
+                            {reward.points} points
+                          </Text>
+                          <Button
+                            size="$4"
+                            theme={4567 >= reward.points ? "active" : "gray"}
+                            disabled={4567 < reward.points}
+                            onPress={() => {
+                              Alert.alert(
+                                "Confirm Redemption",
+                                `Are you sure you want to redeem ${reward.name} for ${reward.points} points?`,
+                                [
+                                  {
+                                    text: "Cancel",
+                                    style: "cancel"
+                                  },
+                                  {
+                                    text: "Redeem",
+                                    onPress: () => {
+                                      // TODO: Handle redemption logic here
+                                      Alert.alert(
+                                        "Success!",
+                                        `You have successfully redeemed ${reward.name}`,
+                                        [{ text: "OK" }]
+                                      );
+                                    }
+                                  }
+                                ]
+                              );
+                            }}
+                            borderRadius="$8"
+                          >
+                            {4567 >= reward.points ? "Redeem" : "Not enough points"}
+                          </Button>
+                        </XStack>
+                      </Card.Footer>
+                    </Card>
+                  ))}
+                </YStack>
               </Card.Footer>
             </Card>
           </YStack>
