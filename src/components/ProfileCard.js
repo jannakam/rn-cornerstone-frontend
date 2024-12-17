@@ -286,9 +286,7 @@ const ProfileCard = () => {
 
             {/* Points Section */}
             <YStack ai="flex-start" jc="center" pt="$2">
-              <Text color="$color" fontSize="$3" fontWeight="600">
-                Total steps:
-              </Text>
+              <Text color="$color" fontSize="$3" fontWeight="600">Total Steps:</Text>
               <Text color={theme.lime7.val} fontSize="$8" fontWeight="bold">
                 {profile?.totalSteps || 0}
               </Text>
