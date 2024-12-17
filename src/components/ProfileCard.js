@@ -163,7 +163,7 @@ const ProfileCard = () => {
   }
 
   return (
-    
+    <>
     <Card
     elevate
     size="$4"
@@ -358,7 +358,8 @@ const ProfileCard = () => {
       </YStack>
     </Sheet.Frame>
   </Sheet>
-  
+
+  </>
   );
 };
 
