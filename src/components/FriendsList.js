@@ -20,7 +20,7 @@ import AddFriendButton from "./AddFriendButton";
 import ChallengeButton from "./ChallengeButton";
 import { useQuery } from "@tanstack/react-query";
 import { getAllFriends } from "../api/Auth";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Import the avatar options
 const avatarOptions = [
@@ -65,22 +65,25 @@ const FriendsList = () => {
       try {
         if (friendss && friendss.length > 0) {
           const avatarPromises = friendss.map(async (friend) => {
-            const savedAvatarId = await AsyncStorage.getItem(`userAvatarId_${friend.id}`);
+            const savedAvatarId = await AsyncStorage.getItem(
+              `userAvatarId_${friend.id}`
+            );
             return {
               friendId: friend.id,
-              avatarId: savedAvatarId ? parseInt(savedAvatarId) : 1 // Default to first avatar if none set
+              avatarId: savedAvatarId ? parseInt(savedAvatarId) : 1, // Default to first avatar if none set
             };
           });
 
           const avatarResults = await Promise.all(avatarPromises);
           const avatarMap = {};
           avatarResults.forEach(({ friendId, avatarId }) => {
-            avatarMap[friendId] = avatarOptions.find(a => a.id === avatarId) || avatarOptions[0];
+            avatarMap[friendId] =
+              avatarOptions.find((a) => a.id === avatarId) || avatarOptions[0];
           });
           setFriendAvatars(avatarMap);
         }
       } catch (error) {
-        console.log('Error loading friend avatars:', error);
+        console.log("Error loading friend avatars:", error);
       }
     };
 
@@ -105,88 +108,6 @@ const FriendsList = () => {
 
   if (!theme || ringColors.length === 0) return null;
 
-  const renderFriendAvatar = (friend) => {
-    const avatar = friendAvatars[friend.id] || avatarOptions[0];
-    
-    return (
-      <YStack key={friend.id} ai="center">
-        <XStack height="$6" ai="center" jc="center">
-          <Avatar circular size="$5" zIndex={1}>
-            <Avatar.Image
-              source={avatar.url}
-              resizeMode="contain"
-              zIndex={1}
-            />
-            <Avatar.Fallback backgroundColor={theme.cyan10.val} />
-          </Avatar>
-          <YStack
-            zIndex={2}
-            position="absolute"
-            left="50%"
-            top="50%"
-            transform={[{ translateX: -45 }, { translateY: -45 }]}
-          >
-            <ActivityRings
-              data={[
-                {
-                  value: friend.totalSteps
-                    ? friend.totalSteps / 10000
-                    : 0,
-                  ...getActivityRingColor(0),
-                },
-              ]}
-              config={friendActivityRingConfig}
-            />
-          </YStack>
-        </XStack>
-        <Text fontSize="$2" mt="$1">
-          {friend.username}
-        </Text>
-        {friend.city && (
-          <Text fontSize="$1" color="$gray10">
-            {friend.city}
-          </Text>
-        )}
-      </YStack>
-    );
-  };
-
-  const renderContent = () => {
-    if (isLoading) {
-      return (
-        <YStack f={1} ai="center" jc="center" p="$4">
-          <Spinner size="large" color={theme.color.val} />
-        </YStack>
-      );
-    }
-
-    if (error) {
-      return (
-        <YStack f={1} ai="center" jc="center" p="$4">
-          <Text color={theme.color.val}>Error loading friends</Text>
-          <Text color={theme.magenta9.val} fontSize="$2">{error.message}</Text>
-        </YStack>
-      );
-    }
-
-    return (
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <XStack>
-          <AddFriendButton />
-          <ChallengeButton friends={friendss} />
-          {friendss && friendss.length > 0 ? (
-            friendss.map(renderFriendAvatar)
-          ) : (
-            <YStack ai="center" jc="center" p="$4">
-              <Text color="$color">No friends found</Text>
-              <Text color="$color" fontSize="$2" mt="$2">Add friends to get started!</Text>
-            </YStack>
-          )}
-        </XStack>
-      </ScrollView>
-    );
-  };
-
   return (
     <Card
       elevate
@@ -203,7 +124,58 @@ const FriendsList = () => {
         <H6>Friends</H6>
       </Card.Header>
       <Card.Footer padded pt="$0">
-        {renderContent()}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <XStack gap="$4">
+            <AddFriendButton />
+            <ChallengeButton friends={friendss} />
+            {/* Friend Avatars */}
+            {isLoading ? (
+              <Text>Loading...</Text>
+            ) : error ? (
+              <Text>Error loading friends</Text>
+            ) : friendss && friendss.length > 0 ? (
+              friendss.map((friend) => (
+                <YStack key={friend.id} ai="center">
+                  <XStack height="$6" ai="center" jc="center">
+                    <Avatar circular size="$5" zIndex={1}>
+                      <Avatar.Image
+                        source={{
+                          uri: "https://github.com/hello-world.png",
+                        }}
+                        zIndex={1}
+                      />
+                      <Avatar.Fallback backgroundColor="$cyan10" />
+                    </Avatar>
+                    <YStack
+                      zIndex={2}
+                      position="absolute"
+                      left="50%"
+                      top="50%"
+                      transform={[{ translateX: -45 }, { translateY: -45 }]}
+                    >
+                      <ActivityRings
+                        data={[
+                          {
+                            value: friend.totalSteps
+                              ? friend.totalSteps / 10000
+                              : 0,
+                            ...getActivityRingColor(0),
+                          },
+                        ]}
+                        config={friendActivityRingConfig}
+                      />
+                    </YStack>
+                  </XStack>
+                  <Text fontSize="$2" mt="$1">
+                    {friend.username}
+                  </Text>
+                </YStack>
+              ))
+            ) : (
+              <Text>No friends found</Text>
+            )}
+          </XStack>
+        </ScrollView>
       </Card.Footer>
     </Card>
   );

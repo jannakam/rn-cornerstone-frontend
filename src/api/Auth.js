@@ -93,6 +93,16 @@ const addFriend = async (friendId) => {
   }
 };
 
+const getAllUsers = async () => {
+  try {
+    const { data } = await instance.get("/v1/user/getAllUsers");
+    return data;
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    throw error;
+  }
+};
+
 const getAllFriends = async () => {
   try {
     const token = await getToken();
@@ -108,6 +118,66 @@ const getAllFriends = async () => {
       "Error fetching friends:",
       error.response?.data || error.message
     );
+    throw error;
+  }
+};
+
+const createDailyChallenge = async (dailyChallenge) => {
+  try {
+    const { data } = await instance.post("/challenges/daily", dailyChallenge);
+    return data;
+  } catch (error) {
+    console.error("Error creating daily challenge:", error);
+    throw error;
+  }
+};
+
+const createFriendChallenge = async (friendChallenge) => {
+  try {
+    const { data } = await instance.post("/challenges/friend", friendChallenge);
+    return data;
+  } catch (error) {
+    console.error("Error creating friend challenge:", error);
+    throw error;
+  }
+};
+
+const createEventChallenge = async (eventChallenge) => {
+  try {
+    const { data } = await instance.post("/events", eventChallenge);
+    return data;
+  } catch (error) {
+    console.error("Error creating event challenge:", error);
+    throw error;
+  }
+};
+
+const getAllDailyChallenges = async () => {
+  try {
+    const { data } = await instance.get("/challenges/daily");
+    return data;
+  } catch (error) {
+    console.error("Error fetching daily challenges:", error);
+    throw error;
+  }
+};
+
+const getAllFriendChallenges = async () => {
+  try {
+    const { data } = await instance.get("/challenges/friend");
+    return data;
+  } catch (error) {
+    console.error("Error fetching friend challenges:", error);
+    throw error;
+  }
+};
+
+const getAllEventChallenges = async () => {
+  try {
+    const { data } = await instance.get("/events");
+    return data;
+  } catch (error) {
+    console.error("Error fetching event challenges:", error);
     throw error;
   }
 };
@@ -141,6 +211,7 @@ const participateInEvent = async (eventId) => {
     throw error;
   }
 };
+
 const updateStepsForDailyChallenge = async (dailyChallengeId, steps) => {
   try {
     await instance.post(`/v1/user/steps/daily/${dailyChallengeId}`, { steps });
@@ -181,4 +252,11 @@ export {
   updateStepsForDailyChallenge,
   updateStepsForFriendChallenge,
   updateStepsForEvent,
+  getAllUsers,
+  createDailyChallenge,
+  createFriendChallenge,
+  createEventChallenge,
+  getAllDailyChallenges,
+  getAllFriendChallenges,
+  getAllEventChallenges,
 };
