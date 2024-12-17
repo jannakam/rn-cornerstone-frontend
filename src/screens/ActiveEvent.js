@@ -164,9 +164,9 @@ const ActiveEvent = ({ route, navigation }) => {
       hasCreatedCheckpoints.current = true;
       checkNearbyCheckpoints(userLocation);
     }
-  }, [userLocation]);
+  }, [userLocation, ]);
 
-  const checkNearbyCheckpoints = useCallback((userCoords) => {
+  const checkNearbyCheckpoints = ((userCoords) => {
     const allCheckpoints = [...location.checkpoints, ...fixedCheckpoints];
     const checkpointInRange = allCheckpoints.find(checkpoint => {
       const distance = calculateDistance(
@@ -178,7 +178,7 @@ const ActiveEvent = ({ route, navigation }) => {
       return distance <= CHECKPOINT_RADIUS;
     });
     setNearbyCheckpoint(checkpointInRange);
-  }, [location.checkpoints, fixedCheckpoints]);
+  });
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371e3;
@@ -481,7 +481,7 @@ const ActiveEvent = ({ route, navigation }) => {
                   backgroundColor={theme.background.val}
                   borderColor={theme.cyan8.val}
                   borderWidth={1}
-                  zIndex={10001}
+                  zIndex={10002}
                   color={theme.cyan8.val}
                   borderRadius="$9"
                   scale={1.2}
