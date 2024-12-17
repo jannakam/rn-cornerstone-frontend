@@ -3,6 +3,7 @@ import { Card, YStack, XStack, Text, Button, Sheet, Tabs, Separator, SizableText
 import { ChevronRight, ChevronDown, X, History } from '@tamagui/lucide-icons';
 import { ScrollView, Dimensions } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { getAllFriendChallenges } from '../api/Auth';
 
 const HistoryCard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,19 +23,53 @@ const HistoryCard = () => {
       { id: 3, date: '2024-01-16', title: 'Beach Run', points: '+800', description: 'Completed beach marathon' },
       { id: 4, date: '2024-01-15', title: 'Mountain Trek', points: '+900', description: 'Reached summit' },
     ],
-    challenges: [
-      { id: 1, date: '2024-01-19', title: 'Friend Challenge', points: '+300', description: 'Beat John in steps' },
-      { id: 2, date: '2024-01-17', title: 'Group Challenge', points: '+400', description: 'Won weekly group challenge' },
-      { id: 3, date: '2024-01-15', title: 'Team Challenge', points: '+500', description: 'Led team to victory' },
-      { id: 4, date: '2024-01-14', title: 'Global Challenge', points: '+1000', description: 'Top 10% globally' },
-    ],
+    challenges: []
   });
 
+  // Fetch friend challenges on mount
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        const challenges = await getAllFriendChallenges();
+        // Filter only completed challenges and format them
+        const formattedChallenges = challenges
+          .filter(challenge => challenge.completed)
+          .map(challenge => ({
+            id: challenge.id,
+            date: new Date(challenge.createdAt || Date.now()).toISOString().split('T')[0],
+            title: 'Friend Challenge',
+            points: challenge.points || '+100',
+            description: challenge.description || `${challenge.steps}/${challenge.targetSteps} steps with ${challenge.participants?.map(p => p.username).join(", ")}`,
+            goalReached: challenge.steps >= challenge.targetSteps
+          }))
+          .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date, newest first
+
+        setHistoryData(prev => ({
+          ...prev,
+          challenges: formattedChallenges
+        }));
+      } catch (error) {
+        console.error('Error fetching friend challenges:', error);
+      }
+    };
+
+    fetchChallenges();
+  }, []);
+
+  // Handle new challenge completion
   useEffect(() => {
     if (route.params?.newChallenge) {
+      const newChallenge = route.params.newChallenge;
+      
       setHistoryData(prev => ({
         ...prev,
-        challenges: [route.params.newChallenge, ...prev.challenges]
+        challenges: [
+          {
+            ...newChallenge,
+            date: new Date().toISOString().split('T')[0]
+          },
+          ...prev.challenges.filter(c => c.id !== newChallenge.id) // Remove old version if exists
+        ]
       }));
     }
   }, [route.params?.newChallenge]);
@@ -58,7 +93,7 @@ const HistoryCard = () => {
             bordered
             animation="lazy"
             backgroundColor="$background"
-            borderColor="$color4"
+            borderColor={item.goalReached ? theme.lime7.val : "$color4"}
             bw={1}
             scale={0.95}
             hoverStyle={{ scale: 0.975 }}
@@ -70,7 +105,11 @@ const HistoryCard = () => {
                   <Text color="$color" fontSize="$4" fontWeight="bold">
                     {item.title}
                   </Text>
-                  <Text color={theme.lime7.val} fontSize="$4" fontWeight="bold">
+                  <Text 
+                    color={item.goalReached ? theme.lime7.val : theme.color11.val} 
+                    fontSize="$4" 
+                    fontWeight="bold"
+                  >
                     {item.points}
                   </Text>
                 </XStack>

@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "./storage";
 
 const instance = axios.create({
-  baseURL: "http://192.168.8.25:8082/api",
+  baseURL: "http://192.168.8.25:8083/api",
 });
 
 // Add request interceptor to automatically add token to all requests
