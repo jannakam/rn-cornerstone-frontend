@@ -26,11 +26,11 @@ const MainApp = () => {
       <Theme name={isDark ? "dark" : "light"}>
         {isAuthenticated ? <Navigation /> : <AuthNavigation />}
         <StatusBar
-        style={isDark ? "light" : "dark"}
-        backgroundColor="transparent"
-        translucent={Platform.OS === "android"}
-      />
-    </Theme>
+          style={isDark ? "light" : "dark"}
+          backgroundColor="transparent"
+          translucent={Platform.OS === "android"}
+        />
+      </Theme>
     </NavigationContainer>
   );
 };

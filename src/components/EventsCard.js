@@ -87,7 +87,9 @@ const EventsCard = () => {
               >
                 <Card bordered size="$4" f={1}>
                   <YStack f={1} space="$2" p="$4">
-                    <H5 fontWeight="bold" color="$color">{event.name}</H5>
+                    <H5 fontWeight="bold" color="$color">
+                      {event.name}
+                    </H5>
 
                     <XStack space="$4" ai="center">
                       <XStack space="$2" ai="center">

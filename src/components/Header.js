@@ -62,10 +62,12 @@ const Header = ({ navigation }) => {
         <Menu size={24} color="$color" />
       </TouchableOpacity>
       <YStack>
-        <Image
-          source={require("../../assets/stepwise_logo.png")}
-          style={{ width: 25, height: 40 }}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+          <Image
+            source={require("../../assets/stepwise_logo.png")}
+            style={{ width: 25, height: 40 }}
+          />
+        </TouchableOpacity>
       </YStack>
       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
         <Avatar circular size="$4" backgroundColor={theme.cyan10.val}>
