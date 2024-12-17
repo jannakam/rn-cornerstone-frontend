@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Pedometer } from "expo-sensors";
+import { updateStepsForDailyChallenge } from "../api/Auth";
 
-export default function App() {
+export default function App({ dailyChallengeId }) {
   const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
   const [pastStepCount, setPastStepCount] = useState(0);
   const [currentStepCount, setCurrentStepCount] = useState(0);
@@ -19,6 +20,13 @@ export default function App() {
       const pastStepCountResult = await Pedometer.getStepCountAsync(start, end);
       if (pastStepCountResult) {
         setPastStepCount(pastStepCountResult.steps);
+        if (dailyChallengeId) {
+          try {
+            await updateStepsForDailyChallenge(dailyChallengeId, pastStepCountResult.steps);
+          } catch (error) {
+            console.error("Failed to update daily challenge steps:", error);
+          }
+        }
       }
 
       return Pedometer.watchStepCount((result) => {

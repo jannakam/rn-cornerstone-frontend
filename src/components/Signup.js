@@ -26,8 +26,18 @@ const Signup = () => {
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#1A1A1A" }}>
-      <YStack padding="$4" space="$4" width="100%" minHeight="100%">
+    <ScrollView 
+      style={{ flex: 1 , backgroundColor: "#1A1A1A" }}
+      contentContainerStyle={{ flexGrow: 1 }}
+    >
+      <YStack 
+        padding="$4" 
+        space="$4" 
+        width="100%" 
+        height="100%" 
+        justifyContent="space-between"
+        
+      >
         <XStack padding="$4">
           <Text
             color="#333"
@@ -38,7 +48,11 @@ const Signup = () => {
           </Text>
         </XStack>
 
-        <YStack space="$6" marginTop="$8">
+        <YStack 
+          space="$6" 
+          flex={1}
+          justifyContent="center"
+        >
           <Text
             color="white"
             fontSize={32}
@@ -54,79 +68,32 @@ const Signup = () => {
           </Text>
 
           <YStack space="$4" marginTop="$4">
-            <YStack space="$2">
-              <Text color="gray" fontSize={14}>
-                Username
-              </Text>
-              <Input
-                backgroundColor="#2A2A2A"
-                borderColor="#333"
-                borderWidth={1}
-                padding="$1"
-                color="white"
-                placeholderTextColor="gray"
-                value={userInfo.username}
-                onChangeText={(text) =>
-                  setUserInfo({ ...userInfo, username: text })
-                }
-              />
-            </YStack>
-
-            <YStack space="$2">
-              <Text color="gray" fontSize={14}>
-                Phone number
-              </Text>
-              <Input
-                backgroundColor="#2A2A2A"
-                borderColor="#333"
-                borderWidth={1}
-                padding="$1"
-                color="white"
-                placeholderTextColor="gray"
-                keyboardType="phone-pad"
-                value={userInfo.phoneNumber}
-                onChangeText={(text) =>
-                  setUserInfo({ ...userInfo, phoneNumber: text })
-                }
-              />
-            </YStack>
-
-            <YStack space="$2">
-              <Text color="gray" fontSize={14}>
-                New password
-              </Text>
-              <Input
-                backgroundColor="#2A2A2A"
-                borderColor="#333"
-                borderWidth={1}
-                padding="$1"
-                color="white"
-                placeholderTextColor="gray"
-                secureTextEntry
-                value={userInfo.password}
-                onChangeText={(text) =>
-                  setUserInfo({ ...userInfo, password: text })
-                }
-              />
-            </YStack>
-
-            <YStack space="$2">
-              <Text color="gray" fontSize={14}>
-                City
-              </Text>
-              <Input
-                backgroundColor="#2A2A2A"
-                borderColor="#333"
-                borderWidth={1}
-                padding="$1"
-                color="white"
-                placeholderTextColor="gray"
-                value={userInfo.city}
-                onChangeText={(text) =>
-                  setUserInfo({ ...userInfo, city: text })
-                }
-              />
-            </YStack>
+            {[
+              { label: "Username", key: "username" },
+              { label: "Phone number", key: "phoneNumber", keyboardType: "phone-pad" },
+              { label: "New password", key: "password", secureTextEntry: true },
+              { label: "City", key: "city" }
+            ].map((field) => (
+              <YStack key={field.key} space="$2">
+                <Text color="gray" fontSize={14}>
+                  {field.label}
+                </Text>
+                <Input
+                  backgroundColor="#2A2A2A"
+                  borderColor="#333"
+                  borderWidth={1}
+                  padding="$3"
+                  color="white"
+                  placeholderTextColor="gray"
+                  value={userInfo[field.key]}
+                  secureTextEntry={field.secureTextEntry}
+                  keyboardType={field.keyboardType}
+                  onChangeText={(text) =>
+                    setUserInfo({ ...userInfo, [field.key]: text })
+                  }
+                />
+              </YStack>
+            ))}
           </YStack>
 
           <Button
@@ -134,7 +101,7 @@ const Signup = () => {
             color="white"
             size="$4"
             marginTop="$4"
-            onPress={() => handleSignup()}
+            onPress={handleSignup}
           >
             Sign Up
           </Button>

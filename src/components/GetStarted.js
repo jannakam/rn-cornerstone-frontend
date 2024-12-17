@@ -84,6 +84,13 @@ const GetStarted = () => {
     label: `${i + 16} years`,
   }));
 
+  const SelectTriggerStyles = {
+    width: "100%",
+    backgroundColor: "#2A2A2A",
+    borderColor: "#333",
+    padding: "$3",
+  };
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#1A1A1A" }}>
       <YStack padding="$4" space="$4" width="100%" minHeight="100%">
@@ -92,7 +99,6 @@ const GetStarted = () => {
             color="#333"
             fontSize={50}
             onPress={() => navigation.navigate("Register")}
-            pressStyle={{ opacity: 0.7 }}
           >
             ×
           </Text>
@@ -104,12 +110,11 @@ const GetStarted = () => {
             fontSize={32}
             fontWeight="bold"
             textAlign="center"
-            marginBottom="$4"
           >
             Get Started
           </Text>
 
-          <Text color="gray" fontSize={14} textAlign="center" marginBottom="$8">
+          <Text color="gray" fontSize={14} textAlign="center" marginBottom="$6">
             Input your height and weight to get accurate measurements of
             calories burnt!
           </Text>
@@ -120,14 +125,8 @@ const GetStarted = () => {
               onValueChange={(item) =>
                 setUserInfo({ ...userInfo, height: parseInt(item) })
               }
-              disablePreventBodyScroll
             >
-              <Select.Trigger
-                width="100%"
-                backgroundColor="#2A2A2A"
-                borderColor="#333"
-                padding="$3"
-              >
+              <Select.Trigger {...SelectTriggerStyles}>
                 <Select.Value placeholder="Height" color="white" />
               </Select.Trigger>
 
@@ -186,14 +185,8 @@ const GetStarted = () => {
               onValueChange={(item) =>
                 setUserInfo({ ...userInfo, weight: parseInt(item) })
               }
-              disablePreventBodyScroll
             >
-              <Select.Trigger
-                width="100%"
-                backgroundColor="#2A2A2A"
-                borderColor="#333"
-                padding="$3"
-              >
+              <Select.Trigger {...SelectTriggerStyles}>
                 <Select.Value placeholder="Weight" color="white" />
               </Select.Trigger>
 
@@ -249,18 +242,11 @@ const GetStarted = () => {
 
             <Select
               value={userInfo.age}
-              onValueChange={(item) => {
-                console.log(item);
-                setUserInfo({ ...userInfo, age: parseInt(item) });
-              }}
-              disablePreventBodyScroll
+              onValueChange={(item) =>
+                setUserInfo({ ...userInfo, age: parseInt(item) })
+              }
             >
-              <Select.Trigger
-                width="100%"
-                backgroundColor="#2A2A2A"
-                borderColor="#333"
-                padding="$3"
-              >
+              <Select.Trigger {...SelectTriggerStyles}>
                 <Select.Value placeholder="Age" color="white" />
               </Select.Trigger>
 
@@ -326,14 +312,7 @@ const GetStarted = () => {
                 backgroundColor="#333"
                 size="$3"
                 checked={isMetric}
-                onCheckedChange={(checked) => {
-                  setIsMetric(checked);
-                  setUserInfo({
-                    ...userInfo,
-                    height: "",
-                    weight: "",
-                  });
-                }}
+                onCheckedChange={setIsMetric}
               >
                 <Switch.Thumb animation="quick" />
               </Switch>
@@ -343,7 +322,7 @@ const GetStarted = () => {
               backgroundColor="#333"
               color="white"
               size="$4"
-              marginTop="$6"
+              marginTop="$4"
               onPress={handleSubmit}
             >
               Start Earning!
