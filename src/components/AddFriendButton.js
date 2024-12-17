@@ -121,7 +121,6 @@ const AddFriendButton = () => {
                         />
                         <Avatar.Fallback backgroundColor="$blue10" />
                       </Avatar>
-
                       <Text flex={1} fontSize={16} fontWeight="500">
                         {user.username}
                       </Text>
