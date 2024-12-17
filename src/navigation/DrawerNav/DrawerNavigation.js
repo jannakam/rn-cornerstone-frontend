@@ -71,20 +71,6 @@ const CustomDrawerContent = (props) => {
             jc="space-between"
             space="$2"
             hoverStyle={{ bg: "$backgroundHover" }}
-            onPress={() => props.navigation.navigate("Steps")}
-          >
-            <Text color="$color">Steps</Text>
-            <Footprints size={18} color="$color" />
-          </XStack>
-
-          <XStack
-            pressStyle={{ opacity: 0.7 }}
-            px="$8"
-            py="$2"
-            ai="center"
-            jc="space-between"
-            space="$2"
-            hoverStyle={{ bg: "$backgroundHover" }}
             onPress={() => props.navigation.navigate("Profile")}
           >
             <Text color="$color">Profile</Text>
@@ -149,13 +135,6 @@ const HomeStack = () => {
   );
 };
 
-const StepsStack = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="StepsScreen" component={Steps} />
-    </Stack.Navigator>
-  );
-};
 
 const ProfileStack = () => {
   return (
@@ -223,13 +202,6 @@ const DrawerNavigation = () => {
         component={EventsStack}
         options={{
           drawerIcon: ({ color }) => <MapPinned size={18} color={color} />,
-        }}
-      />
-      <Drawer.Screen
-        name="Steps"
-        component={StepsStack}
-        options={{
-          drawerIcon: ({ color }) => <Footprints size={18} color={color} />,
         }}
       />
       <Drawer.Screen

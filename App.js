@@ -14,6 +14,7 @@ import React from "react";
 import { UserProvider, useUser } from "./src/context/UserContext";
 import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
 import { ChallengeProvider } from "./src/context/ChallengeContext";
+import { ActiveEventProvider } from "./src/context/ActiveEventContext";
 
 const queryClient = new QueryClient();
 
@@ -51,7 +52,9 @@ export default function App() {
         <ThemeProvider>
           <UserProvider>
             <ChallengeProvider>
-              <MainApp />
+              <ActiveEventProvider>
+                <MainApp />
+              </ActiveEventProvider>
             </ChallengeProvider>
           </UserProvider>
         </ThemeProvider>

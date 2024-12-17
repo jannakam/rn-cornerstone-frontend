@@ -34,7 +34,7 @@ import {
   updateUser,
   getAllEventChallenges,
 } from "../api/Auth"; // Ensure correct path
-
+import { useActiveEvent } from "../context/ActiveEventContext"; 
 const CHECKPOINT_RADIUS = 150;
 const INTERACTION_RADIUS = 1000;
 
@@ -95,24 +95,29 @@ const generateTestCheckpoints = (userLocation) => {
 };
 
 const ActiveEvent = ({ route, navigation }) => {
-  const {
-    location,
-    isActive: wasActive,
-    currentTime,
-    currentPoints,
-    currentSteps,
-  } = route.params;
+  const { location, isActive: wasActive, currentTime, currentPoints, currentSteps } = route.params;
   const theme = useTheme();
+  
+  // Use context for persistent event data
+  const {
+    activeEvent,
+    eventSteps,
+    elapsedTime,
+    points,
+    startEvent,
+    updateEventSteps,
+    updatePoints,
+    updateTime,
+    endEvent,
+  } = useActiveEvent();
+
   const [userLocation, setUserLocation] = useState(null);
   const [nearbyCheckpoint, setNearbyCheckpoint] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
   const [selectedCheckpoint, setSelectedCheckpoint] = useState(null);
   const [permission, requestPermission] = useCameraPermissions();
-  const [elapsedTime, setElapsedTime] = useState(currentTime || 0);
-  const [points, setPoints] = useState(currentPoints || 0);
-  const [steps, setSteps] = useState(currentSteps || 0);
   const [isActive, setIsActive] = useState(true);
-  const [eventId, setEventId] = useState(null);
+  const [eventId, setEventId] = useState(activeEvent?.id || null);
   const timerRef = useRef(null);
   const locationSubscription = useRef(null);
   const [isFollowingUser, setIsFollowingUser] = useState(false);
@@ -124,16 +129,17 @@ const ActiveEvent = ({ route, navigation }) => {
   const [testCheckpoints, setTestCheckpoints] = useState([]);
   const stepSubscription = useRef(null);
 
+  // Timer effect using context's elapsedTime
   useEffect(() => {
     if (isActive) {
       timerRef.current = setInterval(() => {
-        setElapsedTime((prev) => prev + 1);
+        updateTime((prev) => prev + 1);
       }, 1000);
     }
     return () => clearInterval(timerRef.current);
-  }, [isActive]);
+  }, [isActive, updateTime]);
 
-  // Setup Pedometer without resetting steps
+  // Pedometer setup
   useEffect(() => {
     startPedometer();
     return () => {
@@ -150,14 +156,8 @@ const ActiveEvent = ({ route, navigation }) => {
       return;
     }
 
-    // Start from the current steps (don't reset)
-    const initialSteps = currentSteps || 0;
-    setSteps(initialSteps);
-
-    // Watch step count increments since the subscription started
     stepSubscription.current = Pedometer.watchStepCount((result) => {
-      // Add new steps to our existing count
-      setSteps((prev) => prev + result.steps);
+      updateEventSteps(eventSteps + result.steps);
     });
   };
 
@@ -170,11 +170,6 @@ const ActiveEvent = ({ route, navigation }) => {
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  // Add this new effect to log points changes
-  useEffect(() => {
-    console.log("Current points:", points);
-  }, [points]);
-
   const handleEndEvent = async () => {
     Alert.alert("End Event", "Are you sure you want to end this event?", [
       { text: "Cancel", style: "cancel" },
@@ -185,29 +180,28 @@ const ActiveEvent = ({ route, navigation }) => {
           clearInterval(timerRef.current);
           try {
             if (eventId) {
-              // First update the steps for this event
-              await updateStepsForEvent(eventId, Math.round(steps));
+              // Update steps for this event
+              await updateStepsForEvent(eventId, Math.round(eventSteps));
 
-              // Get current user profile
+              // Get and update user profile with accumulated points and steps
               const userProfile = await getUserProfile();
               console.log("Current user profile:", {
                 totalPoints: userProfile.points,
                 totalSteps: userProfile.totalSteps
               });
               console.log("Event earnings:", {
-                points,
-                steps
+                points: points,
+                steps: eventSteps
               });
-              
-              // Calculate new totals
+
               const currentPoints = parseInt(userProfile.points) || 0;
               const currentTotalSteps = parseInt(userProfile.totalSteps) || 0;
               const earnedPoints = parseInt(points) || 0;
-              const earnedSteps = parseInt(steps) || 0;
-              
+              const earnedSteps = parseInt(eventSteps) || 0;
+
               const updatedPoints = currentPoints + earnedPoints;
               const updatedTotalSteps = currentTotalSteps + earnedSteps;
-              
+
               console.log("Final calculations:", {
                 currentPoints,
                 earnedPoints,
@@ -217,10 +211,9 @@ const ActiveEvent = ({ route, navigation }) => {
                 updatedTotalSteps
               });
 
-              // Update user profile with new totals
               if (!isNaN(updatedPoints) && !isNaN(updatedTotalSteps) && 
                   updatedPoints >= 0 && updatedTotalSteps >= 0) {
-                await updateUser({ 
+                await updateUser({
                   points: updatedPoints,
                   totalSteps: updatedTotalSteps
                 });
@@ -228,17 +221,14 @@ const ActiveEvent = ({ route, navigation }) => {
                   points: updatedPoints,
                   totalSteps: updatedTotalSteps
                 });
-              } else {
-                console.error("Invalid calculations:", { 
-                  updatedPoints,
-                  updatedTotalSteps
-                });
               }
             }
           } catch (err) {
             console.error("Error ending event:", err);
           }
 
+          // End event in context and navigate away
+          endEvent();
           navigation.navigate("Events", {
             screen: "EventDetail",
             params: {
@@ -306,56 +296,60 @@ const ActiveEvent = ({ route, navigation }) => {
     }
   };
 
-  // Update steps in backend periodically
-  useEffect(() => {
-    if (!eventId || !isActive) return;
-
-    const updateInterval = setInterval(async () => {
-      try {
-        await updateStepsForEvent(eventId, Math.round(steps));
-      } catch (err) {
-        console.error("Error updating steps:", err);
-      }
-    }, 30000); // Update every 30 seconds
-
-    return () => clearInterval(updateInterval);
-  }, [eventId, steps, isActive]);
-
-  // Create Event and Participate if not done
+  // create/participate in event if needed
   useEffect(() => {
     const initiateEvent = async () => {
-      if (!eventId) {
+      if (!activeEvent) {
         try {
           // First check if event already exists for this location
           const existingEvents = await getAllEventChallenges();
           const existingEvent = existingEvents?.find(event => event.name === location.name);
           
+          let newEventId;
           if (existingEvent) {
-            // If event exists, just set the ID and participate
-            setEventId(existingEvent.id);
-            await participateInEvent(existingEvent.id);
+            // If event exists, just participate
+            newEventId = existingEvent.id;
+            await participateInEvent(newEventId);
+            console.log('Participating in existing event:', newEventId);
           } else {
             // Calculate total fixed points from all checkpoints
             const totalFixedPoints = location.checkpoints.reduce((sum, checkpoint) => sum + checkpoint.points, 0);
 
-            // If no existing event, create a new one
-            const eventData = {
-              name: location.name,
-              checkpoints: location.checkpoints,
+            // Create new event if none exists
+        const eventData = {
+          name: location.name,
+          checkpoints: location.checkpoints,
               basePoints: 100,
-              fixedPoints: totalFixedPoints, // Add fixed points from checkpoints
+              fixedPoints: totalFixedPoints
             };
-
-            const createdEvent = await createEventChallenge(eventData);
-            if (createdEvent?.id) {
-              setEventId(createdEvent.id);
-              await participateInEvent(createdEvent.id);
+            
+            const response = await createEventChallenge(eventData);
+            if (response?.id) {
+              newEventId = response.id;
+              await participateInEvent(newEventId);
+              console.log('Created and participating in new event:', newEventId);
             } else {
-              console.error("No event ID received from createEventChallenge");
+              throw new Error('Failed to get event ID from creation');
             }
           }
-        } catch (err) {
-          console.error("Error creating/participating in event:", err);
+
+          // Start event in context
+          startEvent({
+            id: newEventId,
+            location: location,
+            currentTime: currentTime || 0,
+            currentPoints: currentPoints || 0,
+            currentSteps: currentSteps || 0
+          });
+          setEventId(newEventId);
+
+        } catch (error) {
+          console.error('Error initiating event:', error);
+          Alert.alert(
+            'Error',
+            'Failed to start event. Please try again.',
+            [{ text: 'OK', onPress: () => navigation.goBack() }]
+          );
         }
       }
     };
@@ -363,7 +357,7 @@ const ActiveEvent = ({ route, navigation }) => {
     if (isActive) {
       initiateEvent();
     }
-  }, [isActive, eventId, location]);
+  }, [isActive, activeEvent, startEvent, location]);
 
   useEffect(() => {
     if (userLocation && !hasCreatedCheckpoints.current) {
@@ -407,7 +401,10 @@ const ActiveEvent = ({ route, navigation }) => {
 
     const a =
       Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+      Math.cos(φ1) *
+        Math.cos(φ2) *
+        Math.sin(Δλ / 2) *
+        Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     return R * c;
@@ -438,7 +435,6 @@ const ActiveEvent = ({ route, navigation }) => {
 
   const generateRouteSegments = (userLocation, checkpoints) => {
     if (!userLocation || !checkpoints.length) return [];
-
     const segments = [];
     let currentPoint = {
       latitude: userLocation.latitude,
@@ -494,10 +490,7 @@ const ActiveEvent = ({ route, navigation }) => {
         return distance <= CHECKPOINT_RADIUS;
       });
 
-      if (
-        checkpointInRange &&
-        (!nearbyCheckpoint || nearbyCheckpoint.id !== checkpointInRange.id)
-      ) {
+      if (checkpointInRange && (!nearbyCheckpoint || nearbyCheckpoint.id !== checkpointInRange.id)) {
         setNearbyCheckpoint(checkpointInRange);
       } else if (!checkpointInRange) {
         setNearbyCheckpoint(null);
@@ -572,7 +565,6 @@ const ActiveEvent = ({ route, navigation }) => {
   };
 
   const handleBack = () => {
-    // Navigate back to EventDetail with current state
     navigation.navigate("Events", {
       screen: "EventDetail",
       params: {
@@ -580,7 +572,7 @@ const ActiveEvent = ({ route, navigation }) => {
         isActive: true,
         currentTime: elapsedTime,
         currentPoints: points,
-        currentSteps: steps,
+        currentSteps: eventSteps,
       },
     });
   };
@@ -588,7 +580,6 @@ const ActiveEvent = ({ route, navigation }) => {
   const generateRoutes = useCallback(
     (checkpoints) => {
       if (!userLocation || !checkpoints?.length) return [];
-
       const routes = [
         {
           id: "direct",
@@ -713,16 +704,9 @@ const ActiveEvent = ({ route, navigation }) => {
     </Card>
   );
 
-  // Modify the camera capture button handler
   const handleCapturePhoto = () => {
     const checkpointPoints = selectedCheckpoint?.points || 0;
-    const newPoints = points + checkpointPoints;
-    console.log("Capturing photo, adding points:", {
-      currentPoints: points,
-      checkpointPoints,
-      newTotal: newPoints
-    });
-    setPoints(newPoints);
+    updatePoints(points + checkpointPoints);
     setShowCamera(false);
     setSelectedCheckpoint(null);
   };
@@ -974,7 +958,7 @@ const ActiveEvent = ({ route, navigation }) => {
                 <XStack space="$2" ai="center">
                   <Footprints size={24} color={theme.lime7.val} />
                   <Text color="$color" fontSize="$7" fontWeight="bold">
-                    {steps}
+                    {eventSteps}
                   </Text>
                 </XStack>
               </XStack>
