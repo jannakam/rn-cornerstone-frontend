@@ -55,6 +55,7 @@ const AddFriendButton = () => {
 
   const isLoading = isLoadingUsers || isLoadingFriends;
 
+
   return (
     <YStack ai="center" space="$2">
       <Avatar
@@ -78,17 +79,14 @@ const AddFriendButton = () => {
         open={isAddFriendOpen}
         onOpenChange={setIsAddFriendOpen}
         snapPoints={[85]}
+
         position={0}
         dismissOnSnapToBottom
       >
         <Sheet.Overlay />
         <Sheet.Frame>
           <Sheet.Handle />
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "position" : "padding"}
-            keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
-            style={{ flex: 1 }}
-          >
+          
             <YStack p="$4" space="$4">
               <Text fontSize={20} fontWeight="bold">
                 Add Friends
@@ -128,7 +126,6 @@ const AddFriendButton = () => {
                           />
                           <Avatar.Fallback backgroundColor="$blue10" />
                         </Avatar>
-
                         <Text flex={1} fontSize={16} fontWeight="500">
                           {user.username}
                         </Text>
@@ -145,8 +142,8 @@ const AddFriendButton = () => {
                   </YStack>
                 </ScrollView>
               )}
+
             </YStack>
-          </KeyboardAvoidingView>
         </Sheet.Frame>
       </Sheet>
     </YStack>

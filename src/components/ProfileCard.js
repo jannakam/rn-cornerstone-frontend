@@ -1,22 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   YStack,
   XStack,
   Text,
   Avatar,
-  Button,
+  Button, Sheet,
   useTheme,
   Spinner,
 } from "tamagui";
-import { History } from "@tamagui/lucide-icons";
+import { History, ChevronRight, Store, Footprints, Flame, Edit2, X, MapPin, Calendar, Ruler, Weight } from "@tamagui/lucide-icons";
 import { useNavigation } from "@react-navigation/native";
-import { Platform } from "react-native";
+import { Platform, DeviceEventEmitter, ScrollView, Animated } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { getUserProfile } from "../api/Auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Predefined list of avatars
+const avatarOptions = [
+  { id: 1, url: require("../../assets/avatars/avatar1.png") },
+  { id: 2, url: require("../../assets/avatars/avatar2.png") },
+  { id: 3, url: require("../../assets/avatars/avatar3.png") },
+  { id: 4, url: require("../../assets/avatars/avatar4.png") },
+  { id: 5, url: require("../../assets/avatars/avatar5.png") },
+  { id: 6, url: require("../../assets/avatars/avatar6.png") },
+  { id: 7, url: require("../../assets/avatars/avatar7.png") },
+  { id: 9, url: require("../../assets/avatars/avatar9.png") },
+];
 
 const ProfileCard = () => {
+  const theme = useTheme();
   const navigation = useNavigation();
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(avatarOptions[0]);
+  const [hoveredAvatar, setHoveredAvatar] = useState(null);
 
   const {
     data: profile,
@@ -26,6 +43,36 @@ const ProfileCard = () => {
     queryKey: ["userProfile"],
     queryFn: getUserProfile,
   });
+
+
+  useEffect(() => {
+    // Load saved avatar on component mount
+    const loadSavedAvatar = async () => {
+      try {
+        const savedAvatarId = await AsyncStorage.getItem('userAvatarId');
+        if (savedAvatarId) {
+          const avatar = avatarOptions.find(a => a.id === parseInt(savedAvatarId));
+          if (avatar) {
+            setSelectedAvatar(avatar);
+          }
+        }
+      } catch (error) {
+        console.log('Error loading avatar:', error);
+      }
+    };
+    loadSavedAvatar();
+  }, []);
+
+  const handleAvatarSelect = async (avatar) => {
+    setSelectedAvatar(avatar);
+    try {
+      await AsyncStorage.setItem('userAvatarId', avatar.id.toString());
+      // Emit event for avatar change
+      DeviceEventEmitter.emit('avatarChanged', { avatarId: avatar.id });
+    } catch (error) {
+      console.log('Error saving avatar:', error);
+    }
+  };
 
   const navigateToStore = () => {
     navigation.navigate("Store", {
@@ -115,87 +162,220 @@ const ProfileCard = () => {
   }
 
   return (
+    <>
     <Card
-      elevate
-      bordered
-      animation="bouncy"
-      backgroundColor="$background"
-      padding="$4"
-      width="100%"
-    >
-      <YStack space="$4">
-        {/* Name at top left */}
-        <Text color="$color" fontSize="$6" fontWeight="bold">
-          {profile?.username || "Loading..."}
+    elevate
+    size="$4"
+    bordered
+    animation="bouncy"
+    scale={0.9}
+    hoverStyle={{ scale: 0.925 }}
+    color="$background"
+    borderColor="$color4"
+    bw={1}
+  >
+    <Card.Header padded>
+      <XStack jc="space-between" ai="center">
+        <Text color="$color" fontSize="$8" fontWeight="bold">
+        {profile?.username || "Loading..."}
         </Text>
+        <Button
+          size="$3"
+          variant="outlined"
+          onPress={navigateToStore}
+          icon={Store}
+          borderRadius="$10"
+          bw={1}
+          backgroundColor="$background"
+          borderColor={theme.color8.val}
+          color={theme.color.val}
+        >Store</Button>
+      </XStack>
+    </Card.Header>
 
-        {/* Centered Avatar */}
-        <XStack
-          justifyContent="center"
-          alignItems="center"
-          paddingVertical="$4"
-        >
-          <Avatar circular size="$10" backgroundColor="$gray6">
-            <Avatar.Image
-              source={{ uri: "https://github.com/hello-world.png" }}
-            />
-            <Avatar.Fallback backgroundColor="$gray6" />
-          </Avatar>
+    <Card.Footer padded f={1} pt="$0">
+      <YStack space="$5" width="100%">
+        <XStack space="$2">
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <XStack space="$2.5" ai="center">
+              <Button
+                size="$3"
+                variant="outlined"
+                icon={Footprints}
+                borderRadius="$10"
+                bw={1}
+                backgroundColor="$background"
+                borderColor={theme.magenta7.val}
+                color={theme.magenta7.val}
+              >
+                {((profile?.totalSteps || 0) * 0.000762).toFixed(0)} KM walked
+              </Button>
+              <Button
+                size="$3" 
+                variant="outlined"
+                icon={Flame}
+                borderRadius="$10"
+                bw={1}
+                backgroundColor="$background"
+                borderColor={theme.cyan8.val}
+                color={theme.cyan8.val}
+              >
+                {(profile?.totalSteps * 0.04).toFixed(0)}Cal burned!
+              </Button>
+            </XStack>
+          </ScrollView>
         </XStack>
 
-        {/* Profile Details */}
-        <YStack space="$2">
-          <Text color="$color" fontSize="$3">
-            {profile?.city && `📍 ${profile.city}`}
-          </Text>
-          {profile?.age && (
-            <Text color="$color" fontSize="$3">
-              Age: {profile.age}
-            </Text>
-          )}
-          {(profile?.height || profile?.weight) && (
-            <Text color="$color" fontSize="$3">
-              {profile.height && `Height: ${profile.height}cm`}{" "}
-              {profile.weight && `Weight: ${profile.weight}kg`}
-            </Text>
-          )}
-        </YStack>
+        {/* Main Content Split */}
+        <XStack width="100%" space="$4">
+          {/* Left 1/3 - Avatar Section */}
+          <YStack width="40%" ai="center" space="$4">
+            <Avatar circular size="$10" backgroundColor="$background">
+              <Avatar.Image
+                source={selectedAvatar.url}
+                resizeMode="contain"
+              />
+              <Avatar.Fallback backgroundColor="$background" />
+            </Avatar>
+            <Button
+              size="$2"
+              borderRadius="$10"
+              backgroundColor="$background"
+              color="$color"
+              onPress={() => setIsAvatarModalOpen(true)}
+              icon={Edit2}
+            >
+              Edit Avatar
+            </Button>
+          </YStack>
 
-        {/* Points Section */}
-        <YStack space="$2">
-          <Text color="$lime10" fontSize="$3">
-            Total points:
-          </Text>
-          <XStack space="$2" alignItems="baseline">
-            <Text color="$color" fontSize="$9" fontWeight="bold">
-              {profile?.totalSteps || 0}
-            </Text>
-            <Text color="$green10" fontSize="$3">
-              {(profile?.totalSteps * 0.04).toFixed(2)} Kcal burned!
-            </Text>
-          </XStack>
-          <Text color="$green10" fontSize="$3">
-            {((profile?.totalSteps || 0) * 0.0008).toFixed(2)} KM walked
-          </Text>
-        </YStack>
+          {/* Right 2/3 - Text Content */}
+          <YStack width="60%" space="$4">
+            <YStack space="$2">
+              <XStack space="$2" ai="center">
+                <MapPin size="$1" color="$color" />
+                <Text color="$color" fontSize="$4" fontWeight="700">
+                  {profile?.city}
+                </Text>
+              </XStack>
+              {profile?.age && (
+                <XStack space="$2" ai="center">
+                  <Calendar size={14} color={theme.color.val} />
+                  <Text color={theme.color.val} fontSize="$4" fontWeight="700" >
+                    Age: {profile.age}
+                  </Text>
+                </XStack>
+              )}
+              {profile?.height && (
+                <XStack space="$2" ai="center">
+                  <Ruler size={14} color={theme.color.val} />
+                  <Text color={theme.color.val} fontSize="$4" >
+                    Height: {profile.height}cm
+                  </Text>
+                </XStack>
+              )}
+              {profile?.weight && (
+                <XStack space="$2" ai="center">
+                  <Weight size={14} color={theme.color.val} />
+                  <Text color={theme.color.val} fontSize="$4">
+                    Weight: {profile.weight}kg
+                  </Text>
+                </XStack>
+              )}
+            </YStack>
 
-        {/* Buttons */}
-        <XStack space="$4">
-          <Button
-            flex={1}
-            backgroundColor="$green8"
-            color="$color"
-            size="$4"
-            hoverStyle={{ backgroundColor: "$green9" }}
-            pressStyle={{ scale: 0.95 }}
-            animation="bouncy"
-            onPress={navigateToStore}
-          >
-            Redeem
-          </Button>
+            {/* Points Section */}
+            <YStack ai="flex-start" jc="center" pt="$2">
+              <Text color="$color" fontSize="$3" fontWeight="600">Total Steps:</Text>
+              <Text color={theme.lime7.val} fontSize="$8" fontWeight="bold">
+                {profile?.totalSteps || 0}
+              </Text>
+            </YStack>
+          </YStack>
         </XStack>
       </YStack>
-    </Card>
+    </Card.Footer>
+  </Card>
+
+  {/* Avatar Selection Sheet */}
+  <Sheet
+    forceRemoveScrollEnabled={isAvatarModalOpen}
+    modal={true}
+    open={isAvatarModalOpen}
+    onOpenChange={setIsAvatarModalOpen}
+    snapPoints={[40]}
+    dismissOnSnapToBottom={true}
+    zIndex={100000}
+    animation="medium"
+  >
+    <Sheet.Overlay 
+      animation="lazy" 
+      enterStyle={{ opacity: 0 }}
+      exitStyle={{ opacity: 0 }}
+    />
+    <Sheet.Frame 
+      backgroundColor="$background"
+      padding="$4"
+      space="$4"
+    >
+      <Sheet.Handle />
+      <YStack space="$6">
+        <XStack justifyContent="space-between" alignItems="center">
+          <XStack space="$2" ai="center">
+            <Text color="$color" fontSize="$6" fontWeight="bold">
+              Choose Avatar
+            </Text>
+          </XStack>
+          <Button
+            size="$3"
+            variant="outlined"
+            icon={X}
+            circular
+            bw={1}
+            backgroundColor="$background"
+            borderColor={theme.color8.val}
+            color={theme.color.val}
+            onPress={() => setIsAvatarModalOpen(false)}
+          />
+        </XStack>
+        
+        <XStack flexWrap="wrap" gap="$6" jc="center" pb="$4">
+          {avatarOptions.map((avatar) => (
+            <Button
+              key={avatar.id}
+              size="$7"
+              circular
+              backgroundColor="$background"
+              pressStyle={{ scale: 0.95 }}
+              onPress={() => handleAvatarSelect(avatar)}
+              animation="bouncy"
+              scale={selectedAvatar.id === avatar.id ? 1.15 : 1}
+              opacity={selectedAvatar.id === avatar.id ? 1 : 0.5}
+              hoverStyle={{ 
+                scale: selectedAvatar.id === avatar.id ? 1.15 : 1.05,
+                opacity: 1 
+              }}
+            >
+              <Avatar 
+                circular 
+                size="$7" 
+                backgroundColor={theme.cyan10.val}
+                animation="bouncy"
+              >
+                <Avatar.Image 
+                  source={avatar.url}
+                  resizeMode="contain"
+                />
+                <Avatar.Fallback backgroundColor={theme.cyan10.val} />
+              </Avatar>
+            </Button>
+          ))}
+        </XStack>
+      </YStack>
+    </Sheet.Frame>
+  </Sheet>
+
+  </>
   );
 };
 

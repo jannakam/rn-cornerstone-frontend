@@ -13,14 +13,12 @@ const Navigation = () => {
   return (
     <Theme name={isDark ? "dark" : "light"}>
       <SafeAreaProvider backgroundColor={isDark ? "black" : "white"}>
-        <NavigationContainer>
           <DrawerNavigation />
           <StatusBar
             style={isDark ? "light" : "dark"}
             backgroundColor="transparent"
             translucent={Platform.OS === "android"}
           />
-        </NavigationContainer>
       </SafeAreaProvider>
     </Theme>
   );

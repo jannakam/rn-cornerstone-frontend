@@ -19,14 +19,16 @@ import {
   Store,
   ChevronRight,
   X,
-  Maximize2
+  Maximize2,
+  CameraIcon,
+  Play
 } from "@tamagui/lucide-icons";
 import Header from "../components/Header";
 import DrawerSceneWrapper from "../components/DrawerSceneWrapper";
 import sponsors from "../data/sponsors";
 
 const EventDetail = ({ route, navigation }) => {
-  const { location } = route.params;
+  const { location, isActive = false, currentTime = 0, currentPoints = 0 } = route.params || {};
   const theme = useTheme();
   const [isMapExpanded, setIsMapExpanded] = useState(false);
   const mapAnimation = useRef(new Animated.Value(0)).current;
@@ -34,6 +36,13 @@ const EventDetail = ({ route, navigation }) => {
   const mapRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const lastTap = useRef(0);
+
+  // Update handleBack function
+  const handleBack = () => {
+    navigation.getParent().navigate('Home', {
+      screen: 'HomeScreen'
+    });
+  };
 
   // Create route coordinates including checkpoints
   const mainRouteCoordinates = [
@@ -180,7 +189,7 @@ const EventDetail = ({ route, navigation }) => {
           <YStack p="$3" space="$3">
             {/* Header Section */}
             <XStack ai="center" space="$2">
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+              <TouchableOpacity onPress={handleBack}>
                 <XStack ai="center" space="$2">
                   <ChevronLeft size={20} color={theme.color.val} />
                   <H5 p="$0" color="$color">
@@ -363,8 +372,8 @@ const EventDetail = ({ route, navigation }) => {
                     <UrlTile
                       urlTemplate={
                         theme.isDark
-                          ? "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
-                          : "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+                          ? "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+                          : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
                       }
                       shouldReplaceMapContent={true}
                       maximumZ={19}
@@ -623,16 +632,24 @@ const EventDetail = ({ route, navigation }) => {
                   </XStack>
 
                   <Button
-                    size="$4"
-                    theme={isEventTime() ? "active" : "gray"}
-                    disabled={!isEventTime()}
-                    onPress={() => {
-                      // Handle start event
-                      navigation.navigate("ActiveEvent", { location });
-                    }}
+                    size="$5"
+                    theme="active"
+                    onPress={() => navigation.navigate("ActiveEvent", { 
+                      location,
+                      isActive,
+                      currentTime,
+                      currentPoints
+                    })}
                     width="100%"
+                    icon={isActive ? CameraIcon : Play}
+                    backgroundColor={theme.background.val}
+                    borderColor={theme.cyan8.val}
+                    borderWidth={1}
+                    color={theme.cyan8.val}
+                    mt="$4"
+                    borderRadius="$10"
                   >
-                    {isEventTime() ? "Start Event" : "Event Not Started"}
+                    {isActive ? "Resume Event" : "Start Event"}
                   </Button>
                 </YStack>
               </Card.Footer>
@@ -643,13 +660,13 @@ const EventDetail = ({ route, navigation }) => {
         {/* Expanded Map Modal */}
         <Animated.View style={expandedMapStyle}>
           <YStack f={1}>
-          <XStack ai="center" p="$3" space="$2" h="15%" alignItems="flex-end">
-            <TouchableOpacity onPress={() => navigation.goBack()} backgroundColor="transparent">
-              <ChevronLeft size="$2" color={'$color'}/>
-            </TouchableOpacity>
-            <H5>
-              Upcoming Events
-            </H5>
+            <XStack ai="center" p="$3" space="$2" h="15%" alignItems="flex-end">
+              <TouchableOpacity onPress={handleBack} backgroundColor="transparent">
+                <ChevronLeft size="$2" color={'$color'}/>
+              </TouchableOpacity>
+              <H5>
+                Upcoming Events
+              </H5>
             </XStack>
             <MapView
               style={styles.expandedMap}
@@ -665,8 +682,8 @@ const EventDetail = ({ route, navigation }) => {
               <UrlTile
                 urlTemplate={
                   theme.isDark
-                    ? "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
-                    : "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
+                    ? "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+                    : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
                 }
                 shouldReplaceMapContent={true}
                 maximumZ={19}
@@ -707,16 +724,16 @@ const EventDetail = ({ route, navigation }) => {
               >
                 <Callout>
                   <View style={styles.calloutContainer}>
-                    <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+                    <Text style={[styles.calloutTitle, { color: theme.background.val }]}>
                       {location.name}
                     </Text>
                     <XStack space="$2" ai="center">
                       <Footprints size={16} color={theme.magenta7.val} />
-                      <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                      <Text style={[styles.calloutText, { color: theme.background.val }]}>
                         {location.steps} steps
                       </Text>
                       <MapPin size={16} color={theme.lime7.val} />
-                      <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                      <Text style={[styles.calloutText, { color: theme.background.val }]}>
                         {location.approx_distance}km
                       </Text>
                     </XStack>
