@@ -9,20 +9,21 @@ import HistoryCard from '../components/HistoryCard';
 const Profile = ({navigation}) => {
   return (
     <DrawerSceneWrapper>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '$background' }}>
         <YStack f={1} bg="$background">
           <Header navigation={navigation} />
           <ScrollView 
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ padding: 16 }}
+            contentContainerStyle={{ 
+              padding: '$4',
+              margin: 10,
+            }}
           >
-            <YStack space="$4">
+            <YStack space="$4" flex={1} >
               <ProfileCard />
               <HistoryCard />
             </YStack>
           </ScrollView>
         </YStack>
-      </SafeAreaView>
     </DrawerSceneWrapper>
   )
 }

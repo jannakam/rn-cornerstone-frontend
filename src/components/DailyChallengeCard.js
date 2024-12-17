@@ -150,14 +150,14 @@ const DailyChallengeCard = () => {
           </XStack>
         </ScrollView>
       </Card.Header>
-      <Card.Footer padded>
+      <Card.Footer>
         <YStack flex={1} jc="center" ai="center">
           {/* Activity Rings */}
           <XStack>
             <ActivityRings data={activityData} config={activityRingConfig} />
           </XStack>
 
-          <XStack space="$4" jc="space-between">
+          <XStack space="$6" jc="space-between">
             <XStack ai="center" jc="space-between" space="$2">
               <Footprints size={18} color={theme.lime7.val} />
               <Label color="$lime7" theme="alt2">

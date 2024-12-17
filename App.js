@@ -2,49 +2,35 @@ import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { TamaguiProvider, Theme } from "tamagui";
 import { useFonts } from "expo-font";
-import config from "./tamagui.config";
+import tamaguiConfig from "./tamagui.config";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import DrawerNavigation from "./src/navigation/DrawerNav/DrawerNavigation";
 import Navigation from "./src/navigation/DrawerNav/index";
 import AuthNavigation from "./src/navigation/AuthNav/AuthNavigation";
-import { Platform, useColorScheme } from "react-native";
-import React, { createContext, useEffect } from "react";
+import { Platform } from "react-native";
+import React from "react";
 import { UserProvider, useUser } from "./src/context/UserContext";
-
-export const ThemeContext = createContext({
-  isDark: true,
-  setIsDark: () => {},
-});
+import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
+import { ChallengeProvider } from "./src/context/ChallengeContext";
 
 // Create a client
 const queryClient = new QueryClient();
 
 const MainApp = () => {
   const { isAuthenticated } = useUser();
-  const [isDark, setIsDark] = React.useState(true);
-  const systemTheme = useColorScheme();
-
-  useEffect(() => {
-    setIsDark(systemTheme);
-  }, [systemTheme]);
+  const { isDark } = useTheme();
 
   return (
-    <ThemeContext.Provider value={{ isDark, setIsDark }}>
-      <Theme name={isDark ? "dark" : "light"}>
-        <SafeAreaProvider backgroundColor={isDark ? "$color_dark" : "$color"}>
-          <NavigationContainer>
-            {isAuthenticated ? <DrawerNavigation /> : <AuthNavigation />}
-          </NavigationContainer>
-        </SafeAreaProvider>
-        <StatusBar
-          style={isDark ? "light" : "dark"}
-          backgroundColor="transparent"
-          translucent={Platform.OS === "android"}
-        />
-      </Theme>
-    </ThemeContext.Provider>
+    <Theme name={isDark ? "dark" : "light"}>
+      <Navigation />
+      <StatusBar
+        style={isDark ? "light" : "dark"}
+        backgroundColor="transparent"
+        translucent={Platform.OS === "android"}
+      />
+    </Theme>
   );
 };
 
@@ -60,10 +46,14 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TamaguiProvider config={config}>
-        <UserProvider>
-          <MainApp />
-        </UserProvider>
+      <TamaguiProvider config={tamaguiConfig}>
+        <ThemeProvider>
+          <UserProvider>
+            <ChallengeProvider>
+              <MainApp />
+            </ChallengeProvider>
+          </UserProvider>
+        </ThemeProvider>
       </TamaguiProvider>
     </QueryClientProvider>
   );

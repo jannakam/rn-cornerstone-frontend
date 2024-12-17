@@ -11,6 +11,7 @@ import {
   Store as StoreIcon,
   Moon,
   Sun,
+  Users,
 } from "@tamagui/lucide-icons";
 import { SideMenu } from "../../components/SideMenu";
 import Home from "../../screens/Home";
@@ -20,6 +21,7 @@ import Profile from "../../screens/Profile";
 import Store from "../../screens/Store";
 import EventDetail from "../../screens/EventDetail";
 import ActiveEvent from "../../screens/ActiveEvent";
+import FriendChallenge from "../../screens/FriendChallenge";
 import { useTheme } from "../../context/ThemeContext";
 
 const Drawer = createDrawerNavigator();
@@ -143,7 +145,6 @@ const HomeStack = () => {
       <Stack.Screen name="HomeScreen" component={Home} />
       <Stack.Screen name="EventDetail" component={EventDetail} />
       <Stack.Screen name="ActiveEvent" component={ActiveEvent} />
-      <Stack.Screen name="ProfileScreen" component={Profile} />
     </Stack.Navigator>
   );
 };
@@ -172,6 +173,20 @@ const StoreStack = () => {
   );
 };
 
+const FriendChallengeStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen 
+        name="FriendChallengeScreen" 
+        component={FriendChallenge}
+        options={{
+          unmountOnBlur: true
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const DrawerNavigation = () => {
   const { isDark } = useTheme();
 
@@ -193,6 +208,7 @@ const DrawerNavigation = () => {
         sceneContainerStyle: {
           backgroundColor: isDark ? "$background" : "$color",
         },
+        unmountOnBlur: true
       }}
     >
       <Drawer.Screen
@@ -214,6 +230,14 @@ const DrawerNavigation = () => {
         component={StepsStack}
         options={{
           drawerIcon: ({ color }) => <Footprints size={18} color={color} />,
+        }}
+      />
+      <Drawer.Screen
+        name="Friend Challenge"
+        component={FriendChallengeStack}
+        options={{
+          drawerIcon: ({ color }) => <Users size={18} color={color} />,
+          unmountOnBlur: true
         }}
       />
       <Drawer.Screen
