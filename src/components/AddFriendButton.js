@@ -1,10 +1,59 @@
-import React, { useState, useEffect } from "react";
-import { Keyboard, Platform, KeyboardAvoidingView, Dimensions } from "react-native";
-import { YStack, Avatar, Text, Sheet, Label, Input, Button } from "tamagui";
+import React, { useState, useMemo } from "react";
+import { KeyboardAvoidingView, Platform } from "react-native";
+import {
+  YStack,
+  Avatar,
+  Text,
+  Sheet,
+  ScrollView,
+  XStack,
+  Button,
+} from "tamagui";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getAllUsers, addFriend, getAllFriends } from "../api/Auth";
 
 const AddFriendButton = () => {
   const [isAddFriendOpen, setIsAddFriendOpen] = useState(false);
-  const [friendUsername, setFriendUsername] = useState("");
+  const [error, setError] = useState(null);
+  const queryClient = useQueryClient();
+
+  // Fetch all users
+  const { data: users, isLoading: isLoadingUsers } = useQuery({
+    queryKey: ["users"],
+    queryFn: getAllUsers,
+  });
+
+  // Fetch current friends
+  const { data: friends, isLoading: isLoadingFriends } = useQuery({
+    queryKey: ["friends"],
+    queryFn: getAllFriends,
+  });
+
+  // Filter out existing friends from users list
+  const availableUsers = useMemo(() => {
+    if (!users || !friends) return [];
+
+    // Create a set of friend IDs for faster lookup
+    const friendIds = new Set(friends.map((friend) => friend.id));
+
+    // Filter out users who are already friends
+    return users.filter((user) => !friendIds.has(user.id));
+  }, [users, friends]);
+
+  const handleAddFriend = async (friendId) => {
+    try {
+      setError(null);
+      await addFriend(friendId);
+      // Invalidate and refetch friends list
+      await queryClient.invalidateQueries(["friends"]);
+      setIsAddFriendOpen(false);
+    } catch (error) {
+      console.error("Error adding friend:", error);
+      setError("Failed to add friend. They might already be your friend.");
+    }
+  };
+
+  const isLoading = isLoadingUsers || isLoadingFriends;
 
   return (
     <YStack ai="center" space="$2">
@@ -23,12 +72,12 @@ const AddFriendButton = () => {
           </YStack>
         </Avatar.Fallback>
       </Avatar>
-      
+
       <Sheet
         modal
         open={isAddFriendOpen}
         onOpenChange={setIsAddFriendOpen}
-        snapPoints={[45]}
+        snapPoints={[85]}
         position={0}
         dismissOnSnapToBottom
       >
@@ -41,38 +90,61 @@ const AddFriendButton = () => {
             style={{ flex: 1 }}
           >
             <YStack p="$4" space="$4">
-              <Text fontSize={16} fontWeight="bold">Add a friend!</Text>
+              <Text fontSize={20} fontWeight="bold">
+                Add Friends
+              </Text>
 
-              <YStack space="$2">
-                <Label htmlFor="username" fontSize={14}>Friend Username</Label>
-                <Input
-                  id="username"
-                  placeholder="Enter username"
-                  value={friendUsername}
-                  onChangeText={setFriendUsername}
-                  backgroundColor="$background"
-                  borderColor="$color4"
-                  padding="$3"
-                  color="$color"
-                  fontSize={16}
-                  autoCapitalize="none"
-                  autoComplete="off"
-                  autoCorrect={false}
-                />
-              </YStack>
+              {error && (
+                <Text color="$red10" fontSize={14}>
+                  {error}
+                </Text>
+              )}
 
-              <Button
-                theme="active"
-                onPress={() => {
-                  Keyboard.dismiss();
-                  setIsAddFriendOpen(false);
-                  setFriendUsername("");
-                }}
-                disabled={!friendUsername.trim()}
-                fontSize={14}
-              >
-                Add Friend
-              </Button>
+              {isLoading ? (
+                <Text>Loading users...</Text>
+              ) : availableUsers.length === 0 ? (
+                <Text>No new users to add</Text>
+              ) : (
+                <ScrollView
+                  maxHeight={600}
+                  showsVerticalScrollIndicator={false}
+                >
+                  <YStack space="$2">
+                    {availableUsers.map((user) => (
+                      <XStack
+                        key={user.id}
+                        space="$4"
+                        padding="$3"
+                        alignItems="center"
+                        backgroundColor="$background"
+                        borderRadius="$4"
+                        marginVertical="$1"
+                      >
+                        <Avatar circular size="$4">
+                          <Avatar.Image
+                            source={{
+                              uri: "https://github.com/hello-world.png",
+                            }}
+                          />
+                          <Avatar.Fallback backgroundColor="$blue10" />
+                        </Avatar>
+
+                        <Text flex={1} fontSize={16} fontWeight="500">
+                          {user.username}
+                        </Text>
+
+                        <Button
+                          size="$3"
+                          theme="active"
+                          onPress={() => handleAddFriend(user.id)}
+                        >
+                          Add
+                        </Button>
+                      </XStack>
+                    ))}
+                  </YStack>
+                </ScrollView>
+              )}
             </YStack>
           </KeyboardAvoidingView>
         </Sheet.Frame>
