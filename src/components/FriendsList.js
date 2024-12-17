@@ -203,7 +203,59 @@ const FriendsList = () => {
         <H6>Friends</H6>
       </Card.Header>
       <Card.Footer padded pt="$0">
-        {renderContent()}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <XStack gap="$4">
+            <AddFriendButton />
+            <ChallengeButton friends={friendss} />
+            {/* Friend Avatars */}
+            {isLoading ? (
+              <Text>Loading...</Text>
+            ) : error ? (
+              <Text>Error loading friends</Text>
+            ) : friendss && friendss.length > 0 ? (
+              friendss.map((friend) => (
+                <YStack key={friend.id} ai="center">
+                  <XStack height="$6" ai="center" jc="center">
+                    <Avatar circular size="$5" zIndex={1}>
+                      <Avatar.Image
+                        source={{
+                          uri: "https://github.com/hello-world.png",
+                        }}
+                        zIndex={1}
+                      />
+                      <Avatar.Fallback backgroundColor="$cyan10" />
+                    </Avatar>
+                    <YStack
+                      zIndex={2}
+                      position="absolute"
+                      left="50%"
+                      top="50%"
+                      transform={[{ translateX: -45 }, { translateY: -45 }]}
+                    >
+                      <ActivityRings
+                        data={[
+                          {
+                            value: friend.totalSteps
+                              ? friend.totalSteps / 10000
+                              : 0,
+                            ...getActivityRingColor(0),
+                          },
+                        ]}
+                        config={friendActivityRingConfig}
+                      />
+                    </YStack>
+                  </XStack>
+                  <Text fontSize="$2" mt="$1">
+                    {friend.username}
+                  </Text>
+                </YStack>
+              ))
+            ) : (
+              <Text>No friends found</Text>
+            )}
+          </XStack>
+        </ScrollView>
+//         {renderContent()}
       </Card.Footer>
     </Card>
   );
