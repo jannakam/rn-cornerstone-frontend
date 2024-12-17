@@ -123,11 +123,6 @@ const FriendsList = () => {
                   <Text fontSize="$2" mt="$1">
                     {friend.username}
                   </Text>
-                  {friend.city && (
-                    <Text fontSize="$1" color="$gray10">
-                      {friend.city}
-                    </Text>
-                  )}
                 </YStack>
               ))
             ) : (
