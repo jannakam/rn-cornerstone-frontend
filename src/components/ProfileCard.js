@@ -9,7 +9,7 @@ import {
   useTheme,
   Spinner,
 } from "tamagui";
-import { History, ChevronRight, Store, Footprints, Flame, Edit2, X } from "@tamagui/lucide-icons";
+import { History, ChevronRight, Store, Footprints, Flame, Edit2, X, MapPin, Calendar, Ruler, Weight } from "@tamagui/lucide-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Platform, DeviceEventEmitter, ScrollView, Animated } from "react-native";
 import { useQuery } from "@tanstack/react-query";
@@ -197,7 +197,7 @@ const ProfileCard = () => {
       <YStack space="$5" width="100%">
         <XStack space="$2">
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <XStack space="$2" ai="center">
+            <XStack space="$2.5" ai="center">
               <Button
                 size="$3"
                 variant="outlined"
@@ -208,7 +208,7 @@ const ProfileCard = () => {
                 borderColor={theme.magenta7.val}
                 color={theme.magenta7.val}
               >
-                99999 KM walked
+                {((profile?.totalSteps || 0) * 0.000762).toFixed(0)} KM walked
               </Button>
               <Button
                 size="$3" 
@@ -220,62 +220,81 @@ const ProfileCard = () => {
                 borderColor={theme.cyan8.val}
                 color={theme.cyan8.val}
               >
-                {(profile?.totalSteps * 0.04).toFixed(2)}Cal burned!
+                {(profile?.totalSteps * 0.04).toFixed(0)}Cal burned!
               </Button>
             </XStack>
           </ScrollView>
         </XStack>
 
-        {/* Centered Avatar */}
-        <XStack>
-        <YStack ai="center" space="$4">
-          <Avatar circular size="$10" backgroundColor={theme.cyan10.val}>
-            <Avatar.Image
-              source={selectedAvatar.url}
-              resizeMode="contain"
-            />
-            <Avatar.Fallback backgroundColor={theme.cyan10.val} />
-          </Avatar>
-          <Button
-            size="$2"
-            borderRadius="$10"
-            backgroundColor="$background"
-            color={theme.color.val}
-            onPress={() => setIsAvatarModalOpen(true)}
-          >
-            Edit Avatar
-          </Button>
-        </YStack>
+        {/* Main Content Split */}
+        <XStack width="100%" space="$4">
+          {/* Left 1/3 - Avatar Section */}
+          <YStack width="40%" ai="center" space="$4">
+            <Avatar circular size="$10" backgroundColor="$background">
+              <Avatar.Image
+                source={selectedAvatar.url}
+                resizeMode="contain"
+              />
+              <Avatar.Fallback backgroundColor="$background" />
+            </Avatar>
+            <Button
+              size="$2"
+              borderRadius="$10"
+              backgroundColor="$background"
+              color="$color"
+              onPress={() => setIsAvatarModalOpen(true)}
+              icon={Edit2}
+            >
+              Edit Avatar
+            </Button>
+          </YStack>
 
-        <YStack space="$2">
-          <Text color="$color" fontSize="$3">
-            {profile?.city && `📍 ${profile.city}`}
-          </Text>
-          {profile?.age && (
-            <Text color="$color" fontSize="$3">
-              Age: {profile.age}
-            </Text>
-          )}
-          {(profile?.height || profile?.weight) && (
-            <Text color="$color" fontSize="$3">
-              {profile.height && `Height: ${profile.height}cm`}{" "}
-              {profile.weight && `Weight: ${profile.weight}kg`}
-            </Text>
-          )}
-        </YStack>
+          {/* Right 2/3 - Text Content */}
+          <YStack width="60%" space="$4">
+            <YStack space="$2">
+              <XStack space="$2" ai="center">
+                <MapPin size="$1" color="$color" />
+                <Text color="$color" fontSize="$4" fontWeight="700">
+                  {profile?.city}
+                </Text>
+              </XStack>
+              {profile?.age && (
+                <XStack space="$2" ai="center">
+                  <Calendar size={14} color={theme.color.val} />
+                  <Text color={theme.color.val} fontSize="$4" fontWeight="700" >
+                    Age: {profile.age}
+                  </Text>
+                </XStack>
+              )}
+              {profile?.height && (
+                <XStack space="$2" ai="center">
+                  <Ruler size={14} color={theme.color.val} />
+                  <Text color={theme.color.val} fontSize="$4" >
+                    Height: {profile.height}cm
+                  </Text>
+                </XStack>
+              )}
+              {profile?.weight && (
+                <XStack space="$2" ai="center">
+                  <Weight size={14} color={theme.color.val} />
+                  <Text color={theme.color.val} fontSize="$4">
+                    Weight: {profile.weight}kg
+                  </Text>
+                </XStack>
+              )}
+            </YStack>
 
-        
+            {/* Points Section */}
+            <YStack ai="flex-start" jc="center" pt="$2">
+              <Text color="$color" fontSize="$3" fontWeight="600">
+                Total steps:
+              </Text>
+              <Text color={theme.lime7.val} fontSize="$8" fontWeight="bold">
+                {profile?.totalSteps || 0}
+              </Text>
+            </YStack>
+          </YStack>
         </XStack>
-
-        {/* Points Section */}
-        <YStack ai="center" jc="center">
-          <Text color={theme.color11.val} fontSize="$3">
-            Total steps:
-          </Text>
-          <Text color="$color" fontSize="$9" fontWeight="bold">
-          {profile?.totalSteps || 0}
-          </Text>
-        </YStack>
       </YStack>
     </Card.Footer>
   </Card>
