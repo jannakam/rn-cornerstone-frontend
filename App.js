@@ -11,11 +11,12 @@ import Navigation from "./src/navigation/DrawerNav/index";
 import AuthNavigation from "./src/navigation/AuthNav/AuthNavigation";
 import { Platform } from "react-native";
 import React from "react";
+import { Platform } from "react-native";
+import React from "react";
 import { UserProvider, useUser } from "./src/context/UserContext";
 import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
 import { ChallengeProvider } from "./src/context/ChallengeContext";
 
-// Create a client
 const queryClient = new QueryClient();
 
 const MainApp = () => {

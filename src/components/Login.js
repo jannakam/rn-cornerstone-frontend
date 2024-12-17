@@ -3,9 +3,10 @@ import { Alert } from "react-native";
 import { XStack, YStack, Text, Input, Button } from "tamagui";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
+import { useUser } from "../context/UserContext";
 import { login } from "../api/Auth";
-
 const Login = () => {
+  const { loggedIn } = useUser();
   const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState({
     username: "",
@@ -15,6 +16,7 @@ const Login = () => {
     mutationFn: () => login(userInfo),
     onSuccess: () => {
       Alert.alert("LogIn successful");
+      loggedIn(userInfo);
     },
     onError: (error) => {
       console.log(error);
@@ -36,7 +38,12 @@ const Login = () => {
       height="100%"
     >
       <XStack padding="$4">
-        <Text color="#333" fontSize={50}>
+        <Text
+          color="#333"
+          fontSize={50}
+          onPress={() => navigation.navigate("Register")}
+          pressStyle={{ opacity: 0.7 }}
+        >
           ×
         </Text>
       </XStack>

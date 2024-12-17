@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext } from "react";
 
 const UserContext = createContext();
 
@@ -6,7 +6,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = (userData) => {
+  const loggedIn = (userData) => {
     setUser(userData);
     setIsAuthenticated(true);
   };
@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <UserContext.Provider value={{ user, isAuthenticated, loggedIn, logout }}>
       {children}
     </UserContext.Provider>
   );
@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

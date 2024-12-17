@@ -15,12 +15,23 @@ import {
 } from "tamagui";
 import { Plus } from "@tamagui/lucide-icons";
 import ActivityRings from "react-native-activity-rings";
-import AddFriendButton from './AddFriendButton';
-import ChallengeButton from './ChallengeButton';
+import AddFriendButton from "./AddFriendButton";
+import ChallengeButton from "./ChallengeButton";
+import { useQuery } from "@tanstack/react-query";
+import { getAllFriends } from "../api/Auth";
 
 const FriendsList = () => {
   const theme = useTheme();
   const [ringColors, setRingColors] = useState([]);
+
+  const {
+    data: friendss,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["friends"],
+    queryFn: getAllFriends,
+  });
 
   useEffect(() => {
     if (theme) {
@@ -29,14 +40,6 @@ const FriendsList = () => {
           color: theme.cyan7.val,
           backgroundColor: theme.cyan10.val,
         },
-        // {
-        //   color: theme.magenta7.val,
-        //   backgroundColor: theme.magenta10.val,
-        // },
-        // {
-        //   color: theme.lime7.val,
-        //   backgroundColor: theme.lime10.val,
-        // },
       ]);
     }
   }, [theme]);
@@ -56,51 +59,6 @@ const FriendsList = () => {
   const getActivityRingColor = (index) => {
     return ringColors[index % ringColors.length] || ringColors[0];
   };
-
-  const friends = [
-    {
-      id: 1,
-      name: "Sarah Chen",
-      avatar: "https://github.com/hello-world.png",
-      progress: 0.8,
-      colorIndex: 0,
-    },
-    {
-      id: 2,
-      name: "Mike Johnson",
-      avatar: "https://github.com/hello-world.png",
-      progress: 0.6,
-      colorIndex: 1,
-    },
-    {
-      id: 3,
-      name: "Emma Wilson",
-      avatar: "https://github.com/hello-world.png",
-      progress: 0.4,
-      colorIndex: 2,
-    },
-    {
-      id: 4,
-      name: "James Smith",
-      avatar: "https://github.com/hello-world.png",
-      progress: 0.7,
-      colorIndex: 0,
-    },
-    {
-      id: 5,
-      name: "Alex Brown",
-      avatar: "https://github.com/hello-world.png",
-      progress: 0.3,
-      colorIndex: 1,
-    },
-    {
-      id: 6,
-      name: "Lisa Wang",
-      avatar: "https://github.com/hello-world.png",
-      progress: 0.5,
-      colorIndex: 2,
-    },
-  ];
 
   if (!theme || ringColors.length === 0) return null;
 
@@ -123,36 +81,58 @@ const FriendsList = () => {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <XStack gap="$4">
             <AddFriendButton />
-            <ChallengeButton friends={friends} />
-            
+            <ChallengeButton friends={friendss} />
             {/* Friend Avatars */}
-            {friends.map((friend) => (
-              <YStack key={friend.id} ai="center">
-                <XStack height="$6" ai="center" jc="center">
-                  <Avatar circular size="$5" zIndex={1}>
-                    <Avatar.Image source={{ uri: friend.avatar }} zIndex={1} />
-                    <Avatar.Fallback backgroundColor="$cyan10" />
-                  </Avatar>
-                  <YStack
-                    zIndex={2}
-                    position="absolute"
-                    left="50%"
-                    top="50%"
-                    transform={[{ translateX: -45 }, { translateY: -45 }]}
-                  >
-                    <ActivityRings
-                      data={[
-                        {
-                          value: friend.progress,
-                          ...getActivityRingColor(friend.colorIndex),
-                        },
-                      ]}
-                      config={friendActivityRingConfig}
-                    />
-                  </YStack>
-                </XStack>
-              </YStack>
-            ))}
+            {isLoading ? (
+              <Text>Loading...</Text>
+            ) : error ? (
+              <Text>Error loading friends</Text>
+            ) : friendss && friendss.length > 0 ? (
+              friendss.map((friend) => (
+                <YStack key={friend.id} ai="center">
+                  <XStack height="$6" ai="center" jc="center">
+                    <Avatar circular size="$5" zIndex={1}>
+                      <Avatar.Image
+                        source={{
+                          uri: "https://github.com/hello-world.png",
+                        }}
+                        zIndex={1}
+                      />
+                      <Avatar.Fallback backgroundColor="$cyan10" />
+                    </Avatar>
+                    <YStack
+                      zIndex={2}
+                      position="absolute"
+                      left="50%"
+                      top="50%"
+                      transform={[{ translateX: -45 }, { translateY: -45 }]}
+                    >
+                      <ActivityRings
+                        data={[
+                          {
+                            value: friend.totalSteps
+                              ? friend.totalSteps / 10000
+                              : 0,
+                            ...getActivityRingColor(0),
+                          },
+                        ]}
+                        config={friendActivityRingConfig}
+                      />
+                    </YStack>
+                  </XStack>
+                  <Text fontSize="$2" mt="$1">
+                    {friend.username}
+                  </Text>
+                  {friend.city && (
+                    <Text fontSize="$1" color="$gray10">
+                      {friend.city}
+                    </Text>
+                  )}
+                </YStack>
+              ))
+            ) : (
+              <Text>No friends found</Text>
+            )}
           </XStack>
         </ScrollView>
       </Card.Footer>
