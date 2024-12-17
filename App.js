@@ -11,8 +11,6 @@ import Navigation from "./src/navigation/DrawerNav/index";
 import AuthNavigation from "./src/navigation/AuthNav/AuthNavigation";
 import { Platform } from "react-native";
 import React from "react";
-import { Platform } from "react-native";
-import React from "react";
 import { UserProvider, useUser } from "./src/context/UserContext";
 import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
 import { ChallengeProvider } from "./src/context/ChallengeContext";
@@ -24,14 +22,16 @@ const MainApp = () => {
   const { isDark } = useTheme();
 
   return (
-    <Theme name={isDark ? "dark" : "light"}>
-      <Navigation />
-      <StatusBar
+    <NavigationContainer>
+      <Theme name={isDark ? "dark" : "light"}>
+        {isAuthenticated ? <Navigation /> : <AuthNavigation />}
+        <StatusBar
         style={isDark ? "light" : "dark"}
         backgroundColor="transparent"
         translucent={Platform.OS === "android"}
       />
     </Theme>
+    </NavigationContainer>
   );
 };
 

@@ -13,6 +13,7 @@ import {
   LinearGradient,
   Adapt,
   useTheme,
+  Spinner,
 } from "tamagui";
 import { ChevronDown, ChevronUp, Check, Play } from "@tamagui/lucide-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -23,19 +24,26 @@ const ChallengeButton = ({ friends }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [challengeSteps, setChallengeSteps] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   const theme = useTheme();
   const { activeChallenge, startChallenge } = useChallenge();
 
-  const handleCreateChallenge = () => {
+  const handleCreateChallenge = async () => {
     if (!challengeSteps || !selectedFriends.length) return;
     
-    const selectedFriend = friends.find(f => f.id === selectedFriends[0]);
-    setIsOpen(false);
-    
-    startChallenge(selectedFriend, Number(challengeSteps));
-    
-    navigation.navigate('Friend Challenge');
+    try {
+      setIsLoading(true);
+      const selectedFriend = friends.find(f => f.id === selectedFriends[0]);
+      
+      await startChallenge(selectedFriend, Number(challengeSteps));
+      setIsOpen(false);
+      navigation.navigate('Friend Challenge');
+    } catch (error) {
+      console.error('Error creating challenge:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (activeChallenge) {
@@ -78,11 +86,16 @@ const ChallengeButton = ({ friends }) => {
         size="$6"
         borderWidth={1}
         borderColor="$color"
-        onPress={() => setIsOpen(true)}
+        onPress={() => !isLoading && setIsOpen(true)}
       >
         <Avatar.Fallback backgroundColor="transparent" jc="center" ai="center">
           <YStack ai="center" jc="center">
-            <Button unstyled fontSize={8} color="$color">
+            <Button 
+              unstyled 
+              fontSize={8} 
+              color="$color"
+              disabled={isLoading}
+            >
               Challenge
             </Button>
           </YStack>
@@ -109,6 +122,7 @@ const ChallengeButton = ({ friends }) => {
                 value={String(challengeSteps)}
                 onValueChange={(val) => setChallengeSteps(Number(val))}
                 disablePreventBodyScroll
+                disabled={isLoading}
               >
                 <Select.Trigger
                   width="100%"
@@ -125,7 +139,7 @@ const ChallengeButton = ({ friends }) => {
                 </Select.Trigger>
 
                 <Adapt when="sm" platform="touch">
-                  <Sheet modal dismissOnSnapToBottom >
+                  <Sheet modal dismissOnSnapToBottom>
                     <Sheet.Frame>
                       <Sheet.ScrollView>
                         <Adapt.Contents />
@@ -189,18 +203,21 @@ const ChallengeButton = ({ friends }) => {
                     <Checkbox
                       checked={selectedFriends.includes(friend.id)}
                       onCheckedChange={(checked) => {
-                        setSelectedFriends((prev) => {
-                          if (checked) {
-                            if (prev.length >= 4) return prev;
-                            return [...prev, friend.id];
-                          } else {
-                            return prev.filter((id) => id !== friend.id);
-                          }
-                        });
+                        if (!isLoading) {
+                          setSelectedFriends((prev) => {
+                            if (checked) {
+                              if (prev.length >= 4) return prev;
+                              return [...prev, friend.id];
+                            } else {
+                              return prev.filter((id) => id !== friend.id);
+                            }
+                          });
+                        }
                       }}
                       disabled={
-                        selectedFriends.length >= 4 &&
-                        !selectedFriends.includes(friend.id)
+                        isLoading ||
+                        (selectedFriends.length >= 4 &&
+                        !selectedFriends.includes(friend.id))
                       }
                     >
                       <Checkbox.Indicator>
@@ -235,13 +252,12 @@ const ChallengeButton = ({ friends }) => {
             <Button
               onPress={handleCreateChallenge}
               theme="active"
-              disabled={
-                !challengeSteps || selectedFriends.length === 0 || isLoading
-              }
+              disabled={!challengeSteps || selectedFriends.length === 0 || isLoading}
               fontSize={14}
               backgroundColor={theme.background.val}
               borderColor={theme.color6.val}
               color={theme.color.val}
+              icon={isLoading ? () => <Spinner size="small" color={theme.color.val} /> : undefined}
             >
               {isLoading ? "Creating..." : "Create Challenge"}
             </Button>

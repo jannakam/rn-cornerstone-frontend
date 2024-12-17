@@ -16,11 +16,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserProfile } from "../api/Auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const theme = useTheme();
-const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
-const [selectedAvatar, setSelectedAvatar] = useState(avatarOptions[0]);
-const [hoveredAvatar, setHoveredAvatar] = useState(null);
-
 // Predefined list of avatars
 const avatarOptions = [
   { id: 1, url: require("../../assets/avatars/avatar1.png") },
@@ -34,7 +29,11 @@ const avatarOptions = [
 ];
 
 const ProfileCard = () => {
+  const theme = useTheme();
   const navigation = useNavigation();
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(avatarOptions[0]);
+  const [hoveredAvatar, setHoveredAvatar] = useState(null);
 
   const {
     data: profile,
