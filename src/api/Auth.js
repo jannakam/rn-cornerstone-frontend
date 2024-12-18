@@ -64,13 +64,12 @@ const register = async (userInfo) => {
 // update function
 const updateUser = async (userInfo) => {
   try {
-    console.log(5);
-    console.log("USER INFO: ", userInfo);
+    console.log("Updating user with:", userInfo);
     const { data } = await instance.put("/v1/user/update-profile", userInfo);
-    console.log(6);
+    console.log("Update response:", data);
     return data;
   } catch (error) {
-    console.log(error);
+    console.error("Error updating user:", error);
     throw error;
   }
 };
@@ -220,21 +219,55 @@ const updateStepsForDailyChallenge = async (dailyChallengeId, steps) => {
     throw error;
   }
 };
-const updateStepsForFriendChallenge = async (friendChallengeId, steps) => {
+const updateStepsForFriendChallenge = async (
+  friendChallengeId,
+  steps,
+  completed = false,
+  goalReached = false
+) => {
   try {
-    await instance.post(`/v1/user/steps/friend/${friendChallengeId}`, {
-      steps,
+    // Validate inputs
+    if (!friendChallengeId) {
+      throw new Error("Challenge ID is required");
+    }
+    if (typeof steps !== 'number' || steps < 0) {
+      throw new Error("Invalid step count");
+    }
+
+    // Send request with validated data
+    const { data } = await instance.post(`/v1/user/steps/friend/${friendChallengeId}`, {
+      steps: Math.round(steps),
+      completed,
+      goalReached,
     });
+    
+    return data;
   } catch (error) {
     console.error("Error updating steps for friend challenge:", error);
+    // Include more error details in the thrown error
+    throw new Error(`Failed to update steps: ${error.response?.data?.message || error.message}`);
+  }
+};
+const updateStepsForEvent = async (eventId, steps, completed = false) => {
+  try {
+    await instance.post(`/v1/user/steps/event/${eventId}`, {
+      steps,
+      completed,
+    });
+  } catch (error) {
+    console.error("Error updating steps for event:", error);
     throw error;
   }
 };
-const updateStepsForEvent = async (eventId, steps) => {
+
+const getChallengeStatus = async (friendChallengeId) => {
   try {
-    await instance.post(`/v1/user/steps/event/${eventId}`, { steps });
+    const { data } = await instance.get(
+      `/v1/user/challenges/friend/${friendChallengeId}/progress`
+    );
+    return data;
   } catch (error) {
-    console.error("Error updating steps for event:", error);
+    console.error("Error fetching challenge status:", error);
     throw error;
   }
 };
@@ -259,6 +292,5 @@ export {
   getAllDailyChallenges,
   getAllFriendChallenges,
   getAllEventChallenges,
-  
-
+  getChallengeStatus,
 };

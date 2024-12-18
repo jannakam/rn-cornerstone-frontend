@@ -10,7 +10,7 @@ import MapView, { UrlTile, Marker, Callout } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { Card, YStack, XStack, Text, useTheme, Button } from "tamagui";
 import { useTheme as useThemeContext } from "../context/ThemeContext";
-import { Footprints, MapPin, ChevronRight } from "@tamagui/lucide-icons";
+import { Footprints, MapPin, ChevronRight, Calendar } from "@tamagui/lucide-icons";
 import locations from "../data/locations";
 import sponsors from "../data/sponsors";
 
@@ -20,55 +20,96 @@ const Map = forwardRef((props, ref) => {
   const theme = useTheme();
   const { isDark } = useThemeContext();
   const urlTemplate = isDark
-  ? "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-  : "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png" 
-
+    ? "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
+    : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png";
 
   useImperativeHandle(ref, () => ({
     // Add any methods you want to expose to the parent component here
   }));
 
   const handleCalloutPress = (location) => {
-    navigation.navigate("EventDetail", { location });
+    // Navigate to parent first, then to EventDetail to ensure proper stack navigation
+    navigation.getParent().navigate("Events", {
+      screen: "EventDetail",
+      params: { location }
+    });
   };
 
   const CustomCallout = ({ location }) => (
+    <TouchableOpacity onPress={() => handleCalloutPress(location)}>
+      <Card
+        backgroundColor="$background"
+        borderRadius="$4"
+        padding="$4"
+        elevation={4}
+        borderColor="$borderColor"
+        borderWidth={1}
+        width={250}
+      >
+        <YStack space="$2">
+          <Text color="$color" fontWeight="bold" fontSize="$5">
+            {location.name}
+          </Text>
+          <XStack space="$3" ai="center">
+            <XStack space="$2" ai="center">
+              <Footprints size={16} color={theme.magenta7.val} />
+              <Text color="$color">
+                {location.steps} steps
+              </Text>
+            </XStack>
+            <XStack space="$2" ai="center">
+              <MapPin size={16} color={theme.lime7.val} />
+              <Text color="$color">
+                {location.approx_distance}km
+              </Text>
+            </XStack>
+          </XStack>
+          <XStack space="$2" ai="center">
+            <Calendar size={16} color={theme.cyan7.val} />
+            <Text color="$color">
+              {location.date} at {location.startTime}
+            </Text>
+          </XStack>
+          <Button
+            size="$3"
+            backgroundColor={theme.background.val}
+            color={theme.cyan8.val}
+            borderRadius="$6"
+            borderColor={theme.cyan8.val}
+            borderWidth={1}
+            mt="$2"
+          >
+            View Details
+          </Button>
+        </YStack>
+      </Card>
+    </TouchableOpacity>
+  );
+
+  const SponsorCallout = ({ sponsor }) => (
     <Card
       backgroundColor="$background"
       borderRadius="$4"
       padding="$4"
       elevation={4}
-      borderColor="$color4"
+      borderColor="$borderColor"
       borderWidth={1}
+      width={200}
     >
-      <YStack space="$2">
+      <YStack space="$2" ai="center">
+        <View style={styles.calloutLogoContainer}>
+          <Image
+            source={sponsor.logo}
+            style={styles.calloutLogo}
+            resizeMode="contain"
+          />
+        </View>
         <Text color="$color" fontWeight="bold" fontSize="$5">
-          {location.name}
+          {sponsor.name}
         </Text>
-        <XStack space="$3" ai="center">
-          <XStack space="$2" ai="center">
-            <Footprints size={16} color={theme.magenta7.val} />
-            <Text color="$color">
-              {location.steps} steps
-            </Text>
-          </XStack>
-          <XStack space="$2" ai="center">
-            <MapPin size={16} color={theme.lime7.val} />
-            <Text color="$color">
-              {location.approx_distance}km
-            </Text>
-          </XStack>
-        </XStack>
-        <Button
-          size="$3"
-          backgroundColor={theme.cyan8.val}
-          color="white"
-          onPress={() => handleCalloutPress(location)}
-          icon={ChevronRight}
-          borderRadius="$6"
-        >
-          View Details
-        </Button>
+        <Text color={theme.cyan8.val} fontWeight="bold" fontSize="$6">
+          {sponsor.discount}
+        </Text>
       </YStack>
     </Card>
   );
@@ -82,10 +123,10 @@ const Map = forwardRef((props, ref) => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <MapView
         mapType="mutedStandard"
-        userInterfaceStyle={isDark ? "light" : "dark"}
+        userInterfaceStyle={isDark ? "dark" : "light"}
         style={styles.map}
         initialRegion={{
           latitude: 29.3759,
@@ -109,9 +150,14 @@ const Map = forwardRef((props, ref) => {
               latitude: location.latitude,
               longitude: location.longitude,
             }}
-            pinColor={theme.magenta7.val}
           >
-            <Callout tooltip>
+            <View style={[styles.eventMarker, { 
+              backgroundColor: theme.background.val,
+              borderColor: theme.magenta7.val 
+            }]}>
+              <MapPin size={24} color={theme.magenta7.val} />
+            </View>
+            <Callout tooltip onPress={() => handleCalloutPress(location)}>
               <CustomCallout location={location} />
             </Callout>
           </Marker>
@@ -127,7 +173,7 @@ const Map = forwardRef((props, ref) => {
             }}
           >
             <View style={[styles.sponsorMarker, { 
-              backgroundColor: theme.color.val,
+              backgroundColor: "white",
               borderColor: theme.cyan7.val 
             }]}>
               <Image
@@ -137,23 +183,7 @@ const Map = forwardRef((props, ref) => {
               />
             </View>
             <Callout tooltip>
-              <Card
-                backgroundColor="$background"
-                borderRadius="$4"
-                padding="$4"
-                elevation={4}
-                borderColor="$color4"
-                borderWidth={1}
-              >
-                <YStack space="$2">
-                  <Text color="$color" fontWeight="bold" fontSize="$5">
-                    {sponsor.name}
-                  </Text>
-                  <Text color={theme.cyan8.val} fontWeight="bold">
-                    {sponsor.discount}
-                  </Text>
-                </YStack>
-              </Card>
+              <SponsorCallout sponsor={sponsor} />
             </Callout>
           </Marker>
         ))}
@@ -163,16 +193,36 @@ const Map = forwardRef((props, ref) => {
 });
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
   },
-  sponsorMarker: {
-    backgroundColor: "transparent",
-    borderRadius: 30,
-    padding: 5,
+  eventMarker: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: "center",
+    alignItems: "center",
     borderWidth: 2,
-    borderColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  sponsorMarker: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    padding: 4,
+    borderWidth: 2,
+    backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -183,21 +233,25 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   sponsorLogo: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
+    width: "100%",
+    height: "100%",
+    borderRadius: 18,
   },
-  calloutContainer: {
-    padding: 10,
-    width: 200,
+  calloutLogoContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "white",
+    padding: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#eee",
   },
-  calloutTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-  calloutText: {
-    fontSize: 14,
+  calloutLogo: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 28,
   },
 });
 

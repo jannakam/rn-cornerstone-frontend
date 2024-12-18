@@ -2,7 +2,7 @@ import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Platform } from "react-native";
-import { Text, YStack, XStack, Switch, Theme } from "tamagui";
+import { Text, YStack, XStack, Switch, Theme, Button } from "tamagui";
 import {
   Home as HomeIcon,
   MapPinned,
@@ -12,6 +12,7 @@ import {
   Moon,
   Sun,
   Users,
+  LogOut,
 } from "@tamagui/lucide-icons";
 import { SideMenu } from "../../components/SideMenu";
 import Home from "../../screens/Home";
@@ -23,12 +24,25 @@ import EventDetail from "../../screens/EventDetail";
 import ActiveEvent from "../../screens/ActiveEvent";
 import FriendChallenge from "../../screens/FriendChallenge";
 import { useTheme } from "../../context/ThemeContext";
+import { useUser } from "../../context/UserContext";
+import { deleteToken, deleteUserData } from "../../api/storage";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
 const CustomDrawerContent = (props) => {
   const { isDark, setIsDark } = useTheme();
+  const { logout } = useUser();
+
+  const handleLogout = async () => {
+    try {
+      await deleteToken();
+      await deleteUserData();
+      logout();
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
 
   return (
     <Theme name={isDark ? "dark" : "light"}>
@@ -109,6 +123,21 @@ const CustomDrawerContent = (props) => {
               <Switch.Thumb animation="quick" />
             </Switch>
           </XStack>
+
+          {/* Logout Button */}
+          <XStack
+            pressStyle={{ opacity: 0.7 }}
+            px="$8"
+            py="$2"
+            ai="center"
+            jc="space-between"
+            space="$2"
+            hoverStyle={{ bg: "$backgroundHover" }}
+            onPress={handleLogout}
+          >
+            <Text color="$color">Logout</Text>
+            <LogOut size={18} color="$color" />
+          </XStack>
         </YStack>
       </YStack>
     </Theme>
@@ -135,7 +164,6 @@ const HomeStack = () => {
   );
 };
 
-
 const ProfileStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -155,11 +183,11 @@ const StoreStack = () => {
 const FriendChallengeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen 
-        name="FriendChallengeScreen" 
+      <Stack.Screen
+        name="FriendChallengeScreen"
         component={FriendChallenge}
         options={{
-          unmountOnBlur: true
+          unmountOnBlur: true,
         }}
       />
     </Stack.Navigator>
@@ -187,7 +215,7 @@ const DrawerNavigation = () => {
         sceneContainerStyle: {
           backgroundColor: isDark ? "$background" : "$color",
         },
-        unmountOnBlur: true
+        unmountOnBlur: true,
       }}
     >
       <Drawer.Screen
@@ -209,7 +237,7 @@ const DrawerNavigation = () => {
         component={FriendChallengeStack}
         options={{
           drawerIcon: ({ color }) => <Users size={18} color={color} />,
-          unmountOnBlur: true
+          unmountOnBlur: true,
         }}
       />
       <Drawer.Screen

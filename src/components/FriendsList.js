@@ -59,35 +59,34 @@ const FriendsList = () => {
     }
   }, [theme]);
 
-  // Load friend avatars from AsyncStorage
+  // Load or assign avatars to friends
   useEffect(() => {
-    const loadFriendAvatars = async () => {
-      try {
-        if (friendss && friendss.length > 0) {
-          const avatarPromises = friendss.map(async (friend) => {
-            const savedAvatarId = await AsyncStorage.getItem(
-              `userAvatarId_${friend.id}`
-            );
-            return {
-              friendId: friend.id,
-              avatarId: savedAvatarId ? parseInt(savedAvatarId) : 1, // Default to first avatar if none set
-            };
-          });
-
-          const avatarResults = await Promise.all(avatarPromises);
-          const avatarMap = {};
-          avatarResults.forEach(({ friendId, avatarId }) => {
-            avatarMap[friendId] =
-              avatarOptions.find((a) => a.id === avatarId) || avatarOptions[0];
-          });
-          setFriendAvatars(avatarMap);
+    const loadOrAssignAvatars = async () => {
+      if (friendss && friendss.length > 0) {
+        const newAvatarMap = {};
+        
+        for (const friend of friendss) {
+          // Try to load existing avatar assignment
+          const savedAvatarId = await AsyncStorage.getItem(`friendAvatar_${friend.id}`);
+          if (savedAvatarId) {
+            const avatar = avatarOptions.find(a => a.id === parseInt(savedAvatarId));
+            if (avatar) {
+              newAvatarMap[friend.id] = avatar;
+              continue;
+            }
+          }
+          
+          // If no saved avatar, assign a random one and save it
+          const randomAvatar = avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
+          newAvatarMap[friend.id] = randomAvatar;
+          await AsyncStorage.setItem(`friendAvatar_${friend.id}`, randomAvatar.id.toString());
         }
-      } catch (error) {
-        console.log("Error loading friend avatars:", error);
+        
+        setFriendAvatars(newAvatarMap);
       }
     };
 
-    loadFriendAvatars();
+    loadOrAssignAvatars();
   }, [friendss]);
 
   const friendActivityRingConfig = {
@@ -125,12 +124,11 @@ const FriendsList = () => {
       </Card.Header>
       <Card.Footer padded pt="$0">
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{alignItems: "center", justifyContent: "center"}}>
-          <XStack gap="$5" ai="center" justifyContent="center">
+          <XStack gap="$5" ai="center" justifyContent="center" height="$9">
 
             {/* Add and Challenge Buttons  */}
             <AddFriendButton />
             <ChallengeButton friends={friendss} />
-
 
             {/* Friend Avatars */}
             {isLoading ? (
@@ -139,13 +137,11 @@ const FriendsList = () => {
               <Text>Error loading friends</Text>
             ) : friendss && friendss.length > 0 ? (
               friendss.map((friend) => (
-                <YStack key={friend.id} ai="center">
+                <YStack key={friend.id} ai="center" gap="$1">
                   <XStack>
-                    <Avatar circular size="$5" zIndex={1}>
+                    <Avatar size="$5" zIndex={1} br={40}>
                       <Avatar.Image
-                        source={{
-                          uri: "https://github.com/hello-world.png",
-                        }}
+                        source={friendAvatars[friend.id]?.url || avatarOptions[0].url}
                         zIndex={1}
                       />
                       <Avatar.Fallback backgroundColor="$cyan10" />
@@ -170,7 +166,7 @@ const FriendsList = () => {
                       />
                     </YStack>
                   </XStack>
-                  <Text fontSize="$2" mt="$1">
+                  <Text fontSize="$1" mt="$1">
                     {friend.username}
                   </Text>
                 </YStack>
@@ -178,11 +174,8 @@ const FriendsList = () => {
             ) : (
               <Text>No friends found</Text>
             )}
-
-          
           </XStack>
         </ScrollView>
-
       </Card.Footer>
     </Card>
   );

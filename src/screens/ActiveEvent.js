@@ -26,6 +26,7 @@ import {
 import * as Location from "expo-location";
 import { useCameraPermissions, CameraView } from "expo-camera";
 import { Pedometer } from "expo-sensors";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createEventChallenge,
   participateInEvent,
@@ -33,10 +34,10 @@ import {
   getUserProfile,
   updateUser,
   getAllEventChallenges,
-} from "../api/Auth"; // Ensure correct path
-import { useActiveEvent } from "../context/ActiveEventContext"; 
-const CHECKPOINT_RADIUS = 150;
-const INTERACTION_RADIUS = 1000;
+} from "../api/Auth";
+import { useActiveEvent } from "../context/ActiveEventContext";
+const CHECKPOINT_RADIUS = 30;
+const INTERACTION_RADIUS = 30;
 
 const CustomCallout = React.memo(({ checkpoint, theme }) => (
   <Card
@@ -69,35 +70,81 @@ const generateTestCheckpoints = (userLocation) => {
   return [
     {
       id: "test1",
-      name: "Test Checkpoint 1",
+      name: "Test Checkpoint",
       latitude: userLocation.latitude + 0.0002,
       longitude: userLocation.longitude + 0.0002,
       points: 100,
       steps: 500,
-    },
-    {
-      id: "test2",
-      name: "Test Checkpoint 2",
-      latitude: userLocation.latitude - 0.0002,
-      longitude: userLocation.longitude + 0.0002,
-      points: 200,
-      steps: 1000,
-    },
-    {
-      id: "test3",
-      name: "Test Checkpoint 3",
-      latitude: userLocation.latitude,
-      longitude: userLocation.longitude + 0.0003,
-      points: 300,
-      steps: 1500,
-    },
+    }
   ];
 };
 
+const generateCurvedPath = (start, end, curveIntensity = 0.2) => {
+  // Calculate midpoint with offset for curve
+  const midX = (start.longitude + end.longitude) / 2;
+  const midY = (start.latitude + end.latitude) / 2;
+
+  // Calculate perpendicular offset for control point
+  const dx = end.longitude - start.longitude;
+  const dy = end.latitude - start.latitude;
+  const dist = Math.sqrt(dx * dx + dy * dy);
+
+  // Control point offset perpendicular to the line
+  const offsetX = -dy * dist * curveIntensity;
+  const offsetY = dx * dist * curveIntensity;
+
+  const controlPoint = {
+    latitude: midY + offsetY,
+    longitude: midX + offsetX,
+  };
+
+  // Generate points along the quadratic curve
+  const points = [];
+  for (let t = 0; t <= 1; t += 0.05) {
+    const lat =
+      Math.pow(1 - t, 2) * start.latitude +
+      2 * (1 - t) * t * controlPoint.latitude +
+      Math.pow(t, 2) * end.latitude;
+    const lng =
+      Math.pow(1 - t, 2) * start.longitude +
+      2 * (1 - t) * t * controlPoint.longitude +
+      Math.pow(t, 2) * end.longitude;
+    points.push({
+      latitude: lat,
+      longitude: lng,
+    });
+  }
+  return points;
+};
+
+const generateRoutePoints = (start, checkpoints) => {
+  const points = [];
+  let currentPoint = start;
+
+  // Generate curved paths between each point
+  checkpoints.forEach((point) => {
+    const curvedSegment = generateCurvedPath(currentPoint, point);
+    points.push(...curvedSegment);
+    currentPoint = point;
+  });
+
+  // Return to start for a complete loop
+  const finalSegment = generateCurvedPath(currentPoint, start);
+  points.push(...finalSegment);
+
+  return points;
+};
+
 const ActiveEvent = ({ route, navigation }) => {
-  const { location, isActive: wasActive, currentTime, currentPoints, currentSteps } = route.params;
+  const {
+    location,
+    isActive: wasActive,
+    currentTime,
+    currentPoints,
+    currentSteps,
+  } = route.params;
   const theme = useTheme();
-  
+
   // Use context for persistent event data
   const {
     activeEvent,
@@ -122,21 +169,117 @@ const ActiveEvent = ({ route, navigation }) => {
   const locationSubscription = useRef(null);
   const [isFollowingUser, setIsFollowingUser] = useState(false);
   const mapRef = useRef(null);
-  const [fixedCheckpoints, setFixedCheckpoints] = useState([]);
-  const hasCreatedCheckpoints = useRef(false);
   const [availableRoutes, setAvailableRoutes] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [testCheckpoints, setTestCheckpoints] = useState([]);
   const stepSubscription = useRef(null);
 
+  const queryClient = useQueryClient();
+
+  // Add mutations
+  const updateStepsMutation = useMutation({
+    mutationFn: async ({ eventId, steps }) => {
+      return updateStepsForEvent(eventId, steps);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userProfile"]);
+    },
+  });
+
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data) => {
+      return updateUser(data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userProfile"]);
+    },
+  });
+
+  const createEventMutation = useMutation({
+    mutationFn: async (eventData) => {
+      // First check if event already exists
+      const existingEvents = await getAllEventChallenges();
+      const existingEvent = existingEvents?.find(
+        (event) => event.name === location.name
+      );
+
+      let newEventId;
+      if (existingEvent) {
+        // If event exists, just participate
+        newEventId = existingEvent.id;
+        await participateInEvent(newEventId);
+        console.log("Participating in existing event:", newEventId);
+      } else {
+        // Create new event if none exists
+        const response = await createEventChallenge(eventData);
+        if (response?.id) {
+          newEventId = response.id;
+          await participateInEvent(newEventId);
+          console.log("Created and participating in new event:", newEventId);
+        } else {
+          throw new Error("Failed to get event ID from creation");
+        }
+      }
+      return newEventId;
+    },
+  });
+
+  // Initialize event once when component mounts
+  useEffect(() => {
+    const initializeEvent = async () => {
+      if (!activeEvent) {
+        try {
+          // Calculate total fixed points from all checkpoints
+          const totalFixedPoints = location.checkpoints.reduce(
+            (sum, checkpoint) => sum + checkpoint.points,
+            0
+          );
+
+          const eventData = {
+            name: location.name,
+            checkpoints: location.checkpoints,
+            basePoints: 100,
+            fixedPoints: totalFixedPoints,
+          };
+
+          const newEventId = await createEventMutation.mutateAsync(eventData);
+
+          // Start event in context
+          startEvent({
+            id: newEventId,
+            location: location,
+            currentTime: currentTime || 0,
+            currentPoints: currentPoints || 0,
+            currentSteps: currentSteps || 0,
+          });
+          setEventId(newEventId);
+        } catch (error) {
+          console.error("Error initiating event:", error);
+          Alert.alert("Error", "Failed to start event. Please try again.", [
+            { text: "OK", onPress: () => navigation.goBack() },
+          ]);
+        }
+      }
+    };
+
+    initializeEvent();
+  }, []); // Empty dependency array since this should only run once
+
   // Timer effect using context's elapsedTime
   useEffect(() => {
     if (isActive) {
       timerRef.current = setInterval(() => {
-        updateTime((prev) => prev + 1);
+        updateTime((prev) => {
+          const newTime = (prev || 0) + 1;
+          return newTime;
+        });
       }, 1000);
     }
-    return () => clearInterval(timerRef.current);
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
   }, [isActive, updateTime]);
 
   // Pedometer setup
@@ -157,7 +300,8 @@ const ActiveEvent = ({ route, navigation }) => {
     }
 
     stepSubscription.current = Pedometer.watchStepCount((result) => {
-      updateEventSteps(eventSteps + result.steps);
+      const newSteps = eventSteps + result.steps;
+      updateEventSteps(newSteps); // Only update steps locally
     });
   };
 
@@ -176,24 +320,19 @@ const ActiveEvent = ({ route, navigation }) => {
       {
         text: "End",
         onPress: async () => {
-          setIsActive(false);
-          clearInterval(timerRef.current);
           try {
+            // Stop all active tracking first
+            setIsActive(false);
+            if (timerRef.current) {
+              clearInterval(timerRef.current);
+            }
+            if (stepSubscription.current) {
+              stepSubscription.current.remove();
+            }
+
             if (eventId) {
-              // Update steps for this event
-              await updateStepsForEvent(eventId, Math.round(eventSteps));
-
-              // Get and update user profile with accumulated points and steps
+              // Get current user profile first
               const userProfile = await getUserProfile();
-              console.log("Current user profile:", {
-                totalPoints: userProfile.points,
-                totalSteps: userProfile.totalSteps
-              });
-              console.log("Event earnings:", {
-                points: points,
-                steps: eventSteps
-              });
-
               const currentPoints = parseInt(userProfile.points) || 0;
               const currentTotalSteps = parseInt(userProfile.totalSteps) || 0;
               const earnedPoints = parseInt(points) || 0;
@@ -202,43 +341,56 @@ const ActiveEvent = ({ route, navigation }) => {
               const updatedPoints = currentPoints + earnedPoints;
               const updatedTotalSteps = currentTotalSteps + earnedSteps;
 
-              console.log("Final calculations:", {
-                currentPoints,
-                earnedPoints,
-                updatedPoints,
-                currentTotalSteps,
-                earnedSteps,
-                updatedTotalSteps
-              });
+              if (
+                !isNaN(updatedPoints) &&
+                !isNaN(updatedTotalSteps) &&
+                updatedPoints >= 0 &&
+                updatedTotalSteps >= 0
+              ) {
+                try {
+                  // First update the event steps and mark as completed
+                  await updateStepsMutation.mutateAsync({
+                    eventId,
+                    steps: Math.round(eventSteps),
+                    completed: true, // Set completed flag to true
+                  });
 
-              if (!isNaN(updatedPoints) && !isNaN(updatedTotalSteps) && 
-                  updatedPoints >= 0 && updatedTotalSteps >= 0) {
-                await updateUser({
-                  points: updatedPoints,
-                  totalSteps: updatedTotalSteps
-                });
-                console.log("Successfully updated profile:", {
-                  points: updatedPoints,
-                  totalSteps: updatedTotalSteps
-                });
+                  // Then update the profile
+                  await updateProfileMutation.mutateAsync({
+                    points: updatedPoints,
+                    totalSteps: updatedTotalSteps,
+                  });
+
+                  // Only after successful updates, end event and navigate
+                  await endEvent();
+                  navigation.getParent().navigate("Home", {
+                    screen: "HomeScreen",
+                  });
+                } catch (updateError) {
+                  console.error("Error updating data:", updateError);
+                  throw new Error("Failed to update event data");
+                }
+              } else {
+                throw new Error("Invalid points or steps calculation");
               }
+            } else {
+              // If no eventId, just end and navigate
+              await endEvent();
+              navigation.getParent().navigate("Home", {
+                screen: "HomeScreen",
+              });
             }
           } catch (err) {
             console.error("Error ending event:", err);
+            Alert.alert(
+              "Error",
+              "Failed to end event. Your progress has been saved, please try again.",
+              [{ text: "OK" }]
+            );
+            // Restore active state if error
+            setIsActive(true);
+            startPedometer();
           }
-
-          // End event in context and navigate away
-          endEvent();
-          navigation.navigate("Events", {
-            screen: "EventDetail",
-            params: {
-              location,
-              isActive: false,
-              currentTime: 0,
-              currentPoints: 0,
-              currentSteps: 0,
-            },
-          });
         },
         style: "destructive",
       },
@@ -296,102 +448,6 @@ const ActiveEvent = ({ route, navigation }) => {
     }
   };
 
-  // create/participate in event if needed
-  useEffect(() => {
-    const initiateEvent = async () => {
-      if (!activeEvent) {
-        try {
-          // First check if event already exists for this location
-          const existingEvents = await getAllEventChallenges();
-          const existingEvent = existingEvents?.find(event => event.name === location.name);
-          
-          let newEventId;
-          if (existingEvent) {
-            // If event exists, just participate
-            newEventId = existingEvent.id;
-            await participateInEvent(newEventId);
-            console.log('Participating in existing event:', newEventId);
-          } else {
-            // Calculate total fixed points from all checkpoints
-            const totalFixedPoints = location.checkpoints.reduce((sum, checkpoint) => sum + checkpoint.points, 0);
-
-            // Create new event if none exists
-        const eventData = {
-          name: location.name,
-          checkpoints: location.checkpoints,
-              basePoints: 100,
-              fixedPoints: totalFixedPoints
-            };
-            
-            const response = await createEventChallenge(eventData);
-            if (response?.id) {
-              newEventId = response.id;
-              await participateInEvent(newEventId);
-              console.log('Created and participating in new event:', newEventId);
-            } else {
-              throw new Error('Failed to get event ID from creation');
-            }
-          }
-
-          // Start event in context
-          startEvent({
-            id: newEventId,
-            location: location,
-            currentTime: currentTime || 0,
-            currentPoints: currentPoints || 0,
-            currentSteps: currentSteps || 0
-          });
-          setEventId(newEventId);
-
-        } catch (error) {
-          console.error('Error initiating event:', error);
-          Alert.alert(
-            'Error',
-            'Failed to start event. Please try again.',
-            [{ text: 'OK', onPress: () => navigation.goBack() }]
-          );
-        }
-      }
-    };
-
-    if (isActive) {
-      initiateEvent();
-    }
-  }, [isActive, activeEvent, startEvent, location]);
-
-  useEffect(() => {
-    if (userLocation && !hasCreatedCheckpoints.current) {
-      const newCheckpoints = [
-        {
-          id: "fixed1",
-          name: "Checkpoint Alpha",
-          latitude: userLocation.latitude + 0.0002,
-          longitude: userLocation.longitude + 0.0002,
-          points: 100,
-          steps: 500,
-        },
-        {
-          id: "fixed2",
-          name: "Checkpoint Beta",
-          latitude: userLocation.latitude - 0.0002,
-          longitude: userLocation.longitude + 0.0002,
-          points: 200,
-          steps: 1000,
-        },
-        {
-          id: "fixed3",
-          name: "Checkpoint Gamma",
-          latitude: userLocation.latitude,
-          longitude: userLocation.longitude + 0.0003,
-          points: 300,
-          steps: 1500,
-        },
-      ];
-      setFixedCheckpoints(newCheckpoints);
-      hasCreatedCheckpoints.current = true;
-    }
-  }, [userLocation]);
-
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371e3;
     const φ1 = (lat1 * Math.PI) / 180;
@@ -401,24 +457,24 @@ const ActiveEvent = ({ route, navigation }) => {
 
     const a =
       Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) *
-        Math.cos(φ2) *
-        Math.sin(Δλ / 2) *
-        Math.sin(Δλ / 2);
+      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     return R * c;
   };
 
-  const generateIntermediatePoints = (start, end, numPoints = 3) => {
+  const generateInvisiblePoints = (start, end, numPoints = 3) => {
     const points = [];
+    // Create points that follow approximate road patterns
+    // Add slight offsets to create more natural paths
     for (let i = 1; i <= numPoints; i++) {
       const ratio = i / (numPoints + 1);
       const lat = start.latitude + (end.latitude - start.latitude) * ratio;
       const lng = start.longitude + (end.longitude - start.longitude) * ratio;
 
-      const latOffset = (Math.random() - 0.5) * 0.0002;
-      const lngOffset = (Math.random() - 0.5) * 0.0002;
+      // Add larger offsets to simulate road patterns
+      const latOffset = (Math.random() - 0.5) * 0.0005; // Increased offset
+      const lngOffset = (Math.random() - 0.5) * 0.0005;
 
       points.push({
         latitude: lat + latOffset,
@@ -428,33 +484,135 @@ const ActiveEvent = ({ route, navigation }) => {
     return points;
   };
 
-  const generateRouteToCheckpoint = (start, end) => {
-    const intermediatePoints = generateIntermediatePoints(start, end);
-    return [start, ...intermediatePoints, end];
-  };
+  const generateRoutes = useCallback((checkpoints) => {
+    if (!userLocation || !checkpoints?.length) return [];
 
-  const generateRouteSegments = (userLocation, checkpoints) => {
-    if (!userLocation || !checkpoints.length) return [];
-    const segments = [];
-    let currentPoint = {
-      latitude: userLocation.latitude,
-      longitude: userLocation.longitude,
+    // Direct Route - visits checkpoints in order of proximity
+    const directRoute = {
+      id: "direct",
+      name: "Quick Route",
+      color: theme.magenta7.val,
+      checkpoints: [...checkpoints].sort((a, b) => {
+        const distA = calculateDistance(
+          userLocation.latitude,
+          userLocation.longitude,
+          a.latitude,
+          a.longitude
+        );
+        const distB = calculateDistance(
+          userLocation.latitude,
+          userLocation.longitude,
+          b.latitude,
+          b.longitude
+        );
+        return distA - distB;
+      }),
     };
 
-    checkpoints.forEach((checkpoint) => {
-      const routePoints = generateRouteToCheckpoint(currentPoint, {
-        latitude: checkpoint.latitude,
-        longitude: checkpoint.longitude,
-      });
-      segments.push(routePoints);
-      currentPoint = {
-        latitude: checkpoint.latitude,
-        longitude: checkpoint.longitude,
-      };
+    // Scenic Route - takes a longer path with more curves
+    const scenicRoute = {
+      id: "scenic",
+      name: "Scenic Route",
+      color: theme.cyan8.val,
+      checkpoints: checkpoints.reduce((acc, cp) => {
+        // Add invisible points between checkpoints
+        const lastPoint = acc[acc.length - 1] || userLocation;
+        const invisiblePoints = generateInvisiblePoints(
+          lastPoint,
+          cp,
+          Math.floor(Math.random() * 3) + 2 // 2-4 invisible points
+        );
+        return [...acc, ...invisiblePoints, cp];
+      }, []),
+    };
+
+    // Challenge Route - zigzag pattern with more distance
+    const challengeRoute = {
+      id: "challenge",
+      name: "Challenge Route",
+      color: theme.lime7.val,
+      checkpoints: checkpoints.reduce((acc, cp, i) => {
+        if (i === 0) return [cp];
+        // Add more invisible points with larger offsets
+        const lastPoint = acc[acc.length - 1];
+        const invisiblePoints = generateInvisiblePoints(
+          lastPoint,
+          cp,
+          Math.floor(Math.random() * 4) + 3 // 3-6 invisible points
+        ).map(point => ({
+          ...point,
+          // Add larger random offsets for more zigzag
+          latitude: point.latitude + (Math.random() - 0.5) * 0.001,
+          longitude: point.longitude + (Math.random() - 0.5) * 0.001
+        }));
+        return [...acc, ...invisiblePoints, cp];
+      }, []),
+    };
+
+    // Calculate total distances for each route
+    [directRoute, scenicRoute, challengeRoute].forEach(route => {
+      let totalDist = 0;
+      for (let i = 0; i < route.checkpoints.length - 1; i++) {
+        totalDist += calculateDistance(
+          route.checkpoints[i].latitude,
+          route.checkpoints[i].longitude,
+          route.checkpoints[i + 1].latitude,
+          route.checkpoints[i + 1].longitude
+        );
+      }
+      route.totalDistance = totalDist / 1000; // Convert to km
     });
 
-    return segments;
-  };
+    return [directRoute, scenicRoute, challengeRoute];
+  }, [userLocation, theme, calculateDistance]);
+
+  useEffect(() => {
+    if (userLocation && !selectedRoute) {
+      const allCheckpoints = [
+        ...(location?.checkpoints || []),
+        ...testCheckpoints,
+      ];
+      const newRoutes = generateRoutes(allCheckpoints);
+      setAvailableRoutes(newRoutes);
+      if (newRoutes.length > 0) {
+        setSelectedRoute(newRoutes[0]);
+      }
+    }
+  }, [userLocation, location?.checkpoints, testCheckpoints, generateRoutes]);
+
+  const RouteSelector = () => (
+    <Card
+      elevation={4}
+      backgroundColor="$background"
+      padding="$4"
+      borderRadius={10}
+      borderColor="$borderColor"
+      position="absolute"
+      top={100}
+      right={20}
+      zIndex={1005}
+      width="90%"
+    >
+      <YStack space="$2">
+        {availableRoutes.map((route) => (
+          <Button
+            key={route.id}
+            size="$3"
+            backgroundColor={
+              selectedRoute?.id === route.id ? route.color : "$background"
+            }
+            color={selectedRoute?.id === route.id ? "white" : "$color"}
+            borderColor={route.color}
+            borderWidth={1}
+            onPress={() => setSelectedRoute(route)}
+            icon={Route}
+          >
+            {route.name}
+          </Button>
+        ))}
+      </YStack>
+    </Card>
+  );
 
   const handleOpenCamera = useCallback(
     async (checkpoint) => {
@@ -478,7 +636,6 @@ const ActiveEvent = ({ route, navigation }) => {
       const allCheckpoints = [
         ...(location?.checkpoints || []),
         ...testCheckpoints,
-        ...fixedCheckpoints,
       ];
       const checkpointInRange = allCheckpoints.find((checkpoint) => {
         const distance = calculateDistance(
@@ -490,20 +647,23 @@ const ActiveEvent = ({ route, navigation }) => {
         return distance <= CHECKPOINT_RADIUS;
       });
 
-      if (checkpointInRange && (!nearbyCheckpoint || nearbyCheckpoint.id !== checkpointInRange.id)) {
+      if (
+        checkpointInRange &&
+        (!nearbyCheckpoint || nearbyCheckpoint.id !== checkpointInRange.id)
+      ) {
         setNearbyCheckpoint(checkpointInRange);
       } else if (!checkpointInRange) {
         setNearbyCheckpoint(null);
       }
     },
-    [location?.checkpoints, testCheckpoints, fixedCheckpoints, nearbyCheckpoint]
+    [location?.checkpoints, testCheckpoints, nearbyCheckpoint]
   );
 
   useEffect(() => {
-    if (userLocation && testCheckpoints.length && fixedCheckpoints.length) {
+    if (userLocation && testCheckpoints.length) {
       checkNearbyCheckpoints(userLocation);
     }
-  }, [userLocation, testCheckpoints, fixedCheckpoints, checkNearbyCheckpoints]);
+  }, [userLocation, testCheckpoints, checkNearbyCheckpoints]);
 
   const handleCheckpointPress = (checkpoint) => {
     if (!userLocation) {
@@ -531,7 +691,6 @@ const ActiveEvent = ({ route, navigation }) => {
   const markers = useMemo(() => {
     const allCheckpoints = [
       ...(location.checkpoints || []),
-      ...fixedCheckpoints,
     ];
     return allCheckpoints.map((checkpoint) => (
       <Marker
@@ -547,7 +706,7 @@ const ActiveEvent = ({ route, navigation }) => {
         </Callout>
       </Marker>
     ));
-  }, [location.checkpoints, fixedCheckpoints, theme]);
+  }, [location.checkpoints, theme]);
 
   const handleCenterOnUser = () => {
     if (userLocation && mapRef.current) {
@@ -577,138 +736,30 @@ const ActiveEvent = ({ route, navigation }) => {
     });
   };
 
-  const generateRoutes = useCallback(
-    (checkpoints) => {
-      if (!userLocation || !checkpoints?.length) return [];
-      const routes = [
-        {
-          id: "direct",
-          name: "Direct Route",
-          checkpoints: [...checkpoints].sort((a, b) => {
-            const distA = calculateDistance(
-              userLocation.latitude,
-              userLocation.longitude,
-              a.latitude,
-              a.longitude
-            );
-            const distB = calculateDistance(
-              userLocation.latitude,
-              userLocation.longitude,
-              b.latitude,
-              b.longitude
-            );
-            return distA - distB;
-          }),
-          color: theme.magenta7.val,
-          totalDistance: 0,
-        },
-        {
-          id: "circular",
-          name: "Circular Route",
-          checkpoints: [...checkpoints].sort((a, b) => {
-            const angleA = Math.atan2(
-              a.latitude - userLocation.latitude,
-              a.longitude - userLocation.longitude
-            );
-            const angleB = Math.atan2(
-              b.latitude - userLocation.latitude,
-              b.longitude - userLocation.longitude
-            );
-            return angleA - angleB;
-          }),
-          color: theme.cyan8.val,
-          totalDistance: 0,
-        },
-        {
-          id: "zigzag",
-          name: "Challenge Route",
-          checkpoints: checkpoints.reduce((acc, checkpoint, i) => {
-            const position = i % 2 === 0 ? "push" : "unshift";
-            acc[position](checkpoint);
-            return acc;
-          }, []),
-          color: theme.lime7.val,
-          totalDistance: 0,
-        },
-      ];
+  const handleCapturePhoto = async () => {
+    try {
+      const checkpointPoints = selectedCheckpoint?.points || 0;
 
-      routes.forEach((route) => {
-        let totalDist = 0;
-        for (let i = 0; i < route.checkpoints.length - 1; i++) {
-          totalDist += calculateDistance(
-            route.checkpoints[i].latitude,
-            route.checkpoints[i].longitude,
-            route.checkpoints[i + 1].latitude,
-            route.checkpoints[i + 1].longitude
-          );
-        }
-        route.totalDistance = totalDist / 1000;
+      // Immediately dismiss camera
+      setShowCamera(false);
+      setSelectedCheckpoint(null);
+
+      // Get current user profile
+      const userProfile = await getUserProfile();
+      const currentPoints = parseInt(userProfile.points) || 0;
+      const newTotalPoints = currentPoints + checkpointPoints;
+
+      // First update local points
+      await updatePoints(points + checkpointPoints);
+
+      // Then update user profile
+      await updateProfileMutation.mutateAsync({
+        points: newTotalPoints,
       });
-
-      return routes;
-    },
-    [userLocation, theme]
-  );
-
-  useEffect(() => {
-    if (userLocation) {
-      const allCheckpoints = [
-        ...(location?.checkpoints || []),
-        ...testCheckpoints,
-      ];
-      const newRoutes = generateRoutes(allCheckpoints);
-      setAvailableRoutes(newRoutes);
-      if (!selectedRoute && newRoutes.length > 0) {
-        setSelectedRoute(newRoutes[0]);
-      }
+    } catch (error) {
+      console.error("Error updating points:", error);
+      Alert.alert("Error", "Failed to update points. Please try again.");
     }
-  }, [
-    userLocation,
-    location?.checkpoints,
-    testCheckpoints,
-    generateRoutes,
-    selectedRoute,
-  ]);
-
-  const RouteSelector = () => (
-    <Card
-      elevation={4}
-      backgroundColor="$background"
-      padding="$4"
-      borderRadius={15}
-      borderColor="$borderColor"
-      position="absolute"
-      top={100}
-      right={20}
-      zIndex={1005}
-      width="90%"
-    >
-      <YStack space="$2">
-        {availableRoutes.map((route) => (
-          <Button
-            key={route.id}
-            size="$3"
-            backgroundColor={
-              selectedRoute?.id === route.id ? route.color : "$background"
-            }
-            color={selectedRoute?.id === route.id ? "white" : "$color"}
-            borderColor={route.color}
-            borderWidth={1}
-            onPress={() => setSelectedRoute(route)}
-            icon={Route}
-          >
-            {route.name} ({route.totalDistance.toFixed(2)}km)
-          </Button>
-        ))}
-      </YStack>
-    </Card>
-  );
-
-  const handleCapturePhoto = () => {
-    const checkpointPoints = selectedCheckpoint?.points || 0;
-    updatePoints(points + checkpointPoints);
-    setShowCamera(false);
-    setSelectedCheckpoint(null);
   };
 
   return (
@@ -782,25 +833,19 @@ const ActiveEvent = ({ route, navigation }) => {
           <MapView
             ref={mapRef}
             style={styles.map}
-            initialRegion={{
-              latitude: location.latitude,
-              longitude: location.longitude,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01,
-            }}
+            mapType="mutedStandard"
+            userInterfaceStyle="light"
             showsUserLocation
             followsUserLocation={isFollowingUser}
             onPanDrag={() => setIsFollowingUser(false)}
-            userInterfaceStyle={theme.name === "dark" ? "dark" : "light"}
           >
             <UrlTile
-              urlTemplate={
-                "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-              }
+              urlTemplate="https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
               shouldReplaceMapContent={true}
               maximumZ={19}
               flipY={false}
             />
+
             {userLocation && (
               <>
                 <Circle
@@ -815,25 +860,20 @@ const ActiveEvent = ({ route, navigation }) => {
                   zIndex={1}
                 />
 
-                {generateRouteSegments(userLocation, [
-                  ...(location.checkpoints || []),
-                  ...fixedCheckpoints,
-                ]).map((segment, index) => (
+                {selectedRoute && (
                   <Polyline
-                    key={`route-${index}`}
-                    coordinates={segment}
-                    strokeColor={
-                      index < points ? theme.lime7.val : theme.magenta7.val
-                    }
+                    coordinates={selectedRoute.checkpoints}
+                    strokeColor={selectedRoute.color}
                     strokeWidth={3}
                     lineDashPattern={[1]}
-                    zIndex={2}
+                    lineCap="round"
+                    lineJoin="round"
                   />
-                ))}
+                )}
               </>
             )}
 
-            {[...(location.checkpoints || []), ...fixedCheckpoints].map(
+            {[...(location.checkpoints || [])].map(
               (checkpoint) => (
                 <Circle
                   key={`circle-${checkpoint.id}`}
@@ -851,18 +891,6 @@ const ActiveEvent = ({ route, navigation }) => {
             )}
 
             {markers}
-
-            {selectedRoute && (
-              <Polyline
-                coordinates={selectedRoute.checkpoints.map((cp) => ({
-                  latitude: cp.latitude,
-                  longitude: cp.longitude,
-                }))}
-                strokeColor={selectedRoute.color}
-                strokeWidth={3}
-                lineDashPattern={[1]}
-              />
-            )}
 
             {testCheckpoints.map((checkpoint) => (
               <React.Fragment key={checkpoint.id}>

@@ -16,18 +16,41 @@ import {
   Spinner,
   Alert,
 } from "tamagui";
-import { ChevronDown, ChevronUp, Check, Play, Trophy } from "@tamagui/lucide-icons";
+import {
+  ChevronDown,
+  ChevronUp,
+  Check,
+  Play,
+  Trophy,
+} from "@tamagui/lucide-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useChallenge } from "../context/ChallengeContext";
-import { createFriendChallenge, participateInFriendChallenge } from "../api/Auth";
-import { useQuery } from "@tanstack/react-query";
+import {
+  createFriendChallenge,
+  participateInFriendChallenge,
+} from "../api/Auth";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { getAllFriends } from "../api/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// Import the avatar options
+const avatarOptions = [
+  { id: 1, url: require("../../assets/avatars/avatar1.png") },
+  { id: 2, url: require("../../assets/avatars/avatar2.png") },
+  { id: 3, url: require("../../assets/avatars/avatar3.png") },
+  { id: 4, url: require("../../assets/avatars/avatar4.png") },
+  { id: 5, url: require("../../assets/avatars/avatar5.png") },
+  { id: 6, url: require("../../assets/avatars/avatar6.png") },
+  { id: 7, url: require("../../assets/avatars/avatar7.png") },
+  { id: 9, url: require("../../assets/avatars/avatar9.png") },
+];
 
 const ChallengeButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [challengeSteps, setChallengeSteps] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [friendAvatars, setFriendAvatars] = useState({});
   const navigation = useNavigation();
   const theme = useTheme();
   const { activeChallenge, startChallenge } = useChallenge();
@@ -42,6 +65,42 @@ const ChallengeButton = () => {
     queryFn: getAllFriends,
   });
 
+  // Create challenge mutation
+  const createChallengeMutation = useMutation({
+    mutationFn: (challengeData) => createFriendChallenge(challengeData),
+  });
+
+  // Participate mutation
+  const participateMutation = useMutation({
+    mutationFn: ({ challengeId, friendIds }) =>
+      participateInFriendChallenge(challengeId, friendIds),
+  });
+
+  // Load friend avatars from AsyncStorage
+  React.useEffect(() => {
+    const loadFriendAvatars = async () => {
+      if (friends && friends.length > 0) {
+        const newAvatarMap = {};
+        for (const friend of friends) {
+          const savedAvatarId = await AsyncStorage.getItem(
+            `friendAvatar_${friend.id}`
+          );
+          if (savedAvatarId) {
+            const avatar = avatarOptions.find(
+              (a) => a.id === parseInt(savedAvatarId)
+            );
+            if (avatar) {
+              newAvatarMap[friend.id] = avatar;
+            }
+          }
+        }
+        setFriendAvatars(newAvatarMap);
+      }
+    };
+
+    loadFriendAvatars();
+  }, [friends]);
+
   const handleCreateChallenge = async () => {
     if (!challengeSteps || !selectedFriends.length) return;
 
@@ -49,37 +108,53 @@ const ChallengeButton = () => {
       setIsLoading(true);
 
       // Create the challenge with all selected friends
-      const challengeData = await createFriendChallenge({
-        targetSteps: Number(challengeSteps),
-        friendIds: selectedFriends
+      const challengeData = await createChallengeMutation.mutateAsync({
+        stepGoal: Number(challengeSteps),
+        friendIds: selectedFriends,
+        startTime: new Date().toISOString(), // Match ERD
+        endTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
+        date: new Date().toISOString().split("T")[0], // Current date
       });
 
-      // Get all selected friends' data
-      const selectedFriendsData = selectedFriends.map(friendId => 
-        friends.find(f => f.id === friendId)
-      ).filter(Boolean);
+      // Participate in the challenge
+      await participateMutation.mutateAsync({
+        challengeId: challengeData.id,
+        friendIds: selectedFriends,
+      });
+
+      // Get all selected friends' data and their avatars
+      const selectedFriendsData = selectedFriends
+        .map((friendId) => {
+          const friend = friends.find((f) => f.id === friendId);
+          const avatar = friendAvatars[friendId]?.url || avatarOptions[0].url;
+          return friend
+            ? {
+                id: friend.id,
+                username: friend.username,
+                avatar: avatar,
+                steps: 0,
+              }
+            : null;
+        })
+        .filter(Boolean);
 
       // Start the challenge locally with all participants
       await startChallenge({
         id: challengeData.id,
         targetSteps: Number(challengeSteps),
-        participants: selectedFriendsData.map(friend => ({
-          id: friend.id,
-          username: friend.username,
-          avatar: friend.avatar || "https://github.com/hello-world.png",
-          steps: 0
-        }))
+        participants: selectedFriendsData,
+        startTime: challengeData.startTime,
+        endTime: challengeData.endTime,
+        date: challengeData.date,
       });
 
       setIsOpen(false);
       navigation.navigate("Friend Challenge");
     } catch (error) {
       console.error("Error creating challenge:", error);
-      Alert.alert(
-        "Error",
-        "Failed to create challenge. Please try again.",
-        [{ text: "OK" }]
-      );
+      Alert.alert("Error", "Failed to create challenge. Please try again.", [
+        { text: "OK" },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -87,13 +162,13 @@ const ChallengeButton = () => {
 
   if (activeChallenge) {
     return (
-      <YStack ai="center" space="$2">
+      <YStack ai="center" jc="center">
         <Avatar
-          circular
-          size="$6"
+          size="$5"
           borderWidth={2}
           borderColor={theme.cyan8.val}
           onPress={() => navigation.navigate("Friend Challenge")}
+          circular
         >
           <Avatar.Fallback
             backgroundColor={theme.cyan10.val}
@@ -104,15 +179,19 @@ const ChallengeButton = () => {
               <Button
                 fontSize={8}
                 color={theme.color.val}
-                icon={Play}
+                icon={<Play color="$color" size={16} />}
                 backgroundColor={theme.cyan8.val}
                 circular
-                size="$6"
+                size="$5"
                 onPress={() => navigation.navigate("Friend Challenge")}
               ></Button>
             </YStack>
           </Avatar.Fallback>
         </Avatar>
+
+        <Button unstyled fontSize="$1" mt="$1" color="$color">
+          Continue
+        </Button>
       </YStack>
     );
   }
@@ -120,18 +199,17 @@ const ChallengeButton = () => {
   return (
     <YStack ai="center">
       <YStack ai="center" jc="center">
-      <Button
-        circular
-        size="$5"
-        icon={<Trophy color="$color" size={16} />}
-        borderWidth={1}
-        borderColor="$color"
-        onPress={() => !isLoading && setIsOpen(true)}
-      >
-      </Button>
+        <Button
+          circular
+          size="$5"
+          icon={<Trophy color="$color" size={16} />}
+          borderWidth={1}
+          borderColor="$color"
+          onPress={() => !isLoading && setIsOpen(true)}
+        ></Button>
 
-      <Button unstyled fontSize="$2" mt="$1" color="$color">
-            Challenge
+        <Button unstyled fontSize="$1" mt="$1" color="$color">
+          Challenge
         </Button>
       </YStack>
 
@@ -194,7 +272,7 @@ const ChallengeButton = () => {
 
                   <Select.Viewport>
                     <Select.Group>
-                      {[100, 1000, 5000, 10000, 15000, 20000, 25000].map(
+                      {[10, 100, 1000, 5000, 10000, 15000, 20000, 25000].map(
                         (steps, i) => (
                           <Select.Item
                             index={i}
@@ -270,11 +348,12 @@ const ChallengeButton = () => {
                         </Checkbox.Indicator>
                       </Checkbox>
 
-                      <Avatar circular size="$4">
+                      <Avatar size="$4" br={40}>
                         <Avatar.Image
-                          source={{
-                            uri: friend.avatar || "https://github.com/hello-world.png",
-                          }}
+                          source={
+                            friendAvatars[friend.id]?.url ||
+                            avatarOptions[0].url
+                          }
                         />
                         <Avatar.Fallback backgroundColor="$blue10" />
                       </Avatar>
@@ -308,9 +387,9 @@ const ChallengeButton = () => {
               borderColor={theme.color6.val}
               color={theme.color.val}
               icon={
-                isLoading ? () => (
-                  <Spinner size="small" color={theme.color.val} />
-                ) : undefined
+                isLoading
+                  ? () => <Spinner size="small" color={theme.color.val} />
+                  : undefined
               }
             >
               {isLoading ? "Creating..." : "Create Challenge"}
