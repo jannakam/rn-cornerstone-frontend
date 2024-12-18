@@ -8,7 +8,8 @@ import { Pedometer } from "expo-sensors";
 import { useNavigation } from "@react-navigation/native";
 import { useChallenge } from "../context/ChallengeContext";
 import ChallengeLeaderboard from "../components/ChallengeLeaderboard";
-import { updateStepsForFriendChallenge } from "../api/Auth";
+import { updateStepsForFriendChallenge, getUserProfile, updateUser } from "../api/Auth";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const BAR_WIDTH = SCREEN_WIDTH * 0.15; // Individual bar width
@@ -92,7 +93,7 @@ const FriendChallenge = ({ route, navigation }) => {
             activeChallenge.id,
             challengeSteps,
             false, // not completed
-            false  // not goal reached
+            false // not goal reached
           );
         } catch (error) {
           console.error("Error updating steps:", error);
@@ -164,10 +165,10 @@ const FriendChallenge = ({ route, navigation }) => {
 
   const handleChallengeComplete = async (goalReached = false) => {
     if (isCompleting) return; // Prevent multiple completions
-    
+
     try {
       setIsCompleting(true);
-      
+
       // Stop timer and pedometer first
       stopTimer();
       if (pedometerSubscription.current) {
@@ -185,10 +186,29 @@ const FriendChallenge = ({ route, navigation }) => {
             true, // completed
             goalReached
           );
+
+          // Get current user profile
+          const currentProfile = await getUserProfile();
+          
+          // Calculate new total steps
+          const currentTotalSteps = parseInt(currentProfile.totalSteps) || 0;
+          const newTotalSteps = currentTotalSteps + challengeSteps;
+
+          // Update user profile with new total steps
+          await updateUser({
+            totalSteps: newTotalSteps
+          });
+
+          console.log("Updated total steps:", {
+            previousTotal: currentTotalSteps,
+            challengeSteps: challengeSteps,
+            newTotal: newTotalSteps
+          });
+
           // Show leaderboard
           setShowLeaderboard(true);
         } catch (error) {
-          if (error.message?.includes('already completed')) {
+          if (error.message?.includes("already completed")) {
             // If challenge is already completed, just show leaderboard
             setShowLeaderboard(true);
           } else {
@@ -293,7 +313,7 @@ const FriendChallenge = ({ route, navigation }) => {
           onPress: async () => {
             try {
               setIsCompleting(true);
-              
+
               // Stop timer and pedometer first
               stopTimer();
               if (pedometerSubscription.current) {
@@ -310,10 +330,29 @@ const FriendChallenge = ({ route, navigation }) => {
                     true, // completed
                     false // not goal reached
                   );
+
+                  // Get current user profile
+                  const currentProfile = await getUserProfile();
+                  
+                  // Calculate new total steps
+                  const currentTotalSteps = parseInt(currentProfile.totalSteps) || 0;
+                  const newTotalSteps = currentTotalSteps + challengeSteps;
+
+                  // Update user profile with new total steps
+                  await updateUser({
+                    totalSteps: newTotalSteps
+                  });
+
+                  console.log("Updated total steps:", {
+                    previousTotal: currentTotalSteps,
+                    challengeSteps: challengeSteps,
+                    newTotal: newTotalSteps
+                  });
+
                   // Show leaderboard
                   setShowLeaderboard(true);
                 } catch (error) {
-                  if (error.message?.includes('already completed')) {
+                  if (error.message?.includes("already completed")) {
                     // If challenge is already completed, just show leaderboard
                     setShowLeaderboard(true);
                   } else {
@@ -323,9 +362,11 @@ const FriendChallenge = ({ route, navigation }) => {
               }
             } catch (error) {
               console.error("Error ending challenge:", error);
-              Alert.alert("Error", "Failed to end challenge. Please try again.", [
-                { text: "OK" },
-              ]);
+              Alert.alert(
+                "Error",
+                "Failed to end challenge. Please try again.",
+                [{ text: "OK" }]
+              );
               setIsCompleting(false); // Reset completion flag on error
             }
           },

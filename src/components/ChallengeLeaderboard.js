@@ -29,7 +29,7 @@ const ChallengeLeaderboard = ({ participants, targetSteps, onClose }) => {
     if (goalReached) {
       return theme.lime8.val;
     }
-    const colors = [theme.cyan8.val, theme.lime8.val, theme.purple8.val, theme.magenta8.val];
+    const colors = [theme.cyan8.val, theme.lime8.val, theme.magenta8.val];
     return colors[rank - 1] || colors[0];
   };
 
@@ -63,8 +63,7 @@ const ChallengeLeaderboard = ({ participants, targetSteps, onClose }) => {
       <YStack space="$8" width={BAR_WIDTH} alignSelf="center">
         {/* Winner Announcement */}
         <YStack ai="center" space="$2">
-          {anyGoalReached ? (
-            <>
+          
               <Crown size={40} color={theme.lime8.val} />
               <Text color="$color" fontSize="$4" textAlign="center">
                 CHALLENGE COMPLETE
@@ -73,20 +72,6 @@ const ChallengeLeaderboard = ({ participants, targetSteps, onClose }) => {
                 WINNER: {sortedParticipants[0].name.toUpperCase()}
               </Text>
               
-            </>
-          ) : (
-            <>
-              <Text color="$color" fontSize="$4" textAlign="center">
-                CHALLENGE ENDED
-              </Text>
-              <Text color={getBarColor(1)} fontSize="$7" fontWeight="bold">
-                {sortedParticipants[0].name.toUpperCase()}
-              </Text>
-              <Text color={theme.color11.val} fontSize="$4">
-                {getRankText(1)} Place
-              </Text>
-            </>
-          )}
         </YStack>
 
         {/* Leaderboard Bars */}

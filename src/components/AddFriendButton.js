@@ -10,7 +10,7 @@ import {
   Button,
 } from "tamagui";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAllUsers, addFriend, getAllFriends } from "../api/Auth";
+import { getAllUsers, addFriend, getAllFriends, getUserProfile } from "../api/Auth";
 import { Plus } from "@tamagui/lucide-icons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -31,6 +31,12 @@ const AddFriendButton = () => {
   const [error, setError] = useState(null);
   const queryClient = useQueryClient();
   const [userAvatars, setUserAvatars] = useState({});
+
+  // Fetch current user profile
+  const { data: currentUser } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: getUserProfile,
+  });
 
   // Fetch all users
   const { data: users, isLoading: isLoadingUsers } = useQuery({
@@ -70,16 +76,16 @@ const AddFriendButton = () => {
     queryFn: getAllFriends,
   });
 
-  // Filter out existing friends from users list
+  // Filter out existing friends and current user from users list
   const availableUsers = useMemo(() => {
-    if (!users || !friends) return [];
+    if (!users || !friends || !currentUser) return [];
 
     // Create a set of friend IDs for faster lookup
     const friendIds = new Set(friends.map((friend) => friend.id));
 
-    // Filter out users who are already friends
-    return users.filter((user) => !friendIds.has(user.id));
-  }, [users, friends]);
+    // Filter out users who are already friends and the current user
+    return users.filter((user) => !friendIds.has(user.id) && user.id !== currentUser.id);
+  }, [users, friends, currentUser]);
 
   const handleAddFriend = async (friendId) => {
     try {

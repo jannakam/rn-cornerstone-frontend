@@ -64,13 +64,12 @@ const register = async (userInfo) => {
 // update function
 const updateUser = async (userInfo) => {
   try {
-    console.log(5);
-    console.log("USER INFO: ", userInfo);
+    console.log("Updating user with:", userInfo);
     const { data } = await instance.put("/v1/user/update-profile", userInfo);
-    console.log(6);
+    console.log("Update response:", data);
     return data;
   } catch (error) {
-    console.log(error);
+    console.error("Error updating user:", error);
     throw error;
   }
 };
@@ -241,6 +240,16 @@ const updateStepsForEvent = async (eventId, steps) => {
   }
 };
 
+const getChallengeStatus = async (friendChallengeId) => {
+  try {
+    const { data } = await instance.get(`/challenges/friend/${friendChallengeId}/progress`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching challenge status:", error);
+    throw error;
+  }
+};
+
 export {
   login,
   register,
@@ -261,4 +270,5 @@ export {
   getAllDailyChallenges,
   getAllFriendChallenges,
   getAllEventChallenges,
+  getChallengeStatus,
 };
