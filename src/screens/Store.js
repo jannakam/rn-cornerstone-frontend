@@ -17,20 +17,19 @@ import DrawerSceneWrapper from "../components/DrawerSceneWrapper";
 import Header from "../components/Header";
 import { Store as StoreIcon, ChevronRight } from "@tamagui/lucide-icons";
 import { Pedometer } from "expo-sensors";
-import { useQuery } from "@tanstack/react-query";
-import { getUserProfile } from "../api/Auth";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUserProfile, updateUser } from "../api/Auth";
 
 const Store = ({ navigation }) => {
   const { openDrawer } = navigation;
   const theme = useTheme();
   const [openStoreId, setOpenStoreId] = useState(null);
+  const queryClient = useQueryClient();
 
   const { data: profile, isLoading: isProfileLoading } = useQuery({
     queryKey: ["userProfile"],
     queryFn: getUserProfile,
   });
-
-  const totalPoints = Math.floor((profile?.totalSteps || 0) / 1000);
 
   const eStores = [
     {
@@ -145,6 +144,52 @@ const Store = ({ navigation }) => {
     },
   ];
 
+  const handleRedemption = async (reward) => {
+    try {
+      // Get current profile data
+      const currentProfile = queryClient.getQueryData(["userProfile"]);
+
+      if (!currentProfile || currentProfile.points < reward.points) {
+        Alert.alert("Error", "Not enough points!");
+        return;
+      }
+
+      // Calculate new points balance
+      const newPoints = currentProfile.points - reward.points;
+
+      // Update the points in the backend
+      await updateUser({
+        points: newPoints,
+        // Include other required user fields that shouldn't change
+        username: currentProfile.username,
+        age: currentProfile.age,
+        city: currentProfile.city,
+        weight: currentProfile.weight,
+        height: currentProfile.height,
+      });
+
+      // Update local cache
+      queryClient.setQueryData(["userProfile"], (old) => ({
+        ...old,
+        points: newPoints,
+      }));
+
+      // Invalidate the query to ensure fresh data
+      queryClient.invalidateQueries(["userProfile"]);
+
+      Alert.alert(
+        "Success!",
+        `You have successfully redeemed ${reward.name}. Your new balance is ${newPoints} points.`,
+        [{ text: "OK" }]
+      );
+    } catch (error) {
+      console.error("Redemption error:", error);
+      Alert.alert("Error", "Failed to process redemption. Please try again.", [
+        { text: "OK" },
+      ]);
+    }
+  };
+
   return (
     <DrawerSceneWrapper>
       <YStack f={1} bg="$background">
@@ -181,7 +226,7 @@ const Store = ({ navigation }) => {
                   ) : (
                     <>
                       <Text color="$color" fontSize={40} fontWeight="bold">
-                        {totalPoints}
+                        {profile?.points || 0}
                       </Text>
                       <Text color="$color" opacity={0.6} fontSize={16}>
                         POINTS
@@ -216,9 +261,9 @@ const Store = ({ navigation }) => {
                       marginBottom="$4"
                       alignItems="center"
                     >
-                      <Popover 
-                        size="$5" 
-                        allowFlip 
+                      <Popover
+                        size="$5"
+                        allowFlip
                         placement="top"
                         open={openStoreId === store.id}
                         onOpenChange={(open) => {
@@ -271,7 +316,10 @@ const Store = ({ navigation }) => {
                                     {store.description}
                                   </Text>
                                 </YStack>
-                                <ChevronRight size={20} color={theme.color.val} />
+                                <ChevronRight
+                                  size={20}
+                                  color={theme.color.val}
+                                />
                               </XStack>
                               <Text
                                 color={store.color}
@@ -322,9 +370,9 @@ const Store = ({ navigation }) => {
                 >
                   {bills.map((bill) => (
                     <YStack key={bill.id} width="30%" alignItems="center">
-                      <Popover 
-                        size="$5" 
-                        allowFlip 
+                      <Popover
+                        size="$5"
+                        allowFlip
                         placement="top"
                         open={openStoreId === `bill-${bill.id}`}
                         onOpenChange={(open) => {
@@ -377,7 +425,10 @@ const Store = ({ navigation }) => {
                                     {bill.description}
                                   </Text>
                                 </YStack>
-                                <ChevronRight size={20} color={theme.color.val} />
+                                <ChevronRight
+                                  size={20}
+                                  color={theme.color.val}
+                                />
                               </XStack>
                               <Text
                                 color={bill.color}
@@ -465,8 +516,14 @@ const Store = ({ navigation }) => {
                           </Text>
                           <Button
                             size="$4"
-                            theme={totalPoints >= reward.points ? "active" : "gray"}
-                            disabled={totalPoints < reward.points}
+                            theme={
+                              profile?.points >= reward.points
+                                ? "active"
+                                : "gray"
+                            }
+                            disabled={
+                              !profile?.points || profile.points < reward.points
+                            }
                             onPress={() => {
                               Alert.alert(
                                 "Confirm Redemption",
@@ -474,25 +531,20 @@ const Store = ({ navigation }) => {
                                 [
                                   {
                                     text: "Cancel",
-                                    style: "cancel"
+                                    style: "cancel",
                                   },
                                   {
                                     text: "Redeem",
-                                    onPress: () => {
-                                      // TODO: Handle redemption logic here
-                                      Alert.alert(
-                                        "Success!",
-                                        `You have successfully redeemed ${reward.name}`,
-                                        [{ text: "OK" }]
-                                      );
-                                    }
-                                  }
+                                    onPress: () => handleRedemption(reward),
+                                  },
                                 ]
                               );
                             }}
                             borderRadius="$8"
                           >
-                            {totalPoints >= reward.points ? "Redeem" : "Not enough points"}
+                            {profile?.points >= reward.points
+                              ? "Redeem"
+                              : "Not enough points"}
                           </Button>
                         </XStack>
                       </Card.Footer>
