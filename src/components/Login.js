@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+
 import { Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { XStack, YStack, Text, Input, Button, useTheme } from "tamagui";
+
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import { useUser } from "../context/UserContext";
@@ -36,6 +38,7 @@ const Login = () => {
   };
 
   return (
+
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <YStack
         f={1}
@@ -119,6 +122,7 @@ const Login = () => {
         </XStack>
       </YStack>
     </TouchableWithoutFeedback>
+
   );
 };
 

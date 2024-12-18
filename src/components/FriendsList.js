@@ -182,7 +182,7 @@ const FriendsList = () => {
           
           </XStack>
         </ScrollView>
-        {/* {renderContent()} */}
+
       </Card.Footer>
     </Card>
   );

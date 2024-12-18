@@ -11,15 +11,26 @@ import {
   H5,
   H6,
   useTheme,
+  Spinner,
 } from "tamagui";
 import DrawerSceneWrapper from "../components/DrawerSceneWrapper";
 import Header from "../components/Header";
 import { Store as StoreIcon, ChevronRight } from "@tamagui/lucide-icons";
+import { Pedometer } from "expo-sensors";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from "../api/Auth";
 
 const Store = ({ navigation }) => {
   const { openDrawer } = navigation;
   const theme = useTheme();
   const [openStoreId, setOpenStoreId] = useState(null);
+
+  const { data: profile, isLoading: isProfileLoading } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: getUserProfile,
+  });
+
+  const totalPoints = Math.floor((profile?.totalSteps || 0) / 1000);
 
   const eStores = [
     {
@@ -165,12 +176,18 @@ const Store = ({ navigation }) => {
                   justifyContent="center"
                   alignSelf="center"
                 >
-                  <Text color="$color" fontSize={40} fontWeight="bold">
-                    4567
-                  </Text>
-                  <Text color="$color" opacity={0.6} fontSize={16}>
-                    POINTS
-                  </Text>
+                  {isProfileLoading ? (
+                    <Spinner size="large" color="$color" />
+                  ) : (
+                    <>
+                      <Text color="$color" fontSize={40} fontWeight="bold">
+                        {totalPoints}
+                      </Text>
+                      <Text color="$color" opacity={0.6} fontSize={16}>
+                        POINTS
+                      </Text>
+                    </>
+                  )}
                 </YStack>
               </Card.Footer>
             </Card>
@@ -448,8 +465,8 @@ const Store = ({ navigation }) => {
                           </Text>
                           <Button
                             size="$4"
-                            theme={4567 >= reward.points ? "active" : "gray"}
-                            disabled={4567 < reward.points}
+                            theme={totalPoints >= reward.points ? "active" : "gray"}
+                            disabled={totalPoints < reward.points}
                             onPress={() => {
                               Alert.alert(
                                 "Confirm Redemption",
@@ -475,7 +492,7 @@ const Store = ({ navigation }) => {
                             }}
                             borderRadius="$8"
                           >
-                            {4567 >= reward.points ? "Redeem" : "Not enough points"}
+                            {totalPoints >= reward.points ? "Redeem" : "Not enough points"}
                           </Button>
                         </XStack>
                       </Card.Footer>

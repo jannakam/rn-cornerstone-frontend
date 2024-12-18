@@ -27,6 +27,7 @@ const Signup = () => {
   };
 
   return (
+
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <YStack
         f={1}
@@ -44,6 +45,7 @@ const Signup = () => {
             Start stepping. Start earning.
           </Text>
         </YStack>
+
 
         <YStack space="$4" width="85%" maxWidth={400}>
           <Input
@@ -113,6 +115,7 @@ const Signup = () => {
             value={userInfo.city}
             onChangeText={(text) => setUserInfo({ ...userInfo, city: text })}
           />
+
 
           <Button
             size="$4"

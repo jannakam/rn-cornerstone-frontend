@@ -132,7 +132,15 @@ const GetStarted = () => {
     }
   }, [isMetric]);
 
+  const SelectTriggerStyles = {
+    width: "100%",
+    backgroundColor: "#2A2A2A",
+    borderColor: "#333",
+    padding: "$3",
+  };
+
   return (
+
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <YStack
         f={1}
@@ -151,6 +159,7 @@ const GetStarted = () => {
             Help us customize your experience {'\n'} We just need a few details.
           </Text>
         </YStack>
+
 
         <YStack space="$4" width="85%" maxWidth={400}>
           <YStack gap="$4" width="100%">
@@ -245,6 +254,7 @@ const GetStarted = () => {
               onCheckedChange={setIsMetric}
               backgroundColor="$color4"
             >
+
               <Switch.Thumb animation="quick" />
             </Switch>
           </XStack>
@@ -262,6 +272,7 @@ const GetStarted = () => {
           >
             Start Earning!
           </Button>
+
 
           <Text
             color="$color"

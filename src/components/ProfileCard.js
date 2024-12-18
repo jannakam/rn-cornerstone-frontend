@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserProfile } from "../api/Auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 // Predefined list of avatars
 const avatarOptions = [
   { id: 1, url: require("../../assets/avatars/avatar1.png") },
