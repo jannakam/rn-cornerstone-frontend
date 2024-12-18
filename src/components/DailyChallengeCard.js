@@ -11,6 +11,7 @@ import {
   Button,
   Label,
   useTheme,
+  Spinner,
 } from "tamagui";
 import {
   Footprints,
@@ -21,32 +22,57 @@ import {
   Award,
 } from "@tamagui/lucide-icons";
 import ActivityRings from "react-native-activity-rings";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from "../api/Auth";
 
 const DailyChallengeCard = () => {
   const theme = useTheme();
   const [activityData, setActivityData] = useState([]);
 
+  const {
+    data: profile,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: getUserProfile,
+  });
+
   useEffect(() => {
-    if (theme) {
+    if (theme && profile) {
+      // Find the active daily challenge
+      const dailyChallenge = profile.challenges?.find(
+        (c) => c.dailyChallengeId !== null
+      );
+
+      const stepsProgress = dailyChallenge ? dailyChallenge.steps / 10000 : 0; // 10000 steps goal
+      const caloriesProgress = dailyChallenge
+        ? (dailyChallenge.steps * 0.04) / 800
+        : 0; // 400 calories goal
+      const distanceProgress = dailyChallenge
+        ? (dailyChallenge.steps * 0.0008) / 8
+        : 0; // 8 km goal
+
       setActivityData([
         {
-          label: "ACTIVITY",
-          value: 0.6,
+          label: "STEPS",
+          value: stepsProgress,
           color: theme.lime7.val,
           backgroundColor: theme.lime10.val,
           valueFormatter: (value) => `${Math.round(value * 100)}%`,
           labelFontSize: 24,
         },
         {
-          value: 0.6,
+          label: "KCAL",
+          value: caloriesProgress,
           color: theme.magenta7.val,
           backgroundColor: theme.magenta10.val,
           valueFormatter: (value) => `${Math.round(value * 100)}%`,
           labelFontSize: 24,
         },
         {
-          label: "RINGS",
-          value: 0.5,
+          label: "KM",
+          value: distanceProgress,
           color: theme.cyan7.val,
           backgroundColor: theme.cyan10.val,
           valueFormatter: (value) => `${Math.round(value * 100)}%`,
@@ -54,7 +80,7 @@ const DailyChallengeCard = () => {
         },
       ]);
     }
-  }, [theme]);
+  }, [theme, profile]);
 
   const activityRingConfig = {
     width: 150,
@@ -103,6 +129,49 @@ const DailyChallengeCard = () => {
       color: "$magenta",
     },
   ];
+
+  if (isLoading) {
+    return (
+      <Card
+        elevate
+        size="$4"
+        bordered
+        animation="bouncy"
+        scale={0.9}
+        color="$background"
+        borderColor="$color4"
+        bw={1}
+      >
+        <YStack padding="$4" alignItems="center" justifyContent="center">
+          <Spinner size="large" color="$color" />
+          <Text>Loading daily challenge...</Text>
+        </YStack>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card
+        elevate
+        size="$4"
+        bordered
+        animation="bouncy"
+        scale={0.9}
+        color="$background"
+        borderColor="$color4"
+        bw={1}
+      >
+        <YStack padding="$4" alignItems="center">
+          <Text color="$red10">Error loading daily challenge</Text>
+        </YStack>
+      </Card>
+    );
+  }
+
+  const dailyChallenge = profile?.challenges?.find(
+    (c) => c.dailyChallengeId !== null
+  );
 
   return (
     <Card
@@ -161,17 +230,19 @@ const DailyChallengeCard = () => {
             <XStack ai="center" jc="space-between" space="$2">
               <Footprints size={18} color={theme.lime7.val} />
               <Label color="$lime7" theme="alt2">
-                5647
+                {dailyChallenge?.steps || 0}
               </Label>
             </XStack>
             <XStack ai="center" jc="space-between" space="$2">
               <Flame size={18} color={theme.magenta7.val} />
-              <Label color="$magenta7">1245</Label>
+              <Label color="$magenta7">
+                {((dailyChallenge?.steps || 0) * 0.04).toFixed(0)}
+              </Label>
             </XStack>
             <XStack ai="center" jc="space-between" space="$2">
               <MapPin size={18} color={theme.cyan7.val} />
               <Label color="$cyan7" theme="alt2">
-                3.45km
+                {((dailyChallenge?.steps || 0) * 0.0008).toFixed(2)}km
               </Label>
             </XStack>
           </XStack>
