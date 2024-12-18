@@ -231,9 +231,12 @@ const updateStepsForFriendChallenge = async (friendChallengeId, steps, completed
     throw error;
   }
 };
-const updateStepsForEvent = async (eventId, steps) => {
+const updateStepsForEvent = async (eventId, steps, completed = false) => {
   try {
-    await instance.post(`/v1/user/steps/event/${eventId}`, { steps });
+    await instance.post(`/v1/user/steps/event/${eventId}`, { 
+      steps,
+      completed 
+    });
   } catch (error) {
     console.error("Error updating steps for event:", error);
     throw error;
@@ -242,7 +245,7 @@ const updateStepsForEvent = async (eventId, steps) => {
 
 const getChallengeStatus = async (friendChallengeId) => {
   try {
-    const { data } = await instance.get(`/challenges/friend/${friendChallengeId}/progress`);
+    const { data } = await instance.get(`/v1/user/challenges/friend/${friendChallengeId}/progress`);
     return data;
   } catch (error) {
     console.error("Error fetching challenge status:", error);

@@ -26,6 +26,7 @@ import {
 import * as Location from "expo-location";
 import { useCameraPermissions, CameraView } from "expo-camera";
 import { Pedometer } from "expo-sensors";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createEventChallenge,
   participateInEvent,
@@ -33,8 +34,8 @@ import {
   getUserProfile,
   updateUser,
   getAllEventChallenges,
-} from "../api/Auth"; // Ensure correct path
-import { useActiveEvent } from "../context/ActiveEventContext"; 
+} from "../api/Auth";
+import { useActiveEvent } from "../context/ActiveEventContext";
 const CHECKPOINT_RADIUS = 150;
 const INTERACTION_RADIUS = 1000;
 
@@ -95,9 +96,15 @@ const generateTestCheckpoints = (userLocation) => {
 };
 
 const ActiveEvent = ({ route, navigation }) => {
-  const { location, isActive: wasActive, currentTime, currentPoints, currentSteps } = route.params;
+  const {
+    location,
+    isActive: wasActive,
+    currentTime,
+    currentPoints,
+    currentSteps,
+  } = route.params;
   const theme = useTheme();
-  
+
   // Use context for persistent event data
   const {
     activeEvent,
@@ -129,14 +136,112 @@ const ActiveEvent = ({ route, navigation }) => {
   const [testCheckpoints, setTestCheckpoints] = useState([]);
   const stepSubscription = useRef(null);
 
+  const queryClient = useQueryClient();
+
+  // Add mutations
+  const updateStepsMutation = useMutation({
+    mutationFn: async ({ eventId, steps }) => {
+      return updateStepsForEvent(eventId, steps);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userProfile"]);
+    },
+  });
+
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data) => {
+      return updateUser(data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["userProfile"]);
+    },
+  });
+
+  const createEventMutation = useMutation({
+    mutationFn: async (eventData) => {
+      // First check if event already exists
+      const existingEvents = await getAllEventChallenges();
+      const existingEvent = existingEvents?.find(
+        (event) => event.name === location.name
+      );
+
+      let newEventId;
+      if (existingEvent) {
+        // If event exists, just participate
+        newEventId = existingEvent.id;
+        await participateInEvent(newEventId);
+        console.log("Participating in existing event:", newEventId);
+      } else {
+        // Create new event if none exists
+        const response = await createEventChallenge(eventData);
+        if (response?.id) {
+          newEventId = response.id;
+          await participateInEvent(newEventId);
+          console.log("Created and participating in new event:", newEventId);
+        } else {
+          throw new Error("Failed to get event ID from creation");
+        }
+      }
+      return newEventId;
+    },
+  });
+
+  // Initialize event once when component mounts
+  useEffect(() => {
+    const initializeEvent = async () => {
+      if (!activeEvent) {
+        try {
+          // Calculate total fixed points from all checkpoints
+          const totalFixedPoints = location.checkpoints.reduce(
+            (sum, checkpoint) => sum + checkpoint.points,
+            0
+          );
+
+          const eventData = {
+            name: location.name,
+            checkpoints: location.checkpoints,
+            basePoints: 100,
+            fixedPoints: totalFixedPoints,
+          };
+
+          const newEventId = await createEventMutation.mutateAsync(eventData);
+
+          // Start event in context
+          startEvent({
+            id: newEventId,
+            location: location,
+            currentTime: currentTime || 0,
+            currentPoints: currentPoints || 0,
+            currentSteps: currentSteps || 0,
+          });
+          setEventId(newEventId);
+        } catch (error) {
+          console.error("Error initiating event:", error);
+          Alert.alert("Error", "Failed to start event. Please try again.", [
+            { text: "OK", onPress: () => navigation.goBack() },
+          ]);
+        }
+      }
+    };
+
+    initializeEvent();
+  }, []); // Empty dependency array since this should only run once
+
   // Timer effect using context's elapsedTime
   useEffect(() => {
     if (isActive) {
       timerRef.current = setInterval(() => {
-        updateTime((prev) => prev + 1);
+        updateTime((prev) => {
+          const newTime = (prev || 0) + 1;
+          return newTime;
+        });
       }, 1000);
     }
-    return () => clearInterval(timerRef.current);
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
   }, [isActive, updateTime]);
 
   // Pedometer setup
@@ -157,7 +262,8 @@ const ActiveEvent = ({ route, navigation }) => {
     }
 
     stepSubscription.current = Pedometer.watchStepCount((result) => {
-      updateEventSteps(eventSteps + result.steps);
+      const newSteps = eventSteps + result.steps;
+      updateEventSteps(newSteps); // Only update steps locally
     });
   };
 
@@ -176,24 +282,19 @@ const ActiveEvent = ({ route, navigation }) => {
       {
         text: "End",
         onPress: async () => {
-          setIsActive(false);
-          clearInterval(timerRef.current);
           try {
+            // Stop all active tracking first
+            setIsActive(false);
+            if (timerRef.current) {
+              clearInterval(timerRef.current);
+            }
+            if (stepSubscription.current) {
+              stepSubscription.current.remove();
+            }
+
             if (eventId) {
-              // Update steps for this event
-              await updateStepsForEvent(eventId, Math.round(eventSteps));
-
-              // Get and update user profile with accumulated points and steps
+              // Get current user profile first
               const userProfile = await getUserProfile();
-              console.log("Current user profile:", {
-                totalPoints: userProfile.points,
-                totalSteps: userProfile.totalSteps
-              });
-              console.log("Event earnings:", {
-                points: points,
-                steps: eventSteps
-              });
-
               const currentPoints = parseInt(userProfile.points) || 0;
               const currentTotalSteps = parseInt(userProfile.totalSteps) || 0;
               const earnedPoints = parseInt(points) || 0;
@@ -202,43 +303,56 @@ const ActiveEvent = ({ route, navigation }) => {
               const updatedPoints = currentPoints + earnedPoints;
               const updatedTotalSteps = currentTotalSteps + earnedSteps;
 
-              console.log("Final calculations:", {
-                currentPoints,
-                earnedPoints,
-                updatedPoints,
-                currentTotalSteps,
-                earnedSteps,
-                updatedTotalSteps
-              });
+              if (
+                !isNaN(updatedPoints) &&
+                !isNaN(updatedTotalSteps) &&
+                updatedPoints >= 0 &&
+                updatedTotalSteps >= 0
+              ) {
+                try {
+                  // First update the event steps and mark as completed
+                  await updateStepsMutation.mutateAsync({
+                    eventId,
+                    steps: Math.round(eventSteps),
+                    completed: true // Set completed flag to true
+                  });
 
-              if (!isNaN(updatedPoints) && !isNaN(updatedTotalSteps) && 
-                  updatedPoints >= 0 && updatedTotalSteps >= 0) {
-                await updateUser({
-                  points: updatedPoints,
-                  totalSteps: updatedTotalSteps
-                });
-                console.log("Successfully updated profile:", {
-                  points: updatedPoints,
-                  totalSteps: updatedTotalSteps
-                });
+                  // Then update the profile
+                  await updateProfileMutation.mutateAsync({
+                    points: updatedPoints,
+                    totalSteps: updatedTotalSteps,
+                  });
+
+                  // Only after successful updates, end event and navigate
+                  await endEvent();
+                  navigation.getParent().navigate("Home", {
+                    screen: "HomeScreen",
+                  });
+                } catch (updateError) {
+                  console.error("Error updating data:", updateError);
+                  throw new Error("Failed to update event data");
+                }
+              } else {
+                throw new Error("Invalid points or steps calculation");
               }
+            } else {
+              // If no eventId, just end and navigate
+              await endEvent();
+              navigation.getParent().navigate("Home", {
+                screen: "HomeScreen",
+              });
             }
           } catch (err) {
             console.error("Error ending event:", err);
+            Alert.alert(
+              "Error",
+              "Failed to end event. Your progress has been saved, please try again.",
+              [{ text: "OK" }]
+            );
+            // Restore active state if error
+            setIsActive(true);
+            startPedometer();
           }
-
-          // End event in context and navigate away
-          endEvent();
-          navigation.navigate("Events", {
-            screen: "EventDetail",
-            params: {
-              location,
-              isActive: false,
-              currentTime: 0,
-              currentPoints: 0,
-              currentSteps: 0,
-            },
-          });
         },
         style: "destructive",
       },
@@ -296,69 +410,6 @@ const ActiveEvent = ({ route, navigation }) => {
     }
   };
 
-  // create/participate in event if needed
-  useEffect(() => {
-    const initiateEvent = async () => {
-      if (!activeEvent) {
-        try {
-          // First check if event already exists for this location
-          const existingEvents = await getAllEventChallenges();
-          const existingEvent = existingEvents?.find(event => event.name === location.name);
-          
-          let newEventId;
-          if (existingEvent) {
-            // If event exists, just participate
-            newEventId = existingEvent.id;
-            await participateInEvent(newEventId);
-            console.log('Participating in existing event:', newEventId);
-          } else {
-            // Calculate total fixed points from all checkpoints
-            const totalFixedPoints = location.checkpoints.reduce((sum, checkpoint) => sum + checkpoint.points, 0);
-
-            // Create new event if none exists
-        const eventData = {
-          name: location.name,
-          checkpoints: location.checkpoints,
-              basePoints: 100,
-              fixedPoints: totalFixedPoints
-            };
-            
-            const response = await createEventChallenge(eventData);
-            if (response?.id) {
-              newEventId = response.id;
-              await participateInEvent(newEventId);
-              console.log('Created and participating in new event:', newEventId);
-            } else {
-              throw new Error('Failed to get event ID from creation');
-            }
-          }
-
-          // Start event in context
-          startEvent({
-            id: newEventId,
-            location: location,
-            currentTime: currentTime || 0,
-            currentPoints: currentPoints || 0,
-            currentSteps: currentSteps || 0
-          });
-          setEventId(newEventId);
-
-        } catch (error) {
-          console.error('Error initiating event:', error);
-          Alert.alert(
-            'Error',
-            'Failed to start event. Please try again.',
-            [{ text: 'OK', onPress: () => navigation.goBack() }]
-          );
-        }
-      }
-    };
-
-    if (isActive) {
-      initiateEvent();
-    }
-  }, [isActive, activeEvent, startEvent, location]);
-
   useEffect(() => {
     if (userLocation && !hasCreatedCheckpoints.current) {
       const newCheckpoints = [
@@ -401,10 +452,7 @@ const ActiveEvent = ({ route, navigation }) => {
 
     const a =
       Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) *
-        Math.cos(φ2) *
-        Math.sin(Δλ / 2) *
-        Math.sin(Δλ / 2);
+      Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     return R * c;
@@ -490,7 +538,10 @@ const ActiveEvent = ({ route, navigation }) => {
         return distance <= CHECKPOINT_RADIUS;
       });
 
-      if (checkpointInRange && (!nearbyCheckpoint || nearbyCheckpoint.id !== checkpointInRange.id)) {
+      if (
+        checkpointInRange &&
+        (!nearbyCheckpoint || nearbyCheckpoint.id !== checkpointInRange.id)
+      ) {
         setNearbyCheckpoint(checkpointInRange);
       } else if (!checkpointInRange) {
         setNearbyCheckpoint(null);
@@ -704,11 +755,31 @@ const ActiveEvent = ({ route, navigation }) => {
     </Card>
   );
 
-  const handleCapturePhoto = () => {
-    const checkpointPoints = selectedCheckpoint?.points || 0;
-    updatePoints(points + checkpointPoints);
-    setShowCamera(false);
-    setSelectedCheckpoint(null);
+  const handleCapturePhoto = async () => {
+    try {
+      const checkpointPoints = selectedCheckpoint?.points || 0;
+      
+      // Immediately dismiss camera
+      setShowCamera(false);
+      setSelectedCheckpoint(null);
+
+      // Get current user profile
+      const userProfile = await getUserProfile();
+      const currentPoints = parseInt(userProfile.points) || 0;
+      const newTotalPoints = currentPoints + checkpointPoints;
+
+      // First update local points
+      await updatePoints(points + checkpointPoints);
+
+      // Then update user profile
+      await updateProfileMutation.mutateAsync({
+        points: newTotalPoints,
+      });
+
+    } catch (error) {
+      console.error("Error updating points:", error);
+      Alert.alert("Error", "Failed to update points. Please try again.");
+    }
   };
 
   return (

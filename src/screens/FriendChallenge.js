@@ -8,15 +8,23 @@ import { Pedometer } from "expo-sensors";
 import { useNavigation } from "@react-navigation/native";
 import { useChallenge } from "../context/ChallengeContext";
 import ChallengeLeaderboard from "../components/ChallengeLeaderboard";
-import { updateStepsForFriendChallenge, getUserProfile, updateUser } from "../api/Auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  updateStepsForFriendChallenge,
+  getUserProfile,
+  updateUser,
+  getChallengeStatus,
+} from "../api/Auth";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const BAR_WIDTH = SCREEN_WIDTH * 0.15; // Individual bar width
 const AVATAR_SIZE = 50;
+const STEP_UPDATE_THRESHOLD = 5; // Update backend every 5 steps
+const CHALLENGE_POLL_INTERVAL = 5000; // Poll every 5 seconds
 
 const FriendChallenge = ({ route, navigation }) => {
   const theme = useTheme();
+  const queryClient = useQueryClient();
   const {
     activeChallenge,
     challengeSteps,
@@ -35,6 +43,91 @@ const FriendChallenge = ({ route, navigation }) => {
   const [isCompleting, setIsCompleting] = useState(false);
   const timerRef = useRef(null);
   const pedometerSubscription = useRef(null);
+  const lastUpdatedSteps = useRef(0);
+
+  // Query for fetching challenge status
+  const { data: challengeStatus } = useQuery({
+    queryKey: ["challengeStatus", activeChallenge?.id],
+    queryFn: async () => {
+      if (!activeChallenge?.id) {
+        throw new Error("No active challenge ID");
+      }
+      const data = await getChallengeStatus(activeChallenge.id);
+      return data;
+    },
+    enabled: !!activeChallenge?.id && !isCompleting,
+    refetchInterval: CHALLENGE_POLL_INTERVAL,
+    onSuccess: (data) => {
+      // Update participants progress with the latest data
+      if (data?.participants) {
+        const newProgress = {
+          user: challengeSteps, // Keep local step count for current user
+          ...Object.fromEntries(
+            data.participants
+              .filter((p) => p.id !== "user") // Exclude current user's server data
+              .map((p) => [p.id, p.steps])
+          ),
+        };
+        setParticipantsProgress(newProgress);
+
+        // Update progress in challenge context for each participant
+        data.participants
+          .filter((p) => p.id !== "user") // Only update other participants
+          .forEach((p) => {
+            updateProgress(p.id, p.steps);
+          });
+      }
+    },
+    onError: (error) => {
+      console.error("Error fetching challenge status:", error);
+      // Only show alert for network errors or server errors
+      if (!error.message.includes("No active challenge ID")) {
+        Alert.alert(
+          "Error",
+          "Failed to fetch challenge progress. Please try again later.",
+          [{ text: "OK" }]
+        );
+      }
+    },
+  });
+
+  // Mutation for updating steps
+  const updateStepsMutation = useMutation({
+    mutationFn: async ({ challengeId, steps, completed, goalReached }) => {
+      // First get the current user's challenge status
+      const currentProfile = await getUserProfile();
+      const userChallenge = currentProfile.challenges?.find(
+        (c) => c.friendChallengeId === challengeId
+      );
+
+      if (!userChallenge) {
+        throw new Error("Challenge not found for user");
+      }
+
+      // Update steps for this specific challenge
+      return updateStepsForFriendChallenge(
+        challengeId,
+        steps,
+        completed,
+        goalReached
+      );
+    },
+    onSuccess: () => {
+      // Invalidate and refetch challenge status after step update
+      queryClient.invalidateQueries(["challengeStatus", activeChallenge?.id]);
+    },
+    onError: (error) => {
+      console.error("Error updating steps:", error);
+      Alert.alert("Error", "Failed to update steps. Please try again.", [
+        { text: "OK" },
+      ]);
+    },
+  });
+
+  // Mutation for updating user profile
+  const updateProfileMutation = useMutation({
+    mutationFn: (data) => updateUser(data),
+  });
 
   useEffect(() => {
     if (activeChallenge && activeChallenge.participants) {
@@ -85,28 +178,30 @@ const FriendChallenge = ({ route, navigation }) => {
       subscribe();
     }
 
-    // Update steps in the backend every 30 seconds
-    const updateInterval = setInterval(async () => {
-      if (challengeSteps > 0 && activeChallenge?.id && !isCompleting) {
-        try {
-          await updateStepsForFriendChallenge(
-            activeChallenge.id,
-            challengeSteps,
-            false, // not completed
-            false // not goal reached
-          );
-        } catch (error) {
-          console.error("Error updating steps:", error);
-        }
-      }
-    }, 30000);
-
     return () => {
-      if (updateInterval) {
-        clearInterval(updateInterval);
+      if (pedometerSubscription.current) {
+        pedometerSubscription.current.remove();
+        pedometerSubscription.current = null;
       }
     };
   }, [activeChallenge, isCompleting]);
+
+  // Effect to handle step updates to backend
+  useEffect(() => {
+    if (challengeSteps > 0 && activeChallenge?.id && !isCompleting) {
+      // Only update if we've accumulated enough new steps
+      const stepDifference = challengeSteps - lastUpdatedSteps.current;
+      if (stepDifference >= STEP_UPDATE_THRESHOLD) {
+        updateStepsMutation.mutate({
+          challengeId: activeChallenge.id,
+          steps: challengeSteps,
+          completed: false,
+          goalReached: false,
+        });
+        lastUpdatedSteps.current = challengeSteps;
+      }
+    }
+  }, [challengeSteps, activeChallenge?.id, isCompleting]);
 
   const startTimer = () => {
     // Clear any existing timer first
@@ -179,30 +274,36 @@ const FriendChallenge = ({ route, navigation }) => {
       // Make final steps update and mark challenge as completed
       if (activeChallenge?.id) {
         try {
-          // Update backend with final state
-          await updateStepsForFriendChallenge(
-            activeChallenge.id,
-            challengeSteps,
-            true, // completed
-            goalReached
+          // Get current user profile to verify challenge relationship
+          const currentProfile = await getUserProfile();
+          const userChallenge = currentProfile.challenges?.find(
+            (c) => c.friendChallengeId === activeChallenge.id
           );
 
-          // Get current user profile
-          const currentProfile = await getUserProfile();
-          
+          if (!userChallenge) {
+            throw new Error("Challenge not found for user");
+          }
+
+          // Update backend with final state
+          await updateStepsMutation.mutateAsync({
+            challengeId: activeChallenge.id,
+            steps: challengeSteps,
+            completed: true,
+            goalReached,
+          });
+
           // Calculate new total steps
           const currentTotalSteps = parseInt(currentProfile.totalSteps) || 0;
           const newTotalSteps = currentTotalSteps + challengeSteps;
 
-          // Update user profile with new total steps
-          await updateUser({
-            totalSteps: newTotalSteps
+          await updateProfileMutation.mutateAsync({
+            totalSteps: newTotalSteps,
           });
 
           console.log("Updated total steps:", {
             previousTotal: currentTotalSteps,
             challengeSteps: challengeSteps,
-            newTotal: newTotalSteps
+            newTotal: newTotalSteps,
           });
 
           // Show leaderboard
@@ -324,29 +425,27 @@ const FriendChallenge = ({ route, navigation }) => {
               // Update backend before showing leaderboard
               if (activeChallenge?.id) {
                 try {
-                  await updateStepsForFriendChallenge(
-                    activeChallenge.id,
-                    challengeSteps,
-                    true, // completed
-                    false // not goal reached
-                  );
+                  await updateStepsMutation.mutateAsync({
+                    challengeId: activeChallenge.id,
+                    steps: challengeSteps,
+                    completed: true,
+                    goalReached: false,
+                  });
 
-                  // Get current user profile
+                  // Get current user profile and update total steps
                   const currentProfile = await getUserProfile();
-                  
-                  // Calculate new total steps
-                  const currentTotalSteps = parseInt(currentProfile.totalSteps) || 0;
+                  const currentTotalSteps =
+                    parseInt(currentProfile.totalSteps) || 0;
                   const newTotalSteps = currentTotalSteps + challengeSteps;
 
-                  // Update user profile with new total steps
-                  await updateUser({
-                    totalSteps: newTotalSteps
+                  await updateProfileMutation.mutateAsync({
+                    totalSteps: newTotalSteps,
                   });
 
                   console.log("Updated total steps:", {
                     previousTotal: currentTotalSteps,
                     challengeSteps: challengeSteps,
-                    newTotal: newTotalSteps
+                    newTotal: newTotalSteps,
                   });
 
                   // Show leaderboard
