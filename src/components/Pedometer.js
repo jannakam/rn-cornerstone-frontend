@@ -8,43 +8,64 @@ export default function App({ dailyChallengeId }) {
   const [pastStepCount, setPastStepCount] = useState(0);
   const [currentStepCount, setCurrentStepCount] = useState(0);
 
+  const UPDATE_INTERVAL = 2000; // Update every 2 seconds
+
+  const updateDailyChallenge = async (steps) => {
+    try {
+      if (dailyChallengeId) {
+        console.log('Sending current steps to server:', {
+          dailyChallengeId,
+          steps: steps
+        });
+        
+        await updateStepsForDailyChallenge(dailyChallengeId, {
+          steps: steps
+        });
+      }
+    } catch (error) {
+      console.error("Failed to update steps:", error);
+    }
+  };
+
   const subscribe = async () => {
     const isAvailable = await Pedometer.isAvailableAsync();
     setIsPedometerAvailable(String(isAvailable));
 
     if (isAvailable) {
-      const end = new Date();
-      const start = new Date();
-      start.setDate(end.getDate() - 1);
-
-      const pastStepCountResult = await Pedometer.getStepCountAsync(start, end);
-      if (pastStepCountResult) {
-        setPastStepCount(pastStepCountResult.steps);
-        if (dailyChallengeId) {
-          try {
-            await updateStepsForDailyChallenge(dailyChallengeId, pastStepCountResult.steps);
-          } catch (error) {
-            console.error("Failed to update daily challenge steps:", error);
-          }
-        }
-      }
-
-      return Pedometer.watchStepCount((result) => {
+      // Watch current steps and update server
+      const subscription = Pedometer.watchStepCount((result) => {
         setCurrentStepCount(result.steps);
+        console.log('Current Steps Updated:', result.steps);
+        updateDailyChallenge(result.steps);
       });
+
+      // Set up interval for updating server
+      const updateInterval = setInterval(() => {
+        if (currentStepCount > 0) {
+          updateDailyChallenge(currentStepCount);
+        }
+      }, UPDATE_INTERVAL);
+
+      return () => {
+        clearInterval(updateInterval);
+        subscription.remove();
+      };
     }
   };
 
   useEffect(() => {
     const subscription = subscribe();
-    return () => subscription && subscription.remove();
-  }, []);
+    return () => {
+      if (subscription) {
+        subscription.then(cleanup => cleanup && cleanup());
+      }
+    };
+  }, [dailyChallengeId]);
 
   return (
     <View style={styles.container}>
       <Text>Pedometer.isAvailableAsync(): {isPedometerAvailable}</Text>
-      <Text>Steps taken in the last 24 hours: {pastStepCount}</Text>
-      <Text>Walk! And watch this go up: {currentStepCount}</Text>
+      <Text>Current session steps: {currentStepCount}</Text>
     </View>
   );
 }

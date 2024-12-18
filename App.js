@@ -15,6 +15,7 @@ import { UserProvider, useUser } from "./src/context/UserContext";
 import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
 import { ChallengeProvider } from "./src/context/ChallengeContext";
 import { ActiveEventProvider } from "./src/context/ActiveEventContext";
+import { PedometerProvider } from './src/context/PedometerContext';
 
 const queryClient = new QueryClient();
 
@@ -49,15 +50,17 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TamaguiProvider config={tamaguiConfig}>
-        <ThemeProvider>
-          <UserProvider>
-            <ChallengeProvider>
-              <ActiveEventProvider>
-                <MainApp />
-              </ActiveEventProvider>
-            </ChallengeProvider>
-          </UserProvider>
-        </ThemeProvider>
+        <PedometerProvider>
+          <ThemeProvider>
+            <UserProvider>
+              <ChallengeProvider>
+                <ActiveEventProvider>
+                  <MainApp />
+                </ActiveEventProvider>
+              </ChallengeProvider>
+            </UserProvider>
+          </ThemeProvider>
+        </PedometerProvider>
       </TamaguiProvider>
     </QueryClientProvider>
   );

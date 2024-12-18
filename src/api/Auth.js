@@ -212,9 +212,9 @@ const participateInEvent = async (eventId) => {
   }
 };
 
-const updateStepsForDailyChallenge = async (dailyChallengeId, steps) => {
+const updateStepsForDailyChallenge = async (dailyChallengeId, stepsData) => {
   try {
-    await instance.post(`/v1/user/steps/daily/${dailyChallengeId}`, { steps });
+    await instance.post(`/v1/user/steps/daily/${dailyChallengeId}`, stepsData);
   } catch (error) {
     console.error("Error updating steps for daily challenge:", error);
     throw error;
@@ -259,6 +259,4 @@ export {
   getAllDailyChallenges,
   getAllFriendChallenges,
   getAllEventChallenges,
-  
-
-};
+  };
