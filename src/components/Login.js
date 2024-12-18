@@ -17,9 +17,13 @@ const Login = () => {
 
   const { mutate, isLoading } = useMutation({
     mutationFn: () => login(userInfo),
-    onSuccess: () => {
+    onSuccess: (data) => {
       Alert.alert("Success", "Login successful!");
-      loggedIn(userInfo);
+      loggedIn({
+        id: data.id,
+        username: data.username,
+        role: data.role,
+      });
     },
     onError: (error) => {
       console.log(error);

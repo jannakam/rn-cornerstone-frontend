@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, Dimensions, Animated, View, Alert } from "react-native";
 import { YStack, XStack, Text, Card, useTheme, Avatar, Button } from "tamagui";
-import { ChevronLeft, X } from "@tamagui/lucide-icons";
+import { ChevronLeft } from "@tamagui/lucide-icons";
 import DrawerSceneWrapper from "../components/DrawerSceneWrapper";
 import Header from "../components/Header";
 import { Pedometer } from "expo-sensors";
@@ -18,9 +18,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const BAR_WIDTH = SCREEN_WIDTH * 0.15; // Individual bar width
-const AVATAR_SIZE = 50;
-const STEP_UPDATE_THRESHOLD = 5; // Update backend every 5 steps
-const CHALLENGE_POLL_INTERVAL = 5000; // Poll every 5 seconds
+const STEP_UPDATE_INTERVAL = 2000; // Update backend every 2 seconds
+const CHALLENGE_POLL_INTERVAL = 2000; // Poll every 2 seconds
 
 const FriendChallenge = ({ route, navigation }) => {
   const theme = useTheme();
@@ -41,11 +40,11 @@ const FriendChallenge = ({ route, navigation }) => {
   const [isPedometerAvailable, setIsPedometerAvailable] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
+  const [isEndingChallenge, setIsEndingChallenge] = useState(false);
   const timerRef = useRef(null);
   const pedometerSubscription = useRef(null);
-  const lastUpdatedSteps = useRef(0);
 
-  // Query for fetching challenge status
+  // Query to fetch challenge status
   const { data: challengeStatus } = useQuery({
     queryKey: ["challengeStatus", activeChallenge?.id],
     queryFn: async () => {
@@ -58,29 +57,28 @@ const FriendChallenge = ({ route, navigation }) => {
     enabled: !!activeChallenge?.id && !isCompleting,
     refetchInterval: CHALLENGE_POLL_INTERVAL,
     onSuccess: (data) => {
-      // Update participants progress with the latest data
       if (data?.participants) {
-        const newProgress = {
-          user: challengeSteps, // Keep local step count for current user
-          ...Object.fromEntries(
-            data.participants
-              .filter((p) => p.id !== "user") // Exclude current user's server data
-              .map((p) => [p.id, p.steps])
-          ),
-        };
+        // Use server data as source of truth
+        const newProgress = Object.fromEntries(
+          data.participants.map((p) => [p.id, p.steps])
+        );
         setParticipantsProgress(newProgress);
 
-        // Update progress in challenge context for each participant
-        data.participants
-          .filter((p) => p.id !== "user") // Only update other participants
-          .forEach((p) => {
-            updateProgress(p.id, p.steps);
-          });
+        data.participants.forEach((p) => {
+          updateProgress(p.id, p.steps);
+        });
+
+        // Update local steps from server if needed
+        if (newProgress['user'] != null) {
+          updateSteps(newProgress['user']);
+        }
+
+        // Check if anyone has reached the goal
+        checkGoalReached(newProgress['user'] || challengeSteps, newProgress);
       }
     },
     onError: (error) => {
       console.error("Error fetching challenge status:", error);
-      // Only show alert for network errors or server errors
       if (!error.message.includes("No active challenge ID")) {
         Alert.alert(
           "Error",
@@ -93,34 +91,43 @@ const FriendChallenge = ({ route, navigation }) => {
 
   // Mutation for updating steps
   const updateStepsMutation = useMutation({
-    mutationFn: async ({ challengeId, steps, completed, goalReached }) => {
-      // First get the current user's challenge status
-      const currentProfile = await getUserProfile();
-      const userChallenge = currentProfile.challenges?.find(
-        (c) => c.friendChallengeId === challengeId
-      );
+    mutationFn: async ({ challengeId, steps, completed = false, goalReached = false }) => {
+      try {
+        // First get current profile to verify challenge exists
+        const currentProfile = await getUserProfile();
+        const userChallenge = currentProfile.challenges?.find(
+          (c) => c.friendChallengeId === challengeId
+        );
 
-      if (!userChallenge) {
-        throw new Error("Challenge not found for user");
+        if (!userChallenge) {
+          throw new Error("Challenge not found for user");
+        }
+
+        // Add validation for steps
+        if (typeof steps !== 'number' || steps < 0) {
+          throw new Error("Invalid step count");
+        }
+
+        // Send the update request with validated data
+        return await updateStepsForFriendChallenge(
+          challengeId,
+          Math.round(steps), // Ensure steps is an integer
+          completed,
+          goalReached
+        );
+      } catch (error) {
+        console.error("Error in updateStepsMutation:", error);
+        throw error;
       }
-
-      // Update steps for this specific challenge
-      return updateStepsForFriendChallenge(
-        challengeId,
-        steps,
-        completed,
-        goalReached
-      );
-    },
-    onSuccess: () => {
-      // Invalidate and refetch challenge status after step update
-      queryClient.invalidateQueries(["challengeStatus", activeChallenge?.id]);
     },
     onError: (error) => {
       console.error("Error updating steps:", error);
-      Alert.alert("Error", "Failed to update steps. Please try again.", [
-        { text: "OK" },
-      ]);
+      // Only show alert for non-network errors
+      if (!error.message.includes("Network Error")) {
+        Alert.alert("Error", "Failed to update steps. Please try again.", [
+          { text: "OK" },
+        ]);
+      }
     },
   });
 
@@ -131,49 +138,40 @@ const FriendChallenge = ({ route, navigation }) => {
 
   useEffect(() => {
     if (activeChallenge && activeChallenge.participants) {
-      // Initialize progress for all participants with null to indicate no steps yet
+      // Initialize progress with null for all participants
       const initialProgress = {
-        user: 0,
         ...Object.fromEntries(
           activeChallenge.participants.map((p) => [p.id, null])
         ),
+        user: 0,
       };
       setParticipantsProgress(initialProgress);
 
-      // Start timer if not already running
       if (!timerRef.current) {
         startTimer();
       }
     }
   }, [activeChallenge]);
 
-  // Cleanup only when component is unmounted
   useEffect(() => {
     return () => {
-      // Don't cleanup pedometer when just leaving the page
-      // Timer cleanup is handled in its own effect
+      // Cleanup if needed
     };
   }, []);
 
-  // Separate timer effect
   useEffect(() => {
-    // Only start timer if there's an active challenge and timer isn't running
     if (activeChallenge && !timerRef.current) {
       startTimer();
     }
-
-    // Cleanup timer when component unmounts or challenge ends
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
     };
-  }, [activeChallenge]); // Only re-run if activeChallenge changes
+  }, [activeChallenge]);
 
-  // Add new effect to handle pedometer setup
   useEffect(() => {
-    // Start pedometer if not already running
     if (!pedometerSubscription.current && activeChallenge && !isCompleting) {
       subscribe();
     }
@@ -186,25 +184,33 @@ const FriendChallenge = ({ route, navigation }) => {
     };
   }, [activeChallenge, isCompleting]);
 
-  // Effect to handle step updates to backend
   useEffect(() => {
-    if (challengeSteps > 0 && activeChallenge?.id && !isCompleting) {
-      // Only update if we've accumulated enough new steps
-      const stepDifference = challengeSteps - lastUpdatedSteps.current;
-      if (stepDifference >= STEP_UPDATE_THRESHOLD) {
-        updateStepsMutation.mutate({
-          challengeId: activeChallenge.id,
-          steps: challengeSteps,
-          completed: false,
-          goalReached: false,
-        });
-        lastUpdatedSteps.current = challengeSteps;
-      }
+    let updateInterval;
+    if (activeChallenge?.id && !isCompleting) {
+      updateInterval = setInterval(() => {
+        if (challengeSteps > 0) {
+          try {
+            updateStepsMutation.mutate({
+              challengeId: activeChallenge.id,
+              steps: Math.round(challengeSteps), // Ensure steps is an integer
+              completed: false,
+              goalReached: false,
+            });
+          } catch (error) {
+            console.error("Error in step update interval:", error);
+          }
+        }
+      }, STEP_UPDATE_INTERVAL);
     }
+
+    return () => {
+      if (updateInterval) {
+        clearInterval(updateInterval);
+      }
+    };
   }, [challengeSteps, activeChallenge?.id, isCompleting]);
 
   const startTimer = () => {
-    // Clear any existing timer first
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -233,88 +239,85 @@ const FriendChallenge = ({ route, navigation }) => {
 
   const getFlexStyle = () => {
     const totalParticipants = (activeChallenge?.participants?.length || 0) + 1; // +1 for user
-
     return {
-      width: SCREEN_WIDTH * 0.9, // Container takes 90% of screen width
-      justifyContent: "space-evenly", // This ensures even spacing
+      width: SCREEN_WIDTH * 0.9,
+      justifyContent: "space-evenly",
     };
   };
 
-  const checkGoalReached = async (steps, participantProgress) => {
-    if (steps >= activeChallenge.targetSteps) {
-      await handleChallengeComplete(true);
+  const checkGoalReached = async (userSteps, participantProgress) => {
+    if (userSteps >= activeChallenge.targetSteps) {
+      await handleChallengeComplete(true, true);
       return true;
     }
 
-    // Check other participants
     for (const [participantId, participantSteps] of Object.entries(
       participantProgress
     )) {
-      if (participantSteps >= activeChallenge.targetSteps) {
-        await handleChallengeComplete(true);
+      if (
+        participantId !== "user" &&
+        participantSteps >= activeChallenge.targetSteps
+      ) {
+        await handleChallengeComplete(false, false);
         return true;
       }
     }
     return false;
   };
 
-  const handleChallengeComplete = async (goalReached = false) => {
-    if (isCompleting) return; // Prevent multiple completions
+  const handleChallengeComplete = async (
+    goalReached = false,
+    firstToComplete = false
+  ) => {
+    if (isCompleting) return;
 
     try {
       setIsCompleting(true);
+      setIsEndingChallenge(true);
 
-      // Stop timer and pedometer first
       stopTimer();
       if (pedometerSubscription.current) {
         pedometerSubscription.current.remove();
         pedometerSubscription.current = null;
       }
 
-      // Make final steps update and mark challenge as completed
+      setShowLeaderboard(true);
+
       if (activeChallenge?.id) {
         try {
-          // Get current user profile to verify challenge relationship
+          // Get current user profile first
           const currentProfile = await getUserProfile();
-          const userChallenge = currentProfile.challenges?.find(
-            (c) => c.friendChallengeId === activeChallenge.id
-          );
-
-          if (!userChallenge) {
-            throw new Error("Challenge not found for user");
-          }
-
-          // Update backend with final state
-          await updateStepsMutation.mutateAsync({
-            challengeId: activeChallenge.id,
-            steps: challengeSteps,
-            completed: true,
-            goalReached,
-          });
-
-          // Calculate new total steps
           const currentTotalSteps = parseInt(currentProfile.totalSteps) || 0;
-          const newTotalSteps = currentTotalSteps + challengeSteps;
+          const currentPoints = parseInt(currentProfile.points) || 0;
 
-          await updateProfileMutation.mutateAsync({
-            totalSteps: newTotalSteps,
-          });
+          // Get user's steps from the challenge progress
+          const userSteps = participantsProgress['user'] || challengeSteps || 0;
 
-          console.log("Updated total steps:", {
-            previousTotal: currentTotalSteps,
-            challengeSteps: challengeSteps,
-            newTotal: newTotalSteps,
-          });
+          // Calculate new totals using only the user's steps
+          const newTotalSteps = currentTotalSteps + userSteps;
+          const newPoints = currentPoints + (firstToComplete ? 100 : 0);
 
-          // Show leaderboard
-          setShowLeaderboard(true);
+          // Update both challenge and profile simultaneously
+          await Promise.all([
+            updateStepsMutation.mutateAsync({
+              challengeId: activeChallenge.id,
+              steps: userSteps,
+              completed: true,
+              goalReached,
+              firstToComplete,
+            }),
+            updateProfileMutation.mutateAsync({
+              totalSteps: newTotalSteps,
+              points: newPoints,
+            }),
+          ]);
+
+          // Invalidate queries to refresh data
+          queryClient.invalidateQueries(["userProfile"]);
+          queryClient.invalidateQueries(["challengeStatus", activeChallenge.id]);
         } catch (error) {
-          if (error.message?.includes("already completed")) {
-            // If challenge is already completed, just show leaderboard
-            setShowLeaderboard(true);
-          } else {
-            throw error; // Re-throw other errors
-          }
+          console.error("Error updating final challenge state:", error);
+          throw error;
         }
       }
     } catch (error) {
@@ -322,7 +325,9 @@ const FriendChallenge = ({ route, navigation }) => {
       Alert.alert("Error", "Failed to end challenge. Please try again.", [
         { text: "OK" },
       ]);
-      setIsCompleting(false); // Reset completion flag on error
+      setIsCompleting(false);
+    } finally {
+      setIsEndingChallenge(false);
     }
   };
 
@@ -343,43 +348,9 @@ const FriendChallenge = ({ route, navigation }) => {
         }
 
         pedometerSubscription.current = Pedometer.watchStepCount((result) => {
-          const newSteps = Math.max(result.steps - baseSteps, 0); // Prevent negative steps
+          const newSteps = Math.max(result.steps - baseSteps, 0);
           updateSteps(newSteps);
-
-          // Only update if we have new steps
-          if (newSteps > 0) {
-            const newParticipantsProgress = {
-              ...participantsProgress,
-              user: newSteps,
-            };
-
-            // Simulate other participants' steps (for demo)
-            if (activeChallenge?.participants) {
-              activeChallenge.participants.forEach((participant) => {
-                // Only update if we haven't set steps yet or if we have new steps
-                const currentSteps = participantsProgress[participant.id];
-                if (
-                  currentSteps === null ||
-                  newSteps > participantsProgress.user
-                ) {
-                  const simulatedSteps = Math.floor(
-                    newSteps * (0.5 + Math.random() * 0.5)
-                  );
-                  newParticipantsProgress[participant.id] = simulatedSteps;
-                  updateProgress(participant.id, simulatedSteps);
-                } else {
-                  // Keep existing steps
-                  newParticipantsProgress[participant.id] = currentSteps;
-                }
-              });
-            }
-
-            setParticipantsProgress(newParticipantsProgress);
-            updateProgress("user", newSteps);
-
-            // Check if anyone has reached the goal
-            checkGoalReached(newSteps, newParticipantsProgress);
-          }
+          setParticipantsProgress((prev) => ({ ...prev, user: newSteps }));
         });
       }
     } catch (error) {
@@ -393,12 +364,12 @@ const FriendChallenge = ({ route, navigation }) => {
   };
 
   const getProgressHeight = (steps) => {
-    if (!activeChallenge || steps === null) return "0%";
+    if (!activeChallenge || steps === null || steps === undefined) return "0%";
     return `${Math.min((steps / activeChallenge.targetSteps) * 100, 100)}%`;
   };
 
   const handleEndChallenge = () => {
-    if (isCompleting) return; // Prevent multiple endings
+    if (isCompleting) return;
 
     Alert.alert(
       "End Challenge",
@@ -413,60 +384,57 @@ const FriendChallenge = ({ route, navigation }) => {
           style: "destructive",
           onPress: async () => {
             try {
-              setIsCompleting(true);
-
-              // Stop timer and pedometer first
+              setIsEndingChallenge(true);
+              setShowLeaderboard(true);
               stopTimer();
               if (pedometerSubscription.current) {
                 pedometerSubscription.current.remove();
                 pedometerSubscription.current = null;
               }
 
-              // Update backend before showing leaderboard
               if (activeChallenge?.id) {
                 try {
-                  await updateStepsMutation.mutateAsync({
-                    challengeId: activeChallenge.id,
-                    steps: challengeSteps,
-                    completed: true,
-                    goalReached: false,
-                  });
-
-                  // Get current user profile and update total steps
+                  // Get current user profile first
                   const currentProfile = await getUserProfile();
-                  const currentTotalSteps =
-                    parseInt(currentProfile.totalSteps) || 0;
-                  const newTotalSteps = currentTotalSteps + challengeSteps;
+                  const currentTotalSteps = parseInt(currentProfile.totalSteps) || 0;
+                  const currentPoints = parseInt(currentProfile.points) || 0;
 
-                  await updateProfileMutation.mutateAsync({
-                    totalSteps: newTotalSteps,
-                  });
+                  // Get user's steps from the challenge progress
+                  const userSteps = participantsProgress['user'] || challengeSteps || 0;
 
-                  console.log("Updated total steps:", {
-                    previousTotal: currentTotalSteps,
-                    challengeSteps: challengeSteps,
-                    newTotal: newTotalSteps,
-                  });
+                  // Calculate new totals using only the user's steps
+                  const newTotalSteps = currentTotalSteps + userSteps;
 
-                  // Show leaderboard
-                  setShowLeaderboard(true);
+                  // Update both challenge and profile simultaneously
+                  await Promise.all([
+                    updateStepsMutation.mutateAsync({
+                      challengeId: activeChallenge.id,
+                      steps: userSteps,
+                      completed: true,
+                      goalReached: false,
+                      firstToComplete: false,
+                    }),
+                    updateProfileMutation.mutateAsync({
+                      totalSteps: newTotalSteps,
+                      points: currentPoints, // Keep points the same since challenge wasn't completed
+                    }),
+                  ]);
+
+                  // Invalidate queries to refresh data
+                  queryClient.invalidateQueries(["userProfile"]);
+                  queryClient.invalidateQueries(["challengeStatus", activeChallenge.id]);
                 } catch (error) {
-                  if (error.message?.includes("already completed")) {
-                    // If challenge is already completed, just show leaderboard
-                    setShowLeaderboard(true);
-                  } else {
-                    throw error; // Re-throw other errors
-                  }
+                  console.error("Error updating final state:", error);
+                  throw error;
                 }
               }
             } catch (error) {
               console.error("Error ending challenge:", error);
-              Alert.alert(
-                "Error",
-                "Failed to end challenge. Please try again.",
-                [{ text: "OK" }]
-              );
-              setIsCompleting(false); // Reset completion flag on error
+              Alert.alert("Error", "Failed to end challenge. Please try again.", [
+                { text: "OK" },
+              ]);
+            } finally {
+              setIsEndingChallenge(false);
             }
           },
         },
@@ -476,11 +444,8 @@ const FriendChallenge = ({ route, navigation }) => {
 
   const handleLeaderboardClose = async () => {
     try {
-      // End challenge in context
       endChallenge();
-      // Reset completion flag
       setIsCompleting(false);
-      // Simply navigate back to profile
       navigation.navigate("Profile");
     } catch (error) {
       console.error("Error ending challenge:", error);
@@ -497,8 +462,8 @@ const FriendChallenge = ({ route, navigation }) => {
           <Header navigation={navigation} />
           <YStack f={1} ai="center" jc="center">
             <Text color="white" fontSize="$6" textAlign="center">
-              No active challenge...{"\n"}Start a challenge from your friends
-              list!
+              No active challenge...
+              {"\n"}Start a challenge from your friends list!
             </Text>
           </YStack>
         </YStack>
@@ -512,9 +477,11 @@ const FriendChallenge = ({ route, navigation }) => {
         id: "user",
         name: "You",
         avatar: require("../../assets/avatars/avatar1.png"),
-        steps: challengeSteps || 0,
+        steps: participantsProgress['user'] || challengeSteps || 0,
         isLocalImage: true,
-        goalReached: (challengeSteps || 0) >= activeChallenge.targetSteps,
+        goalReached:
+          (participantsProgress['user'] || challengeSteps || 0) >=
+          activeChallenge.targetSteps,
       },
       ...(activeChallenge.participants || []).map((participant) => ({
         id: participant.id,
@@ -535,6 +502,7 @@ const FriendChallenge = ({ route, navigation }) => {
           targetSteps={activeChallenge.targetSteps}
           onClose={handleLeaderboardClose}
           showGoalStatus={true}
+          isLoading={isEndingChallenge}
         />
       </DrawerSceneWrapper>
     );
@@ -545,7 +513,6 @@ const FriendChallenge = ({ route, navigation }) => {
       <YStack f={1} bg="black" padding="$4">
         <Header navigation={navigation} />
 
-        {/* Navigation Buttons */}
         <XStack jc="space-between" ai="center" mt="$2">
           <ChevronLeft
             size="$2"
@@ -563,13 +530,13 @@ const FriendChallenge = ({ route, navigation }) => {
             color="white"
             borderRadius="$9"
             mr="$2"
+            disabled={isEndingChallenge}
           >
-            End
+            {isEndingChallenge ? "Ending..." : "End"}
           </Button>
         </XStack>
 
         <YStack f={1} ai="center" jc="center" space="$6">
-          {/* Progress Bars Container */}
           <XStack
             {...getFlexStyle()}
             height={SCREEN_HEIGHT * 0.53}
@@ -585,11 +552,17 @@ const FriendChallenge = ({ route, navigation }) => {
                   style={[
                     styles.progressFill,
                     {
-                      height: getProgressHeight(challengeSteps),
+                      height: getProgressHeight(
+                        participantsProgress['user'] || challengeSteps || 0
+                      ),
                       backgroundColor: theme.cyan8.val,
                     },
                   ]}
-                />
+                >
+                  <Text style={styles.stepCount} color="white">
+                    {participantsProgress['user'] || challengeSteps || 0}
+                  </Text>
+                </View>
               </View>
               <Avatar circular size="$4" style={styles.avatar}>
                 <Avatar.Image
@@ -602,14 +575,9 @@ const FriendChallenge = ({ route, navigation }) => {
               </Text>
             </YStack>
 
-            {/* Friend Progress Bars */}
-            {(activeChallenge.participants || []).map((participant, index) => (
-              <YStack
-                key={participant.id}
-                width={BAR_WIDTH}
-                height="100%"
-                ai="center"
-              >
+            {/* Other Participants */}
+            {(activeChallenge?.participants || []).map((participant) => (
+              <YStack key={participant.id} width={BAR_WIDTH} height="100%" ai="center">
                 <View
                   style={[
                     styles.barContainer,
@@ -626,7 +594,11 @@ const FriendChallenge = ({ route, navigation }) => {
                         backgroundColor: theme.cyan8.val,
                       },
                     ]}
-                  />
+                  >
+                    <Text style={styles.stepCount} color="white">
+                      {participantsProgress[participant.id] || 0}
+                    </Text>
+                  </View>
                 </View>
                 <Avatar circular size="$4" style={styles.avatar}>
                   <Avatar.Image source={{ uri: participant.avatar }} />
@@ -639,13 +611,15 @@ const FriendChallenge = ({ route, navigation }) => {
             ))}
           </XStack>
 
-          {/* Timer and Steps */}
           <YStack ai="center" space="$2" mt="$4">
             <Text color="white" fontSize="$9" fontWeight="bold">
               {formatTime(elapsedTime)}
             </Text>
             <Text color="white" fontSize="$5">
-              {challengeSteps}/{activeChallenge.targetSteps} steps
+              {(participantsProgress['user'] != null
+                ? participantsProgress['user']
+                : challengeSteps) || 0}
+              /{activeChallenge.targetSteps} steps
             </Text>
           </YStack>
         </YStack>
@@ -673,6 +647,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: 10,
     bottom: 5,
+  },
+  stepCount: {
+    position: 'absolute',
+    top: 10,
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
 

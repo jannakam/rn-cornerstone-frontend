@@ -16,13 +16,22 @@ import {
   Spinner,
   Alert,
 } from "tamagui";
-import { ChevronDown, ChevronUp, Check, Play, Trophy } from "@tamagui/lucide-icons";
+import {
+  ChevronDown,
+  ChevronUp,
+  Check,
+  Play,
+  Trophy,
+} from "@tamagui/lucide-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useChallenge } from "../context/ChallengeContext";
-import { createFriendChallenge, participateInFriendChallenge } from "../api/Auth";
+import {
+  createFriendChallenge,
+  participateInFriendChallenge,
+} from "../api/Auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getAllFriends } from "../api/Auth";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Import the avatar options
 const avatarOptions = [
@@ -63,7 +72,7 @@ const ChallengeButton = () => {
 
   // Participate mutation
   const participateMutation = useMutation({
-    mutationFn: ({ challengeId, friendIds }) => 
+    mutationFn: ({ challengeId, friendIds }) =>
       participateInFriendChallenge(challengeId, friendIds),
   });
 
@@ -73,9 +82,13 @@ const ChallengeButton = () => {
       if (friends && friends.length > 0) {
         const newAvatarMap = {};
         for (const friend of friends) {
-          const savedAvatarId = await AsyncStorage.getItem(`friendAvatar_${friend.id}`);
+          const savedAvatarId = await AsyncStorage.getItem(
+            `friendAvatar_${friend.id}`
+          );
           if (savedAvatarId) {
-            const avatar = avatarOptions.find(a => a.id === parseInt(savedAvatarId));
+            const avatar = avatarOptions.find(
+              (a) => a.id === parseInt(savedAvatarId)
+            );
             if (avatar) {
               newAvatarMap[friend.id] = avatar;
             }
@@ -100,26 +113,30 @@ const ChallengeButton = () => {
         friendIds: selectedFriends,
         startTime: new Date().toISOString(), // Match ERD
         endTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
-        date: new Date().toISOString().split('T')[0] // Current date
+        date: new Date().toISOString().split("T")[0], // Current date
       });
 
       // Participate in the challenge
       await participateMutation.mutateAsync({
         challengeId: challengeData.id,
-        friendIds: selectedFriends
+        friendIds: selectedFriends,
       });
 
       // Get all selected friends' data and their avatars
-      const selectedFriendsData = selectedFriends.map(friendId => {
-        const friend = friends.find(f => f.id === friendId);
-        const avatar = friendAvatars[friendId]?.url || avatarOptions[0].url;
-        return friend ? {
-          id: friend.id,
-          username: friend.username,
-          avatar: avatar,
-          steps: 0
-        } : null;
-      }).filter(Boolean);
+      const selectedFriendsData = selectedFriends
+        .map((friendId) => {
+          const friend = friends.find((f) => f.id === friendId);
+          const avatar = friendAvatars[friendId]?.url || avatarOptions[0].url;
+          return friend
+            ? {
+                id: friend.id,
+                username: friend.username,
+                avatar: avatar,
+                steps: 0,
+              }
+            : null;
+        })
+        .filter(Boolean);
 
       // Start the challenge locally with all participants
       await startChallenge({
@@ -128,18 +145,16 @@ const ChallengeButton = () => {
         participants: selectedFriendsData,
         startTime: challengeData.startTime,
         endTime: challengeData.endTime,
-        date: challengeData.date
+        date: challengeData.date,
       });
 
       setIsOpen(false);
       navigation.navigate("Friend Challenge");
     } catch (error) {
       console.error("Error creating challenge:", error);
-      Alert.alert(
-        "Error",
-        "Failed to create challenge. Please try again.",
-        [{ text: "OK" }]
-      );
+      Alert.alert("Error", "Failed to create challenge. Please try again.", [
+        { text: "OK" },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -175,7 +190,7 @@ const ChallengeButton = () => {
         </Avatar>
 
         <Button unstyled fontSize="$1" mt="$1" color="$color">
-            Continue
+          Continue
         </Button>
       </YStack>
     );
@@ -184,18 +199,17 @@ const ChallengeButton = () => {
   return (
     <YStack ai="center">
       <YStack ai="center" jc="center">
-      <Button
-        circular
-        size="$5"
-        icon={<Trophy color="$color" size={16} />}
-        borderWidth={1}
-        borderColor="$color"
-        onPress={() => !isLoading && setIsOpen(true)}
-      >
-      </Button>
+        <Button
+          circular
+          size="$5"
+          icon={<Trophy color="$color" size={16} />}
+          borderWidth={1}
+          borderColor="$color"
+          onPress={() => !isLoading && setIsOpen(true)}
+        ></Button>
 
-      <Button unstyled fontSize="$1" mt="$1" color="$color">
-            Challenge
+        <Button unstyled fontSize="$1" mt="$1" color="$color">
+          Challenge
         </Button>
       </YStack>
 
@@ -336,7 +350,10 @@ const ChallengeButton = () => {
 
                       <Avatar size="$4" br={40}>
                         <Avatar.Image
-                          source={friendAvatars[friend.id]?.url || avatarOptions[0].url}
+                          source={
+                            friendAvatars[friend.id]?.url ||
+                            avatarOptions[0].url
+                          }
                         />
                         <Avatar.Fallback backgroundColor="$blue10" />
                       </Avatar>
@@ -370,9 +387,9 @@ const ChallengeButton = () => {
               borderColor={theme.color6.val}
               color={theme.color.val}
               icon={
-                isLoading ? () => (
-                  <Spinner size="small" color={theme.color.val} />
-                ) : undefined
+                isLoading
+                  ? () => <Spinner size="small" color={theme.color.val} />
+                  : undefined
               }
             >
               {isLoading ? "Creating..." : "Create Challenge"}

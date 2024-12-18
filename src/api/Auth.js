@@ -219,23 +219,40 @@ const updateStepsForDailyChallenge = async (dailyChallengeId, steps) => {
     throw error;
   }
 };
-const updateStepsForFriendChallenge = async (friendChallengeId, steps, completed = false, goalReached = false) => {
+const updateStepsForFriendChallenge = async (
+  friendChallengeId,
+  steps,
+  completed = false,
+  goalReached = false
+) => {
   try {
-    await instance.post(`/v1/user/steps/friend/${friendChallengeId}`, {
-      steps,
+    // Validate inputs
+    if (!friendChallengeId) {
+      throw new Error("Challenge ID is required");
+    }
+    if (typeof steps !== 'number' || steps < 0) {
+      throw new Error("Invalid step count");
+    }
+
+    // Send request with validated data
+    const { data } = await instance.post(`/v1/user/steps/friend/${friendChallengeId}`, {
+      steps: Math.round(steps),
       completed,
-      goalReached
+      goalReached,
     });
+    
+    return data;
   } catch (error) {
     console.error("Error updating steps for friend challenge:", error);
-    throw error;
+    // Include more error details in the thrown error
+    throw new Error(`Failed to update steps: ${error.response?.data?.message || error.message}`);
   }
 };
 const updateStepsForEvent = async (eventId, steps, completed = false) => {
   try {
-    await instance.post(`/v1/user/steps/event/${eventId}`, { 
+    await instance.post(`/v1/user/steps/event/${eventId}`, {
       steps,
-      completed 
+      completed,
     });
   } catch (error) {
     console.error("Error updating steps for event:", error);
@@ -245,7 +262,9 @@ const updateStepsForEvent = async (eventId, steps, completed = false) => {
 
 const getChallengeStatus = async (friendChallengeId) => {
   try {
-    const { data } = await instance.get(`/v1/user/challenges/friend/${friendChallengeId}/progress`);
+    const { data } = await instance.get(
+      `/v1/user/challenges/friend/${friendChallengeId}/progress`
+    );
     return data;
   } catch (error) {
     console.error("Error fetching challenge status:", error);
