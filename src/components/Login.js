@@ -1,125 +1,128 @@
 import React, { useState } from "react";
-import { Alert } from "react-native";
-import { XStack, YStack, Text, Input, Button, ScrollView } from "tamagui";
+
+import { Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { XStack, YStack, Text, Input, Button, useTheme } from "tamagui";
+
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import { useUser } from "../context/UserContext";
 import { login } from "../api/Auth";
+
 const Login = () => {
   const { loggedIn } = useUser();
   const navigation = useNavigation();
+  const theme = useTheme();
   const [userInfo, setUserInfo] = useState({
     username: "",
     password: "",
   });
-  const { mutate } = useMutation({
+
+  const { mutate, isLoading } = useMutation({
     mutationFn: () => login(userInfo),
     onSuccess: () => {
-      Alert.alert("LogIn successful");
+      Alert.alert("Success", "Login successful!");
       loggedIn(userInfo);
     },
     onError: (error) => {
       console.log(error);
-      Alert.alert("LogIn failed");
+      Alert.alert("Error", "Login failed. Please check your credentials and try again.");
     },
   });
 
   const handleLogin = () => {
+    if (!userInfo.username || !userInfo.password) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
     mutate();
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#1A1A1A" }}>
-      <YStack padding="$4" space="$4" width="100%" minHeight="100%">
-        <XStack padding="$4">
-          <Text
-            color="#333"
-            fontSize={50}
-            onPress={() => navigation.navigate("Register")}
-          >
-            ×
-          </Text>
-        </XStack>
 
-        <YStack space="$6" marginTop="$8">
-          <Text
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <YStack
+        f={1}
+        bg="$background"
+        width="100%"
+        ai="center"
+        jc="center"
+        space="$6"
+      >
+        <YStack space="$4" ai="center" mb="$4">
+          <Text color="$color" fontSize="$9" fontWeight="bold">
+            Welcome Back
+          </Text>
+          <Text color="$color" opacity={0.7} fontSize="$4">
+            It's nice to see you again!
+          </Text>
+        </YStack>
+
+        <YStack space="$4" width="85%" maxWidth={400}>
+          <Input
+            size="$4"
+            borderWidth={2}
+            borderRadius="$10"
+            backgroundColor="$backgroundTransparent"
+            borderColor="$color4"
             color="white"
-            fontSize={32}
-            fontWeight="bold"
-            textAlign="center"
-          >
-            Login
-          </Text>
+            focusStyle={{
+              borderColor: theme.cyan8.val,
+            }}
+            placeholder="Username"
+            placeholderTextColor="$color8"
+            value={userInfo.username}
+            onChangeText={(text) => setUserInfo({ ...userInfo, username: text })}
+          />
 
-          <Text color="gray" fontSize={14} textAlign="center" marginBottom="$6">
-            Welcome back! Let's continue your journey.
-          </Text>
-
-          <YStack space="$4" marginTop="$4">
-            <YStack space="$2">
-              <Text color="gray" fontSize={14}>
-                Username
-              </Text>
-              <Input
-                backgroundColor="#2A2A2A"
-                borderColor="#333"
-                borderWidth={1}
-                padding="$3"
-                color="white"
-                placeholderTextColor="gray"
-                value={userInfo.username}
-                onChangeText={(text) =>
-                  setUserInfo({ ...userInfo, username: text })
-                }
-              />
-            </YStack>
-
-            <YStack space="$2">
-              <Text color="gray" fontSize={14}>
-                Password
-              </Text>
-              <Input
-                backgroundColor="#2A2A2A"
-                borderColor="#333"
-                borderWidth={1}
-                padding="$3"
-                color="white"
-                placeholderTextColor="gray"
-                secureTextEntry
-                value={userInfo.password}
-                onChangeText={(text) =>
-                  setUserInfo({ ...userInfo, password: text })
-                }
-              />
-            </YStack>
-          </YStack>
+          <Input
+            size="$4"
+            borderWidth={2}
+            borderRadius="$10"
+            backgroundColor="$backgroundTransparent"
+            borderColor="$color4"
+            color="white"
+            focusStyle={{
+              borderColor: theme.cyan8.val,
+            }}
+            placeholder="Password"
+            placeholderTextColor="$color8"
+            secureTextEntry
+            value={userInfo.password}
+            onChangeText={(text) => setUserInfo({ ...userInfo, password: text })}
+          />
 
           <Button
-            backgroundColor="#333"
-            color="white"
             size="$4"
-            marginTop="$4"
+            borderRadius="$10"
+            backgroundColor="$background"
+            borderColor={theme.cyan8.val}
+            borderWidth={2}
+            color={theme.cyan8.val}
             onPress={handleLogin}
+            disabled={isLoading}
+            pressStyle={{ opacity: 0.8 }}
+            marginTop="$4"
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </Button>
-
-          <XStack justifyContent="center" marginTop="$4" marginBottom="$4">
-            <Text color="gray" fontSize={14}>
-              Don't have an account?{" "}
-            </Text>
-            <Text
-              color="white"
-              fontSize={14}
-              fontWeight="bold"
-              onPress={() => navigation.navigate("Register")}
-            >
-              Register
-            </Text>
-          </XStack>
         </YStack>
+
+        <XStack space="$2" marginTop="$4">
+          <Text color="$color" opacity={0.7}>
+            Don't have an account?
+          </Text>
+          <Text
+            color={theme.cyan8.val}
+            fontWeight="bold"
+            onPress={() => navigation.navigate("Register")}
+            pressStyle={{ opacity: 0.8 }}
+          >
+            Register
+          </Text>
+        </XStack>
       </YStack>
-    </ScrollView>
+    </TouchableWithoutFeedback>
+
   );
 };
 

@@ -10,11 +10,28 @@ const AuthNavigation = () => {
   return (
     <Stack.Navigator
       initialRouteName="Register"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        animation: 'none',
+        animationTypeForReplace: 'pop',
+      }}
     >
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="GetStarted" component={GetStarted} />
-      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen 
+        name="Register" 
+        component={RegisterScreen}
+      />
+      <Stack.Screen 
+        name="GetStarted" 
+        component={GetStarted}
+        options={{
+          animation: 'fade',
+          animationDuration: 200,
+        }}
+      />
+      <Stack.Screen 
+        name="Login" 
+        component={LoginScreen}
+      />
     </Stack.Navigator>
   );
 };

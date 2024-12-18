@@ -39,7 +39,7 @@ const HistoryCard = () => {
           <Spinner size="large" />
         </YStack>
       );
-    }
+
 
     return (
       <ScrollView>
@@ -63,6 +63,7 @@ const HistoryCard = () => {
                     {item.startTime && item.endTime 
                       ? `${item.startTime} - ${item.endTime}`
                       : `Goal: ${item.stepGoal} steps`}
+
                   </Text>
                 </YStack>
               </Card.Header>

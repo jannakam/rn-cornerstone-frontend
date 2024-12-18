@@ -3,13 +3,13 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Text,
   TouchableOpacity,
   Image,
 } from "react-native";
 import MapView, { UrlTile, Marker, Callout } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
-import { Card, YStack, XStack, useTheme, Button } from "tamagui";
+import { Card, YStack, XStack, Text, useTheme, Button } from "tamagui";
+import { useTheme as useThemeContext } from "../context/ThemeContext";
 import { Footprints, MapPin, ChevronRight } from "@tamagui/lucide-icons";
 import locations from "../data/locations";
 import sponsors from "../data/sponsors";
@@ -18,20 +18,18 @@ const Map = forwardRef((props, ref) => {
   const [error, setError] = useState(null);
   const navigation = useNavigation();
   const theme = useTheme();
-  const { isDark } = theme;
+  const { isDark } = useThemeContext();
   const urlTemplate = isDark
-    ? "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png" 
-    : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png";
+  ? "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+  : "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png" 
+
 
   useImperativeHandle(ref, () => ({
     // Add any methods you want to expose to the parent component here
   }));
 
   const handleCalloutPress = (location) => {
-    navigation.navigate("Events", {
-      screen: "EventDetail",
-      params: { location },
-    });
+    navigation.navigate("EventDetail", { location });
   };
 
   const CustomCallout = ({ location }) => (
@@ -40,6 +38,8 @@ const Map = forwardRef((props, ref) => {
       borderRadius="$4"
       padding="$4"
       elevation={4}
+      borderColor="$color4"
+      borderWidth={1}
     >
       <YStack space="$2">
         <Text color="$color" fontWeight="bold" fontSize="$5">
@@ -65,6 +65,7 @@ const Map = forwardRef((props, ref) => {
           color="white"
           onPress={() => handleCalloutPress(location)}
           icon={ChevronRight}
+          borderRadius="$6"
         >
           View Details
         </Button>
@@ -75,7 +76,7 @@ const Map = forwardRef((props, ref) => {
   if (error) {
     return (
       <View style={styles.container}>
-        <Text>Error loading map: {error}</Text>
+        <Text color="$magenta8">Error loading map: {error}</Text>
       </View>
     );
   }
@@ -84,7 +85,7 @@ const Map = forwardRef((props, ref) => {
     <View>
       <MapView
         mapType="mutedStandard"
-        userInterfaceStyle={isDark ? "dark" : "light"}
+        userInterfaceStyle={isDark ? "light" : "dark"}
         style={styles.map}
         initialRegion={{
           latitude: 29.3759,
@@ -126,7 +127,7 @@ const Map = forwardRef((props, ref) => {
             }}
           >
             <View style={[styles.sponsorMarker, { 
-              backgroundColor: 'white',
+              backgroundColor: theme.color.val,
               borderColor: theme.cyan7.val 
             }]}>
               <Image
@@ -141,6 +142,8 @@ const Map = forwardRef((props, ref) => {
                 borderRadius="$4"
                 padding="$4"
                 elevation={4}
+                borderColor="$color4"
+                borderWidth={1}
               >
                 <YStack space="$2">
                   <Text color="$color" fontWeight="bold" fontSize="$5">
@@ -186,8 +189,7 @@ const styles = StyleSheet.create({
   },
   calloutContainer: {
     padding: 10,
-    minWidth: 200,
-
+    width: 200,
   },
   calloutTitle: {
     fontSize: 16,

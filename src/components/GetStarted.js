@@ -1,28 +1,31 @@
-import React, { useState } from "react";
-import { ScrollView } from "react-native";
-import { ChevronDown, ChevronUp } from "@tamagui/lucide-icons";
+import React, { useState, useEffect } from "react";
+import { ScrollView, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "../api/Auth";
-import { Alert } from "react-native";
 import {
   XStack,
   YStack,
   Text,
+  Input,
   Button,
-  Select,
   Switch,
-  Sheet,
-  Adapt,
-  LinearGradient,
+  useTheme,
 } from "tamagui";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+import { ChevronLeft } from "@tamagui/lucide-icons";
 
 const GetStarted = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const theme = useTheme();
   const [isMetric, setIsMetric] = useState(false);
   const [userInfo, setUserInfo] = useState({
+    height: "",
+    weight: "",
+    age: "",
+  });
+  const [errors, setErrors] = useState({
     height: "",
     weight: "",
     age: "",
@@ -31,58 +34,103 @@ const GetStarted = () => {
   const { mutate } = useMutation({
     mutationFn: (data) => register(data),
     onSuccess: () => {
-      Alert.alert("Registration successful");
+      Alert.alert("Success", "Registration successful!");
       navigation.navigate("Login");
     },
     onError: (error) => {
       console.log(error);
-      Alert.alert("Registration failed");
+      Alert.alert("Error", "Registration failed. Please try again.");
     },
   });
 
+  const validateInputs = () => {
+    const newErrors = {};
+    let isValid = true;
+
+    // Age validation (16-100 years)
+    const age = parseInt(userInfo.age);
+    if (!age || age < 16 || age > 100) {
+      newErrors.age = "Age must be between 16 and 100";
+      isValid = false;
+    }
+
+    // Height validation
+    const height = parseFloat(userInfo.height);
+    if (!height) {
+      newErrors.height = "Height is required";
+      isValid = false;
+    } else if (isMetric) {
+      // Metric: 120cm - 215cm
+      if (height < 120 || height > 215) {
+        newErrors.height = "Height must be between 120cm and 215cm";
+        isValid = false;
+      }
+    } else {
+      // Imperial: 4ft (48in) - 7ft (84in)
+      if (height < 48 || height > 84) {
+        newErrors.height = "Height must be between 4ft and 7ft";
+        isValid = false;
+      }
+    }
+
+    // Weight validation
+    const weight = parseFloat(userInfo.weight);
+    if (!weight) {
+      newErrors.weight = "Weight is required";
+      isValid = false;
+    } else if (isMetric) {
+      // Metric: 35kg - 135kg
+      if (weight < 35 || weight > 135) {
+        newErrors.weight = "Weight must be between 35kg and 135kg";
+        isValid = false;
+      }
+    } else {
+      // Imperial: 80lb - 300lb
+      if (weight < 80 || weight > 300) {
+        newErrors.weight = "Weight must be between 80lb and 300lb";
+        isValid = false;
+      }
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleSubmit = () => {
-    if (!userInfo.height || !userInfo.weight || !userInfo.age) {
-      Alert.alert("Please fill all fields");
+    if (!validateInputs()) {
       return;
     }
 
-    const completeUserInfo = {
+    // Convert to metric for storage if using imperial
+    const height = parseFloat(userInfo.height);
+    const weight = parseFloat(userInfo.weight);
+    const convertedData = {
       ...route.params.userInfo,
-      height: parseInt(userInfo.height),
-      weight: parseInt(userInfo.weight),
+      height: isMetric ? height : Math.round(height * 2.54), // Convert inches to cm
+      weight: isMetric ? weight : Math.round(weight * 0.453592), // Convert lbs to kg
       age: parseInt(userInfo.age),
     };
 
-    mutate(completeUserInfo);
+    mutate(convertedData);
   };
 
-  // Generate height options (4ft/120cm to 7ft/215cm)
-  const heightOptions = isMetric
-    ? Array.from({ length: 96 }, (_, i) => ({
-        value: `${i + 120}`,
-        label: `${i + 120} cm`,
-      }))
-    : Array.from({ length: 37 }, (_, i) => ({
-        value: `${i + 48}`,
-        label: `${i + 48} in`,
-      }));
-
-  // Generate weight options (80lb/35kg to 300lb/135kg)
-  const weightOptions = isMetric
-    ? Array.from({ length: 101 }, (_, i) => ({
-        value: `${i + 35}`,
-        label: `${i + 35} kg`,
-      }))
-    : Array.from({ length: 221 }, (_, i) => ({
-        value: `${i + 80}`,
-        label: `${i + 80} lb`,
-      }));
-
-  // Generate age options (16-100 years)
-  const ageOptions = Array.from({ length: 85 }, (_, i) => ({
-    value: `${i + 16}`,
-    label: `${i + 16} years`,
-  }));
+  // Handle unit system change
+  useEffect(() => {
+    if (userInfo.height && userInfo.weight) {
+      const height = parseFloat(userInfo.height);
+      const weight = parseFloat(userInfo.weight);
+      
+      setUserInfo({
+        ...userInfo,
+        height: isMetric 
+          ? (height * 2.54).toFixed(1) // in to cm
+          : (height / 2.54).toFixed(1), // cm to in
+        weight: isMetric
+          ? (weight * 0.453592).toFixed(1) // lb to kg
+          : (weight / 0.453592).toFixed(1), // kg to lb
+      });
+    }
+  }, [isMetric]);
 
   const SelectTriggerStyles = {
     width: "100%",
@@ -92,255 +140,158 @@ const GetStarted = () => {
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#1A1A1A" }}>
-      <YStack padding="$4" space="$4" width="100%" minHeight="100%">
-        <XStack padding="$4">
-          <Text
-            color="#333"
-            fontSize={50}
-            onPress={() => navigation.navigate("Register")}
-          >
-            ×
-          </Text>
-        </XStack>
 
-        <YStack space="$6" marginTop="$8">
-          <Text
-            color="white"
-            fontSize={32}
-            fontWeight="bold"
-            textAlign="center"
-          >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <YStack
+        f={1}
+        bg="$background"
+        width="100%"
+        ai="center"
+        jc="center"
+        space="$6"
+      >
+        <ChevronLeft position="absolute" top={90} left="$6" size={24} color={theme.color.val} onPress={() => navigation.goBack()}/>
+        <YStack space="$4" ai="center" mb="$4">
+          <Text color="$color" fontSize="$9" fontWeight="bold">
             Get Started
           </Text>
-
-          <Text color="gray" fontSize={14} textAlign="center" marginBottom="$6">
-            Input your height and weight to get accurate measurements of
-            calories burnt!
+          <Text color="$color" opacity={0.7} fontSize="$4" textAlign="center">
+            Help us customize your experience {'\n'} We just need a few details.
           </Text>
+        </YStack>
 
-          <YStack space="$4" marginTop="$4">
-            <Select
-              value={userInfo.height}
-              onValueChange={(item) =>
-                setUserInfo({ ...userInfo, height: parseInt(item) })
-              }
-            >
-              <Select.Trigger {...SelectTriggerStyles}>
-                <Select.Value placeholder="Height" color="white" />
-              </Select.Trigger>
 
-              <Adapt when="sm" platform="touch">
-                <Sheet modal dismissOnSnapToBottom>
-                  <Sheet.Frame>
-                    <Sheet.ScrollView>
-                      <Adapt.Contents />
-                    </Sheet.ScrollView>
-                  </Sheet.Frame>
-                  <Sheet.Overlay
-                    animation="lazy"
-                    enterStyle={{ opacity: 0 }}
-                    exitStyle={{ opacity: 0 }}
-                  />
-                </Sheet>
-              </Adapt>
-
-              <Select.Content zIndex={200000}>
-                <Select.ScrollUpButton
-                  alignItems="center"
-                  justifyContent="center"
-                  position="relative"
-                  width="100%"
-                  height="$3"
-                ></Select.ScrollUpButton>
-
-                <Select.Viewport minWidth={200}>
-                  <Select.Group>
-                    {heightOptions.map((item, i) => (
-                      <Select.Item
-                        index={i}
-                        key={item.value}
-                        value={item.value}
-                      >
-                        <Select.ItemText color="white">
-                          {item.label}
-                        </Select.ItemText>
-                      </Select.Item>
-                    ))}
-                  </Select.Group>
-                </Select.Viewport>
-
-                <Select.ScrollDownButton
-                  alignItems="center"
-                  justifyContent="center"
-                  position="relative"
-                  width="100%"
-                  height="$3"
-                ></Select.ScrollDownButton>
-              </Select.Content>
-            </Select>
-
-            <Select
-              value={userInfo.weight}
-              onValueChange={(item) =>
-                setUserInfo({ ...userInfo, weight: parseInt(item) })
-              }
-            >
-              <Select.Trigger {...SelectTriggerStyles}>
-                <Select.Value placeholder="Weight" color="white" />
-              </Select.Trigger>
-
-              <Adapt when="sm" platform="touch">
-                <Sheet modal dismissOnSnapToBottom>
-                  <Sheet.Frame>
-                    <Sheet.ScrollView>
-                      <Adapt.Contents />
-                    </Sheet.ScrollView>
-                  </Sheet.Frame>
-                  <Sheet.Overlay
-                    animation="lazy"
-                    enterStyle={{ opacity: 0 }}
-                    exitStyle={{ opacity: 0 }}
-                  />
-                </Sheet>
-              </Adapt>
-
-              <Select.Content zIndex={200000}>
-                <Select.ScrollUpButton
-                  alignItems="center"
-                  justifyContent="center"
-                  position="relative"
-                  width="100%"
-                  height="$3"
-                ></Select.ScrollUpButton>
-
-                <Select.Viewport minWidth={200}>
-                  <Select.Group>
-                    {weightOptions.map((item, i) => (
-                      <Select.Item
-                        index={i}
-                        key={item.value}
-                        value={item.value}
-                      >
-                        <Select.ItemText color="white">
-                          {item.label}
-                        </Select.ItemText>
-                      </Select.Item>
-                    ))}
-                  </Select.Group>
-                </Select.Viewport>
-
-                <Select.ScrollDownButton
-                  alignItems="center"
-                  justifyContent="center"
-                  position="relative"
-                  width="100%"
-                  height="$3"
-                ></Select.ScrollDownButton>
-              </Select.Content>
-            </Select>
-
-            <Select
-              value={userInfo.age}
-              onValueChange={(item) =>
-                setUserInfo({ ...userInfo, age: parseInt(item) })
-              }
-            >
-              <Select.Trigger {...SelectTriggerStyles}>
-                <Select.Value placeholder="Age" color="white" />
-              </Select.Trigger>
-
-              <Adapt when="sm" platform="touch">
-                <Sheet modal dismissOnSnapToBottom>
-                  <Sheet.Frame>
-                    <Sheet.ScrollView>
-                      <Adapt.Contents />
-                    </Sheet.ScrollView>
-                  </Sheet.Frame>
-                  <Sheet.Overlay
-                    animation="lazy"
-                    enterStyle={{ opacity: 0 }}
-                    exitStyle={{ opacity: 0 }}
-                  />
-                </Sheet>
-              </Adapt>
-
-              <Select.Content zIndex={200000}>
-                <Select.ScrollUpButton
-                  alignItems="center"
-                  justifyContent="center"
-                  position="relative"
-                  width="100%"
-                  height="$3"
-                ></Select.ScrollUpButton>
-
-                <Select.Viewport minWidth={200}>
-                  <Select.Group>
-                    {ageOptions.map((item, i) => (
-                      <Select.Item
-                        index={i}
-                        key={item.value}
-                        value={item.value}
-                      >
-                        <Select.ItemText color="white">
-                          {item.label}
-                        </Select.ItemText>
-                      </Select.Item>
-                    ))}
-                  </Select.Group>
-                </Select.Viewport>
-
-                <Select.ScrollDownButton
-                  alignItems="center"
-                  justifyContent="center"
-                  position="relative"
-                  width="100%"
-                  height="$3"
-                ></Select.ScrollDownButton>
-              </Select.Content>
-            </Select>
-
-            <XStack
-              alignItems="center"
-              justifyContent="space-between"
-              paddingVertical="$2"
-            >
-              <Text color="gray" fontSize={14}>
-                ft/lb
-              </Text>
-              <Switch
-                backgroundColor="#333"
-                size="$3"
-                checked={isMetric}
-                onCheckedChange={setIsMetric}
-              >
-                <Switch.Thumb animation="quick" />
-              </Switch>
-            </XStack>
-
-            <Button
-              backgroundColor="#333"
-              color="white"
-              size="$4"
-              marginTop="$4"
-              onPress={handleSubmit}
-            >
-              Start Earning!
-            </Button>
-
-            <Text
-              color="gray"
-              fontSize={12}
-              textAlign="center"
-              marginTop="$4"
-              marginBottom="$4"
-            >
-              By confirming you agree to all <Text color="white">terms</Text>
+        <YStack space="$4" width="85%" maxWidth={400}>
+          <YStack gap="$4" width="100%">
+          <Input
+            size="$4"
+            borderWidth={2}
+            borderRadius="$10"
+            backgroundColor="$backgroundTransparent"
+            borderColor="$color4"
+            color="white"
+            focusStyle={{
+              borderColor: theme.cyan8.val,
+            }}
+            placeholder={isMetric ? "Height (cm)" : "Height (inches)"}
+            placeholderTextColor="$color8"
+            keyboardType="numeric"
+            value={userInfo.height}
+            onChangeText={(text) => {
+              setUserInfo({ ...userInfo, height: text });
+              setErrors({ ...errors, height: "" });
+            }}
+          />
+          {errors.height ? (
+            <Text color="$magenta8" fontSize="$2">
+              {errors.height}
             </Text>
+          ) : null}
+
+          <Input
+            size="$4"
+            borderWidth={2}
+            borderRadius="$10"
+            backgroundColor="$backgroundTransparent"
+            borderColor="$color4"
+            color="white"
+            focusStyle={{
+              borderColor: theme.cyan8.val,
+            }}
+            placeholder={isMetric ? "Weight (kg)" : "Weight (lbs)"}
+            placeholderTextColor="$color8"
+            keyboardType="numeric"
+            value={userInfo.weight}
+            onChangeText={(text) => {
+              setUserInfo({ ...userInfo, weight: text });
+              setErrors({ ...errors, weight: "" });
+            }}
+          />
+          {errors.weight ? (
+            <Text color="$magenta8" fontSize="$2">
+              {errors.weight}
+            </Text>
+          ) : null}
+
+          <Input
+            size="$4"
+            borderWidth={2}
+            borderRadius="$10"
+            backgroundColor="$backgroundTransparent"
+            borderColor="$color4"
+            color="white"
+            focusStyle={{
+              borderColor: theme.cyan8.val,
+            }}
+            placeholder="Age"
+            placeholderTextColor="$color8"
+            keyboardType="numeric"
+            value={userInfo.age}
+            onChangeText={(text) => {
+              setUserInfo({ ...userInfo, age: text });
+              setErrors({ ...errors, age: "" });
+            }}
+          />
           </YStack>
+          {errors.age ? (
+            <Text color="$magenta8" fontSize="$2">
+              {errors.age}
+            </Text>
+          ) : null}
+
+          <XStack
+            alignItems="center"
+            justifyContent="space-between"
+            paddingVertical="$2"
+            marginTop="$2"
+          >
+            <Text color="$color" opacity={0.7}>
+              {isMetric ? "Metric (cm/kg)" : "Imperial (in/lb)"}
+            </Text>
+            <Switch
+              size="$3"
+              checked={isMetric}
+              onCheckedChange={setIsMetric}
+              backgroundColor="$color4"
+            >
+
+              <Switch.Thumb animation="quick" />
+            </Switch>
+          </XStack>
+
+          <Button
+            size="$4"
+            borderRadius="$10"
+            backgroundColor="$background"
+            borderColor={theme.cyan8.val}
+            borderWidth={2}
+            color={theme.cyan8.val}
+            onPress={handleSubmit}
+            pressStyle={{ opacity: 0.8 }}
+            marginTop="$4"
+          >
+            Start Earning!
+          </Button>
+
+
+          <Text
+            color="$color"
+            opacity={0.7}
+            fontSize="$2"
+            textAlign="center"
+            marginTop="$4"
+          >
+            By confirming you agree to all{" "}
+            <Text
+              color={theme.cyan8.val}
+              pressStyle={{ opacity: 0.8 }}
+            >
+              terms
+            </Text>
+          </Text>
         </YStack>
       </YStack>
-    </ScrollView>
+    </TouchableWithoutFeedback>
   );
 };
 

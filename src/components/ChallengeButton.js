@@ -14,13 +14,16 @@ import {
   Adapt,
   useTheme,
   Spinner,
+  Alert,
 } from "tamagui";
-import { ChevronDown, ChevronUp, Check, Play } from "@tamagui/lucide-icons";
+import { ChevronDown, ChevronUp, Check, Play, Trophy } from "@tamagui/lucide-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useChallenge } from "../context/ChallengeContext";
-import { participateInFriendChallenge } from "../api/Auth";
+import { createFriendChallenge, participateInFriendChallenge } from "../api/Auth";
+import { useQuery } from "@tanstack/react-query";
+import { getAllFriends } from "../api/Auth";
 
-const ChallengeButton = ({ friends }) => {
+const ChallengeButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [challengeSteps, setChallengeSteps] = useState(null);
@@ -29,18 +32,54 @@ const ChallengeButton = ({ friends }) => {
   const theme = useTheme();
   const { activeChallenge, startChallenge } = useChallenge();
 
+  // Fetch friends using useQuery
+  const {
+    data: friends,
+    isLoading: isLoadingFriends,
+    error: friendsError,
+  } = useQuery({
+    queryKey: ["friends"],
+    queryFn: getAllFriends,
+  });
+
   const handleCreateChallenge = async () => {
     if (!challengeSteps || !selectedFriends.length) return;
-    
+
     try {
       setIsLoading(true);
-      const selectedFriend = friends.find(f => f.id === selectedFriends[0]);
-      
-      await startChallenge(selectedFriend, Number(challengeSteps));
+
+      // Create the challenge with all selected friends
+      const challengeData = await createFriendChallenge({
+        targetSteps: Number(challengeSteps),
+        friendIds: selectedFriends
+      });
+
+      // Get all selected friends' data
+      const selectedFriendsData = selectedFriends.map(friendId => 
+        friends.find(f => f.id === friendId)
+      ).filter(Boolean);
+
+      // Start the challenge locally with all participants
+      await startChallenge({
+        id: challengeData.id,
+        targetSteps: Number(challengeSteps),
+        participants: selectedFriendsData.map(friend => ({
+          id: friend.id,
+          username: friend.username,
+          avatar: friend.avatar || "https://github.com/hello-world.png",
+          steps: 0
+        }))
+      });
+
       setIsOpen(false);
-      navigation.navigate('Friend Challenge');
+      navigation.navigate("Friend Challenge");
     } catch (error) {
-      console.error('Error creating challenge:', error);
+      console.error("Error creating challenge:", error);
+      Alert.alert(
+        "Error",
+        "Failed to create challenge. Please try again.",
+        [{ text: "OK" }]
+      );
     } finally {
       setIsLoading(false);
     }
@@ -54,24 +93,23 @@ const ChallengeButton = ({ friends }) => {
           size="$6"
           borderWidth={2}
           borderColor={theme.cyan8.val}
-          onPress={() => navigation.navigate('Friend Challenge')}
+          onPress={() => navigation.navigate("Friend Challenge")}
         >
-          <Avatar.Fallback 
+          <Avatar.Fallback
             backgroundColor={theme.cyan10.val}
-            jc="center" 
+            jc="center"
             ai="center"
           >
             <YStack ai="center" jc="center">
-              <Button 
-                fontSize={8} 
+              <Button
+                fontSize={8}
                 color={theme.color.val}
                 icon={Play}
                 backgroundColor={theme.cyan8.val}
                 circular
                 size="$6"
-                onPress={() => navigation.navigate('Friend Challenge')}
-              >
-              </Button>
+                onPress={() => navigation.navigate("Friend Challenge")}
+              ></Button>
             </YStack>
           </Avatar.Fallback>
         </Avatar>
@@ -80,27 +118,22 @@ const ChallengeButton = ({ friends }) => {
   }
 
   return (
-    <YStack ai="center" space="$2">
-      <Avatar
+    <YStack ai="center">
+      <YStack ai="center" jc="center">
+      <Button
         circular
-        size="$6"
+        size="$5"
+        icon={<Trophy color="$color" size={16} />}
         borderWidth={1}
         borderColor="$color"
         onPress={() => !isLoading && setIsOpen(true)}
       >
-        <Avatar.Fallback backgroundColor="transparent" jc="center" ai="center">
-          <YStack ai="center" jc="center">
-            <Button 
-              unstyled 
-              fontSize={8} 
-              color="$color"
-              disabled={isLoading}
-            >
-              Challenge
-            </Button>
-          </YStack>
-        </Avatar.Fallback>
-      </Avatar>
+      </Button>
+
+      <Button unstyled fontSize="$2" mt="$1" color="$color">
+            Challenge
+        </Button>
+      </YStack>
 
       <Sheet
         modal
@@ -114,10 +147,11 @@ const ChallengeButton = ({ friends }) => {
         <Sheet.Frame>
           <Sheet.Handle />
           <YStack padding="$4" space="$4">
-
             {/* Steps Selection */}
             <YStack space="$2">
-              <Label fontSize={16} fontWeight="bold">Set Challenge Steps</Label>
+              <Label fontSize={16} fontWeight="bold">
+                Set Challenge Steps
+              </Label>
               <Select
                 value={String(challengeSteps)}
                 onValueChange={(val) => setChallengeSteps(Number(val))}
@@ -160,20 +194,22 @@ const ChallengeButton = ({ friends }) => {
 
                   <Select.Viewport>
                     <Select.Group>
-                      {[100, 1000, 5000, 10000, 15000, 20000, 25000].map((steps, i) => (
-                        <Select.Item
-                          index={i}
-                          key={steps}
-                          value={String(steps)}
-                        >
-                          <Select.ItemText>
-                            {steps.toLocaleString()} steps
-                          </Select.ItemText>
-                          <Select.ItemIndicator>
-                            <Check size={16} />
-                          </Select.ItemIndicator>
-                        </Select.Item>
-                      ))}
+                      {[100, 1000, 5000, 10000, 15000, 20000, 25000].map(
+                        (steps, i) => (
+                          <Select.Item
+                            index={i}
+                            key={steps}
+                            value={String(steps)}
+                          >
+                            <Select.ItemText>
+                              {steps.toLocaleString()} steps
+                            </Select.ItemText>
+                            <Select.ItemIndicator>
+                              <Check size={16} />
+                            </Select.ItemIndicator>
+                          </Select.Item>
+                        )
+                      )}
                     </Select.Group>
                   </Select.Viewport>
 
@@ -190,74 +226,92 @@ const ChallengeButton = ({ friends }) => {
                 Select up to 4 friends ({selectedFriends.length}/4)
               </Text>
               <ScrollView maxHeight={300}>
-                {friends?.map((friend) => (
-                  <XStack
-                    key={friend.id}
-                    space="$4"
-                    padding="$3"
-                    alignItems="center"
-                    backgroundColor="$background"
-                    borderRadius="$4"
-                    marginVertical="$1"
-                  >
-                    <Checkbox
-                      checked={selectedFriends.includes(friend.id)}
-                      onCheckedChange={(checked) => {
-                        if (!isLoading) {
-                          setSelectedFriends((prev) => {
-                            if (checked) {
-                              if (prev.length >= 4) return prev;
-                              return [...prev, friend.id];
-                            } else {
-                              return prev.filter((id) => id !== friend.id);
-                            }
-                          });
-                        }
-                      }}
-                      disabled={
-                        isLoading ||
-                        (selectedFriends.length >= 4 &&
-                        !selectedFriends.includes(friend.id))
-                      }
-                    >
-                      <Checkbox.Indicator>
-                        <Check />
-                      </Checkbox.Indicator>
-                    </Checkbox>
-
-                    <Avatar circular size="$4">
-                      <Avatar.Image
-                        source={{
-                          uri: "https://github.com/hello-world.png",
-                        }}
-                      />
-                      <Avatar.Fallback backgroundColor="$blue10" />
-                    </Avatar>
-
-                    <YStack>
-                      <Text fontSize={16} fontWeight="500">
-                        {friend.username}
-                      </Text>
-                      {friend.city && (
-                        <Text fontSize={12} color="$gray10">
-                          {friend.city}
-                        </Text>
-                      )}
-                    </YStack>
+                {isLoadingFriends ? (
+                  <XStack padding="$4" jc="center">
+                    <Spinner size="large" color="$color" />
                   </XStack>
-                ))}
+                ) : friendsError ? (
+                  <Text color="$red10" padding="$4">
+                    Error loading friends. Please try again.
+                  </Text>
+                ) : friends?.length > 0 ? (
+                  friends.map((friend) => (
+                    <XStack
+                      key={friend.id}
+                      space="$4"
+                      padding="$3"
+                      alignItems="center"
+                      backgroundColor="$background"
+                      borderRadius="$4"
+                      marginVertical="$1"
+                    >
+                      <Checkbox
+                        checked={selectedFriends.includes(friend.id)}
+                        onCheckedChange={(checked) => {
+                          if (!isLoading) {
+                            setSelectedFriends((prev) => {
+                              if (checked) {
+                                if (prev.length >= 4) return prev;
+                                return [...prev, friend.id];
+                              } else {
+                                return prev.filter((id) => id !== friend.id);
+                              }
+                            });
+                          }
+                        }}
+                        disabled={
+                          isLoading ||
+                          (selectedFriends.length >= 4 &&
+                            !selectedFriends.includes(friend.id))
+                        }
+                      >
+                        <Checkbox.Indicator>
+                          <Check />
+                        </Checkbox.Indicator>
+                      </Checkbox>
+
+                      <Avatar circular size="$4">
+                        <Avatar.Image
+                          source={{
+                            uri: friend.avatar || "https://github.com/hello-world.png",
+                          }}
+                        />
+                        <Avatar.Fallback backgroundColor="$blue10" />
+                      </Avatar>
+
+                      <YStack>
+                        <Text fontSize={16} fontWeight="500">
+                          {friend.username}
+                        </Text>
+                        {friend.city && (
+                          <Text fontSize={12} color="$gray10">
+                            {friend.city}
+                          </Text>
+                        )}
+                      </YStack>
+                    </XStack>
+                  ))
+                ) : (
+                  <Text padding="$4">No friends found</Text>
+                )}
               </ScrollView>
             </YStack>
 
             <Button
               onPress={handleCreateChallenge}
               theme="active"
-              disabled={!challengeSteps || selectedFriends.length === 0 || isLoading}
+              disabled={
+                !challengeSteps || selectedFriends.length === 0 || isLoading
+              }
               fontSize={14}
               backgroundColor={theme.background.val}
               borderColor={theme.color6.val}
               color={theme.color.val}
-              icon={isLoading ? () => <Spinner size="small" color={theme.color.val} /> : undefined}
+              icon={
+                isLoading ? () => (
+                  <Spinner size="small" color={theme.color.val} />
+                ) : undefined
+              }
             >
               {isLoading ? "Creating..." : "Create Challenge"}
             </Button>
