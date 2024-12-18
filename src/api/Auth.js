@@ -230,22 +230,29 @@ const updateStepsForFriendChallenge = async (
     if (!friendChallengeId) {
       throw new Error("Challenge ID is required");
     }
-    if (typeof steps !== 'number' || steps < 0) {
+    if (typeof steps !== "number" || steps < 0) {
       throw new Error("Invalid step count");
     }
 
     // Send request with validated data
-    const { data } = await instance.post(`/v1/user/steps/friend/${friendChallengeId}`, {
-      steps: Math.round(steps),
-      completed,
-      goalReached,
-    });
-    
+    const { data } = await instance.post(
+      `/v1/user/steps/friend/${friendChallengeId}`,
+      {
+        steps: Math.round(steps),
+        completed,
+        goalReached,
+      }
+    );
+
     return data;
   } catch (error) {
     console.error("Error updating steps for friend challenge:", error);
     // Include more error details in the thrown error
-    throw new Error(`Failed to update steps: ${error.response?.data?.message || error.message}`);
+    throw new Error(
+      `Failed to update steps: ${
+        error.response?.data?.message || error.message
+      }`
+    );
   }
 };
 const updateStepsForEvent = async (eventId, steps, completed = false) => {
