@@ -230,7 +230,7 @@ const ProfileCard = () => {
         <XStack width="100%" space="$4">
           {/* Left 1/3 - Avatar Section */}
           <YStack width="40%" ai="center" space="$4">
-            <Avatar circular size="$10" backgroundColor="$background">
+            <Avatar br={17} size="$10" backgroundColor="$background">
               <Avatar.Image
                 source={selectedAvatar.url}
                 resizeMode="contain"
@@ -357,9 +357,9 @@ const ProfileCard = () => {
               }}
             >
               <Avatar 
-                circular 
+                br={18} 
                 size="$7" 
-                backgroundColor={theme.cyan10.val}
+                backgroundColor="transparent"
                 animation="bouncy"
               >
                 <Avatar.Image 

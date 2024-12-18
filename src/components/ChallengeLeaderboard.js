@@ -76,7 +76,10 @@ const ChallengeLeaderboard = ({ participants, targetSteps, onClose }) => {
               <Text color={getBarColor(participant.rank)} fontSize="$4" fontWeight="bold" width={40}>
                 {getRankText(participant.rank)}
               </Text>
-              <Avatar circular size="$4">
+              <Avatar 
+                size="$4" 
+                br={40}
+              >
                 <Avatar.Image 
                   source={participant.isLocalImage ? participant.avatar : { uri: participant.avatar }}
                 />

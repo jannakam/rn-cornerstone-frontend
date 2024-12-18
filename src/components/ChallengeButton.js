@@ -23,11 +23,24 @@ import { createFriendChallenge, participateInFriendChallenge } from "../api/Auth
 import { useQuery } from "@tanstack/react-query";
 import { getAllFriends } from "../api/Auth";
 
+// Import the avatar options
+const avatarOptions = [
+  { id: 1, url: require("../../assets/avatars/avatar1.png") },
+  { id: 2, url: require("../../assets/avatars/avatar2.png") },
+  { id: 3, url: require("../../assets/avatars/avatar3.png") },
+  { id: 4, url: require("../../assets/avatars/avatar4.png") },
+  { id: 5, url: require("../../assets/avatars/avatar5.png") },
+  { id: 6, url: require("../../assets/avatars/avatar6.png") },
+  { id: 7, url: require("../../assets/avatars/avatar7.png") },
+  { id: 9, url: require("../../assets/avatars/avatar9.png") },
+];
+
 const ChallengeButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [challengeSteps, setChallengeSteps] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [friendAvatars, setFriendAvatars] = useState({});
   const navigation = useNavigation();
   const theme = useTheme();
   const { activeChallenge, startChallenge } = useChallenge();
@@ -41,6 +54,18 @@ const ChallengeButton = () => {
     queryKey: ["friends"],
     queryFn: getAllFriends,
   });
+
+  // Assign random avatars to friends when they load
+  React.useEffect(() => {
+    if (friends && friends.length > 0) {
+      const newAvatarMap = {};
+      friends.forEach(friend => {
+        const randomAvatar = avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
+        newAvatarMap[friend.id] = randomAvatar;
+      });
+      setFriendAvatars(newAvatarMap);
+    }
+  }, [friends]);
 
   const handleCreateChallenge = async () => {
     if (!challengeSteps || !selectedFriends.length) return;
@@ -89,11 +114,11 @@ const ChallengeButton = () => {
     return (
       <YStack ai="center" space="$2">
         <Avatar
-          circular
           size="$6"
           borderWidth={2}
           borderColor={theme.cyan8.val}
           onPress={() => navigation.navigate("Friend Challenge")}
+          br={40}
         >
           <Avatar.Fallback
             backgroundColor={theme.cyan10.val}
@@ -130,7 +155,7 @@ const ChallengeButton = () => {
       >
       </Button>
 
-      <Button unstyled fontSize="$2" mt="$1" color="$color">
+      <Button unstyled fontSize="$1" mt="$1" color="$color">
             Challenge
         </Button>
       </YStack>
@@ -270,11 +295,9 @@ const ChallengeButton = () => {
                         </Checkbox.Indicator>
                       </Checkbox>
 
-                      <Avatar circular size="$4">
+                      <Avatar size="$4" br={40}>
                         <Avatar.Image
-                          source={{
-                            uri: friend.avatar || "https://github.com/hello-world.png",
-                          }}
+                          source={friendAvatars[friend.id]?.url || avatarOptions[0].url}
                         />
                         <Avatar.Fallback backgroundColor="$blue10" />
                       </Avatar>

@@ -70,9 +70,13 @@ const Header = ({ navigation }) => {
         </TouchableOpacity>
       </YStack>
       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-        <Avatar circular size="$4" backgroundColor={theme.cyan10.val}>
+        <Avatar 
+          size="$4" 
+          backgroundColor={theme.cyan10.val}
+          br={17}
+        >
           <Avatar.Image source={selectedAvatar.url} />
-          <Avatar.Fallback backgroundColor={theme.cyan10.val} />
+          <Avatar.Fallback backgroundColor="transparent" />
         </Avatar>
       </TouchableOpacity>
     </XStack>
