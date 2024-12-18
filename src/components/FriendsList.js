@@ -59,16 +59,34 @@ const FriendsList = () => {
     }
   }, [theme]);
 
-  // Assign random avatars to friends
+  // Load or assign avatars to friends
   useEffect(() => {
-    if (friendss && friendss.length > 0) {
-      const newAvatarMap = {};
-      friendss.forEach(friend => {
-        const randomAvatar = avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
-        newAvatarMap[friend.id] = randomAvatar;
-      });
-      setFriendAvatars(newAvatarMap);
-    }
+    const loadOrAssignAvatars = async () => {
+      if (friendss && friendss.length > 0) {
+        const newAvatarMap = {};
+        
+        for (const friend of friendss) {
+          // Try to load existing avatar assignment
+          const savedAvatarId = await AsyncStorage.getItem(`friendAvatar_${friend.id}`);
+          if (savedAvatarId) {
+            const avatar = avatarOptions.find(a => a.id === parseInt(savedAvatarId));
+            if (avatar) {
+              newAvatarMap[friend.id] = avatar;
+              continue;
+            }
+          }
+          
+          // If no saved avatar, assign a random one and save it
+          const randomAvatar = avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
+          newAvatarMap[friend.id] = randomAvatar;
+          await AsyncStorage.setItem(`friendAvatar_${friend.id}`, randomAvatar.id.toString());
+        }
+        
+        setFriendAvatars(newAvatarMap);
+      }
+    };
+
+    loadOrAssignAvatars();
   }, [friendss]);
 
   const friendActivityRingConfig = {

@@ -12,6 +12,7 @@ import {
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllUsers, addFriend, getAllFriends } from "../api/Auth";
 import { Plus } from "@tamagui/lucide-icons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Import the avatar options
 const avatarOptions = [
@@ -37,16 +38,30 @@ const AddFriendButton = () => {
     queryFn: getAllUsers,
   });
 
-  // Assign random avatars to users when they load
+  // Load user avatars from AsyncStorage
   React.useEffect(() => {
-    if (users && users.length > 0) {
-      const newAvatarMap = {};
-      users.forEach(user => {
-        const randomAvatar = avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
-        newAvatarMap[user.id] = randomAvatar;
-      });
-      setUserAvatars(newAvatarMap);
-    }
+    const loadUserAvatars = async () => {
+      if (users && users.length > 0) {
+        const newAvatarMap = {};
+        for (const user of users) {
+          const savedAvatarId = await AsyncStorage.getItem(`friendAvatar_${user.id}`);
+          if (savedAvatarId) {
+            const avatar = avatarOptions.find(a => a.id === parseInt(savedAvatarId));
+            if (avatar) {
+              newAvatarMap[user.id] = avatar;
+              continue;
+            }
+          }
+          // If no saved avatar, assign a random one and save it
+          const randomAvatar = avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
+          newAvatarMap[user.id] = randomAvatar;
+          await AsyncStorage.setItem(`friendAvatar_${user.id}`, randomAvatar.id.toString());
+        }
+        setUserAvatars(newAvatarMap);
+      }
+    };
+
+    loadUserAvatars();
   }, [users]);
 
   // Fetch current friends

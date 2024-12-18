@@ -20,8 +20,9 @@ import { ChevronDown, ChevronUp, Check, Play, Trophy } from "@tamagui/lucide-ico
 import { useNavigation } from "@react-navigation/native";
 import { useChallenge } from "../context/ChallengeContext";
 import { createFriendChallenge, participateInFriendChallenge } from "../api/Auth";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { getAllFriends } from "../api/Auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Import the avatar options
 const avatarOptions = [
@@ -55,16 +56,36 @@ const ChallengeButton = () => {
     queryFn: getAllFriends,
   });
 
-  // Assign random avatars to friends when they load
+  // Create challenge mutation
+  const createChallengeMutation = useMutation({
+    mutationFn: (challengeData) => createFriendChallenge(challengeData),
+  });
+
+  // Participate mutation
+  const participateMutation = useMutation({
+    mutationFn: ({ challengeId, friendIds }) => 
+      participateInFriendChallenge(challengeId, friendIds),
+  });
+
+  // Load friend avatars from AsyncStorage
   React.useEffect(() => {
-    if (friends && friends.length > 0) {
-      const newAvatarMap = {};
-      friends.forEach(friend => {
-        const randomAvatar = avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
-        newAvatarMap[friend.id] = randomAvatar;
-      });
-      setFriendAvatars(newAvatarMap);
-    }
+    const loadFriendAvatars = async () => {
+      if (friends && friends.length > 0) {
+        const newAvatarMap = {};
+        for (const friend of friends) {
+          const savedAvatarId = await AsyncStorage.getItem(`friendAvatar_${friend.id}`);
+          if (savedAvatarId) {
+            const avatar = avatarOptions.find(a => a.id === parseInt(savedAvatarId));
+            if (avatar) {
+              newAvatarMap[friend.id] = avatar;
+            }
+          }
+        }
+        setFriendAvatars(newAvatarMap);
+      }
+    };
+
+    loadFriendAvatars();
   }, [friends]);
 
   const handleCreateChallenge = async () => {
@@ -74,26 +95,40 @@ const ChallengeButton = () => {
       setIsLoading(true);
 
       // Create the challenge with all selected friends
-      const challengeData = await createFriendChallenge({
-        targetSteps: Number(challengeSteps),
+      const challengeData = await createChallengeMutation.mutateAsync({
+        stepGoal: Number(challengeSteps),
+        friendIds: selectedFriends,
+        startTime: new Date().toISOString(), // Match ERD
+        endTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
+        date: new Date().toISOString().split('T')[0] // Current date
+      });
+
+      // Participate in the challenge
+      await participateMutation.mutateAsync({
+        challengeId: challengeData.id,
         friendIds: selectedFriends
       });
 
-      // Get all selected friends' data
-      const selectedFriendsData = selectedFriends.map(friendId => 
-        friends.find(f => f.id === friendId)
-      ).filter(Boolean);
+      // Get all selected friends' data and their avatars
+      const selectedFriendsData = selectedFriends.map(friendId => {
+        const friend = friends.find(f => f.id === friendId);
+        const avatar = friendAvatars[friendId]?.url || avatarOptions[0].url;
+        return friend ? {
+          id: friend.id,
+          username: friend.username,
+          avatar: avatar,
+          steps: 0
+        } : null;
+      }).filter(Boolean);
 
       // Start the challenge locally with all participants
       await startChallenge({
         id: challengeData.id,
         targetSteps: Number(challengeSteps),
-        participants: selectedFriendsData.map(friend => ({
-          id: friend.id,
-          username: friend.username,
-          avatar: friend.avatar || "https://github.com/hello-world.png",
-          steps: 0
-        }))
+        participants: selectedFriendsData,
+        startTime: challengeData.startTime,
+        endTime: challengeData.endTime,
+        date: challengeData.date
       });
 
       setIsOpen(false);
@@ -112,13 +147,13 @@ const ChallengeButton = () => {
 
   if (activeChallenge) {
     return (
-      <YStack ai="center" space="$2">
+      <YStack ai="center" jc="center">
         <Avatar
-          size="$6"
+          size="$5"
           borderWidth={2}
           borderColor={theme.cyan8.val}
           onPress={() => navigation.navigate("Friend Challenge")}
-          br={40}
+          circular
         >
           <Avatar.Fallback
             backgroundColor={theme.cyan10.val}
@@ -129,15 +164,19 @@ const ChallengeButton = () => {
               <Button
                 fontSize={8}
                 color={theme.color.val}
-                icon={Play}
+                icon={<Play color="$color" size={16} />}
                 backgroundColor={theme.cyan8.val}
                 circular
-                size="$6"
+                size="$5"
                 onPress={() => navigation.navigate("Friend Challenge")}
               ></Button>
             </YStack>
           </Avatar.Fallback>
         </Avatar>
+
+        <Button unstyled fontSize="$1" mt="$1" color="$color">
+            Continue
+        </Button>
       </YStack>
     );
   }
@@ -219,7 +258,7 @@ const ChallengeButton = () => {
 
                   <Select.Viewport>
                     <Select.Group>
-                      {[100, 1000, 5000, 10000, 15000, 20000, 25000].map(
+                      {[10, 100, 1000, 5000, 10000, 15000, 20000, 25000].map(
                         (steps, i) => (
                           <Select.Item
                             index={i}

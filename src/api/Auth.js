@@ -220,10 +220,12 @@ const updateStepsForDailyChallenge = async (dailyChallengeId, steps) => {
     throw error;
   }
 };
-const updateStepsForFriendChallenge = async (friendChallengeId, steps) => {
+const updateStepsForFriendChallenge = async (friendChallengeId, steps, completed = false, goalReached = false) => {
   try {
     await instance.post(`/v1/user/steps/friend/${friendChallengeId}`, {
       steps,
+      completed,
+      goalReached
     });
   } catch (error) {
     console.error("Error updating steps for friend challenge:", error);
