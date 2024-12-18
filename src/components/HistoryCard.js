@@ -1,70 +1,91 @@
-import React, { useState } from 'react';
-import { Card, YStack, XStack, Text, Button, Tabs, Separator, SizableText, useTheme, Spinner } from 'tamagui';
-import { ChevronDown } from '@tamagui/lucide-icons';
-import { ScrollView } from 'react-native';
-import { useQuery } from '@tanstack/react-query';
-import { getAllDailyChallenges, getAllFriendChallenges, getAllEventChallenges } from '../api/Auth';
+import React, { useState, useMemo } from "react";
+import {
+  Card,
+  YStack,
+  XStack,
+  Text,
+  Tabs,
+  Separator,
+  useTheme,
+  Spinner,
+} from "tamagui";
+import { ScrollView } from "react-native";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProfile } from "../api/Auth";
 
 const HistoryCard = () => {
   const theme = useTheme();
+  const [activeTab, setActiveTab] = useState("daily");
 
-  const { 
-    data: dailyChallenges = [], 
-    isLoading: isDailyLoading 
-  } = useQuery({
-    queryKey: ['dailyChallenges'],
-    queryFn: getAllDailyChallenges
+  const { data: userProfile, isLoading } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: getUserProfile,
   });
 
-  const { 
-    data: friendChallenges = [], 
-    isLoading: isFriendLoading 
-  } = useQuery({
-    queryKey: ['friendChallenges'],
-    queryFn: getAllFriendChallenges
-  });
+  const organizedChallenges = useMemo(() => {
+    if (!userProfile?.challenges) return { daily: [], events: [], friends: [] };
 
-  const { 
-    data: eventChallenges = [], 
-    isLoading: isEventLoading 
-  } = useQuery({
-    queryKey: ['eventChallenges'],
-    queryFn: getAllEventChallenges
-  });
+    return userProfile.challenges.reduce(
+      (acc, challenge) => {
+        if (challenge.dailyChallengeId) {
+          acc.daily.push(challenge);
+        } else if (challenge.eventId) {
+          acc.events.push(challenge);
+        } else if (challenge.friendChallengeId) {
+          acc.friends.push(challenge);
+        }
+        return acc;
+      },
+      { daily: [], events: [], friends: [] }
+    );
+  }, [userProfile?.challenges]);
 
-  const renderContent = (data = [], isLoading = false) => {
+  const renderContent = (type = "daily") => {
     if (isLoading) {
       return (
         <YStack flex={1} alignItems="center" justifyContent="center">
           <Spinner size="large" />
         </YStack>
       );
+    }
 
+    const challenges = organizedChallenges[type] || [];
 
     return (
       <ScrollView>
         <YStack space="$2" padding="$2">
-          {data.slice(0, 2).map((item) => (
-            <Card key={item.id} bordered>
+          {challenges.map((item) => (
+            <Card
+              key={
+                item.dailyChallengeId || item.eventId || item.friendChallengeId
+              }
+              bordered
+            >
               <Card.Header padding="$3">
                 <YStack space="$2">
                   <XStack justifyContent="space-between" alignItems="center">
                     <Text fontSize={16} fontWeight="bold">
-                      {item.name || item.locationName || 'Daily Challenge'}
+                      {type === "daily" && "Daily Challenge"}
+                      {type === "events" && item.eventName}
+                      {type === "friends" && item.friendChallengeName}
                     </Text>
-                    <Text fontSize={16} fontWeight="bold">
-                      {item.fixedPoints ? `+${item.fixedPoints}` : `+${Math.floor(item.stepGoal / 20)}`}
-                    </Text>
+                    <XStack space="$2" alignItems="center">
+                      <Text
+                        fontSize={14}
+                        color={item.completed ? "$green10" : "$gray10"}
+                      >
+                        {item.completed ? "Completed" : "Pending"}
+                      </Text>
+                      <Text fontSize={16} fontWeight="bold">
+                        {item.steps} steps
+                      </Text>
+                    </XStack>
                   </XStack>
-                  <Text fontSize={12}>
-                    {new Date(item.date || item.dateTime).toLocaleDateString()}
-                  </Text>
-                  <Text fontSize={14}>
-                    {item.startTime && item.endTime 
-                      ? `${item.startTime} - ${item.endTime}`
-                      : `Goal: ${item.stepGoal} steps`}
-
-                  </Text>
+                  {type === "daily" && (
+                    <Text fontSize={12}>
+                      {new Date(item.dailyChallengeName).toLocaleDateString()}
+                    </Text>
+                  )}
                 </YStack>
               </Card.Header>
             </Card>
@@ -81,6 +102,11 @@ const HistoryCard = () => {
           <Text fontSize={24} fontWeight="bold">
             History
           </Text>
+          <Text fontSize={16} color="$gray10">
+            {activeTab === "daily" && "Daily Challenges"}
+            {activeTab === "events" && "Event Challenges"}
+            {activeTab === "friends" && "Friend Challenges"}
+          </Text>
         </XStack>
       </Card.Header>
 
@@ -91,31 +117,39 @@ const HistoryCard = () => {
           flexDirection="column"
           width="100%"
           flex={1}
+          value={activeTab}
+          onValueChange={setActiveTab}
         >
           <Tabs.List backgroundColor="$background">
             <Tabs.Tab flex={1} value="daily">
-              <Text>Daily</Text>
+              <Text fontWeight={activeTab === "daily" ? "bold" : "normal"}>
+                Daily
+              </Text>
             </Tabs.Tab>
             <Tabs.Tab flex={1} value="events">
-              <Text>Events</Text>
+              <Text fontWeight={activeTab === "events" ? "bold" : "normal"}>
+                Events
+              </Text>
             </Tabs.Tab>
-            <Tabs.Tab flex={1} value="challenges">
-              <Text>Friends</Text>
+            <Tabs.Tab flex={1} value="friends">
+              <Text fontWeight={activeTab === "friends" ? "bold" : "normal"}>
+                Friends
+              </Text>
             </Tabs.Tab>
           </Tabs.List>
 
           <Separator />
 
           <Tabs.Content value="daily" flex={1}>
-            {renderContent(dailyChallenges, isDailyLoading)}
+            {renderContent("daily")}
           </Tabs.Content>
 
           <Tabs.Content value="events" flex={1}>
-            {renderContent(eventChallenges, isEventLoading)}
+            {renderContent("events")}
           </Tabs.Content>
 
-          <Tabs.Content value="challenges" flex={1}>
-            {renderContent(friendChallenges, isFriendLoading)}
+          <Tabs.Content value="friends" flex={1}>
+            {renderContent("friends")}
           </Tabs.Content>
         </Tabs>
       </Card.Footer>
