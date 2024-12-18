@@ -16,7 +16,7 @@ import {
   Spinner,
   Alert,
 } from "tamagui";
-import { ChevronDown, ChevronUp, Check, Play } from "@tamagui/lucide-icons";
+import { ChevronDown, ChevronUp, Check, Play, Trophy } from "@tamagui/lucide-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useChallenge } from "../context/ChallengeContext";
 import { createFriendChallenge, participateInFriendChallenge } from "../api/Auth";
@@ -118,22 +118,22 @@ const ChallengeButton = () => {
   }
 
   return (
-    <YStack ai="center" space="$2">
-      <Avatar
+    <YStack ai="center">
+      <YStack ai="center" jc="center">
+      <Button
         circular
-        size="$6"
+        size="$5"
+        icon={<Trophy color="$color" size={16} />}
         borderWidth={1}
         borderColor="$color"
         onPress={() => !isLoading && setIsOpen(true)}
       >
-        <Avatar.Fallback backgroundColor="transparent" jc="center" ai="center">
-          <YStack ai="center" jc="center">
-            <Button unstyled fontSize={8} color="$color" disabled={isLoading}>
-              Challenge
-            </Button>
-          </YStack>
-        </Avatar.Fallback>
-      </Avatar>
+      </Button>
+
+      <Button unstyled fontSize="$2" mt="$1" color="$color">
+            Challenge
+        </Button>
+      </YStack>
 
       <Sheet
         modal

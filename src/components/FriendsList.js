@@ -124,10 +124,14 @@ const FriendsList = () => {
         <H6>Friends</H6>
       </Card.Header>
       <Card.Footer padded pt="$0">
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <XStack gap="$4">
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{alignItems: "center", justifyContent: "center"}}>
+          <XStack gap="$5" ai="center" justifyContent="center">
+
+            {/* Add and Challenge Buttons  */}
             <AddFriendButton />
             <ChallengeButton friends={friendss} />
+
+
             {/* Friend Avatars */}
             {isLoading ? (
               <Text>Loading...</Text>
@@ -136,7 +140,7 @@ const FriendsList = () => {
             ) : friendss && friendss.length > 0 ? (
               friendss.map((friend) => (
                 <YStack key={friend.id} ai="center">
-                  <XStack height="$6" ai="center" jc="center">
+                  <XStack>
                     <Avatar circular size="$5" zIndex={1}>
                       <Avatar.Image
                         source={{
@@ -174,6 +178,8 @@ const FriendsList = () => {
             ) : (
               <Text>No friends found</Text>
             )}
+
+          
           </XStack>
         </ScrollView>
         {/* {renderContent()} */}

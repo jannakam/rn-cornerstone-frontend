@@ -11,6 +11,7 @@ import {
 } from "tamagui";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllUsers, addFriend, getAllFriends } from "../api/Auth";
+import { Plus } from "@tamagui/lucide-icons";
 
 const AddFriendButton = () => {
   const [isAddFriendOpen, setIsAddFriendOpen] = useState(false);
@@ -56,22 +57,23 @@ const AddFriendButton = () => {
   const isLoading = isLoadingUsers || isLoadingFriends;
 
   return (
-    <YStack ai="center" space="$2">
-      <Avatar
-        circular
-        size="$6"
-        borderWidth={1}
-        borderColor="$color"
+    <YStack ai="center">
+      <YStack ai="center" jc="center">
+        <Button
+          circular
+          icon={<Plus color="$color" size={16} />}
+          size="$5"
+          borderWidth={1}
+          borderColor="$color"
         onPress={() => setIsAddFriendOpen(true)}
       >
-        <Avatar.Fallback backgroundColor="transparent" jc="center" ai="center">
-          <YStack ai="center" jc="center">
-            <Button unstyled fontSize={8} color="$color">
-              Add
-            </Button>
-          </YStack>
-        </Avatar.Fallback>
-      </Avatar>
+        
+      </Button>
+
+      <Button unstyled fontSize="$2" mt="$1" color="$color">
+            Add
+        </Button>
+      </YStack>
 
       <Sheet
         modal
