@@ -9,6 +9,7 @@ import {
 import MapView, { UrlTile, Marker, Callout } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 import { Card, YStack, XStack, Text, useTheme, Button } from "tamagui";
+import { useTheme as useThemeContext } from "../context/ThemeContext";
 import { Footprints, MapPin, ChevronRight } from "@tamagui/lucide-icons";
 import locations from "../data/locations";
 import sponsors from "../data/sponsors";
@@ -17,10 +18,11 @@ const Map = forwardRef((props, ref) => {
   const [error, setError] = useState(null);
   const navigation = useNavigation();
   const theme = useTheme();
-  const { isDark } = theme;
+  const { isDark } = useThemeContext();
   const urlTemplate = isDark
-    ? "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png" 
-    : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png";
+  ? "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+  : "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png" 
+
 
   useImperativeHandle(ref, () => ({
     // Add any methods you want to expose to the parent component here
@@ -74,7 +76,7 @@ const Map = forwardRef((props, ref) => {
   if (error) {
     return (
       <View style={styles.container}>
-        <Text color="$red10">Error loading map: {error}</Text>
+        <Text color="$magenta8">Error loading map: {error}</Text>
       </View>
     );
   }
@@ -83,7 +85,7 @@ const Map = forwardRef((props, ref) => {
     <View>
       <MapView
         mapType="mutedStandard"
-        userInterfaceStyle={isDark ? "dark" : "light"}
+        userInterfaceStyle={isDark ? "light" : "dark"}
         style={styles.map}
         initialRegion={{
           latitude: 29.3759,

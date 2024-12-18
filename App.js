@@ -24,7 +24,7 @@ const MainApp = () => {
 
   return (
     <NavigationContainer>
-      <Theme name={isDark ? "dark" : "light"}>
+      <Theme name={isDark ? "dark" : "light_blue"}>
         {isAuthenticated ? <Navigation /> : <AuthNavigation />}
         <StatusBar
           style={isDark ? "light" : "dark"}
