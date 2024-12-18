@@ -1,5 +1,13 @@
-import React, { useState, useRef } from "react";
-import { StyleSheet, Dimensions, View, Animated, TouchableOpacity, TouchableWithoutFeedback, Platform } from "react-native";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import {
+  StyleSheet,
+  Dimensions,
+  View,
+  Animated,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Platform,
+} from "react-native";
 import {
   YStack,
   XStack,
@@ -11,7 +19,7 @@ import {
   Image,
   useTheme,
 } from "tamagui";
-import MapView, { Marker, UrlTile, Callout, Polyline } from "react-native-maps";
+import MapView, { Marker, UrlTile, Callout, Polyline, Circle } from "react-native-maps";
 import {
   Footprints,
   MapPin,
@@ -21,14 +29,89 @@ import {
   X,
   Maximize2,
   CameraIcon,
-  Play
+  Play,
+  Route,
 } from "@tamagui/lucide-icons";
 import Header from "../components/Header";
 import DrawerSceneWrapper from "../components/DrawerSceneWrapper";
 import sponsors from "../data/sponsors";
 
+const generateInvisiblePoints = (start, end, numPoints = 3) => {
+  const points = [];
+  // Create points that follow approximate road patterns
+  for (let i = 1; i <= numPoints; i++) {
+    const ratio = i / (numPoints + 1);
+    const lat = start.latitude + (end.latitude - start.latitude) * ratio;
+    const lng = start.longitude + (end.longitude - start.longitude) * ratio;
+
+    // Add larger offsets to simulate road patterns
+    const latOffset = (Math.random() - 0.5) * 0.0005;
+    const lngOffset = (Math.random() - 0.5) * 0.0005;
+
+    points.push({
+      latitude: lat + latOffset,
+      longitude: lng + lngOffset,
+    });
+  }
+  return points;
+};
+
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371e3; // Earth's radius in meters
+  const φ1 = (lat1 * Math.PI) / 180;
+  const φ2 = (lat2 * Math.PI) / 180;
+  const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+  const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c; // Distance in meters
+};
+
+const generateAllPointsPath = (start, checkpoints, sponsors) => {
+  const allPoints = [
+    start,
+    ...checkpoints,
+    ...sponsors,
+    start // Return to start to complete the loop
+  ];
+  
+  const pathPoints = [];
+  for (let i = 0; i < allPoints.length - 1; i++) {
+    const current = allPoints[i];
+    const next = allPoints[i + 1];
+    
+    // Add invisible points between each pair of points
+    const invisiblePoints = generateInvisiblePoints(
+      current,
+      next,
+      Math.floor(Math.random() * 3) + 2 // 2-4 invisible points
+    ).map(point => ({
+      ...point,
+      // Add slight randomness for more natural path
+      latitude: point.latitude + (Math.random() - 0.5) * 0.0002,
+      longitude: point.longitude + (Math.random() - 0.5) * 0.0002
+    }));
+    
+    pathPoints.push(current, ...invisiblePoints);
+  }
+  
+  // Add the final point to close the loop
+  pathPoints.push(allPoints[allPoints.length - 1]);
+  
+  return pathPoints;
+};
+
 const EventDetail = ({ route, navigation }) => {
-  const { location, isActive = false, currentTime = 0, currentPoints = 0 } = route.params || {};
+  const {
+    location,
+    isActive = false,
+    currentTime = 0,
+    currentPoints = 0,
+  } = route.params || {};
   const theme = useTheme();
   const [isMapExpanded, setIsMapExpanded] = useState(false);
   const mapAnimation = useRef(new Animated.Value(0)).current;
@@ -36,23 +119,120 @@ const EventDetail = ({ route, navigation }) => {
   const mapRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const lastTap = useRef(0);
+  const [selectedRoute, setSelectedRoute] = useState(null);
+  const [availableRoutes, setAvailableRoutes] = useState([]);
+  const [allPointsPath, setAllPointsPath] = useState([]);
+
+  const generateRoutes = useCallback((start, checkpoints, sponsors = []) => {
+    if (!checkpoints?.length) return [];
+
+    // Direct Route - visits checkpoints in order of proximity
+    const directRoute = {
+      id: "direct",
+      name: "Quick Route",
+      color: theme.magenta7.val,
+      checkpoints: [...checkpoints].sort((a, b) => {
+        const distA = calculateDistance(
+          start.latitude,
+          start.longitude,
+          a.latitude,
+          a.longitude
+        );
+        const distB = calculateDistance(
+          start.latitude,
+          start.longitude,
+          b.latitude,
+          b.longitude
+        );
+        return distA - distB;
+      }),
+    };
+
+    // Scenic Route - takes a longer path with more curves
+    const scenicRoute = {
+      id: "scenic",
+      name: "Scenic Route",
+      color: theme.cyan8.val,
+      checkpoints: checkpoints.reduce((acc, cp) => {
+        // Add invisible points between checkpoints
+        const lastPoint = acc[acc.length - 1] || start;
+        const invisiblePoints = generateInvisiblePoints(
+          lastPoint,
+          cp,
+          Math.floor(Math.random() * 3) + 2 // 2-4 invisible points
+        );
+        return [...acc, ...invisiblePoints, cp];
+      }, []),
+    };
+
+    // Challenge Route - zigzag pattern with more distance
+    const challengeRoute = {
+      id: "challenge",
+      name: "Challenge Route",
+      color: theme.lime7.val,
+      checkpoints: checkpoints.reduce((acc, cp, i) => {
+        if (i === 0) return [cp];
+        // Add more invisible points with larger offsets
+        const lastPoint = acc[acc.length - 1];
+        const invisiblePoints = generateInvisiblePoints(
+          lastPoint,
+          cp,
+          Math.floor(Math.random() * 4) + 3 // 3-6 invisible points
+        ).map(point => ({
+          ...point,
+          // Add larger random offsets for more zigzag
+          latitude: point.latitude + (Math.random() - 0.5) * 0.001,
+          longitude: point.longitude + (Math.random() - 0.5) * 0.001
+        }));
+        return [...acc, ...invisiblePoints, cp];
+      }, []),
+    };
+
+    return [directRoute, scenicRoute, challengeRoute];
+  }, [theme]);
+
+  // Initialize routes
+  useEffect(() => {
+    const start = {
+      latitude: location.latitude,
+      longitude: location.longitude,
+    };
+    const checkpoints = location.checkpoints.map(cp => ({
+      latitude: cp.latitude,
+      longitude: cp.longitude,
+    }));
+    const routes = generateRoutes(start, checkpoints, nearbySponsors);
+    setAvailableRoutes(routes);
+    if (routes.length > 0) {
+      setSelectedRoute(routes[0]);
+    }
+  }, [location, generateRoutes]);
+
+  // Initialize all points path
+  useEffect(() => {
+    const start = {
+      latitude: location.latitude,
+      longitude: location.longitude,
+    };
+    const checkpoints = location.checkpoints.map(cp => ({
+      latitude: cp.latitude,
+      longitude: cp.longitude,
+    }));
+    const sponsorPoints = nearbySponsors.map(sponsor => ({
+      latitude: sponsor.latitude,
+      longitude: sponsor.longitude,
+    }));
+    
+    const path = generateAllPointsPath(start, checkpoints, sponsorPoints);
+    setAllPointsPath(path);
+  }, [location, nearbySponsors]);
 
   // Update handleBack function
   const handleBack = () => {
-    navigation.getParent().navigate('Home', {
-      screen: 'HomeScreen'
+    navigation.getParent().navigate("Home", {
+      screen: "HomeScreen",
     });
   };
-
-  // Create route coordinates including checkpoints
-  const mainRouteCoordinates = [
-    { latitude: location.latitude, longitude: location.longitude },
-    ...location.checkpoints.map((checkpoint) => ({
-      latitude: checkpoint.latitude,
-      longitude: checkpoint.longitude,
-    })),
-    { latitude: location.latitude, longitude: location.longitude }, // Back to start
-  ];
 
   // Find nearby sponsors (within reasonable distance)
   const nearbySponsors = sponsors.filter((sponsor) => {
@@ -63,73 +243,23 @@ const EventDetail = ({ route, navigation }) => {
     return distance < 0.05; // Roughly 5km radius
   });
 
-  // Create challenge route through sponsors
-  const challengeRouteCoordinates =
-    nearbySponsors.length > 0
-      ? [
-          { latitude: location.latitude, longitude: location.longitude },
-          // Add first checkpoint
-          {
-            latitude: location.checkpoints[0].latitude,
-            longitude: location.checkpoints[0].longitude,
-          },
-          // Add nearby sponsors
-          ...nearbySponsors.map((sponsor) => ({
-            latitude: sponsor.latitude,
-            longitude: sponsor.longitude,
-          })),
-          // Add last checkpoint
-          {
-            latitude:
-              location.checkpoints[location.checkpoints.length - 1].latitude,
-            longitude:
-              location.checkpoints[location.checkpoints.length - 1].longitude,
-          },
-          { latitude: location.latitude, longitude: location.longitude },
-        ]
-      : [];
-
-  // Calculate points and totals for both routes
-  const mainRoutePoints = location.checkpoints.reduce(
-    (sum, cp) => sum + cp.points,
-    0
-  );
-  const mainRouteSteps = location.checkpoints.reduce(
-    (sum, cp) => sum + cp.steps,
-    0
-  );
-  const mainRouteDistance = location.checkpoints.reduce(
-    (sum, cp) => sum + cp.approx_distance,
-    0
-  );
-
-  const challengeRoutePoints = mainRoutePoints + nearbySponsors.length * 50;
-  const challengeRouteSteps = mainRouteSteps * 1.5; // 50% more steps for challenge route
-  const challengeRouteDistance = mainRouteDistance * 1.5; // 50% more distance for challenge route
-
-  const isEventTime = () => {
-    const now = new Date();
-    const eventDate = new Date(location.date + " " + location.startTime);
-    return now >= eventDate;
-  };
-
   const toggleMap = () => {
     const toValue = isMapExpanded ? 0 : 1;
     setIsMapExpanded(!isMapExpanded);
-    
+
     Animated.parallel([
       Animated.spring(mapAnimation, {
         toValue,
         useNativeDriver: true,
         friction: 8,
-        tension: 50
+        tension: 50,
       }),
       Animated.spring(modalAnimation, {
         toValue,
         useNativeDriver: true,
         friction: 8,
-        tension: 50
-      })
+        tension: 50,
+      }),
     ]).start();
   };
 
@@ -138,18 +268,18 @@ const EventDetail = ({ route, navigation }) => {
       {
         scale: modalAnimation.interpolate({
           inputRange: [0, 1],
-          outputRange: [1, 1.1]
-        })
-      }
+          outputRange: [1, 1.1],
+        }),
+      },
     ],
     opacity: modalAnimation.interpolate({
       inputRange: [0, 1],
-      outputRange: [1, 1]
-    })
+      outputRange: [1, 1],
+    }),
   };
 
   const expandedMapStyle = {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -158,28 +288,84 @@ const EventDetail = ({ route, navigation }) => {
     zIndex: isMapExpanded ? 1000 : -1,
     opacity: mapAnimation.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 1]
+      outputRange: [0, 1],
     }),
     transform: [
       {
         scale: mapAnimation.interpolate({
           inputRange: [0, 1],
-          outputRange: [0.5, 1]
-        })
-      }
-    ]
+          outputRange: [0.5, 1],
+        }),
+      },
+    ],
   };
 
   const handleMapPress = () => {
     const now = Date.now();
     const DOUBLE_TAP_DELAY = 300;
-    
+
     if (now - lastTap.current < DOUBLE_TAP_DELAY) {
       // Double tap detected
       toggleMap();
     }
     lastTap.current = now;
   };
+
+  const RouteSelector = () => (
+    <Card
+      elevation={4}
+      backgroundColor="$background"
+      padding="$4"
+      borderRadius={10}
+      borderColor="$borderColor"
+      position="absolute"
+      top={150}
+      right={20}
+      zIndex={1005}
+      width="90%"
+    >
+      <YStack space="$3">
+        {availableRoutes.map((route) => (
+          <YStack key={route.id} space="$2">
+            <Button
+              size="$3"
+              backgroundColor={
+                selectedRoute?.id === route.id ? route.color : "$background"
+              }
+              color={selectedRoute?.id === route.id ? "white" : "$color"}
+              borderColor={route.color}
+              borderWidth={1}
+              onPress={() => setSelectedRoute(route)}
+              icon={Route}
+            >
+              {route.name}
+            </Button>
+            {selectedRoute?.id === route.id && (
+              <XStack space="$4" pl="$4" jc="space-between" width="100%">
+                <XStack space="$2" ai="center">
+                  <Footprints size={16} color={route.color} />
+                  <Text color="$color" fontSize={14}>
+                    {Math.round(route.checkpoints.length * 500)} steps
+                  </Text>
+                </XStack>
+                <XStack space="$2" ai="center">
+                  <MapPin size={16} color={route.color} />
+                  <Text color="$color" fontSize={14}>
+                    {(route.checkpoints.reduce((sum, cp) => sum + (cp.approx_distance || 0), 0) / 1000).toFixed(1)} km
+                  </Text>
+                </XStack>
+                <XStack space="$2" ai="center">
+                  <Text color={route.color} fontSize={14} fontWeight="bold">
+                    {route.checkpoints.reduce((sum, cp) => sum + (cp.points || 0), 0)} pts
+                  </Text>
+                </XStack>
+              </XStack>
+            )}
+          </YStack>
+        ))}
+      </YStack>
+    </Card>
+  );
 
   return (
     <DrawerSceneWrapper>
@@ -247,110 +433,8 @@ const EventDetail = ({ route, navigation }) => {
 
             {/* Map Card */}
             <Card bordered size="$2" animation="bouncy">
-              <Card.Header padded p="$3">
-                <YStack space="$2" width="100%">
-                  {/* Route Details Card */}
-                  <YStack space="$3" width="100%">
-                    {/* Quick Route Details */}
-                    <YStack space="$2" width="100%">
-                      <XStack space="$2" ai="center">
-                        <View
-                          style={[
-                            styles.routeIndicator,
-                            { backgroundColor: theme.magenta7.val },
-                          ]}
-                        />
-                        <Text color="$color" fontSize={14} fontWeight="bold">
-                          Quick Route
-                        </Text>
-                      </XStack>
-                      <XStack
-                        space="$4"
-                        pl="$4"
-                        jc="space-between"
-                        width="100%"
-                      >
-                        <XStack space="$2" ai="center">
-                          <Footprints size={16} color={theme.magenta7.val} />
-                          <Text color="$color" fontSize={14}>
-                            {mainRouteSteps} steps
-                          </Text>
-                        </XStack>
-                        <XStack space="$2" ai="center">
-                          <MapPin size={16} color={theme.magenta7.val} />
-                          <Text color="$color" fontSize={14}>
-                            {mainRouteDistance.toFixed(1)} km
-                          </Text>
-                        </XStack>
-                        <XStack space="$2" ai="center">
-                          <Text
-                            color={theme.magenta7.val}
-                            fontSize={14}
-                            fontWeight="bold"
-                          >
-                            {mainRoutePoints} pts
-                          </Text>
-                        </XStack>
-                      </XStack>
-                    </YStack>
-
-                    {/* Challenge Route Details */}
-                    {challengeRouteCoordinates.length > 0 && (
-                      <YStack space="$2" width="100%">
-                        <XStack space="$2" ai="center">
-                          <View
-                            style={[
-                              styles.routeIndicator,
-                              { backgroundColor: theme.cyan8.val },
-                            ]}
-                          />
-                          <Text color="$color" fontSize={14} fontWeight="bold">
-                            Challenge Route
-                          </Text>
-                        </XStack>
-                        <XStack
-                          space="$4"
-                          pl="$4"
-                          jc="space-between"
-                          width="100%"
-                        >
-                          <XStack space="$2" ai="center">
-                            <Footprints size={16} color={theme.cyan8.val} />
-                            <Text color="$color" fontSize={14}>
-                              {Math.round(challengeRouteSteps)} steps
-                            </Text>
-                          </XStack>
-                          <XStack space="$2" ai="center">
-                            <MapPin size={16} color={theme.cyan8.val} />
-                            <Text color="$color" fontSize={14}>
-                              {challengeRouteDistance.toFixed(1)} km
-                            </Text>
-                          </XStack>
-                          <XStack space="$2" ai="center">
-                            <Text
-                              color={theme.cyan8.val}
-                              fontSize={14}
-                              fontWeight="bold"
-                            >
-                              {challengeRoutePoints} pts
-                            </Text>
-                          </XStack>
-                        </XStack>
-                        <Text
-                          color="$color"
-                          fontSize={12}
-                          opacity={0.7}
-                          pl="$4"
-                        >
-                          Includes {nearbySponsors.length} sponsor
-                          {nearbySponsors.length > 1 ? "s" : ""} (+
-                          {nearbySponsors.length * 50} bonus points)
-                        </Text>
-                      </YStack>
-                    )}
-                  </YStack>
-                </YStack>
-              </Card.Header>
+              
+                
 
               <Card.Footer padded f={1} p="$3" width="100%">
                 <View style={styles.mapContainer}>
@@ -358,7 +442,7 @@ const EventDetail = ({ route, navigation }) => {
                     ref={mapRef}
                     style={styles.map}
                     mapType="mutedStandard"
-                    userInterfaceStyle={theme.isDark ? "dark" : "light"}
+                    userInterfaceStyle="light"
                     initialRegion={{
                       latitude: location.latitude,
                       longitude: location.longitude,
@@ -370,39 +454,51 @@ const EventDetail = ({ route, navigation }) => {
                     onPress={() => !isDragging && handleMapPress()}
                   >
                     <UrlTile
-                      urlTemplate={
-                        theme.isDark
-                          ? "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-                          : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-                      }
+                      urlTemplate="https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
                       shouldReplaceMapContent={true}
                       maximumZ={19}
                       flipY={false}
                     />
 
-                    {/* Main Route Polyline */}
+                    {/* Add the all-points path with dotted line */}
                     <Polyline
-                      coordinates={mainRouteCoordinates}
-                      strokeColor={theme.magenta7.val}
-                      strokeWidth={3}
-                      geodesic={true}
-                      lineDashPattern={[1]}
+                      coordinates={allPointsPath}
+                      strokeColor={theme.color11.val}
+                      strokeWidth={2}
+                      lineDashPattern={[5, 5]}
                       lineCap="round"
                       lineJoin="round"
+                      zIndex={1}
+                      opacity={0.3}
                     />
 
-                    {/* Challenge Route Polyline */}
-                    {challengeRouteCoordinates.length > 0 && (
+                    {selectedRoute && (
                       <Polyline
-                        coordinates={challengeRouteCoordinates}
-                        strokeColor={theme.cyan8.val}
+                        coordinates={selectedRoute.checkpoints}
+                        strokeColor={selectedRoute.color}
                         strokeWidth={3}
-                        geodesic={true}
                         lineDashPattern={[1]}
                         lineCap="round"
                         lineJoin="round"
+                        zIndex={2}
                       />
                     )}
+
+                    {/* Checkpoint circles */}
+                    {location.checkpoints.map((checkpoint) => (
+                      <Circle
+                        key={`circle-${checkpoint.id}`}
+                        center={{
+                          latitude: checkpoint.latitude,
+                          longitude: checkpoint.longitude,
+                        }}
+                        radius={30}
+                        fillColor={`${theme.magenta7.val}20`}
+                        strokeColor={theme.magenta7.val}
+                        strokeWidth={2}
+                        zIndex={2}
+                      />
+                    ))}
 
                     {/* Main location marker */}
                     <Marker
@@ -550,6 +646,7 @@ const EventDetail = ({ route, navigation }) => {
                       </View>
                     </Marker>
                   </MapView>
+
                   <TouchableWithoutFeedback onPress={toggleMap}>
                     <View style={styles.expandButton}>
                       <Maximize2 size={20} color={theme.background.val} />
@@ -634,12 +731,14 @@ const EventDetail = ({ route, navigation }) => {
                   <Button
                     size="$5"
                     theme="active"
-                    onPress={() => navigation.navigate("ActiveEvent", { 
-                      location,
-                      isActive,
-                      currentTime,
-                      currentPoints
-                    })}
+                    onPress={() =>
+                      navigation.navigate("ActiveEvent", {
+                        location,
+                        isActive,
+                        currentTime,
+                        currentPoints,
+                      })
+                    }
                     width="100%"
                     icon={isActive ? CameraIcon : Play}
                     backgroundColor={theme.background.val}
@@ -661,17 +760,18 @@ const EventDetail = ({ route, navigation }) => {
         <Animated.View style={expandedMapStyle}>
           <YStack f={1}>
             <XStack ai="center" p="$3" space="$2" h="15%" alignItems="flex-end">
-              <TouchableOpacity onPress={handleBack} backgroundColor="transparent">
-                <ChevronLeft size="$2" color={'$color'}/>
+              <TouchableOpacity
+                onPress={toggleMap}
+                backgroundColor="transparent"
+              >
+                <X size="$2" color={"$color"} />
               </TouchableOpacity>
-              <H5>
-                Upcoming Events
-              </H5>
+              <H5>{location.name}</H5>
             </XStack>
             <MapView
               style={styles.expandedMap}
               mapType="mutedStandard"
-              userInterfaceStyle={theme.isDark ? "dark" : "light"}
+              userInterfaceStyle="light"
               initialRegion={{
                 latitude: location.latitude,
                 longitude: location.longitude,
@@ -680,39 +780,51 @@ const EventDetail = ({ route, navigation }) => {
               }}
             >
               <UrlTile
-                urlTemplate={
-                  theme.isDark
-                    ? "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-                    : "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-                }
+                urlTemplate="https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
                 shouldReplaceMapContent={true}
                 maximumZ={19}
                 flipY={false}
               />
 
-              {/* Main Route Polyline */}
+              {/* Add the all-points path with dotted line */}
               <Polyline
-                coordinates={mainRouteCoordinates}
-                strokeColor={theme.magenta7.val}
-                strokeWidth={3}
-                geodesic={true}
-                lineDashPattern={[1]}
+                coordinates={allPointsPath}
+                strokeColor={theme.color11.val}
+                strokeWidth={2}
+                lineDashPattern={[5, 5]}
                 lineCap="round"
                 lineJoin="round"
+                zIndex={1}
+                opacity={0.3}
               />
 
-              {/* Challenge Route Polyline */}
-              {challengeRouteCoordinates.length > 0 && (
+              {selectedRoute && (
                 <Polyline
-                  coordinates={challengeRouteCoordinates}
-                  strokeColor={theme.cyan8.val}
+                  coordinates={selectedRoute.checkpoints}
+                  strokeColor={selectedRoute.color}
                   strokeWidth={3}
-                  geodesic={true}
                   lineDashPattern={[1]}
                   lineCap="round"
                   lineJoin="round"
+                  zIndex={2}
                 />
               )}
+
+              {/* Checkpoint circles */}
+              {location.checkpoints.map((checkpoint) => (
+                <Circle
+                  key={`circle-${checkpoint.id}`}
+                  center={{
+                    latitude: checkpoint.latitude,
+                    longitude: checkpoint.longitude,
+                  }}
+                  radius={30}
+                  fillColor={`${theme.magenta7.val}20`}
+                  strokeColor={theme.magenta7.val}
+                  strokeWidth={2}
+                  zIndex={2}
+                />
+              ))}
 
               {/* Main location marker */}
               <Marker
@@ -724,16 +836,31 @@ const EventDetail = ({ route, navigation }) => {
               >
                 <Callout>
                   <View style={styles.calloutContainer}>
-                    <Text style={[styles.calloutTitle, { color: theme.background.val }]}>
+                    <Text
+                      style={[
+                        styles.calloutTitle,
+                        { color: theme.background.val },
+                      ]}
+                    >
                       {location.name}
                     </Text>
                     <XStack space="$2" ai="center">
                       <Footprints size={16} color={theme.magenta7.val} />
-                      <Text style={[styles.calloutText, { color: theme.background.val }]}>
+                      <Text
+                        style={[
+                          styles.calloutText,
+                          { color: theme.background.val },
+                        ]}
+                      >
                         {location.steps} steps
                       </Text>
                       <MapPin size={16} color={theme.lime7.val} />
-                      <Text style={[styles.calloutText, { color: theme.background.val }]}>
+                      <Text
+                        style={[
+                          styles.calloutText,
+                          { color: theme.background.val },
+                        ]}
+                      >
                         {location.approx_distance}km
                       </Text>
                     </XStack>
@@ -753,13 +880,22 @@ const EventDetail = ({ route, navigation }) => {
                 >
                   <Callout>
                     <View style={styles.calloutContainer}>
-                      <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+                      <Text
+                        style={[
+                          styles.calloutTitle,
+                          { color: theme.color.val },
+                        ]}
+                      >
                         {checkpoint.name}
                       </Text>
-                      <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                      <Text
+                        style={[styles.calloutText, { color: theme.color.val }]}
+                      >
                         {checkpoint.points} points • {checkpoint.steps} steps
                       </Text>
-                      <Text style={[styles.calloutText, { color: theme.color.val }]}>
+                      <Text
+                        style={[styles.calloutText, { color: theme.color.val }]}
+                      >
                         Distance: {checkpoint.approx_distance} km
                       </Text>
                     </View>
@@ -785,10 +921,17 @@ const EventDetail = ({ route, navigation }) => {
                   </View>
                   <Callout>
                     <View style={styles.calloutContainer}>
-                      <Text style={[styles.calloutTitle, { color: theme.color.val }]}>
+                      <Text
+                        style={[
+                          styles.calloutTitle,
+                          { color: theme.color.val },
+                        ]}
+                      >
                         {sponsor.name}
                       </Text>
-                      <Text style={[styles.calloutText, { color: theme.cyan8.val }]}>
+                      <Text
+                        style={[styles.calloutText, { color: theme.cyan8.val }]}
+                      >
                         {sponsor.discount} • +50 points
                       </Text>
                     </View>
@@ -804,11 +947,24 @@ const EventDetail = ({ route, navigation }) => {
                 }}
                 anchor={{ x: 0.5, y: 0.5 }}
               >
-                <View style={[styles.startEndMarker, { borderColor: theme.magenta7.val }]}>
-                  <View style={[styles.startEndMarkerInner, { backgroundColor: theme.magenta7.val }]} />
+                <View
+                  style={[
+                    styles.startEndMarker,
+                    { borderColor: theme.magenta7.val },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.startEndMarkerInner,
+                      { backgroundColor: theme.magenta7.val },
+                    ]}
+                  />
                 </View>
               </Marker>
             </MapView>
+
+            {/* Only show RouteSelector in expanded view */}
+            <RouteSelector />
           </YStack>
         </Animated.View>
       </YStack>
@@ -887,8 +1043,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   expandButton: {
-    position: 'absolute',
-    backgroundColor: 'white',
+    position: "absolute",
+    backgroundColor: "white",
     top: 10,
     right: 10,
     borderRadius: 8,

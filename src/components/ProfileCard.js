@@ -152,8 +152,8 @@ const ProfileCard = () => {
           justifyContent="center"
           height={300}
         >
-          <Text color="$red10">Error loading profile</Text>
-          <Text color="$red10" fontSize="$2">
+          <Text color="$magenta8">Error loading profile</Text>
+          <Text color="$magenta8" fontSize="$2">
             {error.message}
           </Text>
         </YStack>
@@ -229,7 +229,7 @@ const ProfileCard = () => {
         {/* Main Content Split */}
         <XStack width="100%" space="$4">
           {/* Left 1/3 - Avatar Section */}
-          <YStack width="40%" ai="center" space="$4">
+          <YStack width="50%" ai="center" justifyContent="center" space="$4">
             <Avatar br={17} size="$10" backgroundColor="$background">
               <Avatar.Image
                 source={selectedAvatar.url}
@@ -250,7 +250,7 @@ const ProfileCard = () => {
           </YStack>
 
           {/* Right 2/3 - Text Content */}
-          <YStack width="60%" space="$4">
+          <YStack width="50%" ai="flex-start" justifyContent="center" space="$4">
             <YStack space="$2">
               <XStack space="$2" ai="center">
                 <MapPin size="$1" color="$color" />
