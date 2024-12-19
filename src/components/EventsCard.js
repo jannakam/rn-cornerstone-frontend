@@ -107,7 +107,7 @@ const EventsCard = () => {
                     </Text>
 
                     {event.sponsor && (
-                      <YStack mt="$3" space="$2">
+                      <YStack mt="$2" space="$2">
                         <XStack space="$4" ai="center">
                           <Image
                             source={event.sponsor.logo}

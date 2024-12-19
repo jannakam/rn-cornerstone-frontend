@@ -24,7 +24,7 @@ const Home = () => {
       <YStack f={1} bg="$background">
         <Header navigation={navigation} />
 
-        <YStack f={1} space="$4" margin="$2">
+        <YStack f={1} space="$3" margin="$2">
           <DailyChallengeCard />
           <FriendsList /> 
           <EventsCard />

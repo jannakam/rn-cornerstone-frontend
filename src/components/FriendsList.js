@@ -122,7 +122,7 @@ const FriendsList = () => {
       <Card.Header padded>
         <H6>Friends</H6>
       </Card.Header>
-      <Card.Footer padded pt="$0">
+      <Card.Footer padded paddingTop="$0">
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{alignItems: "center", justifyContent: "center"}}>
           <XStack gap="$5" ai="center" justifyContent="center" height="$9">
 

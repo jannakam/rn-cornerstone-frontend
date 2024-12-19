@@ -146,6 +146,9 @@ const DailyChallengeCard = () => {
         color="$background"
         borderColor="$color4"
         bw={1}
+        minHeight={250}
+        width="100%"
+        
       >
         <YStack padding="$4" alignItems="center" justifyContent="center">
           <Spinner size="large" color="$color" />
@@ -253,7 +256,7 @@ const DailyChallengeCard = () => {
             </XStack>
           </XStack>
 
-          <Text fontSize={10} color="$color10" mt="$2">
+          <Text fontSize={10} color="$color10" mb="$2">
             Last updated: {lastUpdate.toLocaleTimeString()}
           </Text>
         </YStack>
