@@ -64,6 +64,7 @@ const FriendChallenge = ({ route, navigation }) => {
         );
         setParticipantsProgress(newProgress);
 
+        // Update local state with server data
         data.participants.forEach((p) => {
           updateProgress(p.id, p.steps);
         });
@@ -75,6 +76,11 @@ const FriendChallenge = ({ route, navigation }) => {
 
         // Check if anyone has reached the goal
         checkGoalReached(newProgress['user'] || challengeSteps, newProgress);
+
+        // Check if challenge is marked as completed on server
+        if (data.completed) {
+          handleChallengeComplete(false, false);
+        }
       }
     },
     onError: (error) => {
@@ -89,7 +95,7 @@ const FriendChallenge = ({ route, navigation }) => {
     },
   });
 
-  // Mutation for updating steps
+  // Update steps mutation
   const updateStepsMutation = useMutation({
     mutationFn: async ({ challengeId, steps, completed = false, goalReached = false }) => {
       try {
@@ -119,6 +125,10 @@ const FriendChallenge = ({ route, navigation }) => {
         console.error("Error in updateStepsMutation:", error);
         throw error;
       }
+    },
+    onSuccess: () => {
+      // Invalidate queries to refresh data
+      queryClient.invalidateQueries(["challengeStatus", activeChallenge?.id]);
     },
     onError: (error) => {
       console.error("Error updating steps:", error);
@@ -192,7 +202,7 @@ const FriendChallenge = ({ route, navigation }) => {
           try {
             updateStepsMutation.mutate({
               challengeId: activeChallenge.id,
-              steps: Math.round(challengeSteps), // Ensure steps is an integer
+              steps: Math.round(challengeSteps),
               completed: false,
               goalReached: false,
             });
@@ -605,7 +615,7 @@ const FriendChallenge = ({ route, navigation }) => {
                   <Avatar.Fallback backgroundColor={theme.cyan10.val} />
                 </Avatar>
                 <Text color="white" fontSize="$3" mt="$2">
-                  {participant.username?.toUpperCase()}
+                  {participant.username}
                 </Text>
               </YStack>
             ))}

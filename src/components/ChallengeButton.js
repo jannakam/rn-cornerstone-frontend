@@ -15,6 +15,7 @@ import {
   useTheme,
   Spinner,
   Alert,
+  Card,
 } from "tamagui";
 import {
   ChevronDown,
@@ -22,15 +23,18 @@ import {
   Check,
   Play,
   Trophy,
+  Plus,
+  Users,
 } from "@tamagui/lucide-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useChallenge } from "../context/ChallengeContext";
 import {
   createFriendChallenge,
   participateInFriendChallenge,
+  getAllFriendChallenges,
+  getAllFriends,
 } from "../api/Auth";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { getAllFriends } from "../api/Auth";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Import the avatar options
@@ -51,9 +55,22 @@ const ChallengeButton = () => {
   const [challengeSteps, setChallengeSteps] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [friendAvatars, setFriendAvatars] = useState({});
+  const [showCreateChallenge, setShowCreateChallenge] = useState(false);
   const navigation = useNavigation();
   const theme = useTheme();
+  const queryClient = useQueryClient();
   const { activeChallenge, startChallenge } = useChallenge();
+
+  // Fetch active challenges using useQuery
+  const {
+    data: activeChallenges,
+    isLoading: isLoadingChallenges,
+    error: challengesError,
+  } = useQuery({
+    queryKey: ["activeChallenges"],
+    queryFn: getAllFriendChallenges,
+    refetchInterval: 2000, // Poll every 2 seconds
+  });
 
   // Fetch friends using useQuery
   const {
@@ -68,12 +85,18 @@ const ChallengeButton = () => {
   // Create challenge mutation
   const createChallengeMutation = useMutation({
     mutationFn: (challengeData) => createFriendChallenge(challengeData),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["activeChallenges"]);
+    },
   });
 
   // Participate mutation
   const participateMutation = useMutation({
     mutationFn: ({ challengeId, friendIds }) =>
       participateInFriendChallenge(challengeId, friendIds),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["activeChallenges"]);
+    },
   });
 
   // Load friend avatars from AsyncStorage
@@ -111,9 +134,9 @@ const ChallengeButton = () => {
       const challengeData = await createChallengeMutation.mutateAsync({
         stepGoal: Number(challengeSteps),
         friendIds: selectedFriends,
-        startTime: new Date().toISOString(), // Match ERD
-        endTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
-        date: new Date().toISOString().split("T")[0], // Current date
+        startTime: new Date().toISOString(),
+        endTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+        date: new Date().toISOString().split("T")[0],
       });
 
       // Participate in the challenge
@@ -148,11 +171,44 @@ const ChallengeButton = () => {
         date: challengeData.date,
       });
 
+      setShowCreateChallenge(false);
       setIsOpen(false);
       navigation.navigate("Friend Challenge");
     } catch (error) {
       console.error("Error creating challenge:", error);
       Alert.alert("Error", "Failed to create challenge. Please try again.", [
+        { text: "OK" },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleJoinChallenge = async (challenge) => {
+    try {
+      setIsLoading(true);
+
+      // Participate in the challenge
+      await participateMutation.mutateAsync({
+        challengeId: challenge.id,
+        friendIds: [], // No need to specify friends when joining
+      });
+
+      // Start the challenge locally
+      await startChallenge({
+        id: challenge.id,
+        targetSteps: challenge.stepGoal,
+        participants: challenge.participants || [],
+        startTime: challenge.startTime,
+        endTime: challenge.endTime,
+        date: challenge.date,
+      });
+
+      setIsOpen(false);
+      navigation.navigate("Friend Challenge");
+    } catch (error) {
+      console.error("Error joining challenge:", error);
+      Alert.alert("Error", "Failed to join challenge. Please try again.", [
         { text: "OK" },
       ]);
     } finally {
@@ -222,9 +278,113 @@ const ChallengeButton = () => {
         dismissOnSnapToBottom
       >
         <Sheet.Overlay />
-        <Sheet.Frame>
+        <Sheet.Frame padding="$4">
           <Sheet.Handle />
-          <YStack padding="$4" space="$4">
+          <YStack space="$4">
+            <XStack jc="space-between" ai="center">
+              <Text fontSize="$6" fontWeight="bold">
+                Friend Challenges
+              </Text>
+              <Button
+                size="$3"
+                icon={<Plus />}
+                circular
+                onPress={() => setShowCreateChallenge(true)}
+              />
+            </XStack>
+
+            {isLoadingChallenges ? (
+              <YStack ai="center" jc="center" p="$4">
+                <Spinner size="large" color="$color" />
+              </YStack>
+            ) : challengesError ? (
+              <Text color="$red10" p="$4">
+                Error loading challenges
+              </Text>
+            ) : activeChallenges?.length > 0 ? (
+              <ScrollView>
+                <YStack space="$3">
+                  {activeChallenges
+                    .filter((challenge) => !challenge.completed)
+                    .map((challenge) => (
+                      <Card
+                        key={challenge.id}
+                        bordered
+                        animation="bouncy"
+                        scale={0.9}
+                        hoverStyle={{ scale: 0.925 }}
+                        pressStyle={{ scale: 0.925 }}
+                        onPress={() => handleJoinChallenge(challenge)}
+                      >
+                        <Card.Header padded>
+                          <YStack space="$2">
+                            <XStack jc="space-between" ai="center">
+                              <Text fontSize="$5" fontWeight="bold">
+                                {challenge.stepGoal} Steps Challenge
+                              </Text>
+                              <XStack space="$2" ai="center">
+                                <Users size={16} />
+                                <Text>
+                                  {(challenge.participants || []).length + 1}/5
+                                </Text>
+                              </XStack>
+                            </XStack>
+                            <Text fontSize="$3" opacity={0.7}>
+                              Created by {challenge.creator?.username || "Unknown"}
+                            </Text>
+                          </YStack>
+                        </Card.Header>
+                        <Card.Footer padded>
+                          <XStack space="$2" flexWrap="wrap">
+                            {challenge.participants?.map((participant) => (
+                              <Avatar
+                                key={participant.id}
+                                circular
+                                size="$3"
+                                borderWidth={2}
+                                borderColor="$color"
+                              >
+                                <Avatar.Image
+                                  source={
+                                    friendAvatars[participant.id]?.url ||
+                                    avatarOptions[0].url
+                                  }
+                                />
+                                <Avatar.Fallback backgroundColor="$blue10" />
+                              </Avatar>
+                            ))}
+                          </XStack>
+                        </Card.Footer>
+                      </Card>
+                    ))}
+                </YStack>
+              </ScrollView>
+            ) : (
+              <Text p="$4" textAlign="center">
+                No active challenges found
+              </Text>
+            )}
+          </YStack>
+        </Sheet.Frame>
+      </Sheet>
+
+      {/* Create Challenge Sheet */}
+      <Sheet
+        modal
+        open={showCreateChallenge}
+        onOpenChange={setShowCreateChallenge}
+        snapPoints={[85]}
+        position={0}
+        dismissOnSnapToBottom
+      >
+        <Sheet.Overlay />
+        <Sheet.Frame padding="$4">
+          <Sheet.Handle />
+          <YStack space="$4">
+            <Text fontSize="$6" fontWeight="bold">
+              Create Challenge
+            </Text>
+
             {/* Steps Selection */}
             <YStack space="$2">
               <Label fontSize={16} fontWeight="bold">
@@ -351,8 +511,7 @@ const ChallengeButton = () => {
                       <Avatar size="$4" br={40}>
                         <Avatar.Image
                           source={
-                            friendAvatars[friend.id]?.url ||
-                            avatarOptions[0].url
+                            friendAvatars[friend.id]?.url || avatarOptions[0].url
                           }
                         />
                         <Avatar.Fallback backgroundColor="$blue10" />

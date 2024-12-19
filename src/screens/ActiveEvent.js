@@ -75,7 +75,7 @@ const generateTestCheckpoints = (userLocation) => {
       longitude: userLocation.longitude + 0.0002,
       points: 100,
       steps: 500,
-    }
+    },
   ];
 };
 
@@ -484,87 +484,90 @@ const ActiveEvent = ({ route, navigation }) => {
     return points;
   };
 
-  const generateRoutes = useCallback((checkpoints) => {
-    if (!userLocation || !checkpoints?.length) return [];
+  const generateRoutes = useCallback(
+    (checkpoints) => {
+      if (!userLocation || !checkpoints?.length) return [];
 
-    // Direct Route - visits checkpoints in order of proximity
-    const directRoute = {
-      id: "direct",
-      name: "Quick Route",
-      color: theme.magenta7.val,
-      checkpoints: [...checkpoints].sort((a, b) => {
-        const distA = calculateDistance(
-          userLocation.latitude,
-          userLocation.longitude,
-          a.latitude,
-          a.longitude
-        );
-        const distB = calculateDistance(
-          userLocation.latitude,
-          userLocation.longitude,
-          b.latitude,
-          b.longitude
-        );
-        return distA - distB;
-      }),
-    };
+      // Direct Route - visits checkpoints in order of proximity
+      const directRoute = {
+        id: "direct",
+        name: "Quick Route",
+        color: theme.magenta7.val,
+        checkpoints: [...checkpoints].sort((a, b) => {
+          const distA = calculateDistance(
+            userLocation.latitude,
+            userLocation.longitude,
+            a.latitude,
+            a.longitude
+          );
+          const distB = calculateDistance(
+            userLocation.latitude,
+            userLocation.longitude,
+            b.latitude,
+            b.longitude
+          );
+          return distA - distB;
+        }),
+      };
 
-    // Scenic Route - takes a longer path with more curves
-    const scenicRoute = {
-      id: "scenic",
-      name: "Scenic Route",
-      color: theme.cyan8.val,
-      checkpoints: checkpoints.reduce((acc, cp) => {
-        // Add invisible points between checkpoints
-        const lastPoint = acc[acc.length - 1] || userLocation;
-        const invisiblePoints = generateInvisiblePoints(
-          lastPoint,
-          cp,
-          Math.floor(Math.random() * 3) + 2 // 2-4 invisible points
-        );
-        return [...acc, ...invisiblePoints, cp];
-      }, []),
-    };
+      // Scenic Route - takes a longer path with more curves
+      const scenicRoute = {
+        id: "scenic",
+        name: "Scenic Route",
+        color: theme.cyan8.val,
+        checkpoints: checkpoints.reduce((acc, cp) => {
+          // Add invisible points between checkpoints
+          const lastPoint = acc[acc.length - 1] || userLocation;
+          const invisiblePoints = generateInvisiblePoints(
+            lastPoint,
+            cp,
+            Math.floor(Math.random() * 3) + 2 // 2-4 invisible points
+          );
+          return [...acc, ...invisiblePoints, cp];
+        }, []),
+      };
 
-    // Challenge Route - zigzag pattern with more distance
-    const challengeRoute = {
-      id: "challenge",
-      name: "Challenge Route",
-      color: theme.lime7.val,
-      checkpoints: checkpoints.reduce((acc, cp, i) => {
-        if (i === 0) return [cp];
-        // Add more invisible points with larger offsets
-        const lastPoint = acc[acc.length - 1];
-        const invisiblePoints = generateInvisiblePoints(
-          lastPoint,
-          cp,
-          Math.floor(Math.random() * 4) + 3 // 3-6 invisible points
-        ).map(point => ({
-          ...point,
-          // Add larger random offsets for more zigzag
-          latitude: point.latitude + (Math.random() - 0.5) * 0.001,
-          longitude: point.longitude + (Math.random() - 0.5) * 0.001
-        }));
-        return [...acc, ...invisiblePoints, cp];
-      }, []),
-    };
+      // Challenge Route - zigzag pattern with more distance
+      const challengeRoute = {
+        id: "challenge",
+        name: "Challenge Route",
+        color: theme.lime7.val,
+        checkpoints: checkpoints.reduce((acc, cp, i) => {
+          if (i === 0) return [cp];
+          // Add more invisible points with larger offsets
+          const lastPoint = acc[acc.length - 1];
+          const invisiblePoints = generateInvisiblePoints(
+            lastPoint,
+            cp,
+            Math.floor(Math.random() * 4) + 3 // 3-6 invisible points
+          ).map((point) => ({
+            ...point,
+            // Add larger random offsets for more zigzag
+            latitude: point.latitude + (Math.random() - 0.5) * 0.001,
+            longitude: point.longitude + (Math.random() - 0.5) * 0.001,
+          }));
+          return [...acc, ...invisiblePoints, cp];
+        }, []),
+      };
 
-    // Calculate total distances for each route
-    [directRoute, scenicRoute, challengeRoute].forEach(route => {
-      let totalDist = 0;
-      for (let i = 0; i < route.checkpoints.length - 1; i++) {
-        totalDist += calculateDistance(
-          route.checkpoints[i].latitude,
-          route.checkpoints[i].longitude,
-          route.checkpoints[i + 1].latitude,
-          route.checkpoints[i + 1].longitude
-        );
-      }
-      route.totalDistance = totalDist / 1000; // Convert to km
-    });
+      // Calculate total distances for each route
+      [directRoute, scenicRoute, challengeRoute].forEach((route) => {
+        let totalDist = 0;
+        for (let i = 0; i < route.checkpoints.length - 1; i++) {
+          totalDist += calculateDistance(
+            route.checkpoints[i].latitude,
+            route.checkpoints[i].longitude,
+            route.checkpoints[i + 1].latitude,
+            route.checkpoints[i + 1].longitude
+          );
+        }
+        route.totalDistance = totalDist / 1000; // Convert to km
+      });
 
-    return [directRoute, scenicRoute, challengeRoute];
-  }, [userLocation, theme, calculateDistance]);
+      return [directRoute, scenicRoute, challengeRoute];
+    },
+    [userLocation, theme, calculateDistance]
+  );
 
   useEffect(() => {
     if (userLocation && !selectedRoute) {
@@ -689,9 +692,7 @@ const ActiveEvent = ({ route, navigation }) => {
   };
 
   const markers = useMemo(() => {
-    const allCheckpoints = [
-      ...(location.checkpoints || []),
-    ];
+    const allCheckpoints = [...(location.checkpoints || [])];
     return allCheckpoints.map((checkpoint) => (
       <Marker
         key={`marker-${checkpoint.id}`}
@@ -873,22 +874,20 @@ const ActiveEvent = ({ route, navigation }) => {
               </>
             )}
 
-            {[...(location.checkpoints || [])].map(
-              (checkpoint) => (
-                <Circle
-                  key={`circle-${checkpoint.id}`}
-                  center={{
-                    latitude: checkpoint.latitude,
-                    longitude: checkpoint.longitude,
-                  }}
-                  radius={CHECKPOINT_RADIUS}
-                  fillColor={`${theme.magenta7.val}20`}
-                  strokeColor={theme.magenta7.val}
-                  strokeWidth={2}
-                  zIndex={2}
-                />
-              )
-            )}
+            {[...(location.checkpoints || [])].map((checkpoint) => (
+              <Circle
+                key={`circle-${checkpoint.id}`}
+                center={{
+                  latitude: checkpoint.latitude,
+                  longitude: checkpoint.longitude,
+                }}
+                radius={CHECKPOINT_RADIUS}
+                fillColor={`${theme.magenta7.val}20`}
+                strokeColor={theme.magenta7.val}
+                strokeWidth={2}
+                zIndex={2}
+              />
+            ))}
 
             {markers}
 

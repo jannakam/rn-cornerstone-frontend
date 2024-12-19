@@ -24,10 +24,13 @@ import {
 import ActivityRings from "react-native-activity-rings";
 import { useQuery } from "@tanstack/react-query";
 import { getUserProfile } from "../api/Auth";
+import { usePedometer } from "../context/PedometerContext";
 
 const DailyChallengeCard = () => {
   const theme = useTheme();
   const [activityData, setActivityData] = useState([]);
+  const [lastUpdate, setLastUpdate] = useState(new Date());
+  const { currentStepCount, pastStepCount } = usePedometer();
 
   const {
     data: profile,
@@ -36,22 +39,24 @@ const DailyChallengeCard = () => {
   } = useQuery({
     queryKey: ["userProfile"],
     queryFn: getUserProfile,
+    refetchInterval: 10000,
+    refetchIntervalInBackground: true,
+    onSuccess: (data) => {
+      setLastUpdate(new Date());
+    }
   });
 
   useEffect(() => {
     if (theme && profile) {
-      // Find the active daily challenge
       const dailyChallenge = profile.challenges?.find(
         (c) => c.dailyChallengeId !== null
       );
 
-      const stepsProgress = dailyChallenge ? dailyChallenge.steps / 10000 : 0; // 10000 steps goal
-      const caloriesProgress = dailyChallenge
-        ? (dailyChallenge.steps * 0.04) / 800
-        : 0; // 400 calories goal
-      const distanceProgress = dailyChallenge
-        ? (dailyChallenge.steps * 0.0008) / 8
-        : 0; // 8 km goal
+      const totalSteps = dailyChallenge ? (currentStepCount + pastStepCount) : 0;
+      
+      const stepsProgress = totalSteps / 10000;
+      const caloriesProgress = (totalSteps * 0.04) / 800;
+      const distanceProgress = (totalSteps * 0.0008) / 8;
 
       setActivityData([
         {
@@ -80,7 +85,7 @@ const DailyChallengeCard = () => {
         },
       ]);
     }
-  }, [theme, profile]);
+  }, [theme, profile, currentStepCount, pastStepCount]);
 
   const activityRingConfig = {
     width: 150,
@@ -173,6 +178,8 @@ const DailyChallengeCard = () => {
     (c) => c.dailyChallengeId !== null
   );
 
+  const totalSteps = currentStepCount + pastStepCount;
+
   return (
     <Card
       elevate
@@ -221,7 +228,6 @@ const DailyChallengeCard = () => {
       </Card.Header>
       <Card.Footer>
         <YStack flex={1} jc="center" ai="center">
-          {/* Activity Rings */}
           <XStack>
             <ActivityRings data={activityData} config={activityRingConfig} />
           </XStack>
@@ -230,22 +236,26 @@ const DailyChallengeCard = () => {
             <XStack ai="center" jc="space-between" space="$2">
               <Footprints size={18} color={theme.lime7.val} />
               <Label color="$lime7" theme="alt2">
-                {dailyChallenge?.steps || 0}
+                {totalSteps}
               </Label>
             </XStack>
             <XStack ai="center" jc="space-between" space="$2">
               <Flame size={18} color={theme.magenta7.val} />
               <Label color="$magenta7">
-                {((dailyChallenge?.steps || 0) * 0.04).toFixed(0)}
+                {(totalSteps * 0.04).toFixed(0)}
               </Label>
             </XStack>
             <XStack ai="center" jc="space-between" space="$2">
               <MapPin size={18} color={theme.cyan7.val} />
               <Label color="$cyan7" theme="alt2">
-                {((dailyChallenge?.steps || 0) * 0.0008).toFixed(2)}km
+                {(totalSteps * 0.0008).toFixed(2)}km
               </Label>
             </XStack>
           </XStack>
+
+          <Text fontSize={10} color="$color10" mt="$2">
+            Last updated: {lastUpdate.toLocaleTimeString()}
+          </Text>
         </YStack>
       </Card.Footer>
     </Card>
