@@ -63,7 +63,7 @@ const HistoryCard = () => {
             >
               <Card.Header padding="$3">
                 <YStack space="$2">
-                  <XStack justifyContent="space-between" alignItems="center">
+                  <XStack justifyContent="center" alignItems="center">
                     <Text fontSize={16} fontWeight="bold">
                       {type === "daily" && "Daily Challenge"}
                       {type === "events" && item.eventName}
