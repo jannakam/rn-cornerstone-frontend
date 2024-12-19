@@ -49,6 +49,21 @@ const avatarOptions = [
   { id: 9, url: require("../../assets/avatars/avatar9.png") },
 ];
 
+// List of random names for creators
+const randomNames = [
+  "janna",
+  "meshal",
+  "hamad",
+  "yousef",
+  "nora",
+  "hamad",
+  "osama",
+  "salem",
+  "fajri",
+  "dana",
+];
+
+
 const ChallengeButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState([]);
@@ -204,6 +219,8 @@ const ChallengeButton = () => {
         date: challenge.date,
       });
 
+      console.log(challenge);
+
       setIsOpen(false);
       navigation.navigate("Friend Challenge");
     } catch (error) {
@@ -251,6 +268,8 @@ const ChallengeButton = () => {
       </YStack>
     );
   }
+
+  console.log(activeChallenges);
 
   return (
     <YStack ai="center">
@@ -306,7 +325,7 @@ const ChallengeButton = () => {
                 <YStack space="$3">
                   {activeChallenges
                     .filter((challenge) => !challenge.completed)
-                    .map((challenge) => (
+                    .map((challenge, index) => (
                       <Card
                         key={challenge.id}
                         bordered
@@ -330,7 +349,9 @@ const ChallengeButton = () => {
                               </XStack>
                             </XStack>
                             <Text fontSize="$3" opacity={0.7}>
-                              Created by {challenge.creator?.username || "Unknown"}
+                              Created by{" "}
+                              {challenge.creator?.username ||
+                                randomNames[index % randomNames.length]}
                             </Text>
                           </YStack>
                         </Card.Header>
@@ -432,22 +453,22 @@ const ChallengeButton = () => {
 
                   <Select.Viewport>
                     <Select.Group>
-                      {[10, 50, 100, 1000, 5000, 10000, 15000, 20000, 25000].map(
-                        (steps, i) => (
-                          <Select.Item
-                            index={i}
-                            key={steps}
-                            value={String(steps)}
-                          >
-                            <Select.ItemText>
-                              {steps.toLocaleString()} steps
-                            </Select.ItemText>
-                            <Select.ItemIndicator>
-                              <Check size={16} />
-                            </Select.ItemIndicator>
-                          </Select.Item>
-                        )
-                      )}
+                      {[
+                        10, 50, 100, 1000, 5000, 10000, 15000, 20000, 25000,
+                      ].map((steps, i) => (
+                        <Select.Item
+                          index={i}
+                          key={steps}
+                          value={String(steps)}
+                        >
+                          <Select.ItemText>
+                            {steps.toLocaleString()} steps
+                          </Select.ItemText>
+                          <Select.ItemIndicator>
+                            <Check size={16} />
+                          </Select.ItemIndicator>
+                        </Select.Item>
+                      ))}
                     </Select.Group>
                   </Select.Viewport>
 
@@ -511,7 +532,8 @@ const ChallengeButton = () => {
                       <Avatar size="$4" br={40}>
                         <Avatar.Image
                           source={
-                            friendAvatars[friend.id]?.url || avatarOptions[0].url
+                            friendAvatars[friend.id]?.url ||
+                            avatarOptions[0].url
                           }
                         />
                         <Avatar.Fallback backgroundColor="$blue10" />
