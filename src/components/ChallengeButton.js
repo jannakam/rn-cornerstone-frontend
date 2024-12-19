@@ -432,7 +432,7 @@ const ChallengeButton = () => {
 
                   <Select.Viewport>
                     <Select.Group>
-                      {[10, 100, 1000, 5000, 10000, 15000, 20000, 25000].map(
+                      {[10, 50, 100, 1000, 5000, 10000, 15000, 20000, 25000].map(
                         (steps, i) => (
                           <Select.Item
                             index={i}
